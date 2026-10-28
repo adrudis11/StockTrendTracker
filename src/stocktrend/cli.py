@@ -353,14 +353,25 @@ def report(day: DayOption = None) -> None:
     track = sb.to_markdown(
         sb.compute(entries, read_outcomes()), first.isoformat() if first else None
     )
-    from stocktrend.report.dashboard import congress_rows, insider_rows, trump_rows
-    from stocktrend.report.render import congress_markdown, insiders_markdown, trump_markdown
+    from stocktrend.report.dashboard import (
+        congress_rows,
+        insider_rows,
+        open_pick_rows,
+        trump_rows,
+    )
+    from stocktrend.report.render import (
+        congress_markdown,
+        insiders_markdown,
+        open_picks_markdown,
+        trump_markdown,
+    )
 
     picks_obj = load_picks(d)
     congress_md = congress_markdown(congress_rows(d)[:10], picks_obj.tracker_weight)
     insiders_md = insiders_markdown(insider_rows(d)[:10], picks_obj.insider_weight)
+    open_md = open_picks_markdown(open_pick_rows(d))
     trump_md = trump_markdown(trump_rows(d))
-    text = render(picks_obj, events, digest_obj, track, congress_md, trump_md, insiders_md)
+    text = render(picks_obj, events, digest_obj, track, congress_md, trump_md, insiders_md, open_md)
     path = write(d, text)
     typer.echo(f"Report -> {path}")
 
@@ -593,6 +604,6 @@ def daily_finish() -> None:
     report(day=d)
     dashboard(day=d)
     typer.echo(
-        "\nNEXT: upload the six files above to the dashboard and commit data/ "
+        "\nNEXT: upload the eight files above to the dashboard and commit data/ "
         "(see prompts/daily_run.md)."
     )

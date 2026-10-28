@@ -660,3 +660,12 @@ the insiders' price, then its excess return over SPY in the next 20 sessions:
 No "too late to enter" rule: stocks already 10%+ above the insiders' price did no
 worse. The two extremes did best, but these are 12 tests on overlapping 20-day windows
 (which inflate t), so neither is solid. At 5 sessions every bucket is flat.
+
+### Picks: price then vs now (added 2026-10-28)
+
+Today's pick tables show each pick's last close (the price it was made at). A new "Open
+picks" section in the report and on the dashboard lists every earlier pick still inside
+its horizon: entry (the open of the first session after the pick, as the ledger scores
+it), the latest close, the move since, and the excess return over the benchmark so far
+(`tracking.evaluate.mark`, the same rules as a matured pick, including the euro
+conversion). Today's picks join it from the next run, once their entry is known.

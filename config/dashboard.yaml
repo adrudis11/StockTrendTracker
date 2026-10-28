@@ -6,6 +6,7 @@ url: https://claude.ai/artifact/LcobLVSGoJgCRiD7cJWSUn
 datasets:
   summary: summary.json
   picks: picks.json
+  open_picks: open_picks.json
   events: events.json
   scoreboard: scoreboard.json
   congress: congress.json

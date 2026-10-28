@@ -123,6 +123,26 @@ def _entry(ticker: str, side: Side = "long", region: str = "US") -> ledger.Ledge
     )  # fmt: skip
 
 
+def test_mark_open_pick_at_the_latest_close() -> None:
+    from stocktrend.tracking.evaluate import mark
+
+    # Three sessions in: entry at the 28th's open (100), latest close 106; SPY +2%.
+    prices = pd.concat([
+        _bars("XOM", [100, 104, 105], [103, 105, 106]),
+        _bars("SPY", [100, 100, 101], [100, 101, 102]),
+    ])  # fmt: skip
+    book = PriceBook(prices)
+    m = mark(_entry("XOM"), book, {"US": "SPY"})
+    assert (m.entry_open, m.last_close, str(m.last_date)) == (100, 106, "2026-10-30")
+    assert str(m.entry_date) == "2026-10-28" and str(m.exit_date) == "2026-11-03"
+    assert m.excess == pytest.approx(0.04)
+    assert mark(_entry("XOM", "avoid"), book, {"US": "SPY"}).excess == pytest.approx(-0.04)
+    # Before the entry session has traded: no entry or excess yet, the latest close only.
+    early = PriceBook(_bars("XOM", [99], [99], start="2026-10-27"))
+    m = mark(_entry("XOM"), early, {"US": "SPY"})
+    assert (m.entry_open, m.last_close, m.excess) == (None, 99, None)
+
+
 def test_evaluate_long_and_avoid_against_benchmark() -> None:
     prices = pd.concat([
         _bars("XOM", [100] * 6, [101, 102, 103, 104, 110, 111]),  # +10% open->close day 5

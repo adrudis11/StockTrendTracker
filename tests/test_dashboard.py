@@ -14,7 +14,7 @@ def test_dashboard_datasets_from_committed_day() -> None:
     assert len({e["id"] for e in data["events"]}) == len(data["events"])
     # The page reads a dataset only when the summary counts rows in it: an empty file
     # can't load on the dashboard.
-    counts = {"picks": "n_picks", "events": "events", "congress": "n_congress", "insiders": "n_insiders",
+    counts = {"picks": "n_picks", "events": "events", "congress": "n_congress", "insiders": "n_insiders", "open_picks": "n_open",
               "trump": "trump_calls", "scoreboard": "matured"}  # fmt: skip
     for name, key in counts.items():
         assert (summary[key] > 0) == bool(data[name]), name
@@ -24,3 +24,4 @@ def test_dashboard_datasets_from_committed_day() -> None:
     for r in data["congress"]:  # estimated price on the trade dates, and where it is now
         if r["price_then"] and r["now"]:
             assert r["since"] == round(100 * (r["now"] / r["price_then"] - 1), 1)
+    assert all(p["last_close"] > 0 for p in data["picks"])  # the price each pick was made at

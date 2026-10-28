@@ -75,7 +75,7 @@
         <h3>Next week · 5 trading days</h3>
         <div class="stt-wrap">
           <table class="stt-t" data-source="picks" data-row-key="key">
-            <thead><tr><th data-field="rank">#</th><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="conviction">Conviction</th><th data-field="prob" class="num">p(beat)</th><th data-field="r20d" class="num opt">20-day move</th><th data-field="driver">Why</th><th data-field="risks" class="opt">Risks / notes</th></tr></thead>
+            <thead><tr><th data-field="rank">#</th><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="last_close" class="num">Last close</th><th data-field="conviction">Conviction</th><th data-field="prob" class="num">p(beat)</th><th data-field="r20d" class="num opt">20-day move</th><th data-field="driver">Why</th><th data-field="risks" class="opt">Risks / notes</th></tr></thead>
             <tbody data-draw="picks-5-long"></tbody>
           </table>
         </div>
@@ -93,7 +93,7 @@
         <h3>Next month · 20 trading days</h3>
         <div class="stt-wrap">
           <table class="stt-t" data-source="picks" data-row-key="key">
-            <thead><tr><th data-field="rank">#</th><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="conviction">Conviction</th><th data-field="prob" class="num">p(beat)</th><th data-field="r20d" class="num opt">20-day move</th><th data-field="driver">Why</th><th data-field="risks" class="opt">Risks / notes</th></tr></thead>
+            <thead><tr><th data-field="rank">#</th><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="last_close" class="num">Last close</th><th data-field="conviction">Conviction</th><th data-field="prob" class="num">p(beat)</th><th data-field="r20d" class="num opt">20-day move</th><th data-field="driver">Why</th><th data-field="risks" class="opt">Risks / notes</th></tr></thead>
             <tbody data-draw="picks-20-long"></tbody>
           </table>
         </div>
@@ -108,6 +108,19 @@
         <p class="stt-note" data-empty="20-avoid" hidden>Nothing flagged to avoid.</p>
       </div>
     </div>
+  </section>
+
+  <section class="stt-card" id="open-picks">
+    <h2>Open picks</h2>
+    <p class="stt-note">Picks from earlier days still inside their horizon. Entry is the open of the first session after the pick was made, which is what the track record scores from; Now is the latest close and Since the move between them, in the listing's currency. vs benchmark is the excess return so far, as the track record will score it: positive means the call is working, for avoids too.</p>
+    <p class="stt-note" data-if="open_entered" hidden><b data-draw="s-ontrack" data-source="summary" data-field="open_on_track" data-row="0">—</b> of the <b data-draw="s-entered" data-source="summary" data-field="open_entered" data-row="0">—</b> open picks that have traded are on track.</p>
+    <div class="stt-wrap" data-if="n_open" hidden>
+      <table class="stt-t" data-source="open_picks" data-row-key="key">
+        <thead><tr><th data-field="date">Picked</th><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="horizon">Horizon</th><th data-field="side">Side</th><th data-field="entry" class="num">Entry</th><th data-field="now" class="num">Now</th><th data-field="since" class="num">Since</th><th data-field="vs_benchmark" class="num">vs benchmark</th><th data-field="ends" class="opt">Ends</th></tr></thead>
+        <tbody data-draw="open-picks"></tbody>
+      </table>
+    </div>
+    <p class="stt-note" data-unless="n_open" hidden>No picks from earlier days are open yet. Today's picks show here from the next run, once their entry price is known.</p>
   </section>
 
   <section class="stt-card" id="trump">
@@ -225,6 +238,8 @@
   value('s-ipx', 'prices_as_of', date);
   value('s-cpx', 'prices_as_of', date);
   value('s-trump-true', 'trump_true', String);
+  value('s-ontrack', 'open_on_track', String);
+  value('s-entered', 'open_entered', String);
   value('s-trump-scored', 'trump_scored', String);
 
   // Show the tables that have rows, or the sentences that stand in for them. The
@@ -277,6 +292,7 @@
         if (side === 'long') cell(tr, String(p.rank));
         cell(tr, p.ticker, 'tick');
         cell(tr, p.name, 'opt');
+        if (side === 'long') cell(tr, price(p.last_close, p.currency), 'num');
         conviction(tr, p);
         if (side === 'long') {
           cell(tr, blank(p.prob) ? '—' : d3.format('.0f')(p.prob) + '%', 'num');
@@ -340,6 +356,24 @@
   });
 
   const signed = (v) => (blank(v) ? '—' : pct(v) + '%');
+  dash.draw('open-picks', (tbody) => {
+    tbody.replaceChildren();
+    rows('open_picks').forEach((r) => {
+      const tr = tbody.insertRow();
+      tr.dataset.key = r.key;
+      cell(tr, r.date);
+      cell(tr, r.ticker, 'tick');
+      cell(tr, r.name, 'opt');
+      cell(tr, r.horizon + ' days');
+      cell(tr, r.side === 'long' ? 'Long' : 'Avoid');
+      cell(tr, price(r.entry, r.currency), 'num');
+      cell(tr, price(r.now, r.currency), 'num');
+      cell(tr, signed(r.since), 'num');
+      cell(tr, signed(r.vs_benchmark), 'num');
+      cell(tr, r.ends, 'opt');
+    });
+  });
+
   dash.draw('trump', (tbody) => {
     tbody.replaceChildren();
     rows('trump').forEach((r) => {

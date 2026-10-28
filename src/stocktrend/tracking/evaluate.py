@@ -13,6 +13,7 @@ Results go to ``data/ledger/outcomes.jsonl``, one line per pick, written once.
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from datetime import UTC, date, datetime
 from pathlib import Path
 
@@ -103,6 +104,40 @@ class PriceBook:
         return pd.Timestamp(g.index[-1]) if g is not None and len(g) else None
 
 
+@dataclass
+class _Window:
+    entry_px: float  # adjusted open of the entry session
+    exit_px: float  # adjusted close of the last session in the window
+    d0: pd.Timestamp
+    d1: pd.Timestamp
+    ret: float  # in the benchmark's currency
+    bench: str
+    bench_ret: float
+    excess: float  # from the pick's point of view: positive = the call is right
+
+
+def _window(
+    e: LedgerEntry, book: PriceBook, benchmarks: dict[str, str], start: pd.Timestamp,
+    end: pd.Timestamp,
+) -> _Window | None:  # fmt: skip
+    """The pick's return and excess over the benchmark from ``start``'s open to ``end``."""
+    window = book.window_return(e.ticker, start, end)
+    bench = benchmarks[e.region]
+    bench_window = book.window_return(bench, start, end)
+    if window is None or bench_window is None:
+        return None
+    entry_px, exit_px, d0, d1 = window
+    ret = exit_px / entry_px - 1
+    pair = FX_PAIRS.get(exchange_for(e.ticker).currency) if e.region == "Europe" else None
+    if pair:  # e.g. GBP per EUR: a weaker pound shrinks the EUR return
+        fx0, fx1 = book.close_on_or_before(pair, d0), book.close_on_or_before(pair, d1)
+        if fx0 and fx1:
+            ret = (1 + ret) * fx0 / fx1 - 1
+    bench_ret = bench_window[1] / bench_window[0] - 1
+    sign = 1 if e.side == "long" else -1
+    return _Window(entry_px, exit_px, d0, d1, ret, bench, bench_ret, sign * (ret - bench_ret))
+
+
 def evaluate_entry(
     e: LedgerEntry,
     book: PriceBook,
@@ -111,51 +146,70 @@ def evaluate_entry(
     now: datetime,
 ) -> Outcome | None:
     """Score one pick, or None if its horizon hasn't ended (or data is missing)."""
-    exch = exchange_for(e.ticker)
-    start = entry_session(exch.mic, e.logged_at)
-    end = exit_session(exch.mic, start, e.horizon)
+    mic = exchange_for(e.ticker).mic
+    start = entry_session(mic, e.logged_at)
+    end = exit_session(mic, start, e.horizon)
     last = book.last_date(e.ticker)
     if last is None or last < end:
         return None
-    window = book.window_return(e.ticker, start, end)
-    bench = benchmarks[e.region]
-    bench_window = book.window_return(bench, start, end)
-    if window is None or bench_window is None:
+    w = _window(e, book, benchmarks, start, end)
+    if w is None:
         return None
-    entry_px, exit_px, d0, d1 = window
-    ret = exit_px / entry_px - 1
-    pair = FX_PAIRS.get(exch.currency) if e.region == "Europe" else None
-    if pair:  # e.g. GBP per EUR: a weaker pound shrinks the EUR return
-        fx0, fx1 = book.close_on_or_before(pair, d0), book.close_on_or_before(pair, d1)
-        if fx0 and fx1:
-            ret = (1 + ret) * fx0 / fx1 - 1
-    bench_ret = bench_window[1] / bench_window[0] - 1
     sign = 1 if e.side == "long" else -1
-    excess = sign * (ret - bench_ret)
-
     sector_etf = sector_etfs.get((e.region, e.sector)) if e.kind == "stock" else None
     sector_ret = sector_excess = None
     if sector_etf:
         sw = book.window_return(sector_etf, start, end)
         if sw is not None:
             sector_ret = sw[1] / sw[0] - 1
-            sector_excess = sign * (ret - sector_ret)
+            sector_excess = sign * (w.ret - sector_ret)
     return Outcome(
         pick_id=e.pick_id,
-        entry_date=d0.date().isoformat(),
-        exit_date=d1.date().isoformat(),
-        entry_price=round(entry_px, 6),
-        exit_price=round(exit_px, 6),
-        ret=round(ret, 6),
-        bench=bench,
-        bench_ret=round(bench_ret, 6),
-        excess=round(excess, 6),
-        correct=excess > 0,
+        entry_date=w.d0.date().isoformat(),
+        exit_date=w.d1.date().isoformat(),
+        entry_price=round(w.entry_px, 6),
+        exit_price=round(w.exit_px, 6),
+        ret=round(w.ret, 6),
+        bench=w.bench,
+        bench_ret=round(w.bench_ret, 6),
+        excess=round(w.excess, 6),
+        correct=w.excess > 0,
         sector_etf=sector_etf,
         sector_ret=None if sector_ret is None else round(sector_ret, 6),
         sector_excess=None if sector_excess is None else round(sector_excess, 6),
         evaluated_at=now,
     )
+
+
+@dataclass
+class Mark:
+    """An open pick at the latest close, by the same rules as a matured one."""
+
+    entry_date: date
+    exit_date: date  # the last session of its horizon
+    entry_open: float | None  # unadjusted, None until the entry session has traded
+    last_close: float | None  # unadjusted
+    last_date: date | None
+    excess: float | None  # from the pick's point of view, as in ``Outcome``
+
+
+def mark(e: LedgerEntry, book: PriceBook, benchmarks: dict[str, str]) -> Mark:
+    mic = exchange_for(e.ticker).mic
+    start = entry_session(mic, e.logged_at)
+    end = exit_session(mic, start, e.horizon)
+    last = book.last_date(e.ticker)
+    m = Mark(start.date(), end.date(), None, None, None, None)
+    if last is None:
+        return m
+    m.last_close = book.close_on_or_before(e.ticker, last)
+    m.last_date = last.date()
+    if last < start:
+        return m  # not entered yet
+    bars = book.by_ticker[e.ticker]
+    m.entry_open = float(bars.loc[bars.index >= start, "open"].iloc[0])
+    w = _window(e, book, benchmarks, start, min(last, end))
+    m.excess = None if w is None else w.excess
+    return m
 
 
 def evaluate(

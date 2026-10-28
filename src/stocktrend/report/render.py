@@ -8,6 +8,7 @@ from typing import Any
 from stocktrend.config import DATA_DIR
 from stocktrend.events.digest import Digest
 from stocktrend.events.schema import EventsFile
+from stocktrend.markets import exchange_for
 from stocktrend.scoring.model import Pick, PicksFile
 
 DISCLAIMER = (
@@ -56,14 +57,17 @@ def _pick_table(picks: list[Pick]) -> list[str]:
     if not picks:
         return ["_No picks cleared the bar for this horizon._", ""]
     lines = [
-        "| # | Ticker | Name | Conviction | p(beat)* | 5d / 20d move | Main driver | Risks |",
-        "|---|---|---|---|---|---|---|---|",
+        "| # | Ticker | Name | Last close | Conviction | p(beat)* | 5d / 20d move | Main driver "
+        "| Risks |",
+        "|---|---|---|---|---|---|---|---|---|",
     ]
     for p in picks:
         mark = " ★" if p.trump_note else ""
+        close = _price(p.last_close, exchange_for(p.ticker).currency)
         lines.append(
-            f"| {p.rank} | **{p.ticker}**{mark} | {p.name} | {p.conviction:.2f} | {p.prob:.0%} | "
-            f"{_pct(p.r5d)} / {_pct(p.r20d)} | {_why(p)} | {'; '.join(p.risks) or '–'} |"
+            f"| {p.rank} | **{p.ticker}**{mark} | {p.name} | {close} | {p.conviction:.2f} | "
+            f"{p.prob:.0%} | {_pct(p.r5d)} / {_pct(p.r20d)} | {_why(p)} | "
+            f"{'; '.join(p.risks) or '–'} |"
         )
     lines.append("")
     trump = [f"- ★ **{p.ticker}**: {p.trump_note}" for p in picks if p.trump_note]
@@ -106,6 +110,7 @@ def render(
     congress_md: str | None = None,
     trump_md: str | None = None,
     insiders_md: str | None = None,
+    open_md: str | None = None,
 ) -> str:
     lines = [f"# StockTrendTracker: {picks.date}", "", DISCLAIMER, ""]
     lines += ["## Backdrop", ""]
@@ -131,6 +136,8 @@ def render(
         "",
     ]
 
+    if open_md:
+        lines += [open_md]
     if trump_md:
         lines += [trump_md]
     if track_record:
@@ -302,6 +309,47 @@ def trump_markdown(rows: list[dict[str, Any]]) -> str:
             'true"; whole-market calls count in absolute terms. Calls carry no weight in '
             "the score; each is logged as strategy `trump` so the track record shows whether "
             "following them works.",
+            "",
+        ]
+    )
+
+
+def open_picks_markdown(rows: list[dict[str, Any]]) -> str:
+    """Earlier picks still inside their horizon (``report.dashboard.open_pick_rows``)."""
+    lines = ["## Open picks (earlier days, still inside their horizon)", ""]
+    if not rows:
+        return "\n".join([*lines, "_No picks from earlier days are open._", ""])
+    entered = [r for r in rows if r["on_track"]]
+    on_track = sum(r["on_track"] == "Yes" for r in entered)
+    lines += [
+        f"{len(rows)} open, {len(entered)} traded since their entry; {on_track} on track "
+        "(ahead of the benchmark, or behind it for an avoid).",
+        "",
+        "<details><summary>Every open pick</summary>",
+        "",
+        "| Picked | Ticker | Name | Horizon | Side | Entry | Now | Since | vs benchmark | Ends |",
+        "|---|---|---|---|---|---|---|---|---|---|",
+    ]
+    for r in rows:
+        cur = r["currency"]
+        lines.append(
+            f"| {r['date']} | **{r['ticker']}** | {r['name']} | {r['horizon']}d | {r['side']} | "
+            f"{_price(r['entry'], cur)} | {_price(r['now'], cur)} | {_num(r['since'])} | "
+            f"{_num(r['vs_benchmark'])} | {r['ends']} |"
+        )
+    as_of = max((r["price_date"] for r in rows if r.get("price_date")), default=None)
+    return "\n".join(
+        [
+            *lines,
+            "",
+            "</details>",
+            "",
+            "Entry: the open of the first session after the pick was made (what the track "
+            f"record scores from); Now: the close on {as_of or 'the last trading day'}; Since: "
+            "the move between them, in the listing's currency. vs benchmark: the excess return "
+            "so far, as the track record will score it (positive = the call is working, for "
+            "avoids too; in euros for European listings). Ends: the last session of its "
+            "horizon.",
             "",
         ]
     )

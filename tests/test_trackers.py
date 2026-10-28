@@ -452,3 +452,20 @@ def test_insiders_report_section() -> None:
     assert "| $250.00 | \u2013 | \u2013 |" in md and "the close on 2026-10-27" in md
     assert "Weight in the score: 0" in md
     assert "No open-market purchases" in insiders_markdown([], 0.0)
+
+
+def test_open_picks_report_section() -> None:
+    from stocktrend.report.render import open_picks_markdown
+
+    row = {"date": "2026-10-28", "ticker": "AIR.PA", "name": "Airbus", "horizon": 20,
+           "side": "long", "currency": "EUR", "entry": 150.0, "now": 156.0, "since": 4.0,
+           "vs_benchmark": 3.1, "on_track": "Yes", "ends": "2026-11-24",
+           "price_date": "2026-10-30"}  # fmt: skip
+    pending = {**row, "ticker": "XOM", "currency": "USD", "entry": None, "since": None,
+               "vs_benchmark": None, "on_track": ""}  # fmt: skip
+    md = open_picks_markdown([row, pending])
+    assert "2 open, 1 traded since their entry; 1 on track" in md
+    assert ("| 2026-10-28 | **AIR.PA** | Airbus | 20d | long | €150.00 | €156.00 | +4.0% | "
+            "+3.1% | 2026-11-24 |") in md  # fmt: skip
+    assert "the close on 2026-10-30" in md
+    assert "No picks from earlier days are open" in open_picks_markdown([])

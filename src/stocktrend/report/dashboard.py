@@ -16,13 +16,16 @@ from typing import Any
 from stocktrend.config import CACHE_DIR
 from stocktrend.events.schema import EventsFile
 from stocktrend.events.validate import events_path
+from stocktrend.markets import exchange_for
 from stocktrend.scoring.run import load as load_picks
 from stocktrend.tracking import scoreboard
 from stocktrend.tracking.evaluate import first_matures, read_outcomes
 from stocktrend.tracking.ledger import read as read_ledger
 
 OUT_DIR = CACHE_DIR / "dashboard"
-DATASETS = ("summary", "picks", "events", "scoreboard", "congress", "insiders", "trump")
+DATASETS = (
+    "summary", "picks", "open_picks", "events", "scoreboard", "congress", "insiders", "trump",
+)  # fmt: skip
 CONGRESS_ROWS = INSIDER_ROWS = 15
 TRUMP_DAYS, TRUMP_ROWS = 90, 25
 STANCE_NAMES = {"buy": "Buy", "positive": "Talked up", "negative": "Attacked", "sell": "Sell"}
@@ -65,6 +68,7 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
     scored = [t for t in trump if t["came_true"]]
     congress = congress_rows(day)
     insider = insider_rows(day)
+    open_picks = open_pick_rows(day)
 
     summary = {
         "date": picks.date,
@@ -80,6 +84,9 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
         "picks_5d": len(picks.select(5, "long")),
         "picks_20d": len(picks.select(20, "long")),
         "n_picks": len(picks.picks),
+        "n_open": len(open_picks),
+        "open_on_track": sum(r["on_track"] == "Yes" for r in open_picks),
+        "open_entered": sum(bool(r["on_track"]) for r in open_picks),
         "n_congress": len(congress),
         "n_insiders": len(insider),
         "prices_as_of": max(
@@ -109,6 +116,8 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
             "prob": _pct(p.prob, 0),
             "r5d": _pct(p.r5d),
             "r20d": _pct(p.r20d),
+            "last_close": round(p.last_close, 2),
+            "currency": exchange_for(p.ticker).currency,
             "driver": p.drivers[0].title if p.drivers else "",
             "theme": _theme(p.primary_theme),
             "risks": "; ".join(
@@ -147,12 +156,67 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
     return {
         "summary": [summary],
         "picks": pick_rows,
+        "open_picks": open_picks,
         "events": event_rows,
         "scoreboard": board_rows,
         "congress": congress,
         "insiders": insider,
         "trump": trump,
     }
+
+
+def open_pick_rows(day: str) -> list[dict[str, Any]]:
+    """Picks from earlier days still inside their horizon, at the latest close.
+
+    ``entry`` is the open the pick is scored from (the first session after it was made),
+    ``now`` the latest close and ``since`` the move between them, unadjusted and in the
+    listing's currency. ``vs_benchmark`` is the excess return as the track record will
+    score it (positive = the call is working, for avoids too); ``on_track`` says so.
+    """
+    from stocktrend.config import PRICES_PARQUET
+    from stocktrend.ingest import prices as price_store
+    from stocktrend.scoring.run import build_meta
+    from stocktrend.tracking.evaluate import PriceBook, mark
+    from stocktrend.universe.build import load as load_universe
+    from stocktrend.universe.instruments import load_instruments
+
+    done = {o.pick_id for o in read_outcomes()}
+    entries = [
+        e for e in read_ledger() if e.strategy == "geo" and e.date < day and e.pick_id not in done
+    ]
+    if not entries or not PRICES_PARQUET.exists():
+        return []
+    cfg = load_instruments()
+    names = build_meta(load_universe(), cfg)["name"].to_dict()
+    book = PriceBook(price_store.load())
+    rows = []
+    # Newest picks first; within a day 1-week before 1-month, longs before avoids, by rank.
+    entries.sort(key=lambda e: (e.horizon, e.side != "long", e.rank))
+    entries.sort(key=lambda e: e.date, reverse=True)
+    for e in entries:
+        m = mark(e, book, cfg.benchmarks)
+        entry, now = m.entry_open, m.last_close
+        rows.append(
+            {
+                "key": e.pick_id,
+                "date": e.date,
+                "horizon": e.horizon,
+                "side": e.side,
+                "rank": e.rank,
+                "ticker": e.ticker,
+                "name": str(names.get(e.ticker, "")),
+                "currency": exchange_for(e.ticker).currency,
+                "entry": round(entry, 2) if entry else None,
+                "entry_date": m.entry_date.isoformat(),
+                "now": round(now, 2) if now else None,
+                "since": _pct(now / entry - 1) if entry and now else None,
+                "vs_benchmark": _pct(m.excess),
+                "on_track": "" if m.excess is None else ("Yes" if m.excess > 0 else "No"),
+                "ends": m.exit_date.isoformat(),
+                "price_date": m.last_date.isoformat() if m.last_date else None,
+            }
+        )
+    return rows
 
 
 def congress_rows(day: str) -> list[dict[str, Any]]:
