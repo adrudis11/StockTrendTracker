@@ -183,7 +183,7 @@ def congress_markdown(rows: list[dict[str, Any]], weight: float) -> str:
     for r in rows:
         lines.append(
             f"| {r['ticker']} | {r['name']} | {r['score']:+.2f} | {r['buyers']} | "
-            f"{r['sellers']} | {_usd(r['price_then'])} | {_usd(r['now'])} | "
+            f"{r['sellers']} | {_price(r['price_then'], 'USD')} | {_price(r['now'], 'USD')} | "
             f"{_num(r['since'])} | {r['members']} |"
         )
     as_of = max((r["price_date"] for r in rows if r.get("price_date")), default=None)
@@ -202,8 +202,13 @@ def congress_markdown(rows: list[dict[str, Any]], weight: float) -> str:
     )
 
 
-def _usd(x: float | None) -> str:
-    return f"${x:,.2f}" if x else "–"
+def _price(x: float | None, currency: str) -> str:
+    """A price in its listing's currency: $12.50, €12.50, 1,250p, 12.50 CHF."""
+    if not x:
+        return "–"
+    return {"USD": f"${x:,.2f}", "EUR": f"€{x:,.2f}", "GBp": f"{x:,.0f}p"}.get(
+        currency, f"{x:,.2f} {currency}"
+    )
 
 
 def _weight_note(weight: float) -> str:
@@ -235,8 +240,8 @@ def insiders_markdown(rows: list[dict[str, Any]], weight: float) -> str:
         money = f"${bought / 1e6:.1f}M" if bought >= 1e6 else f"${bought / 1e3:.0f}k"
         lines.append(
             f"| {r['ticker']} | {r['name']} | {r['score']:.1f} | {r['buyers']} | {money} | "
-            f"{_usd(r['paid'])} | {_usd(r['now'])} | {_num(r['since'])} | {r['sellers']} | "
-            f"{r['insiders']} |"
+            f"{_price(r['paid'], 'USD')} | {_price(r['now'], 'USD')} | {_num(r['since'])} | "
+            f"{r['sellers']} | {r['insiders']} |"
         )
     as_of = max((r["price_date"] for r in rows if r.get("price_date")), default=None)
     return "\n".join(
@@ -263,18 +268,20 @@ def trump_markdown(rows: list[dict[str, Any]]) -> str:
     if not rows:
         return "\n".join([*lines, "_No stock or market calls by Trump logged in the window._", ""])
     lines += [
-        "| Said | Ticker | Company | Call | Quote | Day move† | Since logged† | vs benchmark | "
-        "Came true? |",
-        "|---|---|---|---|---|---|---|---|---|",
+        "| Said | Ticker | Company | Call | Quote | Price then | Now | Since | Day move† | "
+        "vs benchmark† | Came true? |",
+        "|---|---|---|---|---|---|---|---|---|---|---|",
     ]
     for r in rows:
         call = r["stance"] + (" (explicit)" if r["explicit"] else "")
         quote = r["quote"].replace("|", "/")
+        cur = r.get("currency", "USD")
         lines.append(
             f"| {r['said_on']} | **{r['ticker']}** | {r['company']} | {call} | {quote} | "
-            f"{_num(r['reaction'])} | {_num(r['since'])} | {_num(r['excess'])} | "
-            f"{r['came_true'] or 'open'} |"
+            f"{_price(r['price_then'], cur)} | {_price(r['now'], cur)} | {_num(r['since'])} | "
+            f"{_num(r['reaction'])} | {_num(r['excess'])} | {r['came_true'] or 'open'} |"
         )
+    as_of = max((r["price_date"] for r in rows if r.get("price_date")), default=None)
     scored = [r for r in rows if r["came_true"]]
     hits = sum(r["came_true"] == "Yes" for r in scored)
     record = (
@@ -287,12 +294,14 @@ def trump_markdown(rows: list[dict[str, Any]]) -> str:
         [
             *lines,
             "",
-            f"{record} † Day move: the stock on the day he said it, minus its benchmark. "
-            "Since logged: from the first open after we logged the call, in euros for "
-            "European listings. Ahead of the benchmark (behind it for an attack) counts as "
-            '"came true"; whole-market calls count in absolute terms. Calls carry no weight '
-            "in the score; each is logged as strategy `trump` so the track record shows "
-            "whether following them works.",
+            f"{record} Price then: the close before he said it; Now: the close on "
+            f"{as_of or 'the last trading day'}; Since: the move between them. † Day move: "
+            "the stock on the day he said it, minus its benchmark. vs benchmark: from the "
+            "first open after we logged the call to now, minus the benchmark (in euros for "
+            'European listings); ahead of it (behind it for an attack) counts as "came '
+            'true"; whole-market calls count in absolute terms. Calls carry no weight in '
+            "the score; each is logged as strategy `trump` so the track record shows whether "
+            "following them works.",
             "",
         ]
     )

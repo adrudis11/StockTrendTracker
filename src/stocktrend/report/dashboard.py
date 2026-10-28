@@ -83,7 +83,8 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
         "n_congress": len(congress),
         "n_insiders": len(insider),
         "prices_as_of": max(
-            (r["price_date"] for r in congress + insider if r["price_date"]), default=None
+            (r["price_date"] for r in congress + insider + trump if r["price_date"]),
+            default=None,
         ),
         "matured": sb["matured"],
         "open": sb["open"],
@@ -285,13 +286,17 @@ def _first(names: list[str], n: int) -> str:
 def trump_rows(day: str) -> list[dict[str, Any]]:
     """Trump's stock and market calls of the last 90 days, newest first, and how they did.
 
-    ``came_true`` is "Yes", "No" or "" (not traded since it was logged).
+    ``price_then`` is the close before he said it, ``now`` the latest close and ``since``
+    the move between them (local currency). ``since_logged`` and ``excess`` run from the
+    first open after we logged the call. ``came_true`` is "Yes", "No" or "" (not traded
+    since it was logged).
     """
     from datetime import date, timedelta
 
     import pandas as pd
 
     from stocktrend.ingest import prices as price_store
+    from stocktrend.markets import exchange_for
     from stocktrend.trackers import trump
     from stocktrend.universe.instruments import load_instruments
 
@@ -306,9 +311,12 @@ def trump_rows(day: str) -> list[dict[str, Any]]:
         prices = pd.DataFrame(columns=["date", "ticker", "open", "close", "adj_close"])
     perf = trump.performance(calls, prices, load_instruments().benchmarks)
     perf = perf.sort_values(["said_on", "logged"], ascending=False).head(TRUMP_ROWS)
+    last_day = prices.groupby("ticker")["date"].max().to_dict() if len(prices) else {}
     rows = []
     for c in perf.to_dict("records"):
         true = c["came_true"]
+        then, now = _float(c["price_then"]), _float(c["now"])
+        when = last_day.get(c["ticker"])
         rows.append(
             {
                 "key": f"{c['logged']}:{c['ticker']}",
@@ -319,8 +327,13 @@ def trump_rows(day: str) -> list[dict[str, Any]]:
                 "stance": STANCE_NAMES[str(c["stance"])],
                 "explicit": bool(c["explicit"]),
                 "quote": str(c["quote"]),
+                "price_then": None if then is None else round(then, 2),
+                "now": None if now is None else round(now, 2),
+                "since": _pct(now / then - 1) if now and then else None,
+                "currency": exchange_for(str(c["ticker"])).currency,
+                "price_date": None if when is None else pd.Timestamp(when).date().isoformat(),
                 "reaction": _pct(_float(c["reaction"])),
-                "since": _pct(_float(c["since"])),
+                "since_logged": _pct(_float(c["since"])),
                 "excess": _pct(_float(c["excess"])),
                 "came_true": "" if true is None or pd.isna(true) else ("Yes" if true else "No"),
             }

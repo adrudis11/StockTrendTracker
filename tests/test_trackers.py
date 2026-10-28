@@ -193,6 +193,7 @@ def test_trump_performance_against_the_benchmark() -> None:
     assert a["reaction"] == pytest.approx(0.10)  # +10% on the day, SPY flat
     assert a["since"] == pytest.approx(0.10) and a["excess"] == pytest.approx(0.08)
     assert a["came_true"] is True
+    assert (a["price_then"], a["now"]) == (50, 55)  # the close before he said it, the latest
     assert perf.loc["BBB", "came_true"] is False  # attacked but beat SPY
     spy = perf.loc["SPY"]  # a market call counts in absolute terms
     assert spy["excess"] == pytest.approx(0.02) and pd.isna(spy["bench_since"])
@@ -242,14 +243,16 @@ def test_trump_report_section() -> None:
     from stocktrend.report.render import trump_markdown
 
     row = {"said_on": "2026-10-27", "ticker": "INTC", "company": "Intel", "stance": "Buy",
-           "explicit": True, "quote": "Buy Intel | now", "reaction": 2.0, "since": 3.3,
-           "excess": 2.8, "came_true": "Yes"}  # fmt: skip
-    md = trump_markdown([row, {**row, "ticker": "F", "came_true": "", "since": None}])
-    assert (
-        "| **INTC** | Intel | Buy (explicit) | Buy Intel / now | +2.0% | +3.3% | +2.8% | Yes |"
-        in md
-    )
-    assert "| \u2013 |" in md and "| open |" in md and "So far 1 of 1 came true" in md
+           "explicit": True, "quote": "Buy Intel | now", "price_then": 40.0, "now": 42.0,
+           "since": 5.0, "currency": "USD", "price_date": "2026-10-30", "reaction": 2.0,
+           "since_logged": 3.3, "excess": 2.8, "came_true": "Yes"}  # fmt: skip
+    azn = {**row, "ticker": "AZN.L", "currency": "GBp", "price_then": 12_602.0, "now": None,
+           "since": None, "came_true": ""}  # fmt: skip
+    md = trump_markdown([row, azn])
+    assert ("| **INTC** | Intel | Buy (explicit) | Buy Intel / now | $40.00 | $42.00 | +5.0% | "
+            "+2.0% | +2.8% | Yes |") in md  # fmt: skip
+    assert "| 12,602p | \u2013 | \u2013 |" in md and "| open |" in md
+    assert "So far 1 of 1 came true" in md and "the close on 2026-10-30" in md
     assert "No stock or market calls" in trump_markdown([])
 
 

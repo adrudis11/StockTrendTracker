@@ -91,12 +91,24 @@ def _day_move(g: pd.DataFrame | None, day: pd.Timestamp) -> float | None:
     return float(after["adj_close"].iloc[0] / before["adj_close"].iloc[-1] - 1)
 
 
+def _then_now(g: pd.DataFrame | None, day: pd.Timestamp) -> tuple[float | None, float | None]:
+    """The close before ``day`` (the price when he spoke) and the latest close, unadjusted."""
+    if g is None or g.empty:
+        return None, None
+    before = g.loc[g.index < day, "close"]
+    then = float(before.iloc[-1]) if len(before) else None
+    return then, float(g["close"].iloc[-1])
+
+
 def performance(
     calls: pd.DataFrame, prices: pd.DataFrame, benchmarks: dict[str, str]
 ) -> pd.DataFrame:
-    """Calls with their reaction and their return since logged, vs the benchmark."""
+    """Calls with their reaction and their return since logged, vs the benchmark, plus
+    ``price_then`` (the close before he said it) and ``now`` (the latest close)."""
     if calls.empty:
-        empty = dict.fromkeys(("reaction", "since", "bench_since", "excess", "came_true"))
+        empty = dict.fromkeys(
+            ("reaction", "since", "bench_since", "excess", "came_true", "price_then", "now")
+        )
         return calls.assign(**empty)
     bars = _bars(prices)
     out = []
@@ -114,6 +126,7 @@ def performance(
             bsince = bgot[0]
         if since is not None:
             excess = since if market else (since - bsince if bsince is not None else None)
+        then, now = _then_now(bars.get(t), said)
         sign = 1 if c["stance"] in BULLISH else -1
         if move is not None and not market and bmove is not None:
             move -= bmove
@@ -126,6 +139,8 @@ def performance(
                 "excess": excess,
                 # "came true" so far: a bullish call ahead of the benchmark, or a bearish one behind
                 "came_true": None if excess is None else bool(sign * excess > 0),
+                "price_then": then,
+                "now": now,
             }
         )
     return pd.DataFrame(out)

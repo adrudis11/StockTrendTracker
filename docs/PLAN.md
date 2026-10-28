@@ -593,9 +593,10 @@ with a section of its own.
 - **Ledger**: every stock or ETF call is logged as strategy `trump` at both horizons
   (praise or "buy" as longs, attacks or "sell" as avoids), so the scoreboard measures
   whether following him beats the market. Whole-market calls (SPY, QQQ) aren't logged.
-- **Report and dashboard section**: his calls of the last 90 days, the move on the day
-  he said it (net of the benchmark) and the return since the call was logged (in euros
-  for European listings), and whether it came true so far.
+- **Report and dashboard section**: his calls of the last 90 days, the price when he
+  said it (the close before) next to the latest close and the move since, the move on
+  the day he said it (net of the benchmark), the return since the call was logged
+  against the benchmark (in euros for European listings), and whether it came true.
 
 There is no free, reliable history of his past calls to backtest, so the record starts
 on 2026-10-29. The day-of move often happens within minutes of a post, before anyone

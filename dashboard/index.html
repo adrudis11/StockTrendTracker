@@ -112,12 +112,12 @@
 
   <section class="stt-card" id="trump">
     <h2>Trump tracker</h2>
-    <p class="stt-note">Stocks Donald Trump said or hinted are a buy, or attacked, in the last 90 days, from news coverage of his posts, interviews and remarks. Day move is the stock on the day he said it, against its benchmark; much of that often happens within minutes of a post. Since logged runs from the first open after the call was logged, which is what acting on it would have earned. A call came true if the stock then beat its benchmark after praise, or lagged it after an attack.</p>
+    <p class="stt-note">Stocks Donald Trump said or hinted are a buy, or attacked, in the last 90 days, from news coverage of his posts, interviews and remarks. Price then is the close before he said it, Now the latest close and Since the move between them, in the listing's currency. Day move is the stock on the day he said it, against its benchmark; much of that often happens within minutes of a post. vs benchmark runs from the first open after the call was logged, which is what acting on it would have earned. A call came true if the stock then beat its benchmark after praise, or lagged it after an attack.</p>
     <p class="stt-note" data-if="trump_scored" hidden>So far <b data-draw="s-trump-true" data-source="summary" data-field="trump_true" data-row="0">—</b> of <b data-draw="s-trump-scored" data-source="summary" data-field="trump_scored" data-row="0">—</b> calls came true. They carry no weight in the picks: each is logged as the Trump strategy in the track record, so its real results show up there.</p>
     <p class="stt-note" data-if="trump_calls" data-unless="trump_scored" hidden>No call has traded since it was logged yet. Calls carry no weight in the picks: each is logged as the Trump strategy in the track record, so its real results show up there.</p>
     <div class="stt-wrap" data-if="trump_calls" hidden>
       <table class="stt-t" data-source="trump" data-row-key="key">
-        <thead><tr><th data-field="said_on">Said</th><th data-field="ticker">Ticker</th><th data-field="company" class="opt">Company</th><th data-field="stance">Call</th><th data-field="quote" class="opt">Quote</th><th data-field="reaction" class="num">Day move</th><th data-field="since" class="num opt">Since logged</th><th data-field="excess" class="num">vs benchmark</th><th data-field="came_true">Came true?</th></tr></thead>
+        <thead><tr><th data-field="said_on">Said</th><th data-field="ticker">Ticker</th><th data-field="company" class="opt">Company</th><th data-field="stance">Call</th><th data-field="quote" class="opt">Quote</th><th data-field="price_then" class="num">Price then</th><th data-field="now" class="num">Now</th><th data-field="since" class="num">Since</th><th data-field="reaction" class="num opt">Day move</th><th data-field="excess" class="num">vs benchmark</th><th data-field="came_true">Came true?</th></tr></thead>
         <tbody data-draw="trump"></tbody>
       </table>
     </div>
@@ -250,6 +250,12 @@
     return td;
   };
   const usd = (v) => (blank(v) ? '—' : '$' + d3.format(',.2f')(v));
+  const price = (v, cur) => {
+    if (blank(v)) return '—';
+    if (cur === 'EUR') return '€' + d3.format(',.2f')(v);
+    if (cur === 'GBp') return d3.format(',.0f')(v) + 'p';
+    return cur && cur !== 'USD' ? d3.format(',.2f')(v) + ' ' + cur : usd(v);
+  };
   const conviction = (tr, p) => {
     const td = tr.insertCell();
     const wrap = document.createElement('span');
@@ -344,8 +350,10 @@
       cell(tr, r.company, 'opt');
       cell(tr, r.stance + (r.explicit ? ' (explicit)' : ''));
       cell(tr, r.quote, 'why opt');
-      cell(tr, signed(r.reaction), 'num');
-      cell(tr, signed(r.since), 'num opt');
+      cell(tr, price(r.price_then, r.currency), 'num');
+      cell(tr, price(r.now, r.currency), 'num');
+      cell(tr, signed(r.since), 'num');
+      cell(tr, signed(r.reaction), 'num opt');
       cell(tr, signed(r.excess), 'num');
       cell(tr, r.came_true || 'Open');
     });
