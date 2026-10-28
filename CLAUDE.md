@@ -18,6 +18,15 @@ days, keeping an honest track record. Full plan and progress log: `docs/PLAN.md`
 - Don't re-run `stt score` for a day that is already recorded: the ledger keeps the
   first version, so the picks file and the ledger would disagree.
 
+## Scheduled runs
+
+- Weekdays before the European open: `prompts/daily_run.md` (`stt daily prepare`,
+  Claude's analysis, `stt daily finish`, dashboard refresh, commit `data/`).
+- Saturdays: `prompts/weekly_review.md` (score the week, write `data/reviews/`, small
+  edits to `config/exposures.yaml` and the analysis prompt).
+- Dashboard: `config/dashboard.yaml` (a claude.ai Dashboard artifact; its page source
+  is kept in `dashboard/index.html`).
+
 ## Pipeline and commands (`uv run stt ...`)
 
 | Step | Command | Output |

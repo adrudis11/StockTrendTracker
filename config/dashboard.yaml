@@ -1,0 +1,10 @@
+# The claude.ai dashboard refreshed by every daily run (see prompts/daily_run.md).
+# It is private to its owner until shared from the page's Share menu.
+url: https://claude.ai/artifact/LcobLVSGoJgCRiD7cJWSUn
+
+# Dataset id on the dashboard -> file written by `stt dashboard` in cache/dashboard/
+datasets:
+  summary: summary.json
+  picks: picks.json
+  events: events.json
+  scoreboard: scoreboard.json

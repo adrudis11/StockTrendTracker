@@ -15,6 +15,8 @@ from stocktrend.http import session
 app = typer.Typer(help="StockTrendTracker: geopolitical signals for US and European stocks.")
 universe_app = typer.Typer(help="The list of stocks we cover.")
 app.add_typer(universe_app, name="universe")
+daily_app = typer.Typer(help="The scheduled daily run, in two halves around Claude's analysis.")
+app.add_typer(daily_app, name="daily")
 
 
 @app.callback()
@@ -244,6 +246,15 @@ def backtest(
 
 
 @app.command()
+def dashboard(day: DayOption = None) -> None:
+    """Write the dashboard's JSON datasets to cache/dashboard/ for upload."""
+    from stocktrend.report.dashboard import write as write_dashboard
+
+    for name, path in write_dashboard(_day(day)).items():
+        typer.echo(f"{name:<11} {path}")
+
+
+@app.command()
 def report(day: DayOption = None) -> None:
     """Write the daily Markdown report to data/reports/<day>.md."""
     from stocktrend.events.digest import digest_path
@@ -318,9 +329,12 @@ def ingest(
     strict: Annotated[bool, typer.Option(help="Fail if any single feed fails")] = False,
 ) -> None:
     """Download prices and the latest news into cache/raw/<today>/."""
+    _run_ingest(lookback_hours, frozenset(skip or []), strict)
+
+
+def _run_ingest(lookback_hours: int | None, skipped: frozenset[str], strict: bool) -> None:
     from stocktrend.ingest import run as ingest_run
 
-    skipped = frozenset(skip or [])
     unknown = skipped - set(ingest_run.SOURCES)
     if unknown:
         raise typer.BadParameter(f"unknown sources: {sorted(unknown)}")
@@ -349,3 +363,69 @@ def ingest(
         typer.secho(f"\nStrict mode: {len(failed_feeds)} feeds failed", fg="red", err=True)
         raise typer.Exit(1)
     typer.secho("\nRun OK", fg="green")
+
+
+# --- the scheduled daily run ----------------------------------------------------
+
+STALE_PRIORS_DAYS = 30
+
+
+def _already_recorded(day: str) -> bool:
+    from stocktrend.tracking.ledger import read
+
+    return any(e.date == day and e.strategy == "geo" for e in read())
+
+
+@daily_app.command("prepare")
+def daily_prepare() -> None:
+    """Step 1: check markets, ingest, score matured picks, build the digest.
+
+    Prints NOTHING TO DO and exits 0 when no covered market trades today or the
+    day is already recorded; the session should then stop.
+    """
+    from stocktrend.config import raw_dir
+
+    d = _day(None)
+    today = date.fromisoformat(d)
+    if not (markets.is_trading_day("XNYS", today) or markets.is_trading_day("XETR", today)):
+        typer.echo(f"NOTHING TO DO: neither the NYSE nor Xetra trades on {d}.")
+        return
+    if _already_recorded(d):
+        typer.echo(f"NOTHING TO DO: picks for {d} are already in the ledger.")
+        return
+    _run_ingest(None, frozenset(), strict=False)
+    evaluate()
+    digest(day=d, show=False)
+    typer.echo(
+        f"\nNEXT: read {raw_dir(d) / 'digest.md'}, follow prompts/daily_analysis.md to write "
+        f"data/events/{d}.json, then run `uv run stt daily finish`."
+    )
+
+
+@daily_app.command("finish")
+def daily_finish() -> None:
+    """Step 2: validate the analysis, score, log to the ledger, report, dashboard data."""
+    from stocktrend.scoring.run import PRIORS_PATH
+
+    d = _day(None)
+    validate(day=d)
+    if PRIORS_PATH.exists():
+        age = datetime.now(UTC).timestamp() - PRIORS_PATH.stat().st_mtime
+        stale = age > STALE_PRIORS_DAYS * 86400
+    else:
+        stale = True
+    if stale:
+        typer.echo("Theme priors are missing or over a month old: refreshing (about 2 minutes).")
+        backtest(years=5)
+    if _already_recorded(d):
+        typer.echo(f"Picks for {d} are already in the ledger: not re-scoring.")
+    else:
+        score(day=d)
+        record(day=d)
+    scoreboard()
+    report(day=d)
+    dashboard(day=d)
+    typer.echo(
+        "\nNEXT: upload the four files above to the dashboard and commit data/ "
+        "(see prompts/daily_run.md)."
+    )
