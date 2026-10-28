@@ -177,23 +177,33 @@ def congress_markdown(rows: list[dict[str, Any]], weight: float) -> str:
             [*lines, "_No stock trades disclosed by House members in the window._", ""]
         )
     lines += [
-        "| Ticker | Name | Score | Buyers | Sellers | Members |",
-        "|---|---|---|---|---|---|",
+        "| Ticker | Name | Score | Buyers | Sellers | Price then (est.) | Now | Since | Members |",
+        "|---|---|---|---|---|---|---|---|---|",
     ]
     for r in rows:
         lines.append(
             f"| {r['ticker']} | {r['name']} | {r['score']:+.2f} | {r['buyers']} | "
-            f"{r['sellers']} | {r['members']} |"
+            f"{r['sellers']} | {_usd(r['price_then'])} | {_usd(r['now'])} | "
+            f"{_num(r['since'])} | {r['members']} |"
         )
+    as_of = max((r["price_date"] for r in rows if r.get("price_date")), default=None)
     note = _weight_note(weight)
     return "\n".join(
         [
             *lines,
             "",
-            f"Official House filings (STOCK Act; trades are reported up to 45 days late). {note}",
+            f"Official House filings (STOCK Act; trades are reported up to 45 days late). "
+            "They give amount ranges, not prices, so Price then is an estimate: the close on "
+            "each trade date, weighted by the range's midpoint, over their purchases for net "
+            f"buying and their sales for net selling. Now: the close on "
+            f"{as_of or 'the last trading day'}; Since: the move from Price then. {note}",
             "",
         ]
     )
+
+
+def _usd(x: float | None) -> str:
+    return f"${x:,.2f}" if x else "–"
 
 
 def _weight_note(weight: float) -> str:
@@ -223,11 +233,10 @@ def insiders_markdown(rows: list[dict[str, Any]], weight: float) -> str:
     for r in rows:
         bought = r["bought"]
         money = f"${bought / 1e6:.1f}M" if bought >= 1e6 else f"${bought / 1e3:.0f}k"
-        paid = f"${r['paid']:,.2f}" if r["paid"] else "–"
-        now = f"${r['now']:,.2f}" if r["now"] else "–"
         lines.append(
             f"| {r['ticker']} | {r['name']} | {r['score']:.1f} | {r['buyers']} | {money} | "
-            f"{paid} | {now} | {_num(r['since'])} | {r['sellers']} | {r['insiders']} |"
+            f"{_usd(r['paid'])} | {_usd(r['now'])} | {_num(r['since'])} | {r['sellers']} | "
+            f"{r['insiders']} |"
         )
     as_of = max((r["price_date"] for r in rows if r.get("price_date")), default=None)
     return "\n".join(

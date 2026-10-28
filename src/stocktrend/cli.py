@@ -463,8 +463,25 @@ def trackers_update(
     chosen = years or ([this_year - 1, this_year] if datetime.now(UTC).month == 1 else [this_year])
     stats = congress.update(session(), chosen)
     typer.echo(f"House filings {chosen}: {stats}")
+    _tracker_prices()
     if sec:
         trackers_insiders()
+
+
+def _tracker_prices() -> None:
+    """Prices for stocks members traded that we don't cover, for the Now and Since columns."""
+    from stocktrend.config import PRICES_PARQUET
+    from stocktrend.ingest import prices as price_store
+    from stocktrend.trackers import congress
+
+    today = datetime.now(UTC).date()
+    have = set(price_store.load()["ticker"]) if PRICES_PARQUET.exists() else set()
+    extra = sorted(set(congress.recent(congress.load_trades(), today)["ticker"]) - have)
+    if not extra:
+        return
+    px = price_store.download(extra, today, history_days=120)
+    price_store.save(px, price_store.TRACKER_PRICES)
+    typer.echo(f"Prices for {px['ticker'].nunique()} of {len(extra)} traded stocks we don't cover")
 
 
 @trackers_app.command("insiders")

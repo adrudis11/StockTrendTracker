@@ -94,8 +94,11 @@ def amount_range(text: str) -> tuple[int, int | None]:
     return nums[0], nums[1] if len(nums) > 1 else None
 
 
-def amount_mid(low: int, high: int | None) -> float:
-    return (low + high) / 2 if high else low * 1.5
+def amount_mid(low: float, high: float | None) -> float:
+    """Middle of a reported range; "Over $X" (no upper bound, NaN once loaded) is 1.5 X."""
+    if high is None or math.isnan(high):
+        return low * 1.5
+    return (low + high) / 2
 
 
 def _clean(text: str) -> str:
@@ -247,6 +250,35 @@ def trade_weight(t: dict[Any, Any]) -> float:
     return {"purchase": 1.0, "sale": -0.5, "partial_sale": -0.25, "exchange": 0.0}[t["type"]] * size
 
 
+_SECURITY = re.compile(
+    r"\s*-?\s*(?:Class [A-Z]\s+)?(?:Common Stock|Ordinary Shares?|American Depositary|ADR"
+    r"|A SHS|SHS)\b.*$",
+    re.I,
+)
+
+
+def asset_name(asset: str) -> str:
+    """Company name from a filing's asset text, e.g. "Account Snowflake Inc. Common
+    Stock" -> "Snowflake Inc.". Best effort: an account name may still lead it."""
+    name = re.sub(r"^Account\s+", "", asset.rsplit(">", 1)[-1].strip())
+    return _SECURITY.sub("", name).strip(" ,-")[:60]
+
+
+def recent(
+    trades: pd.DataFrame, as_of: date, window_days: int = 30, max_trade_age_days: int = 60
+) -> pd.DataFrame:
+    """The trades ``signal`` counts (see there), tickers in Yahoo format."""
+    if trades.empty:
+        return trades
+    r = trades[
+        (trades["filed"] < as_of)
+        & (trades["filed"] >= as_of - timedelta(days=window_days))
+        & (trades["tx_date"] >= as_of - timedelta(days=max_trade_age_days))
+        & ~trades["reinvestment"].astype(bool)
+    ]
+    return r.assign(ticker=[to_yahoo(str(t)) for t in r["ticker"]])
+
+
 def signal(
     trades: pd.DataFrame,
     as_of: date,
@@ -263,15 +295,9 @@ def signal(
     columns = ["ticker", "score", "buyers", "sellers", "trades", "members", "last_filed"]
     if trades.empty:
         return pd.DataFrame(columns=columns).set_index("ticker")
-    recent = trades[
-        (trades["filed"] < as_of)
-        & (trades["filed"] >= as_of - timedelta(days=window_days))
-        & (trades["tx_date"] >= as_of - timedelta(days=max_trade_age_days))
-        & ~trades["reinvestment"].astype(bool)
-    ]
     rows: dict[str, dict[str, Any]] = {}
-    for t in recent.to_dict("records"):
-        ticker = to_yahoo(str(t["ticker"]))
+    for t in recent(trades, as_of, window_days, max_trade_age_days).to_dict("records"):
+        ticker = str(t["ticker"])
         if known is not None and ticker not in known:
             continue
         r = rows.setdefault(

@@ -39,6 +39,8 @@ _RENAME = {
 
 # ~13 months: enough for 52-week highs, 60-day momentum and volatility.
 DEFAULT_HISTORY_DAYS = 400
+# Stocks House members traded that the universe doesn't cover (`stt trackers update`).
+TRACKER_PRICES = PRICES_PARQUET.with_name("trackers.parquet")
 BATCH_SIZE = 100
 
 

@@ -82,8 +82,8 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
         "n_picks": len(picks.picks),
         "n_congress": len(congress),
         "n_insiders": len(insider),
-        "insider_prices_as_of": max(
-            (r["price_date"] for r in insider if r["price_date"]), default=None
+        "prices_as_of": max(
+            (r["price_date"] for r in congress + insider if r["price_date"]), default=None
         ),
         "matured": sb["matured"],
         "open": sb["open"],
@@ -158,26 +158,50 @@ def congress_rows(day: str) -> list[dict[str, Any]]:
     """The strongest net buying and selling by House members, disclosed in 30 days."""
     from datetime import date
 
-    from stocktrend.trackers import congress
+    from stocktrend.trackers import congress, insiders
     from stocktrend.universe.build import load as load_universe
 
     names = dict(zip(*(load_universe()[c] for c in ("ticker", "name")), strict=True))
-    sig = congress.signal(congress.load_trades(), date.fromisoformat(day))
+    trades, as_of = congress.load_trades(), date.fromisoformat(day)
+    sig = congress.signal(trades, as_of)
     if sig.empty:
         return []
     sig = sig.reindex(sig["score"].abs().sort_values(ascending=False).index).head(CONGRESS_ROWS)
-    return [
-        {
-            "ticker": t,
-            "name": names.get(t, ""),
-            "score": round(float(r["score"]), 2),
-            "buyers": int(r["buyers"]),
-            "sellers": int(r["sellers"]),
-            "members": r["members"],
-            "last_filed": str(r["last_filed"]),
-        }
-        for t, r in sig.iterrows()
-    ]
+    window = congress.recent(trades, as_of)
+    closes = _closes(list(sig.index), day)
+    sec_names = insiders.company_names()  # for stocks outside our universe
+    rows = []
+    for t, r in sig.iterrows():
+        # House filings give amount ranges, not prices: estimate the price as the close on
+        # each trade date, weighted by the range's midpoint. Buys for net buying, else sales.
+        sides = ("purchase",) if r["score"] > 0 else ("sale", "partial_sale")
+        g = window[(window["ticker"] == t) & window["type"].isin(sides)]
+        series = closes.get(str(t))
+        sizes = [congress.amount_mid(lo, hi) for lo, hi in zip(g["amount_low"], g["amount_high"],
+                                                               strict=True)]  # fmt: skip
+        then = _weighted_close(series, list(g["tx_date"]), sizes)
+        now, price_date = _last(series)
+        name = (
+            names.get(t)
+            or sec_names.get(str(t))
+            or (congress.asset_name(str(g["asset"].iloc[0])) if len(g) else "")
+        )
+        rows.append(
+            {
+                "ticker": t,
+                "name": name,
+                "score": round(float(r["score"]), 2),
+                "buyers": int(r["buyers"]),
+                "sellers": int(r["sellers"]),
+                "price_then": then,
+                "now": now,
+                "since": _pct(now / then - 1) if now and then else None,
+                "price_date": price_date,
+                "members": r["members"],
+                "last_filed": str(r["last_filed"]),
+            }
+        )
+    return rows
 
 
 def insider_rows(day: str) -> list[dict[str, Any]]:
@@ -191,11 +215,11 @@ def insider_rows(day: str) -> list[dict[str, Any]]:
     names = dict(zip(*(load_universe()[c] for c in ("ticker", "name")), strict=True))
     sig = insiders.signal(insiders.load_trades(), date.fromisoformat(day))
     sig = sig[sig["score"] > 0].head(INSIDER_ROWS)
-    closes = _last_closes(list(sig.index), day)
+    closes = _closes(list(sig.index), day)
     rows = []
     for t, r in sig.iterrows():
         paid = _float(r["avg_price"])
-        now, as_of = closes.get(str(t), (None, None))
+        now, as_of = _last(closes.get(str(t)))
         rows.append(
             {
                 "ticker": t,
@@ -216,22 +240,42 @@ def insider_rows(day: str) -> list[dict[str, Any]]:
     return rows
 
 
-def _last_closes(tickers: list[str], day: str) -> dict[str, tuple[float, str]]:
-    """ticker -> (latest close before ``day``, its date); empty without cached prices."""
+def _closes(tickers: list[str], day: str) -> dict[str, Any]:
+    """ticker -> its daily closes (a Series by date) before ``day``, from the price cache
+    and the tracker-stock cache; empty without them. Raw closes, comparable with the
+    prices people traded at."""
     import pandas as pd
 
+    from stocktrend.config import PRICES_PARQUET
     from stocktrend.ingest import prices as price_store
 
-    try:
-        px = price_store.load()
-    except FileNotFoundError:
+    paths = [p for p in (price_store.TRACKER_PRICES, PRICES_PARQUET) if p.exists()]
+    if not paths:
         return {}
-    px = px[px["ticker"].isin(tickers) & (px["date"] < pd.Timestamp(day))].sort_values("date")
-    last = px.groupby("ticker").last()
+    px = pd.concat([price_store.load(p) for p in paths]).drop_duplicates(["date", "ticker"])
+    px = px[px["ticker"].isin(tickers) & (px["date"] < pd.Timestamp(day))]
     return {
-        str(t): (round(float(r["close"]), 2), pd.Timestamp(r["date"]).date().isoformat())
-        for t, r in last.iterrows()
+        str(t): g.set_index("date")["close"].dropna().sort_index() for t, g in px.groupby("ticker")
     }
+
+
+def _last(series: Any) -> tuple[float | None, str | None]:
+    """The latest close and its date."""
+    if series is None or series.empty:
+        return None, None
+    return round(float(series.iloc[-1]), 2), series.index[-1].date().isoformat()
+
+
+def _weighted_close(series: Any, days: list[Any], weights: list[float]) -> float | None:
+    """Average close on ``days`` (the last close on or before each), weighted."""
+    import pandas as pd
+
+    if series is None or series.empty or not days:
+        return None
+    px = [series.asof(pd.Timestamp(d)) for d in days]
+    pairs = [(p, w) for p, w in zip(px, weights, strict=True) if pd.notna(p)]
+    total = sum(w for _, w in pairs)
+    return round(sum(float(p) * w for p, w in pairs) / total, 2) if total else None
 
 
 def _first(names: list[str], n: int) -> str:

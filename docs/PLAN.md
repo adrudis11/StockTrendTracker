@@ -550,6 +550,12 @@ Single trades, from the first session after disclosure: Pelosi household purchas
 $250k or more by any member (42): +2.9% mean and +2.7% median at 20 days, hit 55%,
 t = 1.5. That's suggestive, not proven.
 
+Price then vs now (added 2026-10-28): House filings give amount ranges, not prices, so
+the report and dashboard estimate the price as the close on each trade date, weighted
+by the range's midpoint (purchases for net buying, sales for net selling), next to the
+latest close. `stt trackers update` downloads prices for traded stocks outside our
+universe (`cache/prices/trackers.parquet`); names for those come from the SEC's list.
+
 Conclusion: after disclosure (up to 45 days late), following Congress hasn't beaten
 the market, so its weight in the score is **0** (`data/priors/trackers.json`; up to
 ±20% once its backtest shows t ≥ 2). It is logged every day as its own strategy

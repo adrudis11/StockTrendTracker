@@ -44,6 +44,46 @@ def test_amounts_and_weights() -> None:
     sell = {**buy, "type": "sale"}
     assert congress.trade_weight(buy) == pytest.approx(np.log10(3_000_000.5 / 1000))
     assert congress.trade_weight(sell) == pytest.approx(-0.5 * congress.trade_weight(buy))
+    # "Over $X" has no upper bound: None when parsed, NaN once loaded with pandas.
+    assert congress.amount_mid(50_000_000, None) == congress.amount_mid(50_000_000, float("nan"))
+
+
+def test_asset_name() -> None:
+    cases = {
+        "Main Street Trust > Benchmark Electronics, Inc. Common Stock":
+            "Benchmark Electronics, Inc.",
+        "Account Snowflake Inc. Common Stock": "Snowflake Inc.",
+        "ImmunityBio, Inc. - Common Stock": "ImmunityBio, Inc.",
+        "CACI International, Inc. Class A Common Stock": "CACI International, Inc.",
+        "NOKIA A SHS": "NOKIA",
+        "Transocean Ltd": "Transocean Ltd",
+    }  # fmt: skip
+    for asset, name in cases.items():
+        assert congress.asset_name(asset) == name
+
+
+def test_estimated_trade_price() -> None:
+    from stocktrend.report.dashboard import _last, _weighted_close
+
+    closes = pd.Series([10.0, 11.0, 12.0], index=pd.to_datetime(["2026-10-01", "2026-10-02",
+                                                                  "2026-10-05"]))  # fmt: skip
+    # Saturday 3 Oct uses Friday's close; weights are the amount ranges' midpoints.
+    days = [date(2026, 10, 1), date(2026, 10, 3)]
+    assert _weighted_close(closes, days, [1.0, 3.0]) == pytest.approx((10 + 3 * 11) / 4, abs=0.01)
+    assert _weighted_close(closes, [date(2026, 9, 1)], [1.0]) is None  # before the data
+    assert _weighted_close(None, days, [1.0, 1.0]) is None
+    assert _last(closes) == (12.0, "2026-10-05") and _last(None) == (None, None)
+
+
+def test_congress_report_section() -> None:
+    from stocktrend.report.render import congress_markdown
+
+    row = {"ticker": "NVDA", "name": "Nvidia", "score": 6.1, "buyers": 2, "sellers": 0,
+           "price_then": 180.0, "now": 198.0, "since": 10.0, "price_date": "2026-10-27",
+           "members": "A, B", "last_filed": "2026-10-20"}  # fmt: skip
+    md = congress_markdown([row], 0.0)
+    assert "| NVDA | Nvidia | +6.10 | 2 | 0 | $180.00 | $198.00 | +10.0% | A, B |" in md
+    assert "Price then is an estimate" in md and "the close on 2026-10-27" in md
 
 
 def _trades(rows: list[dict[str, object]]) -> pd.DataFrame:

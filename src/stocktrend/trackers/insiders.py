@@ -97,6 +97,14 @@ def ticker_map(http: requests.Session, universe: Iterable[str]) -> dict[int, str
     return out
 
 
+def company_names() -> dict[str, str]:
+    """Our-format ticker -> company name, from the SEC's list (cached by ``ticker_map``)."""
+    if not TICKERS_CACHE.exists():
+        return {}
+    rows = json.loads(TICKERS_CACHE.read_text(encoding="utf-8")).values()
+    return {to_yahoo(str(r["ticker"])): str(r["title"]) for r in rows}
+
+
 # --- parsing ---------------------------------------------------------------------
 
 
