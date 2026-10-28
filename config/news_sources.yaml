@@ -1,0 +1,56 @@
+# News and policy sources for `stt ingest`.
+#
+# `topics` are searched on Google News (US and UK editions) and the GDELT article
+# API. The same topic ids tag every item, so later steps can group by theme.
+# Query syntax works on both: OR inside parentheses, quotes for phrases. Avoid
+# words under 3 letters ("EU", "US"): GDELT rejects them.
+
+topics:
+  sanctions: '(sanctions OR embargo OR "export controls" OR "asset freeze" OR blacklist)'
+  trade: '(tariff OR tariffs OR "trade war" OR "trade deal" OR "trade talks" OR "anti-dumping")'
+  conflict: '(war OR airstrike OR invasion OR ceasefire OR missile OR "drone strike")'
+  defense: '("defense spending" OR "defence spending" OR NATO OR "military aid" OR rearmament OR "arms deal")'
+  energy: '(OPEC OR "oil supply" OR "gas supply" OR LNG OR "gas pipeline" OR "oil pipeline" OR "oil prices")'
+  tech_minerals: '(semiconductor OR "chip exports" OR "rare earths" OR "critical minerals" OR "chip ban")'
+  politics: '(election OR coup OR impeachment OR "government collapse" OR referendum OR "snap election")'
+  central_banks: '("Federal Reserve" OR "European Central Bank" OR "Bank of England" OR "rate cut" OR "rate hike")'
+  regulation: '(antitrust OR "Digital Markets Act" OR "competition probe" OR "price cap" OR nationalisation OR nationalization)'
+  shipping: '("Red Sea" OR "Strait of Hormuz" OR "Suez Canal" OR "Panama Canal" OR "Taiwan Strait" OR "shipping disruption")'
+  industrial_policy: '(subsidies OR "CHIPS Act" OR reshoring OR "industrial policy" OR "Inflation Reduction Act" OR "state aid")'
+  food_agri: '("grain exports" OR wheat OR fertilizer OR "food prices" OR drought)'
+
+google_news:
+  editions:
+    - {id: US, hl: en-US, gl: US, ceid: "US:en"}
+    - {id: GB, hl: en-GB, gl: GB, ceid: "GB:en"}
+
+# Fixed RSS feeds. `official` feeds are primary sources (central banks, governments).
+feeds:
+  - {id: bbc_world, url: "https://feeds.bbci.co.uk/news/world/rss.xml", kind: news}
+  - {id: bbc_business, url: "https://feeds.bbci.co.uk/news/business/rss.xml", kind: news}
+  - {id: ecb_press, url: "https://www.ecb.europa.eu/rss/press.html", kind: official}
+  - {id: ec_presscorner, url: "https://ec.europa.eu/commission/presscorner/api/rss?language=en", kind: official}
+
+federal_register:
+  # Presidential documents (executive orders, proclamations, determinations) are
+  # always fetched. Rules and notices only from agencies that move markets.
+  # Don't list whole departments: commerce-department also matches every NOAA
+  # fishery notice, energy-department every FERC filing.
+  agencies:
+    - industry-and-security-bureau  # export controls
+    - foreign-assets-control-office  # sanctions
+    - trade-representative-office-of-united-states  # tariffs
+    - international-trade-administration  # anti-dumping duties
+    - state-department  # arms exports (ITAR), terrorism designations
+    - defense-department
+  document_types: [RULE, PRORULE, NOTICE]
+
+gdelt:
+  doc_api:
+    # Often rate-limited (HTTP 429) from shared cloud IPs; failures only warn.
+    enabled: true
+    max_records: 250
+  events:
+    # Raw 15-minute event files: reliable, structured, no rate limit.
+    enabled: true
+    top_n: 300  # most-covered events kept as news items

@@ -1,6 +1,6 @@
 # StockTrendTracker — Project Plan
 
-> Status: **Phase 0 (planning)** · Last updated: 2026-10-28
+> Status: **Phase 1 (foundation) done** · next: Phase 2 (event analysis) · Last updated: 2026-10-28
 >
 > This is a research and decision-support tool for personal use. It is **not investment
 > advice**, and it never places trades.
@@ -134,7 +134,7 @@ Scheduled sessions use the same environment, so they inherit this allowlist.
 | US executive actions | **Federal Register API** | Executive orders, tariffs, sanctions rules, the primary source rather than coverage. |
 | EU actions | **European Commission press corner**, **EUR-Lex** (Official Journal), **ECB press releases** | EU sanctions packages, trade measures, regulation, monetary policy. |
 | Company data | **SEC EDGAR** (US); index constituent lists (Wikipedia) + Yahoo profiles for European sector and industry | Ticker ↔ company ↔ industry; 8-K filings later. |
-| Prices | **yfinance** (Yahoo, unofficial), **Stooq** as fallback | Daily OHLCV for US and European exchanges (`.DE`, `.PA`, `.MC`, `.L`, `.MI`, `.AS`, `.SW`), ETFs, VIX/VSTOXX, oil, gas, EUR/USD. |
+| Prices | **yfinance** (Yahoo, unofficial); Stooq as fallback if it becomes reachable (see §10) | Daily OHLCV for US and European exchanges (`.DE`, `.PA`, `.MC`, `.L`, `.MI`, `.AS`, `.SW`), ETFs, VIX, oil, gas, EUR/USD. |
 | Macro | **FRED** (free API key), **ECB Data Portal** | US and euro-area yields, curves, currencies, oil, for market-regime context. |
 | Later | Polymarket / Kalshi, Congress.gov, USAspending, ECB/Fed releases, OFAC updates | Event probabilities, legislation, defense contracts, central banks, sanctions. |
 
@@ -264,7 +264,7 @@ than reality (**look-ahead bias**). Therefore:
 ## 5. Tech stack
 
 - **Python 3.13**, managed with **uv**
-- `httpx`, `feedparser` (ingestion) · `yfinance` (prices) · `pandas` (data) · `pydantic`
+- `requests`, `feedparser` (ingestion) · `yfinance` (prices) · `pandas` (data) · `pydantic`
   (schemas and validation) · `duckdb` (local queries) · `typer` (CLI) · `jinja2` (reports) ·
   `exchange_calendars` (trading days and holidays per exchange)
 - `pytest`, `ruff`, `mypy` for quality
@@ -323,7 +323,7 @@ prompt as a commit you can review. To avoid overfitting to a few weeks of data, 
 | Phase | What | Done when |
 |---|---|---|
 | **0 · Planning** | This document, decisions (§8), GitHub access, network allowlist. | Decisions made ✅; GitHub access and the allowlist are in place. |
-| **1 · Foundation** | Project skeleton, US + European universe and ETFs, exchange calendars, price download, GDELT + RSS + Federal Register + EU sources ingestion, storage layout, tests. | `stt ingest` gathers a full day of data for both markets reliably. |
+| **1 · Foundation** ✅ | Project skeleton, US + European universe and ETFs, exchange calendars, price download, GDELT + RSS + Federal Register + EU sources ingestion, storage layout, tests. | `stt ingest` gathers a full day of data for both markets reliably. |
 | **2 · Event analysis** | Event schema, digest builder, `daily_analysis.md` prompt, exposure map v1 (~20 themes), validation. | One manual run turns a day's news into sensible, validated event → ticker mappings. |
 | **3 · Quant + scoring** | Price features, regime, priced-in check, risk filters, scoring v1, report v1. | A daily report with top-10 picks per horizon and full rationale. |
 | **4 · Tracking + backtest** | Ledger, automatic scoring, baselines, scoreboard; event-study backtest of the quant layer on GDELT history. | Scoreboard works; we know whether the quant layer on its own beats baselines historically. |
@@ -358,10 +358,48 @@ is still useful, but we'd be clear about what it is.
 | News is priced in within minutes | Focus on second-order and slow-moving policy effects; priced-in penalty; measure against baselines. |
 | Look-ahead bias when evaluating the AI | Forward-only evaluation of the AI layer (§4). |
 | AI invents tickers or sources | Universe check, source URLs must come from the ingested set, strict schema validation. |
-| Free data sources break or rate-limit (yfinance is unofficial) | Stooq fallback, caching, health checks that fail the run loudly. |
+| Free data sources break or rate-limit (yfinance is unofficial) | Several independent news sources, retries, health checks that fail the run loudly (§10). |
 | Overfitting to a small sample | No weight tuning before ~100 matured picks; baselines; out-of-sample checks. |
 | Session credits per run grow over time | Capped digest size; measure credits per run in Phase 5; Python does the heavy lifting. |
 | Ephemeral containers lose state | Everything important is committed to git at the end of each run. |
 | Mixing markets distorts results (currencies, holidays, different trading hours) | Score each stock in local currency against its own market's benchmark; per-exchange calendars. |
 | European data is thinner on free sources (earnings dates, sector tags) | Cross-check Yahoo with index lists; tag missing earnings dates as a risk instead of assuming none. |
 | Source terms of use | Personal, non-commercial use; respect rate limits; store headlines and links, not full articles. |
+
+---
+
+## 10. Progress log
+
+### Phase 1 · Foundation (done 2026-10-28)
+
+Built: `stt universe build|show`, `stt calendar`, `stt ingest`. See the README for usage.
+
+First live run (2026-10-28, 09:05 UTC, 24h window, ~2.5 minutes):
+
+| Source | Result |
+|---|---|
+| Prices (Yahoo) | 914/914 tickers (805 stocks + 109 ETFs, indices, macro), ~13 months of daily bars |
+| Google News (12 topics × US/UK editions) | ~1,400 unique items after de-duplication |
+| BBC World/Business, ECB, European Commission | ok |
+| Federal Register | 4 presidential documents + 14 agency rules/notices |
+| GDELT event files | ~120k events; 300 most-covered international events kept as items, plus a per-country aggregate |
+| GDELT article API | rate-limited (HTTP 429), skipped with a warning |
+
+Findings and deviations from the plan:
+
+- **GDELT article API is rate-limited from this cloud IP** (HTTP 429 even on the first
+  request; the egress IP is shared). It is best effort; GDELT's raw 15-minute event files
+  work and are the main GDELT source instead.
+- **GDELT events are noisy.** Machine coding marks some local stories as international.
+  Google News is the best headline source; Phase 2's digest should weight stories by how
+  many independent feeds carry them (`extra.also_in`).
+- **Stooq** accepts the connection and then drops it, so there is no price fallback yet.
+- **EUR-Lex** answers with an anti-bot challenge. EU actions come from the Commission
+  press corner and ECB feeds for now.
+- **VSTOXX** isn't on Yahoo; VIX is the only volatility index.
+- **Wikipedia blocks the `httpx` client**, so the project uses `requests`.
+- The universe has 805 stocks (503 US, 302 European in 9 countries). Index membership
+  stands in for the market-cap filter; the traded-value filter will be applied from price
+  data in Phase 3.
+- Prices only include completed sessions: when a market is open, Yahoo's partial bar for
+  today is dropped.
