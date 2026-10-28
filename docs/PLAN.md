@@ -1,6 +1,6 @@
 # StockTrendTracker — Project Plan
 
-> Status: **Phase 2 (event analysis) done** · next: Phase 3 (scoring) · Last updated: 2026-10-28
+> Status: **Phase 3 (scoring) done** · next: Phase 4 (tracking) · Last updated: 2026-10-28
 >
 > This is a research and decision-support tool for personal use. It is **not investment
 > advice**, and it never places trades.
@@ -213,14 +213,20 @@ Example of one event (illustrative, not real):
 ### 3.5 Scoring (v1: transparent formula)
 
 ```
-score = w1 · geo_signal          (direction × magnitude × confidence × novelty, from Claude)
-      + w2 · event_study_prior    (historical sector reaction to similar events)
-      + w3 · trend_confirmation   (price/volume agreeing with the thesis)
-      − w4 · priced_in_penalty
-      − w5 · risk_penalty         (earnings in window, volatility, liquidity)
+geo        = tanh(1.5 × Σ direction × member weight × magnitude × confidence × novelty × age decay)
+conviction = |geo| × (1 + 0.4·trend) × (1 + 0.4·prior) × (1 − 0.5·priced_in) × risk
+score      = sign(geo) × conviction
 ```
 
-The weights are set by hand at first. Once enough picks have matured, they are fitted
+- `trend`: price move agreeing with the thesis, up to +1.5σ (negative if it disagrees).
+- `prior`: historical reaction of the theme's members after big moves in its driver.
+- `priced_in`: the part of a move beyond 2σ that already happened.
+- `risk`: multiplier for earnings inside the horizon (×0.4 for 5 days, ×0.7 for 20),
+  unknown earnings dates (×0.95) and very high volatility (×0.8). Illiquid → excluded.
+
+The geopolitical signal is the base and the other terms scale it, so price momentum
+alone can never create a pick (an additive first version let momentum dominate).
+Events fade linearly over their own horizon. The weights are set by hand at first. Once enough picks have matured, they are fitted
 (logistic regression) and the scores are **calibrated**, so that "70%" really means about
 7 out of 10.
 
@@ -325,7 +331,7 @@ prompt as a commit you can review. To avoid overfitting to a few weeks of data, 
 | **0 · Planning** | This document, decisions (§8), GitHub access, network allowlist. | Decisions made ✅; GitHub access and the allowlist are in place. |
 | **1 · Foundation** ✅ | Project skeleton, US + European universe and ETFs, exchange calendars, price download, GDELT + RSS + Federal Register + EU sources ingestion, storage layout, tests. | `stt ingest` gathers a full day of data for both markets reliably. |
 | **2 · Event analysis** ✅ | Event schema, digest builder, `daily_analysis.md` prompt, exposure map v1 (~20 themes), validation. | One manual run turns a day's news into sensible, validated event → ticker mappings. |
-| **3 · Quant + scoring** | Price features, regime, priced-in check, risk filters, scoring v1, report v1. | A daily report with top-10 picks per horizon and full rationale. |
+| **3 · Quant + scoring** ✅ | Price features, regime, priced-in check, risk filters, scoring v1, report v1. | A daily report with top-10 picks per horizon and full rationale. |
 | **4 · Tracking + backtest** | Ledger, automatic scoring, baselines, scoreboard; event-study backtest of the quant layer on GDELT history. | Scoreboard works; we know whether the quant layer on its own beats baselines historically. |
 | **5 · Automation** | Scheduled daily session, dashboard, weekly review, credits-per-run measured. | Runs unattended for 2 weeks without manual fixes. |
 | **6 · Paper-tracking period** | At least 8–12 weeks of live tracking, then calibrate weights; then consider expanding (EU stocks, prediction markets, alerts). | ≥100 matured picks with an honest verdict: does it beat SPY and the baselines? |
@@ -428,3 +434,20 @@ Built: `stt digest`, `stt validate`, `stt themes`, `stt universe find`;
 - One headline ("Supreme Court invalidates most of Trump's tariffs") appeared in only one
   item with no summary, so it was not treated as new. Single-source big claims need
   corroboration before they become events.
+
+### Phase 3 · Quant + scoring (done 2026-10-28)
+
+Built: `stt score` (→ `data/picks/<date>.json`) and `stt report` (→ `data/reports/<date>.md`);
+modules `features/technical.py` (returns, volatility, excess vs benchmark and sector,
+liquidity in USD/EUR), `features/regime.py`, `features/earnings.py`, `scoring/model.py`,
+`report/render.py`.
+
+- First run (2026-10-28, regime neutral, VIX 17.5): 1-week longs XLE, BOAT, EOG, DVN;
+  avoid IAG, easyJet, JETS, EIS, Stellantis. 1-month longs XOP, EQT, EPOL; avoid
+  Stellantis, Airbus, European autos, GM, LVMH.
+- **Earnings season matters:** many names touched by today's events (Exxon, Shell,
+  Airbus, Stellantis, GE Vernova) report within days, so they're down-weighted; results
+  would swamp a geopolitical signal over a week.
+- Lists are short by design: at most 3 picks per theme and 3 ETFs per list, and weak
+  calls (geo < 0.10) don't qualify. More picks will qualify as aligned events build up
+  over several days.

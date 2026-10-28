@@ -22,6 +22,8 @@ days, keeping an honest track record. Full plan and progress log: `docs/PLAN.md`
 | Rank news into stories | `stt digest` | `data/digests/<date>.json`, `cache/raw/<date>/digest.md` |
 | Analyse (Claude) | follow `prompts/daily_analysis.md` | `data/events/<date>.json` |
 | Check the analysis | `stt validate --day <date>` | exit 1 on errors |
+| Rank picks | `stt score` | `data/picks/<date>.json` |
+| Write the report | `stt report` | `data/reports/<date>.md` |
 
 Helpers: `stt themes` (targets for impacts), `stt universe find <name>` (tickers),
 `stt calendar` (which exchanges trade today), `stt universe build` (monthly refresh).

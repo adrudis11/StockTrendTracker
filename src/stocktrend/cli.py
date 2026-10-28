@@ -131,6 +131,47 @@ def digest(
 
 
 @app.command()
+def score(day: DayOption = None) -> None:
+    """Rank picks from the last 30 days of events into data/picks/<day>.json."""
+    from stocktrend.scoring.run import picks_path, run
+
+    d = _day(day)
+    result = run(d)
+    for h in (5, 20):
+        longs = result.select(h, "long")
+        avoids = result.select(h, "avoid")
+        typer.echo(
+            f"{h}d long:  " + (", ".join(f"{p.ticker} {p.conviction:.2f}" for p in longs) or "-")
+        )
+        typer.echo(
+            f"{h}d avoid: " + (", ".join(f"{p.ticker} {p.conviction:.2f}" for p in avoids) or "-")
+        )
+    typer.echo(f"Regime {result.regime.get('label')} -> {picks_path(d)}")
+
+
+@app.command()
+def report(day: DayOption = None) -> None:
+    """Write the daily Markdown report to data/reports/<day>.md."""
+    from stocktrend.events.digest import digest_path
+    from stocktrend.events.digest import load as load_digest
+    from stocktrend.events.schema import EventsFile
+    from stocktrend.events.validate import events_path
+    from stocktrend.report.render import render, write
+    from stocktrend.scoring.run import load as load_picks
+
+    d = _day(day)
+    ev_path = events_path(d)
+    events = (
+        EventsFile.model_validate_json(ev_path.read_text(encoding="utf-8"))
+        if ev_path.exists()
+        else None
+    )
+    digest_obj = load_digest(d) if digest_path(d).exists() else None
+    path = write(d, render(load_picks(d), events, digest_obj))
+    typer.echo(f"Report -> {path}")
+
+
+@app.command()
 def validate(day: DayOption = None) -> None:
     """Check data/events/<day>.json against the schema, digest and reference data."""
     from stocktrend.events.validate import validate as run_validation

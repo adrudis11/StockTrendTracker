@@ -42,6 +42,7 @@ select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["E501"]  # sample feeds and HTML fixtures
+"src/stocktrend/report/*" = ["RUF001"]  # en dashes and × are deliberate typography
 
 [tool.mypy]
 python_version = "3.13"
