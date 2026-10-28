@@ -85,7 +85,7 @@ def to_markdown(sb: dict[str, Any], first_matures: str | None = None) -> str:
         "| Strategy | Horizon | Side | Matured | Hit rate | Mean excess | Median | t |",
         "|---|---|---|---|---|---|---|---|",
     ]
-    order = {"geo": 0, "momentum": 1, "random": 2}
+    order = {"geo": 0, "momentum": 1, "random": 2, "congress": 3}
     for r in sorted(sb["rows"], key=lambda r: (r["horizon"], r["side"], order[r["strategy"]])):
         t = "–" if r["t_stat"] is None else f"{r['t_stat']:+.1f}"
         lines.append(

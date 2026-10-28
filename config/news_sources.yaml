@@ -18,6 +18,9 @@ topics:
   shipping: '("Red Sea" OR "Strait of Hormuz" OR "Suez Canal" OR "Panama Canal" OR "Taiwan Strait" OR "shipping disruption")'
   industrial_policy: '(subsidies OR "CHIPS Act" OR reshoring OR "industrial policy" OR "Inflation Reduction Act" OR "state aid")'
   food_agri: '("grain exports" OR wheat OR fertilizer OR "food prices" OR drought)'
+  # Trump's posts move markets (tariffs, sanctions, named companies). Outlets report
+  # them within minutes, so coverage of "Truth Social" stands in for the posts.
+  trump_posts: '"Truth Social"'
 
 google_news:
   editions:
@@ -54,3 +57,11 @@ gdelt:
     # Raw 15-minute event files: reliable, structured, no rate limit.
     enabled: true
     top_n: 300  # most-covered events kept as news items
+
+polymarket:
+  # Crowd-priced odds for the events we analyse; shown in the digest.
+  enabled: true
+  tags: [geopolitics, politics, economy]
+  per_tag: 20
+  max_events: 25
+  markets_per_event: 3

@@ -21,7 +21,14 @@ from stocktrend.tracking.evaluate import first_matures, read_outcomes
 from stocktrend.tracking.ledger import read as read_ledger
 
 OUT_DIR = CACHE_DIR / "dashboard"
-DATASETS = ("summary", "picks", "events", "scoreboard")
+DATASETS = ("summary", "picks", "events", "scoreboard", "congress")
+CONGRESS_ROWS = 15
+STRATEGY_NAMES = {
+    "geo": "Geopolitical",
+    "momentum": "Momentum",
+    "random": "Random",
+    "congress": "Congress",
+}
 REGIME_NAMES = {"risk_on": "Risk-on", "neutral": "Neutral", "risk_off": "Risk-off"}
 
 
@@ -67,6 +74,7 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
         "open": sb["open"],
         "first_results": first.isoformat() if first else None,
         "model": picks.model_version,
+        "tracker_weight": round(100 * picks.tracker_weight),
     }
     pick_rows = [
         {
@@ -83,7 +91,7 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
             "r20d": _pct(p.r20d),
             "driver": p.drivers[0].title if p.drivers else "",
             "theme": _theme(p.primary_theme),
-            "risks": "; ".join(p.risks),
+            "risks": "; ".join(p.risks + ([p.tracker_note] if p.tracker_note else [])),
         }
         for p in picks.picks
     ]
@@ -104,9 +112,7 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
     board_rows = [
         {
             "key": f"{row['strategy']}:{row['horizon']}:{row['side']}",
-            "strategy": {"geo": "Geopolitical", "momentum": "Momentum", "random": "Random"}[
-                row["strategy"]
-            ],
+            "strategy": STRATEGY_NAMES.get(row["strategy"], row["strategy"]),
             "horizon": row["horizon"],
             "side": row["side"],
             "n": row["n"],
@@ -121,7 +127,34 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
         "picks": pick_rows,
         "events": event_rows,
         "scoreboard": board_rows,
+        "congress": congress_rows(day),
     }
+
+
+def congress_rows(day: str) -> list[dict[str, Any]]:
+    """The strongest net buying and selling by House members, disclosed in 30 days."""
+    from datetime import date
+
+    from stocktrend.trackers import congress
+    from stocktrend.universe.build import load as load_universe
+
+    names = dict(zip(*(load_universe()[c] for c in ("ticker", "name")), strict=True))
+    sig = congress.signal(congress.load_trades(), date.fromisoformat(day))
+    if sig.empty:
+        return []
+    sig = sig.reindex(sig["score"].abs().sort_values(ascending=False).index).head(CONGRESS_ROWS)
+    return [
+        {
+            "ticker": t,
+            "name": names.get(t, ""),
+            "score": round(float(r["score"]), 2),
+            "buyers": int(r["buyers"]),
+            "sellers": int(r["sellers"]),
+            "members": r["members"],
+            "last_filed": str(r["last_filed"]),
+        }
+        for t, r in sig.iterrows()
+    ]
 
 
 def write(day: str, out_dir: Path = OUT_DIR) -> dict[str, Path]:

@@ -26,8 +26,9 @@ uv run stt daily prepare
   with that one line and stop. Commit nothing.
 - Exits with an error (a whole data source failed): run it once more. If it fails
   again, stop and report which sources failed. Commit nothing.
-- Otherwise it has downloaded prices and news, scored any picks whose horizon ended,
-  and written the digest. It prints the digest's path.
+- Otherwise it has downloaded prices, news, prediction-market odds and new House
+  trade filings (`data/trackers/`), scored any picks whose horizon ended, and written
+  the digest. It prints the digest's path.
 
 ## 3. Analyse
 
@@ -53,7 +54,7 @@ this step fails, skip the rest of it, carry on with step 6 and mention it at the
 
 1. Read the dashboard once with the Artifact tool (`action: "read"`, its `url`). This
    is required before uploading to it from a new session.
-2. Upload each of the four files in `cache/dashboard/` as an asset: one Artifact
+2. Upload each of the five files in `cache/dashboard/` as an asset: one Artifact
    `publish` call per file with `url`, `file_path` and `asset: true`. Each result
    gives the file's new `/_blob/<id>` url.
 3. With the ArtifactData tool, `get` each `datasets/<id>` document (note its
@@ -61,7 +62,7 @@ this step fails, skip the rest of it, carry on with step 6 and mention it at the
    each pinned with `if_version`, setting for each dataset:
    `source: {kind: "file", url: <new /_blob url>, name: <file name>}` and
    `updated: {at: <now, ISO 8601 UTC>, by: "StockTrendTracker daily run (Claude)"}`.
-4. Delete the four replaced uploads: Artifact `delete` with the dashboard `url` and
+4. Delete the five replaced uploads: Artifact `delete` with the dashboard `url` and
    `path` set to each old blob id (the part after `/_blob/`). Delete only ids you
    just replaced.
 

@@ -84,6 +84,11 @@ for near-mechanical effects. Overconfidence will show up in the scoreboard.
 **Horizon.** 5 trading days for quick reactions; 20 for policies and conflicts that
 play out over weeks.
 
+**Prediction markets.** The digest lists Polymarket odds for the biggest political,
+geopolitical and economic questions. Use them to set `certainty` and to judge what
+is priced in: an outcome at 95% is mostly in prices already, while a jump of 15+
+points in a day is news in itself, even without a headline.
+
 **Already priced in?** Check the market snapshot. If the obvious winners have
 already moved a lot (e.g. oil +11% in 20 days), lower magnitude or confidence, say
 so in the rationale, or look for the second-order effect markets haven't priced yet.

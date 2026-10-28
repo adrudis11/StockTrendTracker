@@ -99,6 +99,8 @@ class Pick(BaseModel):
     excess_20d: float | None
     vol_annual: float | None
     next_earnings: str | None
+    tracker: float = 0.0  # congressional buying (+) or selling (-) in [-1, 1]
+    tracker_note: str | None = None
 
 
 class PicksFile(BaseModel):
@@ -108,6 +110,7 @@ class PicksFile(BaseModel):
     risk_multipliers: dict[str, float]
     regime: dict[str, Any]
     active_priors: dict[str, dict[int, float]] = {}  # themes whose driver is spiking now
+    tracker_weight: float = 0.0  # how much congressional trades scale conviction
     events_used: list[str]
     picks: list[Pick]
 
@@ -270,8 +273,18 @@ def score(
     regime: dict[str, Any],
     earnings: dict[str, str | None],
     priors: dict[str, dict[int, float]] | None = None,
+    tracker: pd.DataFrame | None = None,
+    tracker_weight: float = 0.0,
 ) -> PicksFile:
-    """``meta``: index ticker, columns name, region, sector, kind ("stock" or "etf")."""
+    """``meta``: index ticker, columns name, region, sector, kind ("stock" or "etf").
+
+    ``tracker`` is the congressional-trades signal per ticker (``trackers.congress``).
+    It can only scale an existing geopolitical signal, by up to ``tracker_weight``,
+    which ``stt backtest`` sets from the tracker's historical record (0 = no edge).
+    """
+    tracker_rows: dict[Any, dict[Any, Any]] = (
+        tracker.to_dict("index") if tracker is not None else {}
+    )
     contributions = expand(events, as_of, exposures, meta, sector_etfs)
     feature_rows: dict[Any, dict[Any, Any]] = features.to_dict("index")
     scored: list[Pick] = []
@@ -292,11 +305,14 @@ def score(
         )
         if priced_in > 0:
             risk_notes.append(f"already moved {aligned:.1f} sigma in the thesis direction")
+        congress = tracker_rows.get(ticker)
+        tracker_score = math.tanh(float(congress["score"]) / 3) if congress else 0.0
         conviction = (
             abs(geo)
             * (1 + WEIGHTS["trend"] * trend)
             * (1 + WEIGHTS["prior"] * prior)
             * (1 - WEIGHTS["priced_in"] * priced_in)
+            * (1 + tracker_weight * side * tracker_score)
             * risk
         )
         if conviction < MIN_GEO / 2:
@@ -341,6 +357,8 @@ def score(
                 excess_20d=_num(feat["excess_20d"]),
                 vol_annual=_num(feat["vol_annual"]),
                 next_earnings=earnings.get(ticker),
+                tracker=round(tracker_score, 3),
+                tracker_note=_congress_note(congress),
             )
         )
     picks = _select(scored)
@@ -351,9 +369,21 @@ def score(
         risk_multipliers=RISK,
         regime=regime,
         active_priors=priors or {},
+        tracker_weight=tracker_weight,
         events_used=sorted({ev.id for ef in events for ev in ef.events}),
         picks=picks,
     )
+
+
+def _congress_note(c: dict[Any, Any] | None) -> str | None:
+    if not c:
+        return None
+    parts = []
+    if c["buyers"]:
+        parts.append(f"{c['buyers']} House member{'s' if c['buyers'] > 1 else ''} bought")
+    if c["sellers"]:
+        parts.append(f"{c['sellers']} sold")
+    return " and ".join(parts) + " (disclosed in the last 30 days)" if parts else None
 
 
 def _select(scored: list[Pick]) -> list[Pick]:

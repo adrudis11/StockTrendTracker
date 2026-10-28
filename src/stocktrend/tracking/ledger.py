@@ -10,6 +10,8 @@ Baselines logged alongside the geopolitical picks, same day and horizons:
   (longs) and the weakest (avoids). Answers "is this just momentum?"
 * ``random``: liquid stocks drawn at random from the same sectors as the day's
   picks. Answers "is this just sector luck?"
+* ``congress``: the stocks with the strongest net buying by House members disclosed
+  in the last 30 days. Answers "does following Congress work?"
 """
 
 from __future__ import annotations
@@ -29,7 +31,7 @@ from stocktrend.scoring.model import HORIZONS, MAX_AVOID, MAX_PICKS, PicksFile
 
 LEDGER = DATA_DIR / "ledger" / "picks.jsonl"
 
-Strategy = Literal["geo", "momentum", "random"]
+Strategy = Literal["geo", "momentum", "random", "congress"]
 
 
 class LedgerEntry(BaseModel):
@@ -99,9 +101,13 @@ def _seed(*parts: object) -> int:
 
 
 def baseline_entries(
-    picks: PicksFile, features: pd.DataFrame, meta: pd.DataFrame, logged_at: datetime
+    picks: PicksFile,
+    features: pd.DataFrame,
+    meta: pd.DataFrame,
+    logged_at: datetime,
+    tracker: pd.DataFrame | None = None,
 ) -> list[LedgerEntry]:
-    """Momentum and random-sector baselines over liquid stocks (no ETFs)."""
+    """Momentum, random-sector and congress baselines over liquid stocks (no ETFs)."""
     stocks = meta[meta["kind"] == "stock"].index
     feats = features[features.index.isin(stocks) & features["liquid"].astype(bool)]
     entries: list[LedgerEntry] = []
@@ -136,6 +142,11 @@ def baseline_entries(
             rng = random.Random(_seed(picks.date, h, side))
             chosen = rng.sample(pool, min(n, len(pool)))
             entries += [entry("random", h, side, t, i + 1) for i, t in enumerate(chosen)]
+
+        if tracker is not None and not tracker.empty:
+            buys = tracker[(tracker["score"] > 0) & tracker.index.isin(feats.index)]
+            top = list(buys.sort_values("score", ascending=False).index[:MAX_PICKS])
+            entries += [entry("congress", h, "long", t, i + 1) for i, t in enumerate(top)]
     return entries
 
 
@@ -145,9 +156,12 @@ def record(
     meta: pd.DataFrame,
     logged_at: datetime | None = None,
     path: Path = LEDGER,
+    tracker: pd.DataFrame | None = None,
 ) -> int:
     logged_at = logged_at or datetime.now(UTC)
-    entries = geo_entries(picks, logged_at) + baseline_entries(picks, features, meta, logged_at)
+    entries = geo_entries(picks, logged_at) + baseline_entries(
+        picks, features, meta, logged_at, tracker
+    )
     return append(entries, path)
 
 

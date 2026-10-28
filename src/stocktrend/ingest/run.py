@@ -14,14 +14,14 @@ import pandas as pd
 
 from stocktrend.config import load_yaml, raw_dir
 from stocktrend.http import session
-from stocktrend.ingest import federal_register, gdelt, prices, rss
+from stocktrend.ingest import federal_register, gdelt, polymarket, prices, rss
 from stocktrend.ingest.models import NewsItem, SourceResult, dedupe
 from stocktrend.universe.build import load as load_universe
 from stocktrend.universe.instruments import load_instruments
 
 log = logging.getLogger(__name__)
 
-SOURCES = ("prices", "rss", "federal_register", "gdelt_events", "gdelt_doc")
+SOURCES = ("prices", "rss", "federal_register", "gdelt_events", "gdelt_doc", "polymarket")
 
 
 def default_lookback_hours(as_of: datetime) -> int:
@@ -127,6 +127,14 @@ def run(as_of: datetime, lookback_hours: int, skip: frozenset[str] = frozenset()
         items += new
         report.sources += results
 
+    if "polymarket" not in skip and news_cfg.get("polymarket", {}).get("enabled"):
+        log.info("polymarket: fetching event odds")
+        odds, result = polymarket.fetch(http, news_cfg["polymarket"])
+        (out / "polymarket.json").write_text(
+            json.dumps(odds, indent=1, ensure_ascii=False), encoding="utf-8"
+        )
+        report.sources.append(result)
+
     news = dedupe(items)
     _write_news(news, out / "news.jsonl")
     report.news_items = len(news)
@@ -157,6 +165,6 @@ def _judge(report: IngestReport, skip: frozenset[str]) -> None:
     for group in ("federal_register", "gdelt_events"):
         if group not in skip and group in by_group and not any(s.ok for s in by_group[group]):
             report.problems.append(f"{group} failed")
-    news_sources = set(SOURCES) - {"prices"}
+    news_sources = set(SOURCES) - {"prices", "polymarket"}
     if not news_sources <= skip and report.news_items == 0:
         report.problems.append("no news items at all")

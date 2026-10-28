@@ -13,6 +13,11 @@ days, keeping an honest track record. Full plan and progress log: `docs/PLAN.md`
   committed. `cache/` is re-downloaded and gitignored.
 - Don't put personal contact details in HTTP headers; use `config.USER_AGENT`.
 - Use `requests`, not `httpx` (Wikipedia blocks httpx).
+- Don't read X/Twitter through mirrors (Nitter etc.) or other copies of walled
+  content; X needs its paid API. Don't accept a site's terms on the user's behalf
+  (e.g. the Senate disclosure search) without their explicit consent.
+- `data/trackers/` is append-only like the ledger: new filings are added, old lines
+  are never rewritten.
 - **Never edit or delete lines in `data/ledger/`.** The ledger is the honest track
   record; `stt record` only appends and a re-run never replaces a day's picks.
 - Don't re-run `stt score` for a day that is already recorded: the ledger keeps the
@@ -42,6 +47,10 @@ days, keeping an honest track record. Full plan and progress log: `docs/PLAN.md`
 | Log picks + baselines | `stt record` | `data/ledger/picks.jsonl` (append-only) |
 | Score matured picks | `stt evaluate` | `data/ledger/outcomes.jsonl` |
 | Write the report | `stt report` | `data/reports/<date>.md` (includes track record) |
+
+Trackers: `stt trackers update` (new House STOCK Act filings → `data/trackers/`, run
+by `daily prepare`), `stt trackers show` (strongest congressional buying/selling).
+Polymarket odds are fetched by `stt ingest` and shown in the digest.
 
 Occasional: `stt backtest` (5-year momentum baseline and theme priors, monthly),
 `stt scoreboard`.

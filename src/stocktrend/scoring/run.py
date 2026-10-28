@@ -15,12 +15,14 @@ from stocktrend.features import earnings, regime, technical
 from stocktrend.ingest import prices as price_store
 from stocktrend.markets import split_suffix
 from stocktrend.scoring import model
+from stocktrend.trackers import congress
 from stocktrend.universe.build import load as load_universe
 from stocktrend.universe.exposures import Exposures, load_exposures
 from stocktrend.universe.instruments import InstrumentsConfig, load_instruments
 
 PICKABLE_ETF_KINDS = {"sector_etf", "theme_etf", "country_etf"}
 PRIORS_PATH = DATA_DIR / "priors" / "theme_priors.json"
+TRACKERS_PATH = DATA_DIR / "priors" / "trackers.json"
 ACTIVE_Z = 1.5
 
 
@@ -72,6 +74,17 @@ def load_priors() -> dict[str, dict[int, float]]:
                 shrink = min(1.0, abs(v.get("t_stat") or 0.0) / 2)
                 out.setdefault(theme, {})[int(h)] = float(v["mean_excess"]) * shrink
     return out
+
+
+def tracker_weight() -> float:
+    """Weight earned by the congressional tracker in its backtest (0 without one)."""
+    if not TRACKERS_PATH.exists():
+        return 0.0
+    return float(json.loads(TRACKERS_PATH.read_text(encoding="utf-8")).get("weight", 0.0))
+
+
+def tracker_signal(day: str, meta: pd.DataFrame) -> pd.DataFrame:
+    return congress.signal(congress.load_trades(), date.fromisoformat(day), set(meta.index))
 
 
 def active_priors(
@@ -130,7 +143,10 @@ def run(day: str, ctx: Context | None = None) -> model.PicksFile:
     )
     earn = earnings.next_earnings(stock_candidates, as_of)
     priors = active_priors(load_priors(), exposures, ctx.prices)
-    result = model.score(as_of, events, exposures, meta, feats, sector_etfs, reg, earn, priors)
+    result = model.score(
+        as_of, events, exposures, meta, feats, sector_etfs, reg, earn, priors,
+        tracker=tracker_signal(day, meta), tracker_weight=tracker_weight(),
+    )  # fmt: skip
     path = picks_path(day)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(result.model_dump_json(indent=1), encoding="utf-8")

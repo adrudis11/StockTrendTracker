@@ -17,6 +17,8 @@ universe_app = typer.Typer(help="The list of stocks we cover.")
 app.add_typer(universe_app, name="universe")
 daily_app = typer.Typer(help="The scheduled daily run, in two halves around Claude's analysis.")
 app.add_typer(daily_app, name="daily")
+trackers_app = typer.Typer(help="Disclosed trades of US House members (official filings).")
+app.add_typer(trackers_app, name="trackers")
 
 
 @app.callback()
@@ -107,6 +109,8 @@ def digest(
     show: Annotated[bool, typer.Option("--print", help="Print the Markdown digest")] = False,
 ) -> None:
     """Group and rank the ingested news into data/digests/<day>.json (+ Markdown in cache/)."""
+    import json
+
     from stocktrend.config import raw_dir
     from stocktrend.events import digest as dg
     from stocktrend.features.returns import snapshot
@@ -119,6 +123,9 @@ def digest(
     market = snapshot(
         prices.load(), {i.ticker: i.name for i in cfg.instruments}, load(), cfg.benchmarks
     )
+    odds_path = raw_dir(d) / "polymarket.json"
+    if odds_path.exists():
+        market["prediction_markets"] = json.loads(odds_path.read_text(encoding="utf-8"))
     result = dg.build(d, datetime.now(UTC), market)
     path = dg.save(result)
     md = dg.to_markdown(result)
@@ -154,14 +161,14 @@ def score(day: DayOption = None) -> None:
 @app.command()
 def record(day: DayOption = None) -> None:
     """Append the day's picks and baselines to the ledger (never overwrites)."""
-    from stocktrend.scoring.run import context
+    from stocktrend.scoring.run import context, tracker_signal
     from stocktrend.scoring.run import load as load_picks
     from stocktrend.tracking.ledger import LEDGER
     from stocktrend.tracking.ledger import record as record_picks
 
     d = _day(day)
     ctx = context()
-    n = record_picks(load_picks(d), ctx.features, ctx.meta)
+    n = record_picks(load_picks(d), ctx.features, ctx.meta, tracker=tracker_signal(d, ctx.meta))
     typer.echo(f"Logged {n} new ledger entries for {d} -> {LEDGER}")
 
 
@@ -243,6 +250,51 @@ def backtest(
             cells.append(f"{h}d n={r['n']} mean={r.get('mean_excess')} t={r.get('t_stat')}{mark}")
         typer.echo(f"prior {tid:<28} " + " | ".join(cells))
     typer.echo(f"-> {mom_path}, {PRIORS_PATH}")
+    _backtest_trackers(closes, regions, cfg.benchmarks, set(universe["ticker"]))
+
+
+def _backtest_trackers(
+    closes: object, regions: dict[str, str], benchmarks: dict[str, str], known: set[str]
+) -> None:
+    import json
+
+    import pandas as pd
+
+    from stocktrend.backtest import trackers
+    from stocktrend.scoring.run import TRACKERS_PATH
+    from stocktrend.trackers import congress
+
+    assert isinstance(closes, pd.DataFrame)
+    trades = congress.load_trades()
+    if trades.empty:
+        typer.echo("No congressional trades stored yet: run `stt trackers update` first.")
+        return
+    start = min(trades["filed"]) + pd.Timedelta(days=60)
+    results = {str(h): trackers.run(closes, trades, known, h, start) for h in (5, 20)}
+    yardstick = {
+        str(h): trackers.compare_momentum(closes, regions, benchmarks, h, start)["long"]
+        for h in (5, 20)
+    }
+    weight = trackers.weight_from_evidence(results["20"])
+    out = {
+        "generated_at": datetime.now(UTC).isoformat(),
+        "method": "every horizon sessions, top 10 net-bought stocks (House filings public "
+        "before that day, trades under 60 days old, no dividend reinvestments) vs SPY",
+        "weight": weight,
+        "congress": results,
+        "momentum_same_window": yardstick,
+    }
+    TRACKERS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    TRACKERS_PATH.write_text(json.dumps(out, indent=1, default=str), encoding="utf-8")
+    for h, r in results.items():
+        b, m = r["buys"], yardstick[h]
+        typer.echo(
+            f"congress {h}d: buys mean excess {b['mean_excess']} hit {b['hit_rate']} "
+            f"t {b['t_stat']} ({b['periods']} periods, {b['picks']} picks) | "
+            f"sells lag {r['sells']['mean_excess']} t {r['sells']['t_stat']} | "
+            f"momentum same window {m['mean_excess']} t {m['t_stat']}"
+        )
+    typer.echo(f"Tracker weight in the live score: {weight} -> {TRACKERS_PATH}")
 
 
 @app.command()
@@ -281,7 +333,12 @@ def report(day: DayOption = None) -> None:
     track = sb.to_markdown(
         sb.compute(entries, read_outcomes()), first.isoformat() if first else None
     )
-    path = write(d, render(load_picks(d), events, digest_obj, track))
+    from stocktrend.report.dashboard import congress_rows
+    from stocktrend.report.render import congress_markdown
+
+    picks_obj = load_picks(d)
+    congress_md = congress_markdown(congress_rows(d)[:10], picks_obj.tracker_weight)
+    path = write(d, render(picks_obj, events, digest_obj, track, congress_md))
     typer.echo(f"Report -> {path}")
 
 
@@ -365,6 +422,43 @@ def _run_ingest(lookback_hours: int | None, skipped: frozenset[str], strict: boo
     typer.secho("\nRun OK", fg="green")
 
 
+# --- trackers ------------------------------------------------------------------
+
+
+@trackers_app.command("update")
+def trackers_update(
+    years: Annotated[
+        list[int] | None,
+        typer.Option("--year", help="Filing years (repeatable); default: this year"),
+    ] = None,
+) -> None:
+    """Download new House trade reports and append their trades to data/trackers/."""
+    from stocktrend.trackers import congress
+
+    this_year = datetime.now(UTC).year
+    chosen = years or ([this_year - 1, this_year] if datetime.now(UTC).month == 1 else [this_year])
+    stats = congress.update(session(), chosen)
+    typer.echo(f"House filings {chosen}: {stats}")
+
+
+@trackers_app.command("show")
+def trackers_show(
+    day: DayOption = None,
+    top: Annotated[int, typer.Option(help="Rows to show")] = 15,
+) -> None:
+    """Strongest congressional buying (and selling) disclosed in the last 30 days."""
+    from stocktrend.trackers import congress
+
+    d = date.fromisoformat(_day(day))
+    sig = congress.signal(congress.load_trades(), d)
+    if sig.empty:
+        typer.echo("No disclosed trades in the window.")
+        return
+    typer.echo(sig.head(top).to_string())
+    typer.echo("...")
+    typer.echo(sig.tail(5).to_string())
+
+
 # --- the scheduled daily run ----------------------------------------------------
 
 STALE_PRIORS_DAYS = 30
@@ -394,6 +488,10 @@ def daily_prepare() -> None:
         typer.echo(f"NOTHING TO DO: picks for {d} are already in the ledger.")
         return
     _run_ingest(None, frozenset(), strict=False)
+    try:
+        trackers_update(years=None)
+    except Exception as e:  # the tracker is optional; never block the run on it
+        typer.secho(f"warning: House filings update failed: {e}", fg="yellow")
     evaluate()
     digest(day=d, show=False)
     typer.echo(
@@ -426,6 +524,6 @@ def daily_finish() -> None:
     report(day=d)
     dashboard(day=d)
     typer.echo(
-        "\nNEXT: upload the four files above to the dashboard and commit data/ "
+        "\nNEXT: upload the five files above to the dashboard and commit data/ "
         "(see prompts/daily_run.md)."
     )

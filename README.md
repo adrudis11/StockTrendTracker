@@ -41,7 +41,9 @@ uv run stt record              # append picks + baselines to the ledger (append-
 uv run stt evaluate            # score picks whose horizon has ended
 uv run stt scoreboard          # track record vs momentum and random baselines
 uv run stt report              # daily Markdown report -> data/reports/
-uv run stt backtest            # 5-year momentum baseline + theme priors (monthly)
+uv run stt backtest            # 5-year momentum baseline, theme priors, tracker backtest
+uv run stt trackers update     # new US House trade filings (STOCK Act) -> data/trackers/
+uv run stt trackers show       # strongest congressional buying/selling, last 30 days
 uv run stt themes              # geopolitical themes and their main winners/losers
 uv run stt universe find airbus
 ```
@@ -72,7 +74,8 @@ data/events/       Claude's daily structured analysis (committed)
 data/picks/        ranked picks with every score component (committed)
 data/reports/      daily Markdown reports (committed)
 data/ledger/       every pick ever made and its outcome (append-only, committed)
-data/backtests/    momentum baseline results; data/priors/ theme priors
+data/backtests/    momentum baseline results; data/priors/ theme priors and tracker weight
+data/trackers/     House members' disclosed stock trades (append-only, committed)
 prompts/           instructions for the Claude steps
 src/stocktrend/    universe/ (stock list, sectors), ingest/ (prices, RSS, Federal Register, GDELT)
 tests/             offline unit tests; `uv run pytest -m live` hits the real sources

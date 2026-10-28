@@ -74,7 +74,7 @@
         <h3>Next week · 5 trading days</h3>
         <div class="stt-wrap">
           <table class="stt-t" data-source="picks" data-row-key="key">
-            <thead><tr><th data-field="rank">#</th><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="conviction">Conviction</th><th data-field="prob" class="num">p(beat)</th><th data-field="r20d" class="num opt">20-day move</th><th data-field="driver">Why</th><th data-field="risks" class="opt">Risks</th></tr></thead>
+            <thead><tr><th data-field="rank">#</th><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="conviction">Conviction</th><th data-field="prob" class="num">p(beat)</th><th data-field="r20d" class="num opt">20-day move</th><th data-field="driver">Why</th><th data-field="risks" class="opt">Risks / notes</th></tr></thead>
             <tbody data-draw="picks-5-long"></tbody>
           </table>
         </div>
@@ -92,7 +92,7 @@
         <h3>Next month · 20 trading days</h3>
         <div class="stt-wrap">
           <table class="stt-t" data-source="picks" data-row-key="key">
-            <thead><tr><th data-field="rank">#</th><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="conviction">Conviction</th><th data-field="prob" class="num">p(beat)</th><th data-field="r20d" class="num opt">20-day move</th><th data-field="driver">Why</th><th data-field="risks" class="opt">Risks</th></tr></thead>
+            <thead><tr><th data-field="rank">#</th><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="conviction">Conviction</th><th data-field="prob" class="num">p(beat)</th><th data-field="r20d" class="num opt">20-day move</th><th data-field="driver">Why</th><th data-field="risks" class="opt">Risks / notes</th></tr></thead>
             <tbody data-draw="picks-20-long"></tbody>
           </table>
         </div>
@@ -128,6 +128,19 @@
       </div>
       <p class="stt-note">Under <b data-draw="min-n">—</b> matured geopolitical picks, differences are mostly noise.</p>
     </div>
+  </section>
+
+  <section class="stt-card" id="congress">
+    <h2>Congress trades</h2>
+    <p class="stt-note">Stock trades by members of the US House, from their official STOCK Act filings, disclosed in the last 30 days. Trades are reported up to 45 days after they happen, and automatic dividend reinvestments are left out. Score: purchases count by size, sales count half.</p>
+    <p class="stt-note">Weight in today's picks: <b data-draw="s-tw" data-source="summary" data-field="tracker_weight" data-row="0">—</b>% at most, set by the tracker's own backtest. It's also logged as a separate strategy in the track record, so its real results show up there.</p>
+    <div class="stt-wrap">
+      <table class="stt-t" data-source="congress" data-row-key="ticker">
+        <thead><tr><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="score" class="num">Score</th><th data-field="buyers" class="num">Buyers</th><th data-field="sellers" class="num">Sellers</th><th data-field="members">Members</th><th data-field="last_filed" class="opt">Last filed</th></tr></thead>
+        <tbody data-draw="congress"></tbody>
+      </table>
+    </div>
+    <p class="stt-note" data-empty-congress hidden>No stock trades disclosed by House members in the last 30 days.</p>
   </section>
 
   <section class="stt-card" id="events">
@@ -176,6 +189,7 @@
   value('s-view', 'market_view', String);
   value('s-open', 'open', String);
   value('s-first', 'first_results', date);
+  value('s-tw', 'tracker_weight', String);
 
   // Show the empty-state sentences or the tables they stand in for.
   dash.onData(() => {
@@ -183,6 +197,8 @@
     const matured = s ? Number(s.matured) : 0;
     document.querySelectorAll('[data-when="no-results"]').forEach((el) => { el.hidden = !s || matured > 0; });
     document.querySelectorAll('[data-when="results"]').forEach((el) => { el.hidden = !s || matured === 0; });
+    const cg = dash.data('congress');
+    document.querySelectorAll('[data-empty-congress]').forEach((el) => { el.hidden = cg.status !== 'ok' || cg.data.length > 0; });
     const picks = dash.data('picks');
     document.querySelectorAll('[data-empty]').forEach((el) => {
       const [h, side] = el.dataset.empty.split('-');
@@ -241,7 +257,22 @@
     });
   });
 
-  const order = { Geopolitical: 0, Momentum: 1, Random: 2 };
+  dash.draw('congress', (tbody) => {
+    tbody.replaceChildren();
+    rows('congress').forEach((r) => {
+      const tr = tbody.insertRow();
+      tr.dataset.key = r.ticker;
+      cell(tr, r.ticker, 'tick');
+      cell(tr, r.name, 'opt');
+      cell(tr, d3.format('+.2f')(r.score), 'num');
+      cell(tr, String(r.buyers), 'num');
+      cell(tr, String(r.sellers), 'num');
+      cell(tr, r.members, 'why');
+      cell(tr, r.last_filed, 'opt');
+    });
+  });
+
+  const order = { Geopolitical: 0, Momentum: 1, Random: 2, Congress: 3 };
   dash.draw('board', (tbody) => {
     tbody.replaceChildren();
     rows('scoreboard')

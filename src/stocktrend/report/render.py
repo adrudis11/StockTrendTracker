@@ -74,6 +74,8 @@ def _details(picks: list[Pick]) -> list[str]:
             f"- **{p.ticker}**: geo {p.geo:+.2f}, trend {p.trend:+.2f}, "
             f"priced-in {p.priced_in:.2f}, risk ×{p.risk:.2f}"
         )
+        if p.tracker_note:
+            lines.append(f"  - Congress: {p.tracker_note} (tracker {p.tracker:+.2f})")
         for d in p.drivers:
             via = f"theme {d.via}" if d.via not in ("direct", "sector") else d.via
             lines.append(f"  - `{d.event_id}` via {via} ({d.strength:+.3f}): {d.rationale}")
@@ -94,6 +96,7 @@ def render(
     events: EventsFile | None,
     digest: Digest | None,
     track_record: str | None = None,
+    congress_md: str | None = None,
 ) -> str:
     lines = [f"# StockTrendTracker: {picks.date}", "", DISCLAIMER, ""]
     lines += ["## Backdrop", ""]
@@ -121,6 +124,8 @@ def render(
 
     if track_record:
         lines += [track_record]
+    if congress_md:
+        lines += [congress_md]
     if events:
         stories = {s.id: s for s in digest.stories} if digest else {}
         lines += ["## Today's events", ""]
@@ -150,3 +155,35 @@ def write(day: str, text: str) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding="utf-8")
     return path
+
+
+def congress_markdown(rows: list[dict[str, Any]], weight: float) -> str:
+    lines = ["## Congress trades (disclosed in the last 30 days)", ""]
+    if not rows:
+        return "\n".join(
+            [*lines, "_No stock trades disclosed by House members in the window._", ""]
+        )
+    lines += [
+        "| Ticker | Name | Score | Buyers | Sellers | Members |",
+        "|---|---|---|---|---|---|",
+    ]
+    for r in rows:
+        lines.append(
+            f"| {r['ticker']} | {r['name']} | {r['score']:+.2f} | {r['buyers']} | "
+            f"{r['sellers']} | {r['members']} |"
+        )
+    note = (
+        f"Weight in the score: up to ±{100 * weight:.0f}% on stocks the day's events "
+        "already point at."
+        if weight
+        else "Weight in the score: 0 (its backtest hasn't shown an edge); logged as its own "
+        "strategy so the track record can prove otherwise."
+    )
+    return "\n".join(
+        [
+            *lines,
+            "",
+            f"Official House filings (STOCK Act; trades are reported up to 45 days late). {note}",
+            "",
+        ]
+    )

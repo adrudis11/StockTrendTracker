@@ -376,4 +376,24 @@ def market_markdown(m: dict[str, Any]) -> str:
     for key, label in (("leaders_5d", "Top 5-day movers vs benchmark"), ("laggards_5d", "Bottom")):
         if m.get(key):
             out += ["", f"{label}: " + ", ".join(f"{t} {r:+.1f}%" for t, r in m[key])]
+    if m.get("prediction_markets"):
+        out += ["", prediction_markdown(m["prediction_markets"])]
+    return "\n".join(out)
+
+
+def prediction_markdown(events: list[dict[str, Any]]) -> str:
+    """Polymarket odds: probability of the listed outcome and its one-day change."""
+    out = [
+        "## Prediction markets (Polymarket, by 24h volume)",
+        "",
+        "question | odds | 1-day change | 24h volume",
+    ]
+    for e in events:
+        for mk in e["markets"]:
+            chg = mk.get("change_1d")
+            chg_txt = f"{100 * chg:+.0f} pts" if isinstance(chg, int | float) else "-"
+            out.append(
+                f"{mk['question']} | {100 * mk['probability']:.0f}% {mk['outcome']} | "
+                f"{chg_txt} | ${mk['volume_24h']:,}"
+            )
     return "\n".join(out)
