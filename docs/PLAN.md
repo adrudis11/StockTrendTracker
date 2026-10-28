@@ -9,9 +9,9 @@
 
 ## 1. Goal
 
-Each trading day, produce a short ranked list of liquid stocks (and sector/country ETFs) that
-the current **political and geopolitical situation** makes likely to **outperform over the next
-days to weeks**. Every pick comes with:
+Each trading day, produce a short ranked list of liquid **US and European** stocks (and
+sector/country ETFs) that the current **political and geopolitical situation** makes likely to
+**outperform over the next days to weeks**. Every pick comes with:
 
 - the event(s) driving it and the cause-and-effect chain (event → sector/company → why it should move),
 - an estimated probability of beating the benchmark over **5 trading days (~1 week)** and
@@ -28,7 +28,9 @@ In a rising market almost every stock goes up, so "it went up" says little about
 pick was any good. We track two things:
 
 1. **Absolute:** did the stock go up over the horizon?
-2. **Relative (the main metric):** did it beat the S&P 500 (SPY) and its own sector ETF?
+2. **Relative (the main metric):** did it beat its own market's benchmark (S&P 500 for US
+   stocks, STOXX Europe 600 for European stocks) and its sector? Each stock is compared in
+   its own currency, so euro/dollar moves don't distort the result.
 
 A pick only counts as good if it beats what you would have earned without the tool.
 
@@ -92,11 +94,15 @@ api.stlouisfed.org
 news.google.com
 feeds.bbci.co.uk
 en.wikipedia.org
+ec.europa.eu
+eur-lex.europa.eu
+www.ecb.europa.eu
+data-api.ecb.europa.eu
 ```
 
 **Later (optional):** `gamma-api.polymarket.com` (prediction markets),
 `api.congress.gov` (legislation), `api.usaspending.gov` (government contracts),
-`www.ecb.europa.eu`, `www.federalreserve.gov`, plus any extra news RSS feeds we pick.
+`www.federalreserve.gov`, plus any extra news RSS feeds we pick.
 
 Scheduled sessions use the same environment, so they inherit this allowlist.
 
@@ -124,23 +130,31 @@ Scheduled sessions use the same environment, so they inherit this allowlist.
 | Type | Source | Why |
 |---|---|---|
 | Global news & events | **GDELT 2.0** (DOC API + 15-minute event/GKG files) | Free, worldwide, already tagged with themes, countries and tone; history back to 2015 for backtesting. |
-| Headlines | RSS: Google News topic searches, BBC World, more to choose | Readable headlines and summaries for Claude. |
+| Headlines | RSS: Google News topic searches (US and European editions), BBC World, more to choose | Readable headlines and summaries for Claude. |
 | US executive actions | **Federal Register API** | Executive orders, tariffs, sanctions rules, the primary source rather than coverage. |
-| Company data | **SEC EDGAR** | Ticker ↔ company ↔ industry (SIC); 8-K filings later. |
-| Prices | **yfinance** (Yahoo, unofficial), **Stooq** as fallback | Daily OHLCV for stocks, ETFs, VIX, oil, dollar. |
-| Macro | **FRED** (free API key) | Yields, yield curve, dollar index, oil, for market-regime context. |
+| EU actions | **European Commission press corner**, **EUR-Lex** (Official Journal), **ECB press releases** | EU sanctions packages, trade measures, regulation, monetary policy. |
+| Company data | **SEC EDGAR** (US); index constituent lists (Wikipedia) + Yahoo profiles for European sector and industry | Ticker ↔ company ↔ industry; 8-K filings later. |
+| Prices | **yfinance** (Yahoo, unofficial), **Stooq** as fallback | Daily OHLCV for US and European exchanges (`.DE`, `.PA`, `.MC`, `.L`, `.MI`, `.AS`, `.SW`), ETFs, VIX/VSTOXX, oil, gas, EUR/USD. |
+| Macro | **FRED** (free API key), **ECB Data Portal** | US and euro-area yields, curves, currencies, oil, for market-regime context. |
 | Later | Polymarket / Kalshi, Congress.gov, USAspending, ECB/Fed releases, OFAC updates | Event probabilities, legislation, defense contracts, central banks, sanctions. |
 
 ### 3.2 Universe and exposure map
 
-- **Universe v1:** S&P 500 members + ~30 sector, industry and country ETFs (XLE, ITA, SMH,
-  EWZ, …). Liquidity filter: market cap > $2B and average daily traded value > $20M.
+- **Universe v1:**
+  - **US:** S&P 500 members.
+  - **Europe:** members of the main indices, with duplicates removed (Euro STOXX 50, DAX 40,
+    CAC 40, IBEX 35, FTSE 100, FTSE MIB, AEX, SMI), about 350 companies.
+  - **ETFs:** ~40 US and European sector, industry and country ETFs (XLE, ITA, SMH, EWZ,
+    STOXX Europe 600 sector ETFs, …).
+  - **Liquidity filter:** market cap > 2B (USD/EUR equivalent) and average daily traded
+    value > $20M (US) or > €10M (Europe, where volumes are lower).
 - **Exposure map** (`exposures.yaml`): a human-readable file mapping **geopolitical themes →
-  likely winners and losers**, e.g. *Middle East escalation → oil producers, defense, tankers ↑;
-  airlines, cruise lines ↓*. It starts with ~20 themes (defense spending, tariffs on China,
-  chip export controls, energy supply shocks, rare earths, shipping disruption, agriculture,
-  elections, sanctions, reshoring subsidies, …). Claude proposes changes and you can review
-  them in git.
+  likely winners and losers on both sides of the Atlantic**, e.g. *Middle East escalation →
+  oil producers, defense, tankers ↑; airlines, cruise lines ↓*. It starts with ~25 themes
+  (US and European defense spending, US–China and US–EU tariffs, chip export controls,
+  European gas supply, energy supply shocks, rare earths, shipping disruption, agriculture,
+  elections, US and EU sanctions, reshoring subsidies, …). Claude proposes changes and you
+  can review them in git.
 
 ### 3.3 Event analysis (Claude, inside the session)
 
@@ -191,7 +205,8 @@ Example of one event (illustrative, not real):
 - **"Already priced in" check:** if a stock already moved strongly on the news, its score drops.
 - **Risk filters:** earnings date inside the horizon (a coin flip unrelated to geopolitics),
   very high volatility, low liquidity.
-- **Market regime:** VIX, yield curve, dollar and oil trend. Risk-off regimes favour defensives.
+- **Market regime:** VIX and VSTOXX, US and euro-area yield curves, EUR/USD, oil and European
+  gas trend. Risk-off regimes favour defensives.
 - **Event-study prior:** historically, how did a sector perform in the N days after similar
   GDELT event spikes? This part **can be backtested** on 2015+ data.
 
@@ -216,8 +231,10 @@ negative signals.
 
 - **Append-only ledger** (`data/ledger/picks.jsonl`) committed to git. Git history makes it
   tamper-evident, so the record can't be quietly rewritten afterwards.
-- Entry price = **next day's open** after the pick (no hindsight).
-- After each horizon ends, picks are scored automatically against SPY and the sector ETF.
+- Entry price = **next open on the stock's own exchange** after the pick (no hindsight).
+- After each horizon ends, picks are scored automatically against their market benchmark
+  (S&P 500 or STOXX Europe 600) and sector, in local currency, counting horizons in that
+  exchange's trading days (holidays differ between the US and Europe).
 - **Metrics:** hit rate (absolute and vs benchmark), average excess return, Brier score and
   calibration, and comparison against **simple baselines**: momentum-only picks and random
   picks from the same sectors. If we can't beat these, the geopolitical layer isn't adding value.
@@ -248,7 +265,8 @@ than reality (**look-ahead bias**). Therefore:
 
 - **Python 3.13**, managed with **uv**
 - `httpx`, `feedparser` (ingestion) · `yfinance` (prices) · `pandas` (data) · `pydantic`
-  (schemas and validation) · `duckdb` (local queries) · `typer` (CLI) · `jinja2` (reports)
+  (schemas and validation) · `duckdb` (local queries) · `typer` (CLI) · `jinja2` (reports) ·
+  `exchange_calendars` (trading days and holidays per exchange)
 - `pytest`, `ruff`, `mypy` for quality
 - Storage: JSON/JSONL/Markdown in git for anything we must keep; Parquet caches that are
   re-downloaded each session.
@@ -283,10 +301,11 @@ StockTrendTracker/
 
 ## 6. Daily run (scheduled cloud session)
 
-Runs on weekdays before the US market opens (time to be confirmed):
+Runs on weekdays **before the European open (09:00 CET)**. The US closed the evening before
+and opens hours later, so one run covers both markets:
 
 1. Install dependencies (`uv sync`).
-2. `stt ingest`: news, Federal Register and prices for the last 24 hours.
+2. `stt ingest`: news, Federal Register, EU sources and prices for the last 24 hours.
 3. `stt digest`: deduplicated, ranked, size-capped bundle of candidate events.
 4. Claude reads the digest and writes `data/events/<date>.json`, then runs `stt validate`.
 5. `stt score`, `stt evaluate` (score matured picks), `stt report`.
@@ -303,33 +322,32 @@ prompt as a commit you can review. To avoid overfitting to a few weeks of data, 
 
 | Phase | What | Done when |
 |---|---|---|
-| **0 · Planning** | This document, decisions on open questions, network allowlist. | You've answered §8 and the allowlist is in place. |
-| **1 · Foundation** | Project skeleton, universe (S&P 500 + ETFs), price download, GDELT + RSS + Federal Register ingestion, storage layout, tests. | `stt ingest` gathers a full day of data reliably. |
+| **0 · Planning** | This document, decisions (§8), GitHub access, network allowlist. | Decisions made ✅; GitHub access and the allowlist are in place. |
+| **1 · Foundation** | Project skeleton, US + European universe and ETFs, exchange calendars, price download, GDELT + RSS + Federal Register + EU sources ingestion, storage layout, tests. | `stt ingest` gathers a full day of data for both markets reliably. |
 | **2 · Event analysis** | Event schema, digest builder, `daily_analysis.md` prompt, exposure map v1 (~20 themes), validation. | One manual run turns a day's news into sensible, validated event → ticker mappings. |
 | **3 · Quant + scoring** | Price features, regime, priced-in check, risk filters, scoring v1, report v1. | A daily report with top-10 picks per horizon and full rationale. |
 | **4 · Tracking + backtest** | Ledger, automatic scoring, baselines, scoreboard; event-study backtest of the quant layer on GDELT history. | Scoreboard works; we know whether the quant layer on its own beats baselines historically. |
 | **5 · Automation** | Scheduled daily session, dashboard, weekly review, credits-per-run measured. | Runs unattended for 2 weeks without manual fixes. |
 | **6 · Paper-tracking period** | At least 8–12 weeks of live tracking, then calibrate weights; then consider expanding (EU stocks, prediction markets, alerts). | ≥100 matured picks with an honest verdict: does it beat SPY and the baselines? |
 
-**Overall success criterion:** after Phase 6, the 20-day picks beat both SPY and the
-sector-matched baselines on average excess return, with sensible calibration. If they don't,
+**Overall success criterion:** after Phase 6, the 20-day picks beat both their market
+benchmark and the sector-matched baselines on average excess return, with sensible calibration. If they don't,
 we either iterate or keep it as a geopolitical briefing tool rather than a stock picker. That
 is still useful, but we'd be clear about what it is.
 
 ---
 
-## 8. Open questions (defaults in **bold**, used unless you say otherwise)
+## 8. Decisions (2026-10-28)
 
-1. **Markets:** **US large caps + sector/country ETFs to start**, or include European stocks
-   (Euro STOXX / IBEX) from day one?
-2. **Network allowlist:** can you add the domains in §2? *This blocks Phase 1.*
-3. **Schedule:** what time zone, and what time should the daily report be ready?
-   **Default: before the US open.**
-4. **Paid data:** **none**. All free sources.
-5. **GitHub Actions for automated tests:** **not used** (tests run in sessions). OK to enable?
-6. **Risk profile:** **liquid stocks and ETFs only; no penny stocks, options or leverage.**
-7. **Where you read results:** **daily Markdown report in the repo + private dashboard page.**
-   Do you want email or Telegram alerts later?
+1. **Markets:** US **and** Europe from the start (§3.2).
+2. **Schedule:** weekdays, before the European open (09:00 CET).
+3. **Paid data:** none. All free sources.
+4. **GitHub Actions:** not used; tests run in sessions.
+5. **Risk profile:** liquid stocks and ETFs only; no penny stocks, options or leverage.
+6. **Where you read results:** daily Markdown report in the repo + private dashboard page.
+   No email or Telegram alerts for now.
+
+**Still needed from you:** the network allowlist in §2. *This blocks real data in Phase 1.*
 
 ---
 
@@ -344,4 +362,6 @@ is still useful, but we'd be clear about what it is.
 | Overfitting to a small sample | No weight tuning before ~100 matured picks; baselines; out-of-sample checks. |
 | Session credits per run grow over time | Capped digest size; measure credits per run in Phase 5; Python does the heavy lifting. |
 | Ephemeral containers lose state | Everything important is committed to git at the end of each run. |
+| Mixing markets distorts results (currencies, holidays, different trading hours) | Score each stock in local currency against its own market's benchmark; per-exchange calendars. |
+| European data is thinner on free sources (earnings dates, sector tags) | Cross-check Yahoo with index lists; tag missing earnings dates as a risk instead of assuming none. |
 | Source terms of use | Personal, non-commercial use; respect rate limits; store headlines and links, not full articles. |
