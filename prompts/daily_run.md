@@ -59,7 +59,7 @@ this step fails, skip the rest of it, carry on with step 6 and mention it at the
 
 1. Read the dashboard once with the Artifact tool (`action: "read"`, its `url`). This
    is required before uploading to it from a new session.
-2. Upload each of the eight files in `cache/dashboard/` as an asset: one Artifact
+2. Upload each of the nine files in `cache/dashboard/` as an asset: one Artifact
    `publish` call per file with `url`, `file_path` and `asset: true`. Each result
    gives the file's new `/_blob/<id>` url.
 3. With the ArtifactData tool, `get` each `datasets/<id>` document (note its
@@ -67,7 +67,7 @@ this step fails, skip the rest of it, carry on with step 6 and mention it at the
    each pinned with `if_version`, setting for each dataset:
    `source: {kind: "file", url: <new /_blob url>, name: <file name>}` and
    `updated: {at: <now, ISO 8601 UTC>, by: "StockTrendTracker daily run (Claude)"}`.
-4. Delete the eight replaced uploads: Artifact `delete` with the dashboard `url` and
+4. Delete the nine replaced uploads: Artifact `delete` with the dashboard `url` and
    `path` set to each old blob id (the part after `/_blob/`). Delete only ids you
    just replaced.
 

@@ -156,6 +156,16 @@
       </div>
       <p class="stt-note">Under <b data-draw="min-n">—</b> matured geopolitical picks, differences are mostly noise.</p>
     </div>
+    <div class="stt-section" id="results" data-if="n_results" hidden>
+      <h3>Latest matured picks</h3>
+      <div class="stt-wrap">
+        <table class="stt-t" data-source="results" data-row-key="key">
+          <thead><tr><th data-field="date">Picked</th><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="horizon">Horizon</th><th data-field="side">Side</th><th data-field="entry" class="num">Entry</th><th data-field="exit" class="num">Exit</th><th data-field="result" class="num">Result</th><th data-field="vs_benchmark" class="num">vs benchmark</th><th data-field="correct">Correct?</th><th data-field="now" class="num opt">Now</th><th data-field="since" class="num opt">Since entry</th></tr></thead>
+          <tbody data-draw="results"></tbody>
+        </table>
+      </div>
+      <p class="stt-note">Entry is the open after the pick was made and Exit the close on the last day of its horizon; Result is the move between them, in the listing's currency. vs benchmark and Correct? are as scored (in euros for European listings; for avoids, positive means it lagged as called). Now is the latest close and Since entry the move from the entry, to show what happened after.</p>
+    </div>
   </section>
 
   <section class="stt-card" id="congress">
@@ -356,6 +366,26 @@
   });
 
   const signed = (v) => (blank(v) ? '—' : pct(v) + '%');
+  dash.draw('results', (tbody) => {
+    tbody.replaceChildren();
+    rows('results').forEach((r) => {
+      const tr = tbody.insertRow();
+      tr.dataset.key = r.key;
+      cell(tr, r.date);
+      cell(tr, r.ticker, 'tick');
+      cell(tr, r.name, 'opt');
+      cell(tr, r.horizon + ' days');
+      cell(tr, r.side === 'long' ? 'Long' : 'Avoid');
+      cell(tr, price(r.entry, r.currency), 'num');
+      cell(tr, price(r.exit, r.currency), 'num');
+      cell(tr, signed(r.result), 'num');
+      cell(tr, signed(r.vs_benchmark), 'num');
+      cell(tr, r.correct);
+      cell(tr, price(r.now, r.currency), 'num opt');
+      cell(tr, signed(r.since), 'num opt');
+    });
+  });
+
   dash.draw('open-picks', (tbody) => {
     tbody.replaceChildren();
     rows('open_picks').forEach((r) => {

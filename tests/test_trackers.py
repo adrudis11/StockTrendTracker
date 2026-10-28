@@ -469,3 +469,17 @@ def test_open_picks_report_section() -> None:
             "+3.1% | 2026-11-24 |") in md  # fmt: skip
     assert "the close on 2026-10-30" in md
     assert "No picks from earlier days are open" in open_picks_markdown([])
+
+
+def test_results_report_section() -> None:
+    from stocktrend.report.render import results_markdown
+
+    row = {"date": "2026-10-28", "ticker": "SHEL.L", "name": "Shell", "horizon": 5,
+           "side": "long", "currency": "GBp", "entry": 2_800.0, "exit": 2_870.0,
+           "exit_date": "2026-11-03", "result": 2.5, "vs_benchmark": 1.9, "correct": "Yes",
+           "now": 2_900.0, "since": 3.6, "price_date": "2026-11-10"}  # fmt: skip
+    md = results_markdown([row])
+    assert md is not None
+    assert ("| 2026-10-28 | **SHEL.L** | Shell | 5d | long | 2,800p | 2,870p (2026-11-03) | "
+            "+2.5% | +1.9% | Yes | 2,900p | +3.6% |") in md  # fmt: skip
+    assert "the close on 2026-11-10" in md and results_markdown([]) is None

@@ -111,6 +111,7 @@ def render(
     trump_md: str | None = None,
     insiders_md: str | None = None,
     open_md: str | None = None,
+    results_md: str | None = None,
 ) -> str:
     lines = [f"# StockTrendTracker: {picks.date}", "", DISCLAIMER, ""]
     lines += ["## Backdrop", ""]
@@ -142,6 +143,8 @@ def render(
         lines += [trump_md]
     if track_record:
         lines += [track_record]
+    if results_md:
+        lines += [results_md]
     if congress_md:
         lines += [congress_md]
     if insiders_md:
@@ -350,6 +353,42 @@ def open_picks_markdown(rows: list[dict[str, Any]]) -> str:
             "so far, as the track record will score it (positive = the call is working, for "
             "avoids too; in euros for European listings). Ends: the last session of its "
             "horizon.",
+            "",
+        ]
+    )
+
+
+def results_markdown(rows: list[dict[str, Any]]) -> str | None:
+    """The latest matured picks under the track record (``report.dashboard.result_rows``)."""
+    if not rows:
+        return None
+    lines = [
+        "<details><summary>Latest matured picks</summary>",
+        "",
+        "| Picked | Ticker | Name | Horizon | Side | Entry | Exit | Result | vs benchmark | "
+        "Correct? | Now | Since entry |",
+        "|---|---|---|---|---|---|---|---|---|---|---|---|",
+    ]
+    for r in rows:
+        cur = r["currency"]
+        lines.append(
+            f"| {r['date']} | **{r['ticker']}** | {r['name']} | {r['horizon']}d | {r['side']} | "
+            f"{_price(r['entry'], cur)} | {_price(r['exit'], cur)} ({r['exit_date']}) | "
+            f"{_num(r['result'])} | {_num(r['vs_benchmark'])} | {r['correct']} | "
+            f"{_price(r['now'], cur)} | {_num(r['since'])} |"
+        )
+    as_of = max((r["price_date"] for r in rows if r.get("price_date")), default=None)
+    return "\n".join(
+        [
+            *lines,
+            "",
+            "</details>",
+            "",
+            "Entry: the open after the pick was made; Exit: the close on the last day of its "
+            "horizon; Result: the move between them, in the listing's currency. vs benchmark "
+            "and Correct?: as scored (in euros for European listings; for avoids, positive "
+            f"means it lagged as called). Now: the close on {as_of or 'the last trading day'}; "
+            "Since entry: the move from the entry to now, to show what happened after.",
             "",
         ]
     )

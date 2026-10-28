@@ -24,8 +24,10 @@ from stocktrend.tracking.ledger import read as read_ledger
 
 OUT_DIR = CACHE_DIR / "dashboard"
 DATASETS = (
-    "summary", "picks", "open_picks", "events", "scoreboard", "congress", "insiders", "trump",
+    "summary", "picks", "open_picks", "results", "events", "scoreboard", "congress", "insiders",
+    "trump",
 )  # fmt: skip
+RESULT_ROWS = 60
 CONGRESS_ROWS = INSIDER_ROWS = 15
 TRUMP_DAYS, TRUMP_ROWS = 90, 25
 STANCE_NAMES = {"buy": "Buy", "positive": "Talked up", "negative": "Attacked", "sell": "Sell"}
@@ -69,6 +71,7 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
     congress = congress_rows(day)
     insider = insider_rows(day)
     open_picks = open_pick_rows(day)
+    results = result_rows(day)
 
     summary = {
         "date": picks.date,
@@ -85,6 +88,7 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
         "picks_20d": len(picks.select(20, "long")),
         "n_picks": len(picks.picks),
         "n_open": len(open_picks),
+        "n_results": len(results),
         "open_on_track": sum(r["on_track"] == "Yes" for r in open_picks),
         "open_entered": sum(bool(r["on_track"]) for r in open_picks),
         "n_congress": len(congress),
@@ -157,6 +161,7 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
         "summary": [summary],
         "picks": pick_rows,
         "open_picks": open_picks,
+        "results": results,
         "events": event_rows,
         "scoreboard": board_rows,
         "congress": congress,
@@ -217,6 +222,69 @@ def open_pick_rows(day: str) -> list[dict[str, Any]]:
             }
         )
     return rows
+
+
+def result_rows(day: str, limit: int = RESULT_ROWS) -> list[dict[str, Any]]:
+    """The latest matured picks, as the track record scored them, newest exit first.
+
+    ``entry`` and ``exit`` are the open and close the score used, ``result`` the move
+    between them, in the listing's currency and unadjusted when the price cache has
+    those days (else the scored, dividend-adjusted prices). ``vs_benchmark`` and
+    ``correct`` are the scored excess return and verdict. ``now`` is the latest close
+    and ``since`` the move from the entry, to show what happened after.
+    """
+    import pandas as pd
+
+    from stocktrend.config import PRICES_PARQUET
+    from stocktrend.ingest import prices as price_store
+    from stocktrend.scoring.run import build_meta
+    from stocktrend.tracking.evaluate import PriceBook
+    from stocktrend.universe.build import load as load_universe
+    from stocktrend.universe.instruments import load_instruments
+
+    entries = {e.pick_id: e for e in read_ledger() if e.strategy == "geo" and e.date < day}
+    scored = [o for o in read_outcomes() if o.pick_id in entries and o.exit_date < day]
+    if not scored:
+        return []
+    names = build_meta(load_universe(), load_instruments())["name"].to_dict()
+    no_prices = pd.DataFrame(columns=price_store.PRICE_COLUMNS)
+    book = PriceBook(price_store.load() if PRICES_PARQUET.exists() else no_prices)
+    scored.sort(key=lambda o: (o.exit_date, o.pick_id), reverse=True)
+    return [_result_row(entries[o.pick_id], o, book, names) for o in scored[:limit]]
+
+
+def _result_row(e: Any, o: Any, book: Any, names: dict[Any, Any]) -> dict[str, Any]:
+    import pandas as pd
+
+    bars = book.by_ticker.get(e.ticker)
+
+    def raw(day: str, col: str, fallback: float) -> float:
+        t = pd.Timestamp(day)
+        if bars is not None and t in bars.index and pd.notna(bars.at[t, col]):
+            return float(bars.at[t, col])
+        return fallback
+
+    entry, exit_ = raw(o.entry_date, "open", o.entry_price), raw(o.exit_date, "close", o.exit_price)
+    last = book.last_date(e.ticker)
+    now = book.close_on_or_before(e.ticker, last) if last is not None else None
+    return {
+        "key": e.pick_id,
+        "date": e.date,
+        "horizon": e.horizon,
+        "side": e.side,
+        "ticker": e.ticker,
+        "name": str(names.get(e.ticker, "")),
+        "currency": exchange_for(e.ticker).currency,
+        "entry": round(entry, 2),
+        "exit": round(exit_, 2),
+        "exit_date": o.exit_date,
+        "result": _pct(exit_ / entry - 1),
+        "vs_benchmark": _pct(o.excess),
+        "correct": "Yes" if o.correct else "No",
+        "now": None if now is None else round(now, 2),
+        "since": None if now is None else _pct(now / entry - 1),
+        "price_date": None if last is None else last.date().isoformat(),
+    }
 
 
 def congress_rows(day: str) -> list[dict[str, Any]]:

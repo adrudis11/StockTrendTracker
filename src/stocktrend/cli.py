@@ -357,12 +357,14 @@ def report(day: DayOption = None) -> None:
         congress_rows,
         insider_rows,
         open_pick_rows,
+        result_rows,
         trump_rows,
     )
     from stocktrend.report.render import (
         congress_markdown,
         insiders_markdown,
         open_picks_markdown,
+        results_markdown,
         trump_markdown,
     )
 
@@ -370,8 +372,12 @@ def report(day: DayOption = None) -> None:
     congress_md = congress_markdown(congress_rows(d)[:10], picks_obj.tracker_weight)
     insiders_md = insiders_markdown(insider_rows(d)[:10], picks_obj.insider_weight)
     open_md = open_picks_markdown(open_pick_rows(d))
+    results_md = results_markdown(result_rows(d))
     trump_md = trump_markdown(trump_rows(d))
-    text = render(picks_obj, events, digest_obj, track, congress_md, trump_md, insiders_md, open_md)
+    text = render(
+        picks_obj, events, digest_obj, track, congress_md, trump_md, insiders_md, open_md,
+        results_md,
+    )  # fmt: skip
     path = write(d, text)
     typer.echo(f"Report -> {path}")
 
@@ -604,6 +610,6 @@ def daily_finish() -> None:
     report(day=d)
     dashboard(day=d)
     typer.echo(
-        "\nNEXT: upload the eight files above to the dashboard and commit data/ "
+        "\nNEXT: upload the nine files above to the dashboard and commit data/ "
         "(see prompts/daily_run.md)."
     )

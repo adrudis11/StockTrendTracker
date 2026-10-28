@@ -143,6 +143,23 @@ def test_mark_open_pick_at_the_latest_close() -> None:
     assert (m.entry_open, m.last_close, m.excess) == (None, 99, None)
 
 
+def test_matured_pick_row_shows_entry_exit_and_now() -> None:
+    from stocktrend.report.dashboard import _result_row
+
+    prices = pd.concat([
+        _bars("XOM", [100] * 8, [101, 102, 103, 104, 110, 111, 108, 112]),
+        _bars("SPY", [100] * 8, [100, 100, 101, 101, 102, 102, 102, 103]),
+    ])  # fmt: skip
+    book = PriceBook(prices)
+    e = _entry("XOM")
+    o = evaluate_entry(e, book, {"US": "SPY"}, {}, datetime(2026, 11, 9, tzinfo=UTC))
+    assert o is not None
+    r = _result_row(e, o, book, {"XOM": "Exxon Mobil"})
+    assert (r["entry"], r["exit"], r["exit_date"], r["now"]) == (100, 110, "2026-11-03", 112)
+    assert (r["result"], r["vs_benchmark"], r["correct"], r["since"]) == (10.0, 8.0, "Yes", 12.0)
+    assert r["name"] == "Exxon Mobil" and r["price_date"] == "2026-11-06"
+
+
 def test_evaluate_long_and_avoid_against_benchmark() -> None:
     prices = pd.concat([
         _bars("XOM", [100] * 6, [101, 102, 103, 104, 110, 111]),  # +10% open->close day 5

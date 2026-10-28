@@ -669,3 +669,6 @@ its horizon: entry (the open of the first session after the pick, as the ledger 
 it), the latest close, the move since, and the excess return over the benchmark so far
 (`tracking.evaluate.mark`, the same rules as a matured pick, including the euro
 conversion). Today's picks join it from the next run, once their entry is known.
+Under the track record, "Latest matured picks" lists the last 60 scored picks: entry
+and exit prices, the result, vs benchmark and the verdict as scored, and the latest
+close with the move since entry, to show what happened after the horizon.

@@ -14,7 +14,7 @@ def test_dashboard_datasets_from_committed_day() -> None:
     assert len({e["id"] for e in data["events"]}) == len(data["events"])
     # The page reads a dataset only when the summary counts rows in it: an empty file
     # can't load on the dashboard.
-    counts = {"picks": "n_picks", "events": "events", "congress": "n_congress", "insiders": "n_insiders", "open_picks": "n_open",
+    counts = {"picks": "n_picks", "events": "events", "congress": "n_congress", "insiders": "n_insiders", "open_picks": "n_open", "results": "n_results",
               "trump": "trump_calls", "scoreboard": "matured"}  # fmt: skip
     for name, key in counts.items():
         assert (summary[key] > 0) == bool(data[name]), name
