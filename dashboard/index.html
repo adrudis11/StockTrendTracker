@@ -69,7 +69,8 @@
   <section class="stt-section" id="picks">
     <h2>Picks</h2>
     <p class="stt-note">Ranked by conviction: how strongly the day's events point at a stock, adjusted for its price trend, moves already made and risks such as earnings. p(beat) is the estimated chance of beating the benchmark (S&amp;P 500 for US listings, STOXX Europe 600 for European ones). It stays uncalibrated until enough picks have matured to measure it.</p>
-    <div class="stt-grid">
+    <p data-unless="n_picks" hidden>No stock cleared the bar today: the day's events didn't point strongly enough at any covered stock.</p>
+    <div class="stt-grid" data-if="n_picks" hidden>
       <div class="stt-card" id="picks-week">
         <h3>Next week · 5 trading days</h3>
         <div class="stt-wrap">
@@ -112,22 +113,22 @@
   <section class="stt-card" id="trump">
     <h2>Trump tracker</h2>
     <p class="stt-note">Stocks Donald Trump said or hinted are a buy, or attacked, in the last 90 days, from news coverage of his posts, interviews and remarks. Day move is the stock on the day he said it, against its benchmark; much of that often happens within minutes of a post. Since logged runs from the first open after the call was logged, which is what acting on it would have earned. A call came true if the stock then beat its benchmark after praise, or lagged it after an attack.</p>
-    <p class="stt-note" data-trump="scored" hidden>So far <b data-draw="s-trump-true" data-source="summary" data-field="trump_true" data-row="0">—</b> of <b data-draw="s-trump-scored" data-source="summary" data-field="trump_scored" data-row="0">—</b> calls came true. They carry no weight in the picks: each is logged as the Trump strategy in the track record, so its real results show up there.</p>
-    <p class="stt-note" data-trump="unscored" hidden>No call has traded since it was logged yet. Calls carry no weight in the picks: each is logged as the Trump strategy in the track record, so its real results show up there.</p>
-    <div class="stt-wrap" data-trump="table" hidden>
+    <p class="stt-note" data-if="trump_scored" hidden>So far <b data-draw="s-trump-true" data-source="summary" data-field="trump_true" data-row="0">—</b> of <b data-draw="s-trump-scored" data-source="summary" data-field="trump_scored" data-row="0">—</b> calls came true. They carry no weight in the picks: each is logged as the Trump strategy in the track record, so its real results show up there.</p>
+    <p class="stt-note" data-if="trump_calls" data-unless="trump_scored" hidden>No call has traded since it was logged yet. Calls carry no weight in the picks: each is logged as the Trump strategy in the track record, so its real results show up there.</p>
+    <div class="stt-wrap" data-if="trump_calls" hidden>
       <table class="stt-t" data-source="trump" data-row-key="key">
         <thead><tr><th data-field="said_on">Said</th><th data-field="ticker">Ticker</th><th data-field="company" class="opt">Company</th><th data-field="stance">Call</th><th data-field="quote" class="opt">Quote</th><th data-field="reaction" class="num">Day move</th><th data-field="since" class="num opt">Since logged</th><th data-field="excess" class="num">vs benchmark</th><th data-field="came_true">Came true?</th></tr></thead>
         <tbody data-draw="trump"></tbody>
       </table>
     </div>
-    <p class="stt-note" data-empty-trump hidden>No stock or market calls by Trump logged in the last 90 days.</p>
+    <p class="stt-note" data-unless="trump_calls" hidden>No stock or market calls by Trump logged in the last 90 days.</p>
   </section>
 
   <section class="stt-card" id="track-record">
     <h2>Track record</h2>
     <p class="stt-note">Every pick is logged before the open and scored when its horizon ends: entry at the next open, exit at the close of the last day, against the benchmark. Momentum and random picks from the same sectors are logged the same way, so we can see whether the geopolitical reading adds anything.</p>
-    <p data-when="no-results" hidden>No picks have matured yet (<b data-draw="s-open" data-source="summary" data-field="open" data-row="0">—</b> open). The first one-week results are due on <b data-draw="s-first" data-source="summary" data-field="first_results" data-row="0">—</b>.</p>
-    <div data-when="results" hidden>
+    <p data-unless="matured" hidden>No picks have matured yet (<b data-draw="s-open" data-source="summary" data-field="open" data-row="0">—</b> open). The first one-week results are due on <b data-draw="s-first" data-source="summary" data-field="first_results" data-row="0">—</b>.</p>
+    <div data-if="matured" hidden>
       <div class="stt-grid">
         <div class="stt-wrap">
           <table class="stt-t" data-source="scoreboard" data-row-key="key">
@@ -148,24 +149,25 @@
     <h2>Congress trades</h2>
     <p class="stt-note">Stock trades by members of the US House, from their official STOCK Act filings, disclosed in the last 30 days. Trades are reported up to 45 days after they happen, and automatic dividend reinvestments are left out. Score: purchases count by size, sales count half.</p>
     <p class="stt-note">Weight in today's picks: <b data-draw="s-tw" data-source="summary" data-field="tracker_weight" data-row="0">—</b>% at most, set by the tracker's own backtest. It's also logged as a separate strategy in the track record, so its real results show up there.</p>
-    <div class="stt-wrap">
+    <div class="stt-wrap" data-if="n_congress" hidden>
       <table class="stt-t" data-source="congress" data-row-key="ticker">
         <thead><tr><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="score" class="num">Score</th><th data-field="buyers" class="num">Buyers</th><th data-field="sellers" class="num">Sellers</th><th data-field="members">Members</th><th data-field="last_filed" class="opt">Last filed</th></tr></thead>
         <tbody data-draw="congress"></tbody>
       </table>
     </div>
-    <p class="stt-note" data-empty-congress hidden>No stock trades disclosed by House members in the last 30 days.</p>
+    <p class="stt-note" data-unless="n_congress" hidden>No stock trades disclosed by House members in the last 30 days.</p>
   </section>
 
   <section class="stt-card" id="events">
     <h2>Today's events</h2>
     <p class="stt-note">Claude's reading of the day's news. "New" runs from 0 (a rehash) to 1 (first reported today). Arrows show which way each theme, stock or sector should move.</p>
-    <div class="stt-wrap">
+    <div class="stt-wrap" data-if="events" hidden>
       <table class="stt-t" data-source="events" data-row-key="id">
         <thead><tr><th data-field="title">Event</th><th data-field="category" class="opt">Category</th><th data-field="novelty" class="num">New</th><th data-field="certainty" class="opt">Certainty</th><th data-field="targets">Moves</th></tr></thead>
         <tbody data-draw="events"></tbody>
       </table>
     </div>
+    <p class="stt-note" data-unless="events" hidden>No market-relevant events today.</p>
   </section>
 
   <footer class="stt-foot">
@@ -207,25 +209,19 @@
   value('s-trump-true', 'trump_true', String);
   value('s-trump-scored', 'trump_scored', String);
 
-  // Show the empty-state sentences or the tables they stand in for.
+  // Show the tables that have rows, or the sentences that stand in for them. The
+  // summary row counts each dataset: one with no rows can't load, so it is never read.
   dash.onData(() => {
     const s = first('summary');
-    const matured = s ? Number(s.matured) : 0;
-    document.querySelectorAll('[data-when="no-results"]').forEach((el) => { el.hidden = !s || matured > 0; });
-    document.querySelectorAll('[data-when="results"]').forEach((el) => { el.hidden = !s || matured === 0; });
-    const cg = dash.data('congress');
-    document.querySelectorAll('[data-empty-congress]').forEach((el) => { el.hidden = cg.status !== 'ok' || cg.data.length > 0; });
-    const tp = dash.data('trump');
-    const calls = tp.status === 'ok' && tp.data.length > 0;
-    const scored = s ? Number(s.trump_scored) : 0;
-    document.querySelectorAll('[data-empty-trump]').forEach((el) => { el.hidden = tp.status !== 'ok' || calls; });
-    document.querySelectorAll('[data-trump="table"]').forEach((el) => { el.hidden = !calls; });
-    document.querySelectorAll('[data-trump="scored"]').forEach((el) => { el.hidden = !calls || scored === 0; });
-    document.querySelectorAll('[data-trump="unscored"]').forEach((el) => { el.hidden = !calls || scored > 0; });
-    const picks = dash.data('picks');
+    const has = (key) => !!s && Number(s[key]) > 0;
+    document.querySelectorAll('[data-if], [data-unless]').forEach((el) => {
+      const show = !!s && (!el.dataset.if || has(el.dataset.if)) && (!el.dataset.unless || !has(el.dataset.unless));
+      el.hidden = !show;
+    });
+    const picks = has('n_picks') ? dash.data('picks') : null;
     document.querySelectorAll('[data-empty]').forEach((el) => {
       const [h, side] = el.dataset.empty.split('-');
-      el.hidden = picks.status !== 'ok' || picks.data.some((p) => String(p.horizon) === h && p.side === side);
+      el.hidden = !picks || picks.status !== 'ok' || picks.data.some((p) => String(p.horizon) === h && p.side === side);
     });
   });
 

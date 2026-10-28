@@ -3,7 +3,8 @@
 Each run writes one file per dataset to ``cache/dashboard/``; the daily session
 uploads them to the dashboard (see ``prompts/daily_run.md``). Percentages are
 stored as percent numbers (11.0 = 11%) so the page shows exactly what the data
-holds.
+holds. The dashboard can't load a file with no rows, so the summary row counts every
+other dataset and the page only reads one that has rows.
 """
 
 from __future__ import annotations
@@ -61,6 +62,7 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
     r = picks.regime
     trump = trump_rows(day)
     scored = [t for t in trump if t["came_true"]]
+    congress = congress_rows(day)
 
     summary = {
         "date": picks.date,
@@ -75,6 +77,8 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
         "events": len(events.events) if events else 0,
         "picks_5d": len(picks.select(5, "long")),
         "picks_20d": len(picks.select(20, "long")),
+        "n_picks": len(picks.picks),
+        "n_congress": len(congress),
         "matured": sb["matured"],
         "open": sb["open"],
         "first_results": first.isoformat() if first else None,
@@ -135,7 +139,7 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
         "picks": pick_rows,
         "events": event_rows,
         "scoreboard": board_rows,
-        "congress": congress_rows(day),
+        "congress": congress,
         "trump": trump,
     }
 
