@@ -48,7 +48,8 @@ days, keeping an honest track record. Full plan and progress log: `docs/PLAN.md`
 | Check the analysis | `stt validate --day <date>` | exit 1 on errors |
 | Rank picks | `stt score` | `data/picks/<date>.json` |
 | Log picks + baselines | `stt record` | `data/ledger/picks.jsonl` (append-only) |
-| Score matured picks | `stt evaluate` | `data/ledger/outcomes.jsonl` |
+| Score matured picks and analysis calls | `stt evaluate` | `data/ledger/outcomes.jsonl`, `data/ledger/impact_outcomes.jsonl` |
+| Feedback note for the analysis | `stt feedback` | `cache/raw/<date>/feedback.md` |
 | Write the report | `stt report` | `data/reports/<date>.md` (includes track record) |
 
 Trackers: `stt trackers update` (new House STOCK Act filings and SEC Form 4 insider

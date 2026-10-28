@@ -32,14 +32,15 @@ uv run stt daily prepare
 - Exits with an error (a whole data source failed): run it once more. If it fails
   again, stop and report which sources failed. Commit nothing.
 - Otherwise it has downloaded prices, news, prediction-market odds, new House trade
-  filings and SEC insider (Form 4) filings (`data/trackers/`), scored any picks whose
-  horizon ended, and written the digest. It prints the digest's path.
+  filings and SEC insider (Form 4) filings (`data/trackers/`), scored any picks and
+  analysis calls whose horizon ended, and written the feedback note and the digest.
+  It prints their paths.
 
 ## 3. Analyse
 
-Follow `prompts/daily_analysis.md` exactly: read the whole digest
-(`cache/raw/<today>/digest.md`), `uv run stt themes`, and the last three files in
-`data/events/`; write `data/events/<today>.json`; run
+Follow `prompts/daily_analysis.md` exactly: read the feedback note
+(`cache/raw/<today>/feedback.md`), the whole digest (`cache/raw/<today>/digest.md`),
+`uv run stt themes`, and the last three files in `data/events/`; write `data/events/<today>.json`; run
 `uv run stt validate` and fix every error.
 
 ## 4. Finish

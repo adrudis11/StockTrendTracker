@@ -185,16 +185,38 @@ def record(day: DayOption = None) -> None:
 
 @app.command()
 def evaluate() -> None:
-    """Score every ledger pick whose horizon has ended (uses cached prices)."""
+    """Score every ledger pick, and every call in the analysis, whose horizon has ended."""
     from stocktrend.ingest import prices
-    from stocktrend.scoring.run import sector_etf_map
+    from stocktrend.scoring.run import build_meta, sector_etf_map
+    from stocktrend.tracking import impacts
     from stocktrend.tracking.evaluate import OUTCOMES
     from stocktrend.tracking.evaluate import evaluate as run_evaluation
+    from stocktrend.tracking.ledger import read
+    from stocktrend.universe.build import load as load_universe
+    from stocktrend.universe.exposures import load_exposures
     from stocktrend.universe.instruments import load_instruments
 
     cfg = load_instruments()
-    new, still_open = run_evaluation(prices.load(), cfg.benchmarks, sector_etf_map(cfg))
+    px, etfs = prices.load(), sector_etf_map(cfg)
+    new, still_open = run_evaluation(px, cfg.benchmarks, etfs)
     typer.echo(f"Scored {new} matured picks ({still_open} still open) -> {OUTCOMES}")
+    meta = build_meta(load_universe(), cfg)
+    new, still_open = impacts.evaluate(px, cfg.benchmarks, load_exposures(), meta, etfs, read())
+    typer.echo(f"Scored {new} analysis calls ({still_open} still open) -> {impacts.OUTCOMES}")
+
+
+@app.command()
+def feedback(day: DayOption = None) -> None:
+    """Write the note on how past analysis calls turned out (read before analysing)."""
+    from stocktrend.config import raw_dir
+    from stocktrend.tracking import impacts
+    from stocktrend.tracking.feedback import to_markdown
+
+    d = _day(day)
+    path = raw_dir(d) / "feedback.md"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(to_markdown([o for o in impacts.read() if o.exit_date < d], d), "utf-8")
+    typer.echo(f"Feedback note -> {path}")
 
 
 @app.command()
@@ -579,10 +601,12 @@ def daily_prepare() -> None:
         except Exception as e:  # the trackers are optional; never block the run on them
             typer.secho(f"warning: {name} update failed: {e}", fg="yellow")
     evaluate()
+    feedback(day=d)
     digest(day=d, show=False)
     typer.echo(
-        f"\nNEXT: read {raw_dir(d) / 'digest.md'}, follow prompts/daily_analysis.md to write "
-        f"data/events/{d}.json, then run `uv run stt daily finish`."
+        f"\nNEXT: read {raw_dir(d) / 'feedback.md'} and {raw_dir(d) / 'digest.md'}, follow "
+        f"prompts/daily_analysis.md to write data/events/{d}.json, then run "
+        "`uv run stt daily finish`."
     )
 
 

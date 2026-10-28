@@ -12,6 +12,8 @@ scores and ranks stocks from your file, so be precise, calibrated and honest.
 2. `uv run stt themes`: the themes you can target, with their main winners and losers.
 3. The last few files in `data/events/`: what was already reported on previous days.
 4. `uv run stt universe find <name>`: look up any company before naming a ticker.
+5. `cache/raw/<date>/feedback.md`: how your past calls turned out, by kind of call,
+   and what the evidence says to adjust. Read it before making calls.
 
 ## What to produce
 
@@ -38,7 +40,8 @@ scores and ranks stocks from your file, so be precise, calibrated and honest.
           "magnitude": 0.5,
           "confidence": 0.6,
           "horizon_days": 5,
-          "rationale": "Attack on Ras Tanura -> Saudi export risk -> crude up -> producers gain, airlines lose."
+          "rationale": "Attack on Ras Tanura -> Saudi export risk -> crude up -> producers gain, airlines lose.",
+          "against_coverage": false
         }
       ]
     }
@@ -103,6 +106,28 @@ points in a day is news in itself, even without a headline.
 **Already priced in?** Check the market snapshot. If the obvious winners have
 already moved a lot (e.g. oil +11% in 20 days), lower magnitude or confidence, say
 so in the rationale, or look for the second-order effect markets haven't priced yet.
+
+**Coverage vs what is happening.** News coverage can be one-sided, sensational, late,
+or framed to push a view, and headlines sometimes say the opposite of what the facts
+underneath show. Base calls on what happened, not on how it is framed:
+- Weigh evidence in this order: official documents (marked OFFICIAL in the digest),
+  hard data, money-backed signals (market moves in the snapshot, Polymarket odds),
+  then reporting, then commentary. A claim carried by one outlet, by anonymous
+  sources or by opinion pieces is `reported` or `rumor` at most.
+- When the coverage and the money disagree (headlines say escalation but oil, defence
+  stocks and the odds don't move, or the reverse), say so in the rationale and lower
+  confidence, or call what prices and odds imply.
+- Set `"against_coverage": true` on an impact that bets against how most of the cited
+  coverage frames the story, and give the reason in the rationale. Don't assume the
+  coverage is wrong by default: a contrarian call needs evidence, and the feedback
+  note tracks whether such calls do better or worse than the rest.
+
+**Learn from your record.** The feedback note scores your past calls by category,
+horizon, certainty, sources, coverage, contrarian calls and stated confidence. Act on
+its "What to adjust" list: lean on kinds of calls that have solidly beaten the rest,
+be warier of ones that have lost, and move a confidence band that has been off. Treat
+everything marked weak as noise. Never change course because of one call that won or
+lost.
 
 **Trump calls (the Trump tracker).** The digest's "Trump statements" section collects
 coverage of his posts, interviews and remarks. Add an entry to `trump_calls` whenever
