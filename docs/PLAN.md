@@ -1,6 +1,6 @@
 # StockTrendTracker — Project Plan
 
-> Status: **Phase 4 (tracking and backtests) done** · next: Phase 5 (automation) · Last updated: 2026-10-28
+> Status: **Phase 5 (automation) set up** · Phase 6 (paper tracking) running · Last updated: 2026-10-28
 >
 > This is a research and decision-support tool for personal use. It is **not investment
 > advice**, and it never places trades.
@@ -333,7 +333,7 @@ prompt as a commit you can review. To avoid overfitting to a few weeks of data, 
 | **2 · Event analysis** ✅ | Event schema, digest builder, `daily_analysis.md` prompt, exposure map v1 (~20 themes), validation. | One manual run turns a day's news into sensible, validated event → ticker mappings. |
 | **3 · Quant + scoring** ✅ | Price features, regime, priced-in check, risk filters, scoring v1, report v1. | A daily report with top-10 picks per horizon and full rationale. |
 | **4 · Tracking + backtest** ✅ | Ledger, automatic scoring, baselines, scoreboard; event-study backtest of the quant layer on GDELT history. | Scoreboard works; we know whether the quant layer on its own beats baselines historically. |
-| **5 · Automation** | Scheduled daily session, dashboard, weekly review, credits-per-run measured. | Runs unattended for 2 weeks without manual fixes. |
+| **5 · Automation** ✅ | Scheduled daily session, dashboard, weekly review, credits-per-run measured. | Runs unattended for 2 weeks without manual fixes. |
 | **6 · Paper-tracking period** | At least 8–12 weeks of live tracking, then calibrate weights; then consider expanding (EU stocks, prediction markets, alerts). | ≥100 matured picks with an honest verdict: does it beat SPY and the baselines? |
 
 **Overall success criterion:** after Phase 6, the 20-day picks beat both their market

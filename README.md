@@ -4,11 +4,19 @@ Daily analysis of political and geopolitical news to find liquid US and European
 ETFs likely to outperform over the following days to weeks. It explains the reasoning behind
 every pick and keeps an honest, automatically scored track record.
 
-**Status:** Phase 4 (track record and backtests) done. See [docs/PLAN.md](docs/PLAN.md) for the plan,
+**Status:** Phase 5 (automation) set up; Phase 6 (paper-tracking period) running. See [docs/PLAN.md](docs/PLAN.md) for the plan,
 phases and progress log.
 
 > Research and decision-support tool for personal use. Not investment advice; it never
 > places trades.
+
+## How it runs
+
+Every weekday before the European open a scheduled Claude Code cloud session follows
+[prompts/daily_run.md](prompts/daily_run.md): `stt daily prepare` (prices, news, digest),
+Claude's analysis, `stt daily finish` (picks, ledger, report), a refresh of the private
+claude.ai dashboard (`config/dashboard.yaml`), and a commit of `data/`. On Saturdays a
+review session follows [prompts/weekly_review.md](prompts/weekly_review.md).
 
 ## Setup
 
