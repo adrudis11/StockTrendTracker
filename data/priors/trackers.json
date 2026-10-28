@@ -1,0 +1,61 @@
+{
+ "generated_at": "2026-10-28T10:25:54.237755+00:00",
+ "method": "every horizon sessions, top 10 net-bought stocks (House filings public before that day, trades under 60 days old, no dividend reinvestments) vs SPY",
+ "weight": 0.0,
+ "congress": {
+  "5": {
+   "horizon": 5,
+   "start": "2024-03-04",
+   "end": "2026-10-27",
+   "buys": {
+    "periods": 137,
+    "picks": 1349,
+    "mean_excess": 0.00037,
+    "t_stat": 0.24,
+    "hit_rate": 0.49
+   },
+   "sells": {
+    "periods": 137,
+    "picks": 1363,
+    "mean_excess": 0.00166,
+    "t_stat": 1.13,
+    "hit_rate": 0.522
+   }
+  },
+  "20": {
+   "horizon": 20,
+   "start": "2024-03-04",
+   "end": "2026-10-27",
+   "buys": {
+    "periods": 34,
+    "picks": 335,
+    "mean_excess": 0.00225,
+    "t_stat": 0.31,
+    "hit_rate": 0.481
+   },
+   "sells": {
+    "periods": 34,
+    "picks": 340,
+    "mean_excess": -0.00295,
+    "t_stat": -0.44,
+    "hit_rate": 0.494
+   }
+  }
+ },
+ "momentum_same_window": {
+  "5": {
+   "periods": 144,
+   "mean_excess": 0.0051,
+   "t_stat": 1.7,
+   "hit_rate": 0.494,
+   "share_of_periods_beating_benchmark": 0.576
+  },
+  "20": {
+   "periods": 35,
+   "mean_excess": 0.04527,
+   "t_stat": 3.57,
+   "hit_rate": 0.609,
+   "share_of_periods_beating_benchmark": 0.686
+  }
+ }
+}

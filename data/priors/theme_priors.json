@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-28T09:42:40.261005+00:00",
+ "generated_at": "2026-10-28T10:25:48.360919+00:00",
  "period": "2021-09-29 to 2026-10-27",
  "method": "driver 5-day move > 2.0 sigma in the theme direction; members' sign-weighted excess return vs regional benchmark over the next horizon; usable with >= 8 non-overlapping shocks",
  "themes": {

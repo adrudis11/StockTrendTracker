@@ -44,6 +44,8 @@ Write `data/reviews/<today>.md` (under 600 words):
    wrong direction, right direction but already priced in, swamped by earnings or
    the broad market, or a theme member that doesn't really move with its theme.
 3. **Calibration**: were confidence levels too high or too low?
+   Also note how the `congress` strategy (House members' disclosed buys) is doing
+   against the others. Its weight in the score comes only from `stt backtest`.
 4. **Changes made** (step 4) and **changes proposed** but not made.
 
 ## 4. Improve, carefully

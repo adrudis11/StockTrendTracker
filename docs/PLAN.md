@@ -517,3 +517,51 @@ they mature (first 1-week results on 2026-11-03), and the weekly review writes
 `data/reviews/`. A verdict needs at least 100 matured geopolitical picks, which at the
 current pace (around 5–15 per day) means late November to December. Only then:
 calibrate the probabilities and refit the weights.
+
+### Trackers (added 2026-10-28)
+
+Request: add "trackers" such as the Cramer, Pelosi and Trump accounts on X, if they get
+more right than wrong.
+
+What was added:
+
+- **US House trades** (the data behind "Pelosi tracker" accounts): official STOCK Act
+  Periodic Transaction Reports from the House Clerk, parsed from the filings' PDFs.
+  Backfill 2024–2026: 1,403 filings (819 with stock trades, 408 without, 176 scanned
+  paper forms that can't be read), 11,510 trades by 130 members. Dividend reinvestments
+  are dropped. New filings are picked up by every daily run.
+- **Polymarket odds** for the top geopolitics, politics and economy questions, shown in
+  the digest (e.g. on 2026-10-28: US–Iran ceasefire holding through 31 October 94%,
+  through 15 November 52%).
+- **Trump's Truth Social posts**, through a Google News topic search: outlets report
+  market-moving posts within minutes.
+
+Did it get more right than wrong? Backtest (filings public before each day, current
+S&P 500 members, vs SPY, 2024-02 to 2026-10):
+
+| Strategy | 5 days | 20 days |
+|---|---|---|
+| Top 10 net House buys | +0.04%, hit 49%, t = 0.2 | +0.23%, hit 48%, t = 0.3 |
+| Net House sells (as avoids) | lag +0.17%, t = 1.1 | −0.30%, t = −0.4 |
+| Momentum, same window | +0.51%, t = 1.7 | +4.53%, t = 3.6 |
+
+Single trades, from the first session after disclosure: Pelosi household purchases
+(26) −1.65% at 5 days; +2.9% mean but −1.2% median at 20 days, hit 42%. Purchases of
+$250k or more by any member (42): +2.9% mean and +2.7% median at 20 days, hit 55%,
+t = 1.5. That's suggestive, not proven.
+
+Conclusion: after disclosure (up to 45 days late), following Congress hasn't beaten
+the market, so its weight in the score is **0** (`data/priors/trackers.json`; up to
+±20% once its backtest shows t ≥ 2). It is logged every day as its own strategy
+(`congress`) so the live record can change that.
+
+Not added:
+
+- **X/Twitter accounts**: reading them needs X's paid API; mirrors such as Nitter copy
+  content X keeps behind its login, so they aren't used.
+- **Cramer**: no clean data source, and the evidence is against it (Mad Money picks get
+  a brief bump that reverses; the Inverse Cramer ETF shut down within about a year).
+- **US Senate trades**: the Senate's search site requires accepting its terms of use,
+  which needs the owner's consent.
+- **Corporate insider buying (SEC Form 4)**: the best-supported tracker in the research,
+  but the SEC requires a contact email in automated requests. Waiting on the owner.
