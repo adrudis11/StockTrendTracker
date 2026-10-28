@@ -15,7 +15,7 @@ from stocktrend.features import earnings, regime, technical
 from stocktrend.ingest import prices as price_store
 from stocktrend.markets import split_suffix
 from stocktrend.scoring import model
-from stocktrend.trackers import congress, trump
+from stocktrend.trackers import congress, insiders, trump
 from stocktrend.universe.build import load as load_universe
 from stocktrend.universe.exposures import Exposures, load_exposures
 from stocktrend.universe.instruments import InstrumentsConfig, load_instruments
@@ -76,15 +76,20 @@ def load_priors() -> dict[str, dict[int, float]]:
     return out
 
 
-def tracker_weight() -> float:
-    """Weight earned by the congressional tracker in its backtest (0 without one)."""
+def tracker_weight(key: str = "weight") -> float:
+    """Weight a tracker earned in its backtest (0 without one): congress by default,
+    ``insider_weight`` for SEC insider buying."""
     if not TRACKERS_PATH.exists():
         return 0.0
-    return float(json.loads(TRACKERS_PATH.read_text(encoding="utf-8")).get("weight", 0.0))
+    return float(json.loads(TRACKERS_PATH.read_text(encoding="utf-8")).get(key, 0.0))
 
 
 def tracker_signal(day: str, meta: pd.DataFrame) -> pd.DataFrame:
     return congress.signal(congress.load_trades(), date.fromisoformat(day), set(meta.index))
+
+
+def insider_signal(day: str, meta: pd.DataFrame) -> pd.DataFrame:
+    return insiders.signal(insiders.load_trades(), date.fromisoformat(day), set(meta.index))
 
 
 def active_priors(
@@ -147,6 +152,7 @@ def run(day: str, ctx: Context | None = None) -> model.PicksFile:
         as_of, events, exposures, meta, feats, sector_etfs, reg, earn, priors,
         tracker=tracker_signal(day, meta), tracker_weight=tracker_weight(),
         trump_notes=trump.recent_notes(trump.load_calls(), as_of),
+        insiders=insider_signal(day, meta), insider_weight=tracker_weight("insider_weight"),
     )  # fmt: skip
     path = picks_path(day)
     path.parent.mkdir(parents=True, exist_ok=True)

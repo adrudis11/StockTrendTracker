@@ -79,6 +79,8 @@ def _details(picks: list[Pick]) -> list[str]:
         )
         if p.tracker_note:
             lines.append(f"  - Congress: {p.tracker_note} (tracker {p.tracker:+.2f})")
+        if p.insider_note:
+            lines.append(f"  - Insiders: {p.insider_note} (tracker {p.insider:+.2f})")
         if p.trump_note:
             lines.append(f"  - {p.trump_note} (a remark: no weight in the score)")
         for d in p.drivers:
@@ -103,6 +105,7 @@ def render(
     track_record: str | None = None,
     congress_md: str | None = None,
     trump_md: str | None = None,
+    insiders_md: str | None = None,
 ) -> str:
     lines = [f"# StockTrendTracker: {picks.date}", "", DISCLAIMER, ""]
     lines += ["## Backdrop", ""]
@@ -134,6 +137,8 @@ def render(
         lines += [track_record]
     if congress_md:
         lines += [congress_md]
+    if insiders_md:
+        lines += [insiders_md]
     if events:
         stories = {s.id: s for s in digest.stories} if digest else {}
         lines += ["## Today's events", ""]
@@ -180,18 +185,54 @@ def congress_markdown(rows: list[dict[str, Any]], weight: float) -> str:
             f"| {r['ticker']} | {r['name']} | {r['score']:+.2f} | {r['buyers']} | "
             f"{r['sellers']} | {r['members']} |"
         )
-    note = (
-        f"Weight in the score: up to ±{100 * weight:.0f}% on stocks the day's events "
-        "already point at."
-        if weight
-        else "Weight in the score: 0 (its backtest hasn't shown an edge); logged as its own "
-        "strategy so the track record can prove otherwise."
-    )
+    note = _weight_note(weight)
     return "\n".join(
         [
             *lines,
             "",
             f"Official House filings (STOCK Act; trades are reported up to 45 days late). {note}",
+            "",
+        ]
+    )
+
+
+def _weight_note(weight: float) -> str:
+    if weight:
+        return (
+            f"Weight in the score: up to ±{100 * weight:.0f}% on stocks the day's events "
+            "already point at."
+        )
+    return (
+        "Weight in the score: 0 (its backtest hasn't shown an edge); logged as its own "
+        "strategy so the track record can prove otherwise."
+    )
+
+
+def insiders_markdown(rows: list[dict[str, Any]], weight: float) -> str:
+    """Insider buying from SEC Form 4s (``report.dashboard.insider_rows``)."""
+    lines = ["## Insider buying (SEC Form 4, last 30 days)", ""]
+    if not rows:
+        return "\n".join(
+            [*lines, "_No open-market purchases by insiders filed in the window._", ""]
+        )
+    lines += [
+        "| Ticker | Name | Score | Buyers | Bought | Sellers | Who bought |",
+        "|---|---|---|---|---|---|---|",
+    ]
+    for r in rows:
+        bought = r["bought"]
+        money = f"${bought / 1e6:.1f}M" if bought >= 1e6 else f"${bought / 1e3:.0f}k"
+        lines.append(
+            f"| {r['ticker']} | {r['name']} | {r['score']:.1f} | {r['buyers']} | {money} | "
+            f"{r['sellers']} | {r['insiders']} |"
+        )
+    return "\n".join(
+        [
+            *lines,
+            "",
+            "Open-market purchases by officers, directors and 10% owners of S&P 500 companies, "
+            "from their Form 4 filings (due within two business days). Sales are counted but "
+            f"don't lower the score: insiders sell for many reasons. {_weight_note(weight)}",
             "",
         ]
     )

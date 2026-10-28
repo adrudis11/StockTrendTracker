@@ -17,7 +17,7 @@ universe_app = typer.Typer(help="The list of stocks we cover.")
 app.add_typer(universe_app, name="universe")
 daily_app = typer.Typer(help="The scheduled daily run, in two halves around Claude's analysis.")
 app.add_typer(daily_app, name="daily")
-trackers_app = typer.Typer(help="Disclosed trades of US House members (official filings).")
+trackers_app = typer.Typer(help="Disclosed trades of US House members and company insiders.")
 app.add_typer(trackers_app, name="trackers")
 
 
@@ -163,7 +163,7 @@ def record(day: DayOption = None) -> None:
     """Append the day's picks and baselines to the ledger (never overwrites)."""
     from stocktrend.events.schema import EventsFile
     from stocktrend.events.validate import events_path
-    from stocktrend.scoring.run import context, tracker_signal
+    from stocktrend.scoring.run import context, insider_signal, tracker_signal
     from stocktrend.scoring.run import load as load_picks
     from stocktrend.tracking.ledger import LEDGER
     from stocktrend.tracking.ledger import record as record_picks
@@ -178,7 +178,7 @@ def record(day: DayOption = None) -> None:
     )
     n = record_picks(
         load_picks(d), ctx.features, ctx.meta, tracker=tracker_signal(d, ctx.meta),
-        trump_calls=calls,
+        trump_calls=calls, insiders=insider_signal(d, ctx.meta),
     )  # fmt: skip
     typer.echo(f"Logged {n} new ledger entries for {d} -> {LEDGER}")
 
@@ -267,45 +267,54 @@ def backtest(
 def _backtest_trackers(
     closes: object, regions: dict[str, str], benchmarks: dict[str, str], known: set[str]
 ) -> None:
+    """Backtest each tracker on its stored trades; the weights go to data/priors/."""
     import json
 
     import pandas as pd
 
     from stocktrend.backtest import trackers
     from stocktrend.scoring.run import TRACKERS_PATH
-    from stocktrend.trackers import congress
+    from stocktrend.trackers import congress, insiders
 
     assert isinstance(closes, pd.DataFrame)
-    trades = congress.load_trades()
-    if trades.empty:
-        typer.echo("No congressional trades stored yet: run `stt trackers update` first.")
-        return
-    start = min(trades["filed"]) + pd.Timedelta(days=60)
-    results = {str(h): trackers.run(closes, trades, known, h, start) for h in (5, 20)}
-    yardstick = {
-        str(h): trackers.compare_momentum(closes, regions, benchmarks, h, start)["long"]
-        for h in (5, 20)
-    }
-    weight = trackers.weight_from_evidence(results["20"])
-    out = {
+    out: dict[str, object] = {
         "generated_at": datetime.now(UTC).isoformat(),
-        "method": "every horizon sessions, top 10 net-bought stocks (House filings public "
-        "before that day, trades under 60 days old, no dividend reinvestments) vs SPY",
-        "weight": weight,
-        "congress": results,
-        "momentum_same_window": yardstick,
+        "method": "every horizon sessions, the 10 stocks with the strongest buying disclosed "
+        "in the 30 days before (filings public before that day, trades under 60 days old) "
+        "vs SPY. Congress: House filings, no dividend reinvestments. Insiders: open-market "
+        "purchases on Form 4. Current index members only.",
     }
+    specs = (
+        ("congress", "weight", congress.load_trades(), congress.signal),
+        ("insiders", "insider_weight", insiders.load_trades(), insiders.signal),
+    )
+    for name, key, trades, signal in specs:
+        if trades.empty:
+            typer.echo(f"No {name} trades stored yet: run `stt trackers update` first.")
+            continue
+        start = min(trades["filed"]) + pd.Timedelta(days=60)
+        results = {
+            str(h): trackers.run(closes, trades, known, h, start, signal=signal) for h in (5, 20)
+        }
+        yardstick = {
+            str(h): trackers.compare_momentum(closes, regions, benchmarks, h, start)["long"]
+            for h in (5, 20)
+        }
+        out[key] = trackers.weight_from_evidence(results["20"])
+        out[name] = results
+        out["momentum_same_window" if name == "congress" else f"momentum_{name}_window"] = yardstick
+        for h, r in results.items():
+            b, m = r["buys"], yardstick[h]
+            typer.echo(
+                f"{name} {h}d: buys mean excess {b['mean_excess']} hit {b['hit_rate']} "
+                f"t {b['t_stat']} ({b['periods']} periods, {b['picks']} picks) | "
+                f"sells lag {r['sells']['mean_excess']} t {r['sells']['t_stat']} | "
+                f"momentum same window {m['mean_excess']} t {m['t_stat']}"
+            )
+        typer.echo(f"{name} weight in the live score: {out[key]}")
     TRACKERS_PATH.parent.mkdir(parents=True, exist_ok=True)
     TRACKERS_PATH.write_text(json.dumps(out, indent=1, default=str), encoding="utf-8")
-    for h, r in results.items():
-        b, m = r["buys"], yardstick[h]
-        typer.echo(
-            f"congress {h}d: buys mean excess {b['mean_excess']} hit {b['hit_rate']} "
-            f"t {b['t_stat']} ({b['periods']} periods, {b['picks']} picks) | "
-            f"sells lag {r['sells']['mean_excess']} t {r['sells']['t_stat']} | "
-            f"momentum same window {m['mean_excess']} t {m['t_stat']}"
-        )
-    typer.echo(f"Tracker weight in the live score: {weight} -> {TRACKERS_PATH}")
+    typer.echo(f"-> {TRACKERS_PATH}")
 
 
 @app.command()
@@ -344,13 +353,15 @@ def report(day: DayOption = None) -> None:
     track = sb.to_markdown(
         sb.compute(entries, read_outcomes()), first.isoformat() if first else None
     )
-    from stocktrend.report.dashboard import congress_rows, trump_rows
-    from stocktrend.report.render import congress_markdown, trump_markdown
+    from stocktrend.report.dashboard import congress_rows, insider_rows, trump_rows
+    from stocktrend.report.render import congress_markdown, insiders_markdown, trump_markdown
 
     picks_obj = load_picks(d)
     congress_md = congress_markdown(congress_rows(d)[:10], picks_obj.tracker_weight)
+    insiders_md = insiders_markdown(insider_rows(d)[:10], picks_obj.insider_weight)
     trump_md = trump_markdown(trump_rows(d))
-    path = write(d, render(picks_obj, events, digest_obj, track, congress_md, trump_md))
+    text = render(picks_obj, events, digest_obj, track, congress_md, trump_md, insiders_md)
+    path = write(d, text)
     typer.echo(f"Report -> {path}")
 
 
@@ -443,14 +454,37 @@ def trackers_update(
         list[int] | None,
         typer.Option("--year", help="Filing years (repeatable); default: this year"),
     ] = None,
+    sec: Annotated[bool, typer.Option("--sec/--no-sec", help="Also read SEC Form 4s")] = True,
 ) -> None:
-    """Download new House trade reports and append their trades to data/trackers/."""
+    """Download new House trade reports (and SEC insider filings) into data/trackers/."""
     from stocktrend.trackers import congress
 
     this_year = datetime.now(UTC).year
     chosen = years or ([this_year - 1, this_year] if datetime.now(UTC).month == 1 else [this_year])
     stats = congress.update(session(), chosen)
     typer.echo(f"House filings {chosen}: {stats}")
+    if sec:
+        trackers_insiders()
+
+
+@trackers_app.command("insiders")
+def trackers_insiders() -> None:
+    """Read new SEC Form 4 filings: insider trades in S&P 500 stocks (first run: 5 years)."""
+    from stocktrend.http import sec_session
+    from stocktrend.trackers import insiders
+    from stocktrend.universe.build import load as load_universe
+
+    http = sec_session()
+    if http is None:
+        typer.secho(
+            "SEC insider filings skipped: no contact email (set STT_SEC_CONTACT or write it "
+            "to .sec_contact).",
+            fg="yellow",
+        )
+        return
+    u = load_universe()
+    stats = insiders.update(http, u.loc[u["region"] == "US", "ticker"])
+    typer.echo(f"SEC insider filings: {stats}")
 
 
 @trackers_app.command("show")
@@ -458,17 +492,22 @@ def trackers_show(
     day: DayOption = None,
     top: Annotated[int, typer.Option(help="Rows to show")] = 15,
 ) -> None:
-    """Strongest congressional buying (and selling) disclosed in the last 30 days."""
-    from stocktrend.trackers import congress
+    """Strongest congressional and insider buying disclosed in the last 30 days."""
+    from stocktrend.trackers import congress, insiders
 
     d = date.fromisoformat(_day(day))
     sig = congress.signal(congress.load_trades(), d)
+    typer.echo("House members (net buying, then net selling):")
     if sig.empty:
         typer.echo("No disclosed trades in the window.")
-        return
-    typer.echo(sig.head(top).to_string())
-    typer.echo("...")
-    typer.echo(sig.tail(5).to_string())
+    else:
+        typer.echo(sig.head(top).to_string())
+        typer.echo("...")
+        typer.echo(sig.tail(5).to_string())
+    ins = insiders.signal(insiders.load_trades(), d)
+    ins = ins[ins["score"] > 0]
+    typer.echo("\nCompany insiders (open-market purchases, SEC Form 4):")
+    typer.echo(ins.head(top).to_string() if not ins.empty else "No purchases filed in the window.")
 
 
 # --- the scheduled daily run ----------------------------------------------------
@@ -500,10 +539,11 @@ def daily_prepare() -> None:
         typer.echo(f"NOTHING TO DO: picks for {d} are already in the ledger.")
         return
     _run_ingest(None, frozenset(), strict=False)
-    try:
-        trackers_update(years=None)
-    except Exception as e:  # the tracker is optional; never block the run on it
-        typer.secho(f"warning: House filings update failed: {e}", fg="yellow")
+    for name, sec in (("House filings", False), ("SEC insider filings", True)):
+        try:
+            trackers_insiders() if sec else trackers_update(years=None, sec=False)
+        except Exception as e:  # the trackers are optional; never block the run on them
+            typer.secho(f"warning: {name} update failed: {e}", fg="yellow")
     evaluate()
     digest(day=d, show=False)
     typer.echo(

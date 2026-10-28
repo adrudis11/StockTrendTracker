@@ -12,6 +12,8 @@ Baselines logged alongside the geopolitical picks, same day and horizons:
   picks. Answers "is this just sector luck?"
 * ``congress``: the stocks with the strongest net buying by House members disclosed
   in the last 30 days. Answers "does following Congress work?"
+* ``insiders``: the stocks with the strongest open-market buying by their own officers
+  and directors (SEC Form 4) filed in the last 30 days. "Does following insiders work?"
 * ``trump``: the stocks Trump talked up (longs) or attacked (avoids), from the
   day's ``trump_calls``. Answers "does following Trump work?"
 """
@@ -34,7 +36,7 @@ from stocktrend.scoring.model import HORIZONS, MAX_AVOID, MAX_PICKS, PicksFile
 
 LEDGER = DATA_DIR / "ledger" / "picks.jsonl"
 
-Strategy = Literal["geo", "momentum", "random", "congress", "trump"]
+Strategy = Literal["geo", "momentum", "random", "congress", "insiders", "trump"]
 
 
 class LedgerEntry(BaseModel):
@@ -109,8 +111,9 @@ def baseline_entries(
     meta: pd.DataFrame,
     logged_at: datetime,
     tracker: pd.DataFrame | None = None,
+    insiders: pd.DataFrame | None = None,
 ) -> list[LedgerEntry]:
-    """Momentum, random-sector and congress baselines over liquid stocks (no ETFs)."""
+    """Momentum, random-sector, congress and insider baselines over liquid stocks."""
     stocks = meta[meta["kind"] == "stock"].index
     feats = features[features.index.isin(stocks) & features["liquid"].astype(bool)]
     entries: list[LedgerEntry] = []
@@ -146,10 +149,16 @@ def baseline_entries(
             chosen = rng.sample(pool, min(n, len(pool)))
             entries += [entry("random", h, side, t, i + 1) for i, t in enumerate(chosen)]
 
-        if tracker is not None and not tracker.empty:
-            buys = tracker[(tracker["score"] > 0) & tracker.index.isin(feats.index)]
+        trackers: list[tuple[Strategy, pd.DataFrame | None]] = [
+            ("congress", tracker),
+            ("insiders", insiders),
+        ]
+        for strategy, sig in trackers:
+            if sig is None or sig.empty:
+                continue
+            buys = sig[(sig["score"] > 0) & sig.index.isin(feats.index)]
             top = list(buys.sort_values("score", ascending=False).index[:MAX_PICKS])
-            entries += [entry("congress", h, "long", t, i + 1) for i, t in enumerate(top)]
+            entries += [entry(strategy, h, "long", t, i + 1) for i, t in enumerate(top)]
     return entries
 
 
@@ -188,11 +197,12 @@ def record(
     path: Path = LEDGER,
     tracker: pd.DataFrame | None = None,
     trump_calls: list[TrumpCall] | None = None,
+    insiders: pd.DataFrame | None = None,
 ) -> int:
     logged_at = logged_at or datetime.now(UTC)
     entries = (
         geo_entries(picks, logged_at)
-        + baseline_entries(picks, features, meta, logged_at, tracker)
+        + baseline_entries(picks, features, meta, logged_at, tracker, insiders)
         + trump_entries(picks.date, trump_calls or [], meta, logged_at)
     )
     return append(entries, path)

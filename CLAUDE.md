@@ -11,7 +11,10 @@ days, keeping an honest track record. Full plan and progress log: `docs/PLAN.md`
 - It is a research tool. Never add trading or order placement.
 - Containers are wiped between sessions: anything worth keeping goes in `data/` and is
   committed. `cache/` is re-downloaded and gitignored.
-- Don't put personal contact details in HTTP headers; use `config.USER_AGENT`.
+- Don't put personal contact details in HTTP headers; use `config.USER_AGENT`. One
+  exception: SEC EDGAR requires a contact email, and the owner agreed to send theirs
+  (2026-10-28). It comes from `STT_SEC_CONTACT` or the gitignored `.sec_contact`
+  (`config.sec_user_agent`); never commit it or write it into the repo (it's public).
 - Use `requests`, not `httpx` (Wikipedia blocks httpx).
 - Don't read X/Twitter through mirrors (Nitter etc.) or other copies of walled
   content; X needs its paid API. Don't accept a site's terms on the user's behalf
@@ -48,8 +51,10 @@ days, keeping an honest track record. Full plan and progress log: `docs/PLAN.md`
 | Score matured picks | `stt evaluate` | `data/ledger/outcomes.jsonl` |
 | Write the report | `stt report` | `data/reports/<date>.md` (includes track record) |
 
-Trackers: `stt trackers update` (new House STOCK Act filings → `data/trackers/`, run
-by `daily prepare`), `stt trackers show` (strongest congressional buying/selling).
+Trackers: `stt trackers update` (new House STOCK Act filings and SEC Form 4 insider
+trades → `data/trackers/`, run by `daily prepare`; `stt trackers insiders` for the SEC
+part alone, which skips with a warning when no contact email is set), `stt trackers
+show` (strongest congressional and insider buying).
 Polymarket odds are fetched by `stt ingest` and shown in the digest. Trump tracker: the
 analysis logs his stock calls in `trump_calls` (events file); they become a ★ remark on
 picks, the `trump` ledger strategy and a report/dashboard section (`trackers/trump.py`).

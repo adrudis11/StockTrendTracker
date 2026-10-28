@@ -158,6 +158,19 @@
     <p class="stt-note" data-unless="n_congress" hidden>No stock trades disclosed by House members in the last 30 days.</p>
   </section>
 
+  <section class="stt-card" id="insiders">
+    <h2>Insider buying</h2>
+    <p class="stt-note">Open-market purchases of their own company's shares by officers, directors and 10% owners of S&amp;P 500 companies, from the SEC Form 4 filings of the last 30 days (due within two business days of a trade). Score: purchases count by size. Sales are counted but don't lower it, since insiders sell for many reasons.</p>
+    <p class="stt-note">Weight in today's picks: <b data-draw="s-iw" data-source="summary" data-field="insider_weight" data-row="0">—</b>% at most, set by the tracker's own backtest. It's also logged as a separate strategy in the track record, so its real results show up there.</p>
+    <div class="stt-wrap" data-if="n_insiders" hidden>
+      <table class="stt-t" data-source="insiders" data-row-key="ticker">
+        <thead><tr><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="score" class="num">Score</th><th data-field="buyers" class="num">Buyers</th><th data-field="bought" class="num">Bought</th><th data-field="sellers" class="num opt">Sellers</th><th data-field="insiders" class="opt">Who bought</th><th data-field="last_filed" class="opt">Last filed</th></tr></thead>
+        <tbody data-draw="insiders"></tbody>
+      </table>
+    </div>
+    <p class="stt-note" data-unless="n_insiders" hidden>No open-market purchases by insiders filed in the last 30 days.</p>
+  </section>
+
   <section class="stt-card" id="events">
     <h2>Today's events</h2>
     <p class="stt-note">Claude's reading of the day's news. "New" runs from 0 (a rehash) to 1 (first reported today). Arrows show which way each theme, stock or sector should move.</p>
@@ -206,6 +219,7 @@
   value('s-open', 'open', String);
   value('s-first', 'first_results', date);
   value('s-tw', 'tracker_weight', String);
+  value('s-iw', 'insider_weight', String);
   value('s-trump-true', 'trump_true', String);
   value('s-trump-scored', 'trump_scored', String);
 
@@ -291,6 +305,23 @@
     });
   });
 
+  const money = (v) => (v >= 1e6 ? '$' + d3.format('.1f')(v / 1e6) + 'M' : '$' + d3.format('.0f')(v / 1e3) + 'k');
+  dash.draw('insiders', (tbody) => {
+    tbody.replaceChildren();
+    rows('insiders').forEach((r) => {
+      const tr = tbody.insertRow();
+      tr.dataset.key = r.ticker;
+      cell(tr, r.ticker, 'tick');
+      cell(tr, r.name, 'opt');
+      cell(tr, d3.format('.1f')(r.score), 'num');
+      cell(tr, String(r.buyers), 'num');
+      cell(tr, money(Number(r.bought)), 'num');
+      cell(tr, String(r.sellers), 'num opt');
+      cell(tr, r.insiders, 'why opt');
+      cell(tr, r.last_filed, 'opt');
+    });
+  });
+
   const signed = (v) => (blank(v) ? '—' : pct(v) + '%');
   dash.draw('trump', (tbody) => {
     tbody.replaceChildren();
@@ -309,7 +340,7 @@
     });
   });
 
-  const order = { Geopolitical: 0, Momentum: 1, Random: 2, Congress: 3, Trump: 4 };
+  const order = { Geopolitical: 0, Momentum: 1, Random: 2, Congress: 3, Insiders: 4, Trump: 5 };
   dash.draw('board', (tbody) => {
     tbody.replaceChildren();
     rows('scoreboard')

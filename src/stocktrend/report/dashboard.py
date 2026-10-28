@@ -22,8 +22,8 @@ from stocktrend.tracking.evaluate import first_matures, read_outcomes
 from stocktrend.tracking.ledger import read as read_ledger
 
 OUT_DIR = CACHE_DIR / "dashboard"
-DATASETS = ("summary", "picks", "events", "scoreboard", "congress", "trump")
-CONGRESS_ROWS = 15
+DATASETS = ("summary", "picks", "events", "scoreboard", "congress", "insiders", "trump")
+CONGRESS_ROWS = INSIDER_ROWS = 15
 TRUMP_DAYS, TRUMP_ROWS = 90, 25
 STANCE_NAMES = {"buy": "Buy", "positive": "Talked up", "negative": "Attacked", "sell": "Sell"}
 STRATEGY_NAMES = {
@@ -31,6 +31,7 @@ STRATEGY_NAMES = {
     "momentum": "Momentum",
     "random": "Random",
     "congress": "Congress",
+    "insiders": "Insiders",
     "trump": "Trump",
 }
 REGIME_NAMES = {"risk_on": "Risk-on", "neutral": "Neutral", "risk_off": "Risk-off"}
@@ -63,6 +64,7 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
     trump = trump_rows(day)
     scored = [t for t in trump if t["came_true"]]
     congress = congress_rows(day)
+    insider = insider_rows(day)
 
     summary = {
         "date": picks.date,
@@ -79,11 +81,13 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
         "picks_20d": len(picks.select(20, "long")),
         "n_picks": len(picks.picks),
         "n_congress": len(congress),
+        "n_insiders": len(insider),
         "matured": sb["matured"],
         "open": sb["open"],
         "first_results": first.isoformat() if first else None,
         "model": picks.model_version,
         "tracker_weight": round(100 * picks.tracker_weight),
+        "insider_weight": round(100 * picks.insider_weight),
         "trump_calls": len(trump),
         "trump_scored": len(scored),
         "trump_true": sum(t["came_true"] == "Yes" for t in scored),
@@ -103,7 +107,9 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
             "r20d": _pct(p.r20d),
             "driver": p.drivers[0].title if p.drivers else "",
             "theme": _theme(p.primary_theme),
-            "risks": "; ".join(p.risks + [n for n in (p.tracker_note, p.trump_note) if n]),
+            "risks": "; ".join(
+                p.risks + [n for n in (p.tracker_note, p.insider_note, p.trump_note) if n]
+            ),
         }
         for p in picks.picks
     ]
@@ -140,6 +146,7 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
         "events": event_rows,
         "scoreboard": board_rows,
         "congress": congress,
+        "insiders": insider,
         "trump": trump,
     }
 
@@ -168,6 +175,35 @@ def congress_rows(day: str) -> list[dict[str, Any]]:
         }
         for t, r in sig.iterrows()
     ]
+
+
+def insider_rows(day: str) -> list[dict[str, Any]]:
+    """The strongest open-market buying by company insiders, Form 4s of the last 30 days."""
+    from datetime import date
+
+    from stocktrend.trackers import insiders
+    from stocktrend.universe.build import load as load_universe
+
+    names = dict(zip(*(load_universe()[c] for c in ("ticker", "name")), strict=True))
+    sig = insiders.signal(insiders.load_trades(), date.fromisoformat(day))
+    sig = sig[sig["score"] > 0].head(INSIDER_ROWS)
+    return [
+        {
+            "ticker": t,
+            "name": names.get(t, ""),
+            "score": round(float(r["score"]), 2),
+            "buyers": int(r["buyers"]),
+            "bought": round(float(r["bought"])),
+            "sellers": int(r["sellers"]),
+            "insiders": _first(str(r["insiders"]).split("; "), 3),
+            "last_filed": str(r["last_filed"]),
+        }
+        for t, r in sig.iterrows()
+    ]
+
+
+def _first(names: list[str], n: int) -> str:
+    return "; ".join(names[:n]) + (f" and {len(names) - n} more" if len(names) > n else "")
 
 
 def trump_rows(day: str) -> list[dict[str, Any]]:

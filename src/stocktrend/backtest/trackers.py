@@ -1,9 +1,10 @@
-"""Historical test of the congressional-trades tracker.
+"""Historical test of the trackers (House trades, SEC insider buying).
 
-Every ``horizon`` sessions: take the stocks with the strongest net House buying
-disclosed in the previous 30 days (only filings public before that morning), hold
-them for ``horizon`` sessions, and measure their excess return over SPY. Also tests
-the opposite end (net selling) and, for comparison, momentum over the same dates.
+Every ``horizon`` sessions: take the stocks with the strongest net buying disclosed
+in the previous 30 days (only filings public before that morning), hold them for
+``horizon`` sessions, and measure their excess return over SPY. Also tests the
+opposite end (net selling, where the tracker scores it) and, for comparison,
+momentum over the same dates.
 
 The result decides how much weight the tracker gets in the live score
 (``weight_from_evidence``): none unless it beat the benchmark with some statistical
@@ -13,6 +14,7 @@ support. Caveats: current index members only, close-to-close returns, no costs.
 from __future__ import annotations
 
 import math
+from collections.abc import Callable
 from datetime import date
 from typing import Any
 
@@ -46,12 +48,13 @@ def run(
     start: date,
     benchmark: str = "SPY",
     top_n: int = 10,
+    signal: Callable[[pd.DataFrame, date, set[str]], pd.DataFrame] = congress.signal,
 ) -> dict[str, Any]:
     fwd = closes.shift(-horizon) / closes - 1
     dates = [t for t in closes.index[: len(closes.index) - horizon : horizon] if t.date() >= start]
     buys_ex, buys_hits, sells_ex, sells_hits = [], [], [], []
     for t in dates:
-        sig = congress.signal(trades, t.date(), known)
+        sig = signal(trades, t.date(), known)
         if sig.empty:
             continue
         row = fwd.loc[t]

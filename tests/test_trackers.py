@@ -8,7 +8,7 @@ import pytest
 from stocktrend.backtest import trackers
 from stocktrend.events.schema import TrumpCall
 from stocktrend.ingest import polymarket
-from stocktrend.trackers import congress, trump
+from stocktrend.trackers import congress, insiders, trump
 from stocktrend.tracking import ledger
 
 PTR_TEXT = """ID Owner Asset Transaction Type Date Notification Date Amount Cap. Gains > $200?
@@ -211,3 +211,196 @@ def test_trump_report_section() -> None:
     )
     assert "| \u2013 |" in md and "| open |" in md and "So far 1 of 1 came true" in md
     assert "No stock or market calls" in trump_markdown([])
+
+
+# --- SEC insider tracker -----------------------------------------------------
+
+FORM4 = """<SEC-DOCUMENT>
+<XML>
+<?xml version="1.0"?>
+<ownershipDocument>
+  <documentType>4</documentType>
+  <issuer><issuerCik>0000320193</issuerCik><issuerTradingSymbol>AAPL</issuerTradingSymbol></issuer>
+  <reportingOwner>
+    <reportingOwnerId><rptOwnerName>Doe Jane</rptOwnerName></reportingOwnerId>
+    <reportingOwnerRelationship><isDirector>1</isDirector><isOfficer>true</isOfficer>
+      <officerTitle>CEO</officerTitle></reportingOwnerRelationship>
+  </reportingOwner>
+  <reportingOwner>
+    <reportingOwnerId><rptOwnerName>Doe Trust</rptOwnerName></reportingOwnerId>
+    <reportingOwnerRelationship><isTenPercentOwner>1</isTenPercentOwner></reportingOwnerRelationship>
+  </reportingOwner>
+  <aff10b5One>0</aff10b5One>
+  <nonDerivativeTable>
+    {rows}
+  </nonDerivativeTable>
+</ownershipDocument>
+</XML>
+</SEC-DOCUMENT>"""
+
+
+def _tx(code: str, day: str, shares: str, price: str) -> str:
+    return (
+        f"<nonDerivativeTransaction><transactionDate><value>{day}</value></transactionDate>"
+        f"<transactionCoding><transactionCode>{code}</transactionCode></transactionCoding>"
+        f"<transactionAmounts><transactionShares><value>{shares}</value></transactionShares>"
+        f"<transactionPricePerShare><value>{price}</value></transactionPricePerShare>"
+        "</transactionAmounts></nonDerivativeTransaction>"
+    )
+
+
+def test_parse_form4_keeps_open_market_trades_per_filing() -> None:
+    rows = (
+        _tx("P", "2026-10-20", "100", "200")
+        + _tx("P", "2026-10-21", "50", "210")
+        + _tx(
+            "F",
+            "2026-10-21",
+            "30",
+            "210",  # tax withholding: not an open-market trade
+        )
+    )
+    trades = insiders.parse_form4(
+        FORM4.format(rows=rows), "acc-1", date(2026, 10, 22), {320193: "AAPL"}
+    )
+    (t,) = trades
+    assert (t.ticker, t.code, t.shares, t.value) == ("AAPL", "P", 150.0, 30_500.0)
+    assert (
+        t.tx_date == date(2026, 10, 21) and t.owner == "Doe Jane +1" and t.role == "CEO, Director"
+    )
+    assert not t.plan
+    assert insiders.parse_form4(FORM4.format(rows=rows), "acc-1", date(2026, 10, 22), {}) == []
+
+
+def test_parse_daily_index() -> None:
+    text = (
+        "Form Type   Company Name   CIK   Date Filed  File Name\n" + "-" * 40 + "\n"
+        "4                2752128 Ontario Ltd.                 2162362     20261027    edgar/data/2162362/0001493152-26-048754.txt   \n"
+        "4/A              APPLE INC                            320193      20261027    edgar/data/320193/0000320193-26-000001.txt\n"
+        "8-K              APPLE INC                            320193      20261027    edgar/data/320193/0000320193-26-000002.txt\n"
+    )
+    assert insiders.parse_daily_index(text) == [
+        (2162362, "edgar/data/2162362/0001493152-26-048754.txt"),
+        (320193, "edgar/data/320193/0000320193-26-000001.txt"),
+    ]
+
+
+def _dataset_zip() -> bytes:
+    import io
+    import zipfile
+
+    def tsv(rows: list[list[str]]) -> str:
+        return "\n".join("\t".join(r) for r in rows) + "\n"
+
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as z:  # an older set: no AFF10B5ONE column
+        z.writestr("SUBMISSION.tsv", tsv([
+            ["ACCESSION_NUMBER", "FILING_DATE", "DOCUMENT_TYPE", "ISSUERCIK"],
+            ["a1", "03-FEB-2022", "4", "0000320193"],
+            ["a2", "03-FEB-2022", "4", "0000999999"],  # not in our universe
+            ["a3", "04-FEB-2022", "3", "0000320193"],  # an initial holdings report
+        ]))  # fmt: skip
+        z.writestr("NONDERIV_TRANS.tsv", tsv([
+            ["ACCESSION_NUMBER", "TRANS_DATE", "TRANS_CODE", "TRANS_SHARES", "TRANS_PRICEPERSHARE"],
+            ["a1", "01-FEB-2022", "S", "10", "150"],
+            ["a1", "02-FEB-2022", "S", "10", "160"],
+            ["a1", "02-FEB-2022", "M", "10", "0"],
+            ["a2", "01-FEB-2022", "P", "10", "5"],
+        ]))  # fmt: skip
+        z.writestr("REPORTINGOWNER.tsv", tsv([
+            ["ACCESSION_NUMBER", "RPTOWNERNAME", "RPTOWNER_RELATIONSHIP", "RPTOWNER_TITLE"],
+            ["a1", "Roe Rick", "Officer", "CFO"],
+        ]))  # fmt: skip
+    return buf.getvalue()
+
+
+def test_parse_dataset() -> None:
+    (t,) = insiders.parse_dataset(_dataset_zip(), {320193: "AAPL"})
+    assert (t.accession, t.code, t.shares, t.value, t.role) == ("a1", "S", 20.0, 3_100.0, "CFO")
+    assert t.filed == date(2022, 2, 3) and t.tx_date == date(2022, 2, 2) and not t.plan
+
+
+class _FakeSEC:
+    """Answers the URLs ``insiders.update`` asks for, from a dict; 404 otherwise."""
+
+    def __init__(self, pages: dict[str, bytes]) -> None:
+        self.pages = pages
+        self.asked: list[str] = []
+
+    def get(self, url: str, timeout: int = 0) -> object:
+        import requests
+
+        self.asked.append(url)
+        r = requests.Response()
+        r.status_code = 200 if url in self.pages else 404
+        r._content = self.pages.get(url, b"")
+        r.encoding = "utf-8"
+        return r
+
+
+def test_insider_update_backfills_then_reads_daily_filings(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(insiders, "ticker_map", lambda http, universe: {320193: "AAPL"})
+    monkeypatch.setattr(insiders._Pace, "wait", lambda self: None)
+    # 1 October: the first day after the 2026q3 data set.
+    index = (
+        "4  APPLE INC  320193  20261001  edgar/data/320193/acc-2.txt\n"
+        "4  DOE JANE   1234567 20261001  edgar/data/1234567/acc-2.txt\n"  # same filing, owner's id
+    )
+    pages = {
+        insiders.DATASET_URLS[1].format(q="2026q3"): _dataset_zip(),
+        insiders.DAILY_INDEX_URL.format(y=2026, q=4, ymd="20261001"): index.encode(),
+        insiders.ARCHIVES_URL + "edgar/data/320193/acc-2.txt": FORM4.format(
+            rows=_tx("P", "2026-09-30", "1000", "250")
+        ).encode(),
+    }
+    http = _FakeSEC(pages)
+    tp, sp = tmp_path / "t.jsonl", tmp_path / "s.json"
+    stats = insiders.update(http, ["AAPL"], date(2026, 10, 2), "2026q3",  # type: ignore[arg-type]
+                            trades_path=tp, state_path=sp)  # fmt: skip
+    assert stats["quarters"] == 1 and stats["days"] == 1 and stats["new_trades"] == 2
+    trades = insiders.load_trades(tp)
+    assert list(trades["accession"]) == ["a1", "acc-2"]
+    assert sum(u.endswith("acc-2.txt") for u in http.asked) == 1  # fetched once
+    # The next run reads only the new day; the 2nd is a holiday index (404) and too recent
+    # to skip, so it is retried later.
+    again = insiders.update(http, ["AAPL"], date(2026, 10, 3), trades_path=tp, state_path=sp)  # type: ignore[arg-type]
+    assert again["quarters"] == 0 and again["days"] == 0 and again["new_trades"] == 0
+
+
+def test_insider_signal_counts_purchases_only() -> None:
+    d = date(2026, 10, 28)
+    rows = [
+        ("AAPL", "A", "P", 2, 500_000.0), ("AAPL", "B", "P", 3, 20_000.0),
+        ("AAPL", "C", "S", 3, 9_000_000.0), ("MSFT", "D", "S", 2, 1_000_000.0),
+        ("NVDA", "E", "P", 0, 1_000_000.0),  # filed today: not public before the open
+        ("XOM", "F", "P", 45, 1_000_000.0),  # filed too long ago
+    ]  # fmt: skip
+    trades = pd.DataFrame([
+        {"accession": f"a{i}", "filed": d - timedelta(days=age), "ticker": t, "owner": o,
+         "role": "Director", "code": c, "tx_date": d - timedelta(days=age + 2), "shares": 1.0,
+         "value": v, "plan": False}
+        for i, (t, o, c, age, v) in enumerate(rows)
+    ])  # fmt: skip
+    sig = insiders.signal(trades, d)
+    assert list(sig.index) == ["AAPL", "MSFT"]
+    a = sig.loc["AAPL"]
+    assert a["score"] == pytest.approx(np.log10(500) + np.log10(20))
+    assert (a["buyers"], a["sellers"], a["bought"]) == (2, 1, 520_000)
+    assert sig.loc["MSFT", "score"] == 0
+    assert (
+        insiders.note(a.to_dict()) == "2 insiders bought $520k (Form 4s filed in the last 30 days)"
+    )
+    assert insiders.note(sig.loc["MSFT"].to_dict()) is None
+
+
+def test_insiders_report_section() -> None:
+    from stocktrend.report.render import insiders_markdown
+
+    row = {"ticker": "AAPL", "name": "Apple", "score": 4.3, "buyers": 2, "bought": 520_000,
+           "sellers": 1, "insiders": "A (Director); B (CEO)", "last_filed": "2026-10-26"}  # fmt: skip
+    md = insiders_markdown([row], 0.0)
+    assert "| AAPL | Apple | 4.3 | 2 | $520k | 1 | A (Director); B (CEO) |" in md
+    assert "Weight in the score: 0" in md
+    assert "No open-market purchases" in insiders_markdown([], 0.0)

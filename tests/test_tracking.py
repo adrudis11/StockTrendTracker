@@ -97,6 +97,11 @@ def test_ledger_is_append_only_and_logs_baselines(tmp_path: Path) -> None:
     rand = [e for e in entries if e.strategy == "random" and e.horizon == 5 and e.side == "long"]
     assert {e.sector for e in rand} == {"Energy"}
     assert ledger.record(pf, _features(tickers), _meta(tickers), LOGGED, path) == 0
+    # Tracker strategies log their strongest buys (score > 0) as longs.
+    sig = pd.DataFrame({"score": [3.0, 0.0, 1.0]}, index=pd.Index(["S5", "S6", "NOPE"]))
+    n = ledger.record(pf, _features(tickers), _meta(tickers), LOGGED, path, insiders=sig)
+    added = [e for e in ledger.read(path) if e.strategy == "insiders"]
+    assert n == len(added) == 2 and {e.ticker for e in added} == {"S5"}
 
 
 # --- evaluation ---------------------------------------------------------------

@@ -566,8 +566,8 @@ Not added:
   session with an Akamai "Access Denied" page. Getting past that would mean evading the
   site's bot protection, so it isn't done. The House filings cover most of the same
   ground (Pelosi is a House member).
-- **Corporate insider buying (SEC Form 4)**: the best-supported tracker in the research,
-  but the SEC requires a contact email in automated requests. Waiting on the owner.
+- **Corporate insider buying (SEC Form 4)**: added 2026-10-28 once the owner agreed to
+  send their email to the SEC (below).
 
 ### Trump tracker (added 2026-10-28)
 
@@ -594,3 +594,43 @@ with a section of its own.
 There is no free, reliable history of his past calls to backtest, so the record starts
 on 2026-10-29. The day-of move often happens within minutes of a post, before anyone
 reading the news can act; the "since logged" column is the fair test.
+
+### Insider tracker: SEC Form 4 (added 2026-10-28)
+
+Request: use the owner's email for the SEC so corporate insider buying can be tracked.
+The email is sent only to the SEC, in the User-Agent its fair-access policy asks for.
+It is kept out of the repo, which is public: `STT_SEC_CONTACT` or the gitignored
+`.sec_contact`, which the daily run writes from its scheduled-task prompt.
+
+- **Data**: open-market purchases (code P) and sales (code S) by officers, directors
+  and 10% owners of the 500 US stocks we cover, one row per filing and code
+  (`data/trackers/insider_trades.jsonl`, append-only). The backfill used the SEC's
+  quarterly "Insider Transactions Data Sets" from 2021 Q4 to 2026 Q3 (43,280 trades);
+  later days come from the daily EDGAR index and each Form 4's XML (about 50–150
+  filings a day, around 30 seconds at the SEC's rate limit).
+- **Signal**: per stock, over Form 4s filed in the 30 days before the morning (trades
+  under 60 days old), the sum of log10(dollars bought / 1,000) per purchase. Sales are
+  counted but don't lower it: the research finds them uninformative (taxes,
+  diversification, 10b5-1 plans).
+
+Did it get more right than wrong? Backtest, top 10 stocks by the signal every horizon
+sessions, current S&P 500 members, vs SPY, 2021-11 to 2026-10:
+
+| Strategy | 5 days | 20 days |
+|---|---|---|
+| Top 10 insider buys | +0.09%, hit 48%, t = 0.7 | +0.33%, hit 49%, t = 0.7 |
+| Momentum, same window | +0.13%, t = 0.7 | +2.66%, t = 2.5 |
+
+An event study (each stock and filing day, from the first session after filing) gives
+a skewed picture: after all 3,224 purchase events the 20-day mean is +0.74% but the
+median +0.05%, hit 50%. Two or more insiders buying within 30 days: +1.60% mean,
++0.40% median (n = 1,484); but three or more: −0.18% (n = 504), and CEO/CFO purchases
+−0.45%. Events bunch in sell-offs (2022, March 2023), so their t-statistics overstate.
+The inconsistent subgroups look like noise, not an edge to tune for.
+
+Conclusion: in large US caps, following insider purchases hasn't beaten the market
+over the last five years (the research finds the effect mainly in small caps), so its
+weight in the score is **0** (`insider_weight` in `data/priors/trackers.json`; up to
+±20% once the monthly backtest shows t ≥ 2). It is shown in the report and on the
+dashboard, noted on picks it touches, and logged as its own strategy (`insiders`,
+started 2026-10-28) so the live record can change that.

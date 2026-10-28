@@ -10,7 +10,7 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-from stocktrend.config import USER_AGENT
+from stocktrend.config import USER_AGENT, sec_user_agent
 
 DEFAULT_TIMEOUT = 30
 
@@ -29,4 +29,14 @@ def session() -> requests.Session:
     adapter = HTTPAdapter(max_retries=retry)
     s.mount("https://", adapter)
     s.mount("http://", adapter)
+    return s
+
+
+def sec_session() -> requests.Session | None:
+    """A session for SEC EDGAR, or None when no contact email is configured."""
+    agent = sec_user_agent()
+    if agent is None:
+        return None
+    s = session()
+    s.headers["User-Agent"] = agent
     return s

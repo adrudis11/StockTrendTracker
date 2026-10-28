@@ -38,6 +38,7 @@ from pydantic import BaseModel
 
 from stocktrend.events.schema import EventsFile
 from stocktrend.features.technical import move_z
+from stocktrend.trackers.insiders import note as insider_note
 from stocktrend.universe.exposures import Exposures
 
 MODEL_VERSION = "v1"
@@ -101,6 +102,8 @@ class Pick(BaseModel):
     next_earnings: str | None
     tracker: float = 0.0  # congressional buying (+) or selling (-) in [-1, 1]
     tracker_note: str | None = None
+    insider: float = 0.0  # insider buying (SEC Form 4) in [0, 1]
+    insider_note: str | None = None
     trump_note: str | None = None  # what Trump said about it lately (no weight in the score)
 
 
@@ -112,6 +115,7 @@ class PicksFile(BaseModel):
     regime: dict[str, Any]
     active_priors: dict[str, dict[int, float]] = {}  # themes whose driver is spiking now
     tracker_weight: float = 0.0  # how much congressional trades scale conviction
+    insider_weight: float = 0.0  # how much insider buying scales conviction
     events_used: list[str]
     picks: list[Pick]
 
@@ -277,17 +281,23 @@ def score(
     tracker: pd.DataFrame | None = None,
     tracker_weight: float = 0.0,
     trump_notes: dict[str, str] | None = None,
+    insiders: pd.DataFrame | None = None,
+    insider_weight: float = 0.0,
 ) -> PicksFile:
     """``meta``: index ticker, columns name, region, sector, kind ("stock" or "etf").
 
     ``tracker`` is the congressional-trades signal per ticker (``trackers.congress``).
     It can only scale an existing geopolitical signal, by up to ``tracker_weight``,
     which ``stt backtest`` sets from the tracker's historical record (0 = no edge).
+    ``insiders`` (``trackers.insiders``) works the same way with ``insider_weight``.
     ``trump_notes`` (``trackers.trump.recent_notes``) are remarks only: a call that
     should move a stock reaches the score as an event impact in the analysis.
     """
     tracker_rows: dict[Any, dict[Any, Any]] = (
         tracker.to_dict("index") if tracker is not None else {}
+    )
+    insider_rows: dict[Any, dict[Any, Any]] = (
+        insiders.to_dict("index") if insiders is not None else {}
     )
     contributions = expand(events, as_of, exposures, meta, sector_etfs)
     feature_rows: dict[Any, dict[Any, Any]] = features.to_dict("index")
@@ -311,12 +321,15 @@ def score(
             risk_notes.append(f"already moved {aligned:.1f} sigma in the thesis direction")
         congress = tracker_rows.get(ticker)
         tracker_score = math.tanh(float(congress["score"]) / 3) if congress else 0.0
+        insider_row = insider_rows.get(ticker)
+        insider_score = math.tanh(float(insider_row["score"]) / 3) if insider_row else 0.0
         conviction = (
             abs(geo)
             * (1 + WEIGHTS["trend"] * trend)
             * (1 + WEIGHTS["prior"] * prior)
             * (1 - WEIGHTS["priced_in"] * priced_in)
             * (1 + tracker_weight * side * tracker_score)
+            * (1 + insider_weight * side * insider_score)
             * risk
         )
         if conviction < MIN_GEO / 2:
@@ -363,6 +376,8 @@ def score(
                 next_earnings=earnings.get(ticker),
                 tracker=round(tracker_score, 3),
                 tracker_note=_congress_note(congress),
+                insider=round(insider_score, 3),
+                insider_note=insider_note(insider_row),
                 trump_note=(trump_notes or {}).get(ticker),
             )
         )
@@ -375,6 +390,7 @@ def score(
         regime=regime,
         active_priors=priors or {},
         tracker_weight=tracker_weight,
+        insider_weight=insider_weight,
         events_used=sorted({ev.id for ef in events for ev in ef.events}),
         picks=picks,
     )
