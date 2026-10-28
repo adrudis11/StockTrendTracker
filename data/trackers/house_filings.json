@@ -1,0 +1,9823 @@
+{
+"20000788": {
+"filed": "2024-05-23",
+"member": "Jeff Duncan",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20016861": {
+"filed": "2025-05-16",
+"member": "John McGuire",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20018054": {
+"filed": "2025-01-10",
+"member": "James Comer",
+"status": "parsed",
+"trades": 28,
+"year": "2025"
+},
+"20019182": {
+"filed": "2026-04-30",
+"member": "Lloyd K. Smucker",
+"status": "parsed",
+"trades": 8,
+"year": "2026"
+},
+"20020055": {
+"filed": "2026-06-12",
+"member": "Nicholas Begich",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20021220": {
+"filed": "2025-02-15",
+"member": "August Lee Pfluger",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20021523": {
+"filed": "2024-08-06",
+"member": "David P. Joyce",
+"status": "parsed",
+"trades": 12,
+"year": "2024"
+},
+"20022577": {
+"filed": "2026-07-19",
+"member": "William R. Timmons",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20023767": {
+"filed": "2024-01-16",
+"member": "William R. Keating",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20023805": {
+"filed": "2024-01-16",
+"member": "Sean Casten",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024062": {
+"filed": "2024-01-17",
+"member": "Mark Dr Green",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20024188": {
+"filed": "2024-01-04",
+"member": "Steve Cohen",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20024212": {
+"filed": "2024-01-24",
+"member": "Pete Sessions",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20024215": {
+"filed": "2024-01-10",
+"member": "James French Hill",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20024230": {
+"filed": "2024-01-04",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20024231": {
+"filed": "2024-01-12",
+"member": "Kathy Manning",
+"status": "parsed",
+"trades": 18,
+"year": "2024"
+},
+"20024248": {
+"filed": "2024-01-07",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 42,
+"year": "2024"
+},
+"20024249": {
+"filed": "2024-01-04",
+"member": "Laurel Mrs Lee",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024253": {
+"filed": "2024-01-12",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 5,
+"year": "2024"
+},
+"20024254": {
+"filed": "2024-01-04",
+"member": "Earl Blumenauer",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20024265": {
+"filed": "2024-01-08",
+"member": "Michael C. Burgess",
+"status": "parsed",
+"trades": 4,
+"year": "2024"
+},
+"20024268": {
+"filed": "2024-01-08",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 5,
+"year": "2024"
+},
+"20024270": {
+"filed": "2024-02-15",
+"member": "Debbie Dingell",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024271": {
+"filed": "2024-04-02",
+"member": "Thomas R. Suozzi",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024275": {
+"filed": "2024-01-09",
+"member": "Michael A. Collins",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024277": {
+"filed": "2024-01-11",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 4,
+"year": "2024"
+},
+"20024286": {
+"filed": "2024-01-22",
+"member": "Jared Moskowitz",
+"status": "parsed",
+"trades": 34,
+"year": "2024"
+},
+"20024296": {
+"filed": "2024-01-12",
+"member": "Maria Elvira Salazar",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024300": {
+"filed": "2024-01-12",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024305": {
+"filed": "2024-01-13",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 16,
+"year": "2024"
+},
+"20024309": {
+"filed": "2024-01-26",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024316": {
+"filed": "2024-01-22",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024317": {
+"filed": "2024-01-22",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024324": {
+"filed": "2024-01-17",
+"member": "Dwight Evans",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20024330": {
+"filed": "2024-01-22",
+"member": "Michael C. Burgess",
+"status": "parsed",
+"trades": 11,
+"year": "2024"
+},
+"20024339": {
+"filed": "2024-01-19",
+"member": "Rick Larsen",
+"status": "parsed",
+"trades": 4,
+"year": "2024"
+},
+"20024346": {
+"filed": "2025-02-13",
+"member": "Rob Bresnahan",
+"status": "parsed",
+"trades": 129,
+"year": "2025"
+},
+"20024347": {
+"filed": "2024-01-21",
+"member": "Judy Chu",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20024353": {
+"filed": "2024-01-22",
+"member": "Rudy Yakym",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024354": {
+"filed": "2024-01-24",
+"member": "Blake Moore",
+"status": "parsed",
+"trades": 39,
+"year": "2024"
+},
+"20024369": {
+"filed": "2024-01-26",
+"member": "Doris O. Matsui",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024375": {
+"filed": "2024-02-29",
+"member": "Pete Sessions",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20024380": {
+"filed": "2024-01-26",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024392": {
+"filed": "2024-01-29",
+"member": "Rudy Yakym",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024403": {
+"filed": "2024-01-31",
+"member": "Debbie Wasserman Schultz",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20024413": {
+"filed": "2024-02-01",
+"member": "Mark Dr Green",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024424": {
+"filed": "2024-02-05",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 10,
+"year": "2024"
+},
+"20024425": {
+"filed": "2024-02-05",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024435": {
+"filed": "2024-02-12",
+"member": "Katherine M. Clark",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024436": {
+"filed": "2024-02-06",
+"member": "Kathy Manning",
+"status": "parsed",
+"trades": 83,
+"year": "2024"
+},
+"20024437": {
+"filed": "2024-02-05",
+"member": "Michael C. Burgess",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20024445": {
+"filed": "2024-02-05",
+"member": "William R. Keating",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024446": {
+"filed": "2024-02-06",
+"member": "Chellie Pingree",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024450": {
+"filed": "2024-02-15",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 6,
+"year": "2024"
+},
+"20024458": {
+"filed": "2024-02-16",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024461": {
+"filed": "2024-02-15",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 37,
+"year": "2024"
+},
+"20024465": {
+"filed": "2024-02-08",
+"member": "Maria Elvira Salazar",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024468": {
+"filed": "2024-02-23",
+"member": "Shri Thanedar",
+"status": "parsed",
+"trades": 11,
+"year": "2024"
+},
+"20024472": {
+"filed": "2024-02-09",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024477": {
+"filed": "2024-02-15",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024481": {
+"filed": "2024-02-11",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 4,
+"year": "2024"
+},
+"20024492": {
+"filed": "2024-02-13",
+"member": "Cliff Bentz",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024494": {
+"filed": "2024-02-13",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024495": {
+"filed": "2024-02-21",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024505": {
+"filed": "2024-02-14",
+"member": "Robert E. Latta",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024509": {
+"filed": "2024-02-20",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20024515": {
+"filed": "2024-02-15",
+"member": "Victoria Spartz",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20024517": {
+"filed": "2024-02-15",
+"member": "Garret Graves",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024519": {
+"filed": "2024-02-16",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024540": {
+"filed": "2024-02-28",
+"member": "Steve Cohen",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024542": {
+"filed": "2024-02-23",
+"member": "Nancy Pelosi",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20024572": {
+"filed": "2024-02-29",
+"member": "Mark Dr Green",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024577": {
+"filed": "2024-03-01",
+"member": "Adrian Smith",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024580": {
+"filed": "2024-03-02",
+"member": "Earl Blumenauer",
+"status": "parsed",
+"trades": 6,
+"year": "2024"
+},
+"20024581": {
+"filed": "2024-03-08",
+"member": "Suzan K. DelBene",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024588": {
+"filed": "2024-03-05",
+"member": "Katherine M. Clark",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024596": {
+"filed": "2024-03-07",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 14,
+"year": "2024"
+},
+"20024604": {
+"filed": "2024-03-04",
+"member": "Kathy Manning",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024606": {
+"filed": "2024-03-19",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024611": {
+"filed": "2024-03-05",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024612": {
+"filed": "2024-03-07",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 42,
+"year": "2024"
+},
+"20024622": {
+"filed": "2024-03-12",
+"member": "Michael Patrick Guest",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024625": {
+"filed": "2024-03-21",
+"member": "Nancy Pelosi",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024627": {
+"filed": "2024-03-07",
+"member": "Michael C. Burgess",
+"status": "parsed",
+"trades": 7,
+"year": "2024"
+},
+"20024632": {
+"filed": "2024-03-07",
+"member": "Pete Sessions",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20024649": {
+"filed": "2024-03-10",
+"member": "Maria Elvira Salazar",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024654": {
+"filed": "2024-03-11",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024660": {
+"filed": "2024-03-15",
+"member": "Greg Steube",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024662": {
+"filed": "2024-03-11",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024668": {
+"filed": "2024-03-12",
+"member": "William R. Keating",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20024669": {
+"filed": "2024-03-12",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 6,
+"year": "2024"
+},
+"20024671": {
+"filed": "2024-03-12",
+"member": "Earl Blumenauer",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024672": {
+"filed": "2024-08-06",
+"member": "Jared Moskowitz",
+"status": "parsed",
+"trades": 60,
+"year": "2024"
+},
+"20024673": {
+"filed": "2024-03-12",
+"member": "Michael Garcia",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024677": {
+"filed": "2024-03-13",
+"member": "Mark Dr Green",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024685": {
+"filed": "2024-03-18",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20024705": {
+"filed": "2024-03-18",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024710": {
+"filed": "2024-03-21",
+"member": "Daniel Meuser",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20024722": {
+"filed": "2024-03-22",
+"member": "Michael C. Burgess",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20024728": {
+"filed": "2024-03-22",
+"member": "Gerald E. Connolly",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20024730": {
+"filed": "2024-05-15",
+"member": "David Trone",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024743": {
+"filed": "2024-03-26",
+"member": "Brian Mast",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20024750": {
+"filed": "2024-03-27",
+"member": "Nanette Barragan",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024754": {
+"filed": "2024-03-28",
+"member": "Kathy Castor",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024758": {
+"filed": "2024-03-28",
+"member": "Mark Pocan",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024769": {
+"filed": "2024-03-31",
+"member": "Donald Sternoff Beyer",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024772": {
+"filed": "2024-04-01",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024787": {
+"filed": "2024-04-06",
+"member": "Greg Steube",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024795": {
+"filed": "2024-04-04",
+"member": "Katherine M. Clark",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20024797": {
+"filed": "2024-04-04",
+"member": "Earl Blumenauer",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024800": {
+"filed": "2024-04-07",
+"member": "Mark Dr Green",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024801": {
+"filed": "2024-04-07",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 33,
+"year": "2024"
+},
+"20024810": {
+"filed": "2024-04-05",
+"member": "Tracey Robert Mann",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024811": {
+"filed": "2024-04-24",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 5,
+"year": "2024"
+},
+"20024825": {
+"filed": "2024-04-10",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20024836": {
+"filed": "2024-04-18",
+"member": "Felix Barry Moore",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024837": {
+"filed": "2024-04-17",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024838": {
+"filed": "2024-04-10",
+"member": "Michael C. Burgess",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20024839": {
+"filed": "2024-04-09",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 4,
+"year": "2024"
+},
+"20024842": {
+"filed": "2024-04-10",
+"member": "Rick Larsen",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20024846": {
+"filed": "2024-04-10",
+"member": "Chellie Pingree",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024848": {
+"filed": "2024-04-11",
+"member": "Chip Roy",
+"status": "parsed",
+"trades": 7,
+"year": "2024"
+},
+"20024852": {
+"filed": "2024-05-02",
+"member": "William R. Keating",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024862": {
+"filed": "2024-05-15",
+"member": "Shri Thanedar",
+"status": "parsed",
+"trades": 11,
+"year": "2024"
+},
+"20024869": {
+"filed": "2024-04-12",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 15,
+"year": "2024"
+},
+"20024876": {
+"filed": "2024-04-15",
+"member": "Eleanor Holmes Norton",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024901": {
+"filed": "2024-04-20",
+"member": "Robert E. Latta",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024916": {
+"filed": "2024-04-23",
+"member": "C. Scott Franklin",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20024917": {
+"filed": "2024-04-25",
+"member": "Dan Newhouse",
+"status": "parsed",
+"trades": 28,
+"year": "2024"
+},
+"20024923": {
+"filed": "2024-04-25",
+"member": "Nanette Barragan",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024924": {
+"filed": "2024-05-01",
+"member": "Marjorie Taylor Mrs Greene",
+"status": "parsed",
+"trades": 7,
+"year": "2024"
+},
+"20024927": {
+"filed": "2025-04-04",
+"member": "Greg Steube",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20024954": {
+"filed": "2024-05-07",
+"member": "Mark Dr Green",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024966": {
+"filed": "2024-05-02",
+"member": "Michael C. Burgess",
+"status": "parsed",
+"trades": 4,
+"year": "2024"
+},
+"20024982": {
+"filed": "2024-05-03",
+"member": "Kathy Manning",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20024984": {
+"filed": "2024-05-04",
+"member": "Earl Blumenauer",
+"status": "parsed",
+"trades": 12,
+"year": "2024"
+},
+"20024986": {
+"filed": "2024-05-05",
+"member": "Deborah Ross",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20024996": {
+"filed": "2024-05-06",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20024997": {
+"filed": "2024-05-06",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025000": {
+"filed": "2024-05-07",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 4,
+"year": "2024"
+},
+"20025006": {
+"filed": "2024-05-08",
+"member": "Chellie Pingree",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025014": {
+"filed": "2024-05-08",
+"member": "Maria Elvira Salazar",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20025020": {
+"filed": "2024-05-15",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 29,
+"year": "2024"
+},
+"20025021": {
+"filed": "2024-05-09",
+"member": "Marjorie Taylor Mrs Greene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025025": {
+"filed": "2024-05-09",
+"member": "Stephen F. Lynch",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025026": {
+"filed": "2024-05-14",
+"member": "Glenn S. Grothman",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025031": {
+"filed": "2024-05-14",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025035": {
+"filed": "2024-05-14",
+"member": "Lois Frankel",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025037": {
+"filed": "2024-05-13",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025040": {
+"filed": "2024-05-12",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025052": {
+"filed": "2024-05-13",
+"member": "Eleanor Holmes Norton",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025053": {
+"filed": "2024-05-13",
+"member": "Eleanor Holmes Norton",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025056": {
+"filed": "2024-05-16",
+"member": "Debbie Dingell",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025059": {
+"filed": "2024-05-30",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20025061": {
+"filed": "2024-05-13",
+"member": "Daniel Meuser",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025064": {
+"filed": "2024-05-14",
+"member": "Mark Dr Green",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20025065": {
+"filed": "2024-05-13",
+"member": "Mikie Sherrill",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025087": {
+"filed": "2024-05-15",
+"member": "Mikie Sherrill",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025096": {
+"filed": "2024-05-24",
+"member": "Susie Lee",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025103": {
+"filed": "2024-05-20",
+"member": "Anna Paulina Luna",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025104": {
+"filed": "2024-05-22",
+"member": "Neal Patrick Dunn, MD, FACS",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025107": {
+"filed": "2024-05-21",
+"member": "Eleanor Holmes Norton",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025108": {
+"filed": "2024-05-21",
+"member": "Marjorie Taylor Mrs Greene",
+"status": "parsed",
+"trades": 6,
+"year": "2024"
+},
+"20025111": {
+"filed": "2024-05-23",
+"member": "Doris O. Matsui",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025112": {
+"filed": "2024-05-22",
+"member": "Kathy Manning",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025115": {
+"filed": "2024-05-22",
+"member": "Pete Sessions",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025116": {
+"filed": "2024-05-25",
+"member": "Laurel Mrs Lee",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025119": {
+"filed": "2024-05-22",
+"member": "William R. Keating",
+"status": "parsed",
+"trades": 9,
+"year": "2024"
+},
+"20025123": {
+"filed": "2024-05-23",
+"member": "Stephen F. Lynch",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025133": {
+"filed": "2024-06-06",
+"member": "Donald Sternoff Beyer",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025151": {
+"filed": "2024-06-12",
+"member": "Roger Williams",
+"status": "parsed",
+"trades": 16,
+"year": "2024"
+},
+"20025152": {
+"filed": "2024-06-04",
+"member": "Doris O. Matsui",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025165": {
+"filed": "2024-05-31",
+"member": "Rudy Yakym",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025170": {
+"filed": "2024-06-02",
+"member": "C. Scott Franklin",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025178": {
+"filed": "2024-06-10",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025179": {
+"filed": "2024-06-10",
+"member": "Debbie Wasserman Schultz",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025194": {
+"filed": "2024-06-06",
+"member": "Earl Blumenauer",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025200": {
+"filed": "2024-06-06",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 5,
+"year": "2024"
+},
+"20025201": {
+"filed": "2024-06-10",
+"member": "Chip Roy",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025202": {
+"filed": "2024-06-05",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025203": {
+"filed": "2024-06-05",
+"member": "Carol Devine Miller",
+"status": "parsed",
+"trades": 10,
+"year": "2024"
+},
+"20025205": {
+"filed": "2024-06-05",
+"member": "Abigail Spanberger",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025207": {
+"filed": "2024-06-08",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 32,
+"year": "2024"
+},
+"20025214": {
+"filed": "2024-06-06",
+"member": "Pete Sessions",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025219": {
+"filed": "2024-06-06",
+"member": "Earl Blumenauer",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025224": {
+"filed": "2024-06-06",
+"member": "Abigail Spanberger",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025226": {
+"filed": "2024-06-21",
+"member": "William R. Keating",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025232": {
+"filed": "2024-06-07",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 8,
+"year": "2024"
+},
+"20025236": {
+"filed": "2024-06-10",
+"member": "Maria Elvira Salazar",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20025238": {
+"filed": "2024-06-09",
+"member": "Robert E. Latta",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025240": {
+"filed": "2024-06-20",
+"member": "Dean Phillips",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025243": {
+"filed": "2024-06-10",
+"member": "Daniel Webster",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025255": {
+"filed": "2024-06-12",
+"member": "Mark Dr Green",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025257": {
+"filed": "2024-06-12",
+"member": "Earl Leroy Carter",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025280": {
+"filed": "2024-06-14",
+"member": "Mike Kelly",
+"status": "parsed",
+"trades": 8,
+"year": "2024"
+},
+"20025281": {
+"filed": "2024-07-03",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025282": {
+"filed": "2024-06-14",
+"member": "Michael A. Collins",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025285": {
+"filed": "2024-06-25",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025287": {
+"filed": "2024-06-21",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20025291": {
+"filed": "2024-06-18",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20025306": {
+"filed": "2024-06-24",
+"member": "Debbie Dingell",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20025312": {
+"filed": "2024-06-20",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025328": {
+"filed": "2024-06-24",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025337": {
+"filed": "2024-06-27",
+"member": "Marjorie Taylor Mrs Greene",
+"status": "parsed",
+"trades": 6,
+"year": "2024"
+},
+"20025345": {
+"filed": "2024-06-28",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025348": {
+"filed": "2024-06-28",
+"member": "Rudy Yakym",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025349": {
+"filed": "2024-06-28",
+"member": "Earl Leroy Carter",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025360": {
+"filed": "2024-07-01",
+"member": "Debbie Wasserman Schultz",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025368": {
+"filed": "2024-07-02",
+"member": "Nancy Pelosi",
+"status": "parsed",
+"trades": 4,
+"year": "2024"
+},
+"20025371": {
+"filed": "2024-07-02",
+"member": "Chellie Pingree",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025372": {
+"filed": "2024-07-02",
+"member": "Seth Magaziner",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025373": {
+"filed": "2024-07-06",
+"member": "Kathy Manning",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025379": {
+"filed": "2024-07-11",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025384": {
+"filed": "2024-08-09",
+"member": "Sean Casten",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025387": {
+"filed": "2024-07-02",
+"member": "Brandon McDonald Williams",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025388": {
+"filed": "2024-07-03",
+"member": "Morgan McGarvey",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20025397": {
+"filed": "2024-07-03",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 4,
+"year": "2024"
+},
+"20025403": {
+"filed": "2024-07-06",
+"member": "Earl Blumenauer",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025404": {
+"filed": "2024-07-05",
+"member": "Gerald E. Connolly",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20025411": {
+"filed": "2024-07-10",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025419": {
+"filed": "2024-07-09",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 118,
+"year": "2024"
+},
+"20025424": {
+"filed": "2024-07-15",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025429": {
+"filed": "2024-07-09",
+"member": "Mark Dr Green",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025437": {
+"filed": "2024-07-10",
+"member": "Brandon McDonald Williams",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025438": {
+"filed": "2024-08-03",
+"member": "Daniel Meuser",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025439": {
+"filed": "2024-07-12",
+"member": "Jamie Raskin",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025446": {
+"filed": "2024-07-11",
+"member": "Michael A. Collins",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025448": {
+"filed": "2024-07-11",
+"member": "Rudy Yakym",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025466": {
+"filed": "2024-08-01",
+"member": "Dean Phillips",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025473": {
+"filed": "2024-07-15",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 16,
+"year": "2024"
+},
+"20025475": {
+"filed": "2024-07-15",
+"member": "Kathy Castor",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025478": {
+"filed": "2024-07-20",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025486": {
+"filed": "2024-07-17",
+"member": "Rick Larsen",
+"status": "parsed",
+"trades": 4,
+"year": "2024"
+},
+"20025499": {
+"filed": "2024-07-24",
+"member": "Earl Leroy Carter",
+"status": "parsed",
+"trades": 4,
+"year": "2024"
+},
+"20025507": {
+"filed": "2024-07-21",
+"member": "Robert E. Latta",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025518": {
+"filed": "2024-07-24",
+"member": "Marjorie Taylor Mrs Greene",
+"status": "parsed",
+"trades": 6,
+"year": "2024"
+},
+"20025519": {
+"filed": "2024-07-25",
+"member": "Victoria Spartz",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025535": {
+"filed": "2024-07-30",
+"member": "Nancy Pelosi",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20025546": {
+"filed": "2024-08-05",
+"member": "Laurel Mrs Lee",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20025548": {
+"filed": "2024-07-31",
+"member": "Michael C. Burgess",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20025563": {
+"filed": "2024-08-07",
+"member": "Stephen F. Lynch",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025568": {
+"filed": "2024-08-06",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025572": {
+"filed": "2024-08-02",
+"member": "Marjorie Taylor Mrs Greene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025576": {
+"filed": "2024-08-07",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025588": {
+"filed": "2024-08-06",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20025592": {
+"filed": "2024-08-05",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025597": {
+"filed": "2024-08-05",
+"member": "Rudy Yakym",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025601": {
+"filed": "2024-08-08",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20025603": {
+"filed": "2024-08-06",
+"member": "Earl Blumenauer",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20025605": {
+"filed": "2024-08-12",
+"member": "Michael C. Burgess",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025614": {
+"filed": "2024-08-11",
+"member": "Mark Dr Green",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20025620": {
+"filed": "2024-08-10",
+"member": "Stephanie Bice",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025622": {
+"filed": "2024-08-14",
+"member": "Greg Landsman",
+"status": "parsed",
+"trades": 89,
+"year": "2024"
+},
+"20025626": {
+"filed": "2024-08-12",
+"member": "James E Hon Banks",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025632": {
+"filed": "2024-08-09",
+"member": "Michael Garcia",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025634": {
+"filed": "2024-08-10",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025635": {
+"filed": "2024-08-12",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 7,
+"year": "2024"
+},
+"20025660": {
+"filed": "2024-08-13",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025661": {
+"filed": "2024-08-13",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025670": {
+"filed": "2024-08-13",
+"member": "Ruben Gallego",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025671": {
+"filed": "2024-08-13",
+"member": "Thomas H. Kean",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025675": {
+"filed": "2024-08-14",
+"member": "Marjorie Taylor Mrs Greene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025678": {
+"filed": "2024-08-15",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 57,
+"year": "2024"
+},
+"20025679": {
+"filed": "2024-08-16",
+"member": "Kathy Manning",
+"status": "parsed",
+"trades": 68,
+"year": "2024"
+},
+"20025680": {
+"filed": "2024-08-19",
+"member": "Jared Moskowitz",
+"status": "parsed",
+"trades": 23,
+"year": "2024"
+},
+"20025681": {
+"filed": "2024-08-19",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025700": {
+"filed": "2024-08-27",
+"member": "Sean Casten",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025705": {
+"filed": "2024-08-23",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025708": {
+"filed": "2024-08-21",
+"member": "Jake Auchincloss",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025711": {
+"filed": "2024-08-20",
+"member": "C. Scott Franklin",
+"status": "parsed",
+"trades": 47,
+"year": "2024"
+},
+"20025712": {
+"filed": "2024-08-21",
+"member": "Jared Moskowitz",
+"status": "parsed",
+"trades": 81,
+"year": "2024"
+},
+"20025714": {
+"filed": "2024-09-14",
+"member": "Laurel Lee",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20025719": {
+"filed": "2024-09-02",
+"member": "John James",
+"status": "parsed",
+"trades": 143,
+"year": "2024"
+},
+"20025722": {
+"filed": "2024-08-22",
+"member": "Marjorie Taylor Mrs Greene",
+"status": "parsed",
+"trades": 6,
+"year": "2024"
+},
+"20025729": {
+"filed": "2024-08-25",
+"member": "Michael A. Collins",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025740": {
+"filed": "2024-08-28",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025765": {
+"filed": "2024-09-03",
+"member": "Morgan McGarvey",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025768": {
+"filed": "2024-09-09",
+"member": "Suzan K. DelBene",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025770": {
+"filed": "2024-09-04",
+"member": "Kathy Manning",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20025771": {
+"filed": "2024-09-04",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20025773": {
+"filed": "2024-09-03",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025776": {
+"filed": "2024-09-04",
+"member": "Donald Sternoff Beyer",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025777": {
+"filed": "2024-09-04",
+"member": "Marjorie Taylor Mrs Greene",
+"status": "parsed",
+"trades": 13,
+"year": "2024"
+},
+"20025785": {
+"filed": "2024-09-05",
+"member": "Chellie Pingree",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025787": {
+"filed": "2024-09-06",
+"member": "Earl Blumenauer",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025789": {
+"filed": "2024-09-05",
+"member": "Eleanor Holmes Norton",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025791": {
+"filed": "2024-09-24",
+"member": "Michael C. Burgess",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025792": {
+"filed": "2024-09-20",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20025793": {
+"filed": "2024-09-05",
+"member": "Debbie Wasserman Schultz",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025797": {
+"filed": "2024-09-11",
+"member": "Mark Dr Green",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025799": {
+"filed": "2024-09-06",
+"member": "John James",
+"status": "parsed",
+"trades": 122,
+"year": "2024"
+},
+"20025804": {
+"filed": "2024-09-11",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 32,
+"year": "2024"
+},
+"20025806": {
+"filed": "2024-09-06",
+"member": "Lance Gooden",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20025813": {
+"filed": "2024-09-11",
+"member": "Maria Elvira Salazar",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025819": {
+"filed": "2024-09-11",
+"member": "Nancy Pelosi",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025820": {
+"filed": "2024-09-09",
+"member": "Doris O. Matsui",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025821": {
+"filed": "2024-09-09",
+"member": "Marjorie Taylor Mrs Greene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025822": {
+"filed": "2024-09-09",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025827": {
+"filed": "2024-09-12",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025829": {
+"filed": "2024-09-10",
+"member": "Rudy Yakym",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025831": {
+"filed": "2024-09-10",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025834": {
+"filed": "2024-09-23",
+"member": "Greg Landsman",
+"status": "parsed",
+"trades": 5,
+"year": "2024"
+},
+"20025848": {
+"filed": "2024-09-12",
+"member": "Pete Sessions",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20025855": {
+"filed": "2024-09-13",
+"member": "Carol Devine Miller",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025867": {
+"filed": "2024-09-16",
+"member": "Pete Sessions",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025875": {
+"filed": "2024-09-20",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025886": {
+"filed": "2024-09-20",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025889": {
+"filed": "2024-09-23",
+"member": "Marjorie Taylor Mrs Greene",
+"status": "parsed",
+"trades": 9,
+"year": "2024"
+},
+"20025891": {
+"filed": "2024-09-24",
+"member": "William R. Keating",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20025892": {
+"filed": "2024-09-25",
+"member": "Morgan McGarvey",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20025909": {
+"filed": "2024-09-25",
+"member": "Darrell E. Issa",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025910": {
+"filed": "2024-09-26",
+"member": "Rudy Yakym",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025913": {
+"filed": "2024-09-26",
+"member": "Darrell E. Issa",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025916": {
+"filed": "2024-09-27",
+"member": "Darin McKay LaHood",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025938": {
+"filed": "2024-10-11",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 4,
+"year": "2024"
+},
+"20025940": {
+"filed": "2024-10-04",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025942": {
+"filed": "2024-10-01",
+"member": "Michael C. Burgess",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025946": {
+"filed": "2024-10-14",
+"member": "Greg Landsman",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20025948": {
+"filed": "2024-10-04",
+"member": "Mark Dr Green",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20025953": {
+"filed": "2024-10-03",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 52,
+"year": "2024"
+},
+"20025959": {
+"filed": "2024-10-05",
+"member": "Kathy Manning",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20025970": {
+"filed": "2024-10-08",
+"member": "Earl Blumenauer",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20025986": {
+"filed": "2024-10-08",
+"member": "Marjorie Taylor Mrs Greene",
+"status": "parsed",
+"trades": 8,
+"year": "2024"
+},
+"20025998": {
+"filed": "2024-10-10",
+"member": "Marjorie Taylor Mrs Greene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026002": {
+"filed": "2024-10-10",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 4,
+"year": "2024"
+},
+"20026009": {
+"filed": "2024-10-11",
+"member": "Gerald E. Connolly",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20026016": {
+"filed": "2024-10-16",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026020": {
+"filed": "2024-10-15",
+"member": "C. Scott Franklin",
+"status": "parsed",
+"trades": 4,
+"year": "2024"
+},
+"20026021": {
+"filed": "2024-10-15",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 16,
+"year": "2024"
+},
+"20026023": {
+"filed": "2024-10-15",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026031": {
+"filed": "2024-10-18",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20026032": {
+"filed": "2024-10-21",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20026033": {
+"filed": "2024-10-16",
+"member": "Kevin Hern",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026036": {
+"filed": "2024-10-17",
+"member": "Rudy Yakym",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026059": {
+"filed": "2024-10-22",
+"member": "Marjorie Taylor Mrs Greene",
+"status": "parsed",
+"trades": 10,
+"year": "2024"
+},
+"20026063": {
+"filed": "2024-11-21",
+"member": "Laurel Lee",
+"status": "parsed",
+"trades": 4,
+"year": "2024"
+},
+"20026077": {
+"filed": "2024-10-24",
+"member": "Thomas R. Suozzi",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20026090": {
+"filed": "2024-10-28",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026091": {
+"filed": "2024-11-06",
+"member": "William R. Keating",
+"status": "parsed",
+"trades": 5,
+"year": "2024"
+},
+"20026092": {
+"filed": "2024-10-29",
+"member": "Mark Dr Green",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20026097": {
+"filed": "2024-10-28",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026099": {
+"filed": "2024-11-07",
+"member": "Byron Donalds",
+"status": "parsed",
+"trades": 8,
+"year": "2024"
+},
+"20026101": {
+"filed": "2024-11-14",
+"member": "Greg Landsman",
+"status": "parsed",
+"trades": 12,
+"year": "2024"
+},
+"20026123": {
+"filed": "2024-11-07",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026124": {
+"filed": "2024-11-12",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20026125": {
+"filed": "2024-11-29",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20026126": {
+"filed": "2024-11-01",
+"member": "Pete Sessions",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20026127": {
+"filed": "2024-11-07",
+"member": "Michael A. Collins",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026134": {
+"filed": "2024-11-03",
+"member": "Donald Sternoff Beyer",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026136": {
+"filed": "2024-11-04",
+"member": "Victoria Spartz",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20026140": {
+"filed": "2024-11-07",
+"member": "Neal Patrick Dunn, MD, FACS",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026141": {
+"filed": "2024-11-05",
+"member": "Earl Blumenauer",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026143": {
+"filed": "2024-11-05",
+"member": "Kathy Manning",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026149": {
+"filed": "2024-11-04",
+"member": "Marjorie Taylor Mrs Greene",
+"status": "parsed",
+"trades": 10,
+"year": "2024"
+},
+"20026150": {
+"filed": "2024-11-13",
+"member": "Chellie Pingree",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026151": {
+"filed": "2024-11-05",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20026154": {
+"filed": "2024-11-06",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 49,
+"year": "2024"
+},
+"20026160": {
+"filed": "2024-11-09",
+"member": "Debbie Dingell",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026165": {
+"filed": "2024-11-07",
+"member": "Robert E. Latta",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20026168": {
+"filed": "2024-11-07",
+"member": "Thomas R. Suozzi",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20026174": {
+"filed": "2024-11-08",
+"member": "Marjorie Taylor Mrs Greene",
+"status": "parsed",
+"trades": 12,
+"year": "2024"
+},
+"20026184": {
+"filed": "2024-11-11",
+"member": "Maria Elvira Salazar",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20026188": {
+"filed": "2024-11-15",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026191": {
+"filed": "2024-11-14",
+"member": "Richard W. Allen",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026202": {
+"filed": "2024-11-12",
+"member": "Thomas R. Suozzi",
+"status": "parsed",
+"trades": 5,
+"year": "2024"
+},
+"20026203": {
+"filed": "2024-11-12",
+"member": "Thomas R. Suozzi",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20026207": {
+"filed": "2024-11-13",
+"member": "Morgan McGarvey",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20026212": {
+"filed": "2024-11-13",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026222": {
+"filed": "2024-11-15",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20026231": {
+"filed": "2024-11-15",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026238": {
+"filed": "2024-11-21",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026246": {
+"filed": "2024-11-21",
+"member": "Jake Auchincloss",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20026247": {
+"filed": "2024-11-20",
+"member": "Debbie Wasserman Schultz",
+"status": "parsed",
+"trades": 4,
+"year": "2024"
+},
+"20026250": {
+"filed": "2024-12-16",
+"member": "Neal Patrick Dunn, MD, FACS",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026257": {
+"filed": "2024-11-21",
+"member": "Marjorie Taylor Mrs Greene",
+"status": "parsed",
+"trades": 8,
+"year": "2024"
+},
+"20026281": {
+"filed": "2024-11-27",
+"member": "Marjorie Taylor Mrs Greene",
+"status": "parsed",
+"trades": 17,
+"year": "2024"
+},
+"20026303": {
+"filed": "2024-12-02",
+"member": "Michael A. Collins",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026310": {
+"filed": "2024-12-03",
+"member": "Rudy Yakym",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026311": {
+"filed": "2024-12-03",
+"member": "Rudy Yakym",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026313": {
+"filed": "2024-12-12",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 5,
+"year": "2024"
+},
+"20026314": {
+"filed": "2024-12-05",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 37,
+"year": "2024"
+},
+"20026322": {
+"filed": "2024-12-04",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20026340": {
+"filed": "2024-12-05",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026346": {
+"filed": "2024-12-09",
+"member": "Jared Moskowitz",
+"status": "parsed",
+"trades": 39,
+"year": "2024"
+},
+"20026347": {
+"filed": "2024-12-07",
+"member": "Earl Blumenauer",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20026353": {
+"filed": "2024-12-07",
+"member": "Donald Sternoff Beyer",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026360": {
+"filed": "2024-12-10",
+"member": "Morgan McGarvey",
+"status": "parsed",
+"trades": 13,
+"year": "2024"
+},
+"20026361": {
+"filed": "2024-12-12",
+"member": "Greg Landsman",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20026376": {
+"filed": "2024-12-11",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20026380": {
+"filed": "2024-12-12",
+"member": "Mike Kelly",
+"status": "parsed",
+"trades": 2,
+"year": "2024"
+},
+"20026382": {
+"filed": "2024-12-12",
+"member": "Lance Gooden",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20026393": {
+"filed": "2024-12-16",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026408": {
+"filed": "2024-12-16",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 5,
+"year": "2024"
+},
+"20026412": {
+"filed": "2024-12-20",
+"member": "Michael Patrick Guest",
+"status": "parsed",
+"trades": 3,
+"year": "2024"
+},
+"20026415": {
+"filed": "2024-12-16",
+"member": "Kevin Hern",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026418": {
+"filed": "2024-12-17",
+"member": "Mark Dr Green",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20026423": {
+"filed": "2024-12-23",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026428": {
+"filed": "2024-12-17",
+"member": "Marjorie Taylor Mrs Greene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026440": {
+"filed": "2024-12-18",
+"member": "David P. Joyce",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026446": {
+"filed": "2024-12-19",
+"member": "Pete Sessions",
+"status": "parsed",
+"trades": 1,
+"year": "2024"
+},
+"20026473": {
+"filed": "2024-12-27",
+"member": "Marjorie Taylor Mrs Greene",
+"status": "parsed",
+"trades": 14,
+"year": "2024"
+},
+"20026480": {
+"filed": "2024-12-29",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2024"
+},
+"20026489": {
+"filed": "2025-01-01",
+"member": "Michael A. Collins",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20026513": {
+"filed": "2025-01-07",
+"member": "Laurel Lee",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20026516": {
+"filed": "2025-01-06",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 13,
+"year": "2025"
+},
+"20026517": {
+"filed": "2025-01-06",
+"member": "Donald Sternoff Beyer",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20026533": {
+"filed": "2025-01-14",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 55,
+"year": "2025"
+},
+"20026535": {
+"filed": "2025-01-08",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 5,
+"year": "2025"
+},
+"20026537": {
+"filed": "2025-01-16",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20026538": {
+"filed": "2025-01-13",
+"member": "Mark Dr Green",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20026545": {
+"filed": "2025-01-16",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 4,
+"year": "2025"
+},
+"20026547": {
+"filed": "2025-01-09",
+"member": "Guy Mr Reschenthaler",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20026548": {
+"filed": "2025-01-10",
+"member": "Steve Cohen",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20026550": {
+"filed": "2025-01-09",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20026551": {
+"filed": "2025-01-15",
+"member": "Greg Landsman",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20026556": {
+"filed": "2025-01-15",
+"member": "William R. Keating",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20026577": {
+"filed": "2025-01-15",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20026587": {
+"filed": "2025-01-14",
+"member": "Rick Larsen",
+"status": "parsed",
+"trades": 8,
+"year": "2025"
+},
+"20026590": {
+"filed": "2025-01-17",
+"member": "Nancy Pelosi",
+"status": "parsed",
+"trades": 9,
+"year": "2025"
+},
+"20026591": {
+"filed": "2025-01-22",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 7,
+"year": "2025"
+},
+"20026597": {
+"filed": "2025-01-15",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 8,
+"year": "2025"
+},
+"20026602": {
+"filed": "2025-02-09",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20026638": {
+"filed": "2025-01-27",
+"member": "Kathy Manning",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20026639": {
+"filed": "2025-01-23",
+"member": "Michael Waltz",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20026647": {
+"filed": "2025-01-27",
+"member": "Debbie Dingell",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20026650": {
+"filed": "2025-01-24",
+"member": "Robert E. Latta",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20026658": {
+"filed": "2025-01-27",
+"member": "Marjorie Taylor Greene",
+"status": "parsed",
+"trades": 53,
+"year": "2025"
+},
+"20026666": {
+"filed": "2025-01-28",
+"member": "Rudy C. Yakym",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20026684": {
+"filed": "2025-01-31",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20026695": {
+"filed": "2025-02-02",
+"member": "Kelly Louise Morrison",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20026696": {
+"filed": "2025-02-02",
+"member": "Michael A. Collins",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20026701": {
+"filed": "2025-02-06",
+"member": "Mark Dr Green",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20026706": {
+"filed": "2025-02-04",
+"member": "James French Hill",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20026712": {
+"filed": "2025-02-10",
+"member": "Byron Donalds",
+"status": "parsed",
+"trades": 13,
+"year": "2025"
+},
+"20026724": {
+"filed": "2025-02-06",
+"member": "Gerald E. Connolly",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20026726": {
+"filed": "2025-02-11",
+"member": "Gilbert Cisneros",
+"status": "parsed",
+"trades": 53,
+"year": "2025"
+},
+"20026727": {
+"filed": "2025-02-20",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20026731": {
+"filed": "2025-02-10",
+"member": "Jared Moskowitz",
+"status": "parsed",
+"trades": 17,
+"year": "2025"
+},
+"20026732": {
+"filed": "2025-02-10",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 80,
+"year": "2025"
+},
+"20026736": {
+"filed": "2025-02-07",
+"member": "David P. Joyce",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20026750": {
+"filed": "2025-02-11",
+"member": "James Comer",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20026754": {
+"filed": "2025-02-10",
+"member": "Victoria Spartz",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20026756": {
+"filed": "2025-02-11",
+"member": "Emily Randall",
+"status": "parsed",
+"trades": 11,
+"year": "2025"
+},
+"20026762": {
+"filed": "2025-02-12",
+"member": "Julie Johnson",
+"status": "parsed",
+"trades": 51,
+"year": "2025"
+},
+"20026770": {
+"filed": "2025-02-12",
+"member": "Jefferson Shreve",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20026774": {
+"filed": "2025-02-18",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20026791": {
+"filed": "2025-02-14",
+"member": "Marjorie Taylor Greene",
+"status": "parsed",
+"trades": 10,
+"year": "2025"
+},
+"20026792": {
+"filed": "2025-02-14",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20026794": {
+"filed": "2025-02-14",
+"member": "Kevin Hern",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20026796": {
+"filed": "2025-02-15",
+"member": "Tim Moore",
+"status": "parsed",
+"trades": 15,
+"year": "2025"
+},
+"20026802": {
+"filed": "2025-02-19",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20027805": {
+"filed": "2025-03-14",
+"member": "Susie Lee",
+"status": "parsed",
+"trades": 4,
+"year": "2025"
+},
+"20027807": {
+"filed": "2025-02-25",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20027810": {
+"filed": "2025-02-21",
+"member": "Jake Auchincloss",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20027820": {
+"filed": "2025-02-21",
+"member": "Michael A. Collins",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20027834": {
+"filed": "2025-02-23",
+"member": "Scott Scott Franklin",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20027837": {
+"filed": "2025-02-25",
+"member": "William R. Keating",
+"status": "parsed",
+"trades": 7,
+"year": "2025"
+},
+"20027838": {
+"filed": "2025-02-24",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20027845": {
+"filed": "2025-02-28",
+"member": "Mark Dr Green",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20027846": {
+"filed": "2025-02-25",
+"member": "Brad Knott",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20027855": {
+"filed": "2025-03-14",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20027867": {
+"filed": "2025-03-01",
+"member": "Roger Williams",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20027876": {
+"filed": "2025-03-03",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20027879": {
+"filed": "2025-03-09",
+"member": "Jefferson Shreve",
+"status": "parsed",
+"trades": 66,
+"year": "2025"
+},
+"20027885": {
+"filed": "2025-03-05",
+"member": "Greg Landsman",
+"status": "parsed",
+"trades": 10,
+"year": "2025"
+},
+"20027891": {
+"filed": "2025-03-06",
+"member": "Gilbert Cisneros",
+"status": "parsed",
+"trades": 26,
+"year": "2025"
+},
+"20027895": {
+"filed": "2025-03-10",
+"member": "Neal Patrick MD, Facs Dunn",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20027896": {
+"filed": "2025-03-06",
+"member": "Jared Moskowitz",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20027900": {
+"filed": "2025-03-05",
+"member": "Mark Dr Green",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20027901": {
+"filed": "2025-03-06",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 59,
+"year": "2025"
+},
+"20027903": {
+"filed": "2025-03-25",
+"member": "Byron Donalds",
+"status": "parsed",
+"trades": 8,
+"year": "2025"
+},
+"20027907": {
+"filed": "2025-03-10",
+"member": "Kelly Louise Morrison",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20027911": {
+"filed": "2025-03-05",
+"member": "Bradley S. Schneider",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20027912": {
+"filed": "2025-03-06",
+"member": "Debbie Wasserman Schultz",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20027913": {
+"filed": "2025-03-06",
+"member": "Earl Leroy Carter",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20027916": {
+"filed": "2025-03-28",
+"member": "Daniel Goldman",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20027923": {
+"filed": "2025-03-07",
+"member": "Rob Bresnahan",
+"status": "parsed",
+"trades": 12,
+"year": "2025"
+},
+"20027927": {
+"filed": "2025-03-12",
+"member": "Richard W. Allen",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20027931": {
+"filed": "2025-03-14",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 5,
+"year": "2025"
+},
+"20027932": {
+"filed": "2025-03-08",
+"member": "Donald Sternoff Beyer",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20027933": {
+"filed": "2025-03-09",
+"member": "Marjorie Taylor Greene",
+"status": "parsed",
+"trades": 7,
+"year": "2025"
+},
+"20027935": {
+"filed": "2025-03-10",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20027936": {
+"filed": "2025-03-12",
+"member": "Julie Johnson",
+"status": "parsed",
+"trades": 48,
+"year": "2025"
+},
+"20027937": {
+"filed": "2025-03-10",
+"member": "Mikie Sherrill",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20027940": {
+"filed": "2025-03-10",
+"member": "Rob Bresnahan",
+"status": "parsed",
+"trades": 8,
+"year": "2025"
+},
+"20027944": {
+"filed": "2025-03-11",
+"member": "Tim Moore",
+"status": "parsed",
+"trades": 16,
+"year": "2025"
+},
+"20027950": {
+"filed": "2025-03-11",
+"member": "Eleanor Holmes Norton",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20027951": {
+"filed": "2025-03-11",
+"member": "Kelly Louise Morrison",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20027961": {
+"filed": "2025-03-14",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20027962": {
+"filed": "2025-03-12",
+"member": "Michael A. Collins",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20027975": {
+"filed": "2025-03-20",
+"member": "April McClain Delaney",
+"status": "parsed",
+"trades": 37,
+"year": "2025"
+},
+"20027982": {
+"filed": "2025-04-23",
+"member": "George Whitesides",
+"status": "parsed",
+"trades": 34,
+"year": "2025"
+},
+"20027995": {
+"filed": "2025-03-18",
+"member": "Scott Scott Franklin",
+"status": "parsed",
+"trades": 9,
+"year": "2025"
+},
+"20027999": {
+"filed": "2025-03-26",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20028002": {
+"filed": "2025-03-19",
+"member": "Marjorie Taylor Greene",
+"status": "parsed",
+"trades": 11,
+"year": "2025"
+},
+"20028007": {
+"filed": "2025-03-21",
+"member": "William R. Keating",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20028016": {
+"filed": "2025-03-23",
+"member": "Marjorie Taylor Greene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20028025": {
+"filed": "2025-04-01",
+"member": "Steve Cohen",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20029026": {
+"filed": "2025-04-07",
+"member": "Gilbert Cisneros",
+"status": "parsed",
+"trades": 36,
+"year": "2025"
+},
+"20029028": {
+"filed": "2025-03-26",
+"member": "Marjorie Taylor Greene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20029034": {
+"filed": "2025-03-27",
+"member": "Rob Bresnahan",
+"status": "parsed",
+"trades": 113,
+"year": "2025"
+},
+"20029035": {
+"filed": "2025-03-27",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20029038": {
+"filed": "2025-04-11",
+"member": "Jefferson Shreve",
+"status": "parsed",
+"trades": 114,
+"year": "2025"
+},
+"20029046": {
+"filed": "2025-04-21",
+"member": "Kathy Manning",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20029053": {
+"filed": "2025-04-02",
+"member": "Debbie Dingell",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20029055": {
+"filed": "2025-04-09",
+"member": "Rob Bresnahan",
+"status": "parsed",
+"trades": 19,
+"year": "2025"
+},
+"20029059": {
+"filed": "2025-04-02",
+"member": "April McClain Delaney",
+"status": "parsed",
+"trades": 17,
+"year": "2025"
+},
+"20029060": {
+"filed": "2025-04-03",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 6,
+"year": "2025"
+},
+"20029061": {
+"filed": "2025-04-04",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 6,
+"year": "2025"
+},
+"20029062": {
+"filed": "2025-04-02",
+"member": "Dwight Evans",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20029064": {
+"filed": "2025-04-14",
+"member": "Julie Johnson",
+"status": "parsed",
+"trades": 19,
+"year": "2025"
+},
+"20029065": {
+"filed": "2025-04-08",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20029067": {
+"filed": "2025-04-04",
+"member": "Kelly Louise Morrison",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20029068": {
+"filed": "2025-04-03",
+"member": "Neal Patrick MD, Facs Dunn",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20029069": {
+"filed": "2025-04-03",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 7,
+"year": "2025"
+},
+"20029070": {
+"filed": "2025-04-10",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20029079": {
+"filed": "2025-04-08",
+"member": "Jared Moskowitz",
+"status": "parsed",
+"trades": 13,
+"year": "2025"
+},
+"20029082": {
+"filed": "2025-04-11",
+"member": "Susie Lee",
+"status": "parsed",
+"trades": 11,
+"year": "2025"
+},
+"20029083": {
+"filed": "2025-04-10",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 47,
+"year": "2025"
+},
+"20029084": {
+"filed": "2025-04-08",
+"member": "Greg Landsman",
+"status": "parsed",
+"trades": 42,
+"year": "2025"
+},
+"20029088": {
+"filed": "2025-04-07",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 4,
+"year": "2025"
+},
+"20029089": {
+"filed": "2025-04-07",
+"member": "Marjorie Taylor Greene",
+"status": "parsed",
+"trades": 18,
+"year": "2025"
+},
+"20029092": {
+"filed": "2025-04-14",
+"member": "Byron Donalds",
+"status": "parsed",
+"trades": 49,
+"year": "2025"
+},
+"20029097": {
+"filed": "2025-04-08",
+"member": "Mark Dr Green",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20029100": {
+"filed": "2025-04-14",
+"member": "Dave Min",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20029105": {
+"filed": "2025-12-06",
+"member": "Debbie Dingell",
+"status": "parsed",
+"trades": 8,
+"year": "2025"
+},
+"20029120": {
+"filed": "2025-04-18",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20029121": {
+"filed": "2025-04-11",
+"member": "Kelly Louise Morrison",
+"status": "parsed",
+"trades": 17,
+"year": "2025"
+},
+"20029130": {
+"filed": "2025-04-11",
+"member": "Michael A. Collins",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20029131": {
+"filed": "2025-05-01",
+"member": "Michael A. Collins",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20029132": {
+"filed": "2025-04-11",
+"member": "Scott Scott Franklin",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20029134": {
+"filed": "2025-04-14",
+"member": "Tim Moore",
+"status": "parsed",
+"trades": 18,
+"year": "2025"
+},
+"20029135": {
+"filed": "2025-04-11",
+"member": "Carol Devine Miller",
+"status": "parsed",
+"trades": 14,
+"year": "2025"
+},
+"20029138": {
+"filed": "2025-04-11",
+"member": "Marjorie Taylor Greene",
+"status": "parsed",
+"trades": 20,
+"year": "2025"
+},
+"20030146": {
+"filed": "2025-04-16",
+"member": "Bruce Westerman",
+"status": "parsed",
+"trades": 107,
+"year": "2025"
+},
+"20030155": {
+"filed": "2025-04-18",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20030158": {
+"filed": "2025-04-15",
+"member": "Rick Larsen",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20030174": {
+"filed": "2025-06-23",
+"member": "William R. Keating",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030179": {
+"filed": "2025-04-17",
+"member": "Dwight Evans",
+"status": "parsed",
+"trades": 13,
+"year": "2025"
+},
+"20030181": {
+"filed": "2025-04-17",
+"member": "Darrell E. Issa",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030185": {
+"filed": "2025-04-23",
+"member": "Kevin Hern",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030187": {
+"filed": "2025-04-17",
+"member": "Scott Scott Franklin",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030188": {
+"filed": "2025-04-21",
+"member": "Thomas Suozzi",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030207": {
+"filed": "2025-05-13",
+"member": "Greg Landsman",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20030212": {
+"filed": "2025-04-22",
+"member": "Rob Bresnahan",
+"status": "parsed",
+"trades": 17,
+"year": "2025"
+},
+"20030215": {
+"filed": "2025-04-23",
+"member": "Earl Leroy Carter",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030231": {
+"filed": "2025-05-08",
+"member": "Jefferson Shreve",
+"status": "parsed",
+"trades": 141,
+"year": "2025"
+},
+"20030233": {
+"filed": "2025-04-26",
+"member": "Victoria Spartz",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030234": {
+"filed": "2025-04-27",
+"member": "Robert E. Latta",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030235": {
+"filed": "2025-05-12",
+"member": "Terri A. Sewell",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20030236": {
+"filed": "2025-04-28",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030237": {
+"filed": "2025-04-29",
+"member": "Guy Mr Reschenthaler",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030238": {
+"filed": "2025-04-28",
+"member": "Rob Bresnahan",
+"status": "parsed",
+"trades": 51,
+"year": "2025"
+},
+"20030262": {
+"filed": "2025-05-02",
+"member": "Donald Sternoff Beyer",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030265": {
+"filed": "2025-05-02",
+"member": "April McClain Delaney",
+"status": "parsed",
+"trades": 20,
+"year": "2025"
+},
+"20030267": {
+"filed": "2025-05-05",
+"member": "Kelly Louise Morrison",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030275": {
+"filed": "2025-05-15",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 11,
+"year": "2025"
+},
+"20030282": {
+"filed": "2025-05-09",
+"member": "Jared Moskowitz",
+"status": "parsed",
+"trades": 34,
+"year": "2025"
+},
+"20030283": {
+"filed": "2025-05-13",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 7,
+"year": "2025"
+},
+"20030285": {
+"filed": "2025-05-05",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030288": {
+"filed": "2025-05-06",
+"member": "Gilbert Cisneros",
+"status": "parsed",
+"trades": 50,
+"year": "2025"
+},
+"20030289": {
+"filed": "2025-05-07",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030291": {
+"filed": "2025-05-08",
+"member": "Rob Bresnahan",
+"status": "parsed",
+"trades": 124,
+"year": "2025"
+},
+"20030292": {
+"filed": "2025-05-16",
+"member": "Dan Newhouse",
+"status": "parsed",
+"trades": 48,
+"year": "2025"
+},
+"20030295": {
+"filed": "2025-05-06",
+"member": "Marjorie Taylor Greene",
+"status": "parsed",
+"trades": 59,
+"year": "2025"
+},
+"20030296": {
+"filed": "2025-05-14",
+"member": "Julie Johnson",
+"status": "parsed",
+"trades": 140,
+"year": "2025"
+},
+"20030307": {
+"filed": "2025-08-13",
+"member": "Thomas Suozzi",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030311": {
+"filed": "2025-05-08",
+"member": "Rudy C. Yakym",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030312": {
+"filed": "2025-05-11",
+"member": "Rob Bresnahan",
+"status": "parsed",
+"trades": 6,
+"year": "2025"
+},
+"20030313": {
+"filed": "2025-05-13",
+"member": "Kelly Louise Morrison",
+"status": "parsed",
+"trades": 9,
+"year": "2025"
+},
+"20030316": {
+"filed": "2025-05-15",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030331": {
+"filed": "2025-05-12",
+"member": "Mark Dr Green",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030332": {
+"filed": "2025-05-12",
+"member": "Bruce Westerman",
+"status": "parsed",
+"trades": 101,
+"year": "2025"
+},
+"20030336": {
+"filed": "2025-05-12",
+"member": "Rob Bresnahan",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030338": {
+"filed": "2025-05-14",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 117,
+"year": "2025"
+},
+"20030339": {
+"filed": "2025-05-13",
+"member": "Kevin Hern",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030340": {
+"filed": "2025-05-16",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030342": {
+"filed": "2025-05-24",
+"member": "Byron Donalds",
+"status": "parsed",
+"trades": 8,
+"year": "2025"
+},
+"20030371": {
+"filed": "2025-05-20",
+"member": "Guy Mr Reschenthaler",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030387": {
+"filed": "2025-06-22",
+"member": "Jefferson Shreve",
+"status": "parsed",
+"trades": 237,
+"year": "2025"
+},
+"20030388": {
+"filed": "2025-05-17",
+"member": "Gerald E. Connolly",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20030389": {
+"filed": "2025-05-19",
+"member": "Marjorie Taylor Greene",
+"status": "parsed",
+"trades": 19,
+"year": "2025"
+},
+"20030397": {
+"filed": "2025-05-22",
+"member": "Jake Auchincloss",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030401": {
+"filed": "2025-05-22",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030402": {
+"filed": "2025-06-02",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 8,
+"year": "2025"
+},
+"20030416": {
+"filed": "2025-05-28",
+"member": "Steve Cohen",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030417": {
+"filed": "2025-05-30",
+"member": "Brandon Gill",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030433": {
+"filed": "2025-05-31",
+"member": "Rob Bresnahan",
+"status": "parsed",
+"trades": 40,
+"year": "2025"
+},
+"20030439": {
+"filed": "2025-06-02",
+"member": "Michael A. Collins",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030441": {
+"filed": "2025-06-06",
+"member": "Mark Dr Green",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030442": {
+"filed": "2025-06-02",
+"member": "April McClain Delaney",
+"status": "parsed",
+"trades": 10,
+"year": "2025"
+},
+"20030444": {
+"filed": "2025-06-08",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030445": {
+"filed": "2025-06-02",
+"member": "Scott Scott Franklin",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030448": {
+"filed": "2025-06-04",
+"member": "Kelly Louise Morrison",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030450": {
+"filed": "2025-06-03",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20030452": {
+"filed": "2025-06-13",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20030454": {
+"filed": "2025-06-04",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030455": {
+"filed": "2025-06-27",
+"member": "Jared Moskowitz",
+"status": "parsed",
+"trades": 7,
+"year": "2025"
+},
+"20030458": {
+"filed": "2025-06-22",
+"member": "Laurel Lee",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030461": {
+"filed": "2025-06-06",
+"member": "Gilbert Cisneros",
+"status": "parsed",
+"trades": 47,
+"year": "2025"
+},
+"20030462": {
+"filed": "2025-06-11",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 24,
+"year": "2025"
+},
+"20030466": {
+"filed": "2025-06-05",
+"member": "Michael A. Collins",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030472": {
+"filed": "2025-07-01",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 44,
+"year": "2025"
+},
+"20030474": {
+"filed": "2025-06-13",
+"member": "Julie Johnson",
+"status": "parsed",
+"trades": 5,
+"year": "2025"
+},
+"20030475": {
+"filed": "2025-06-18",
+"member": "Kelly Louise Morrison",
+"status": "parsed",
+"trades": 17,
+"year": "2025"
+},
+"20030480": {
+"filed": "2025-06-08",
+"member": "Robert E. Latta",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030482": {
+"filed": "2025-06-09",
+"member": "Rob Bresnahan",
+"status": "parsed",
+"trades": 49,
+"year": "2025"
+},
+"20030491": {
+"filed": "2025-06-17",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 5,
+"year": "2025"
+},
+"20030492": {
+"filed": "2025-06-11",
+"member": "Chellie Pingree",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030494": {
+"filed": "2025-07-03",
+"member": "Scott Scott Franklin",
+"status": "parsed",
+"trades": 31,
+"year": "2025"
+},
+"20030502": {
+"filed": "2025-06-18",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20030509": {
+"filed": "2025-06-12",
+"member": "John McGuire",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030516": {
+"filed": "2025-06-13",
+"member": "Tim Moore",
+"status": "parsed",
+"trades": 4,
+"year": "2025"
+},
+"20030517": {
+"filed": "2025-06-23",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030522": {
+"filed": "2025-06-13",
+"member": "Tim Moore",
+"status": "parsed",
+"trades": 13,
+"year": "2025"
+},
+"20030539": {
+"filed": "2025-06-18",
+"member": "Marjorie Taylor Greene",
+"status": "parsed",
+"trades": 7,
+"year": "2025"
+},
+"20030541": {
+"filed": "2025-06-24",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030542": {
+"filed": "2025-06-20",
+"member": "Mike Kennedy",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030544": {
+"filed": "2025-06-21",
+"member": "Pete Sessions",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20030546": {
+"filed": "2025-06-23",
+"member": "Rob Bresnahan",
+"status": "parsed",
+"trades": 13,
+"year": "2025"
+},
+"20030548": {
+"filed": "2025-06-23",
+"member": "Marjorie Taylor Greene",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20030551": {
+"filed": "2025-07-24",
+"member": "James French Hill",
+"status": "parsed",
+"trades": 14,
+"year": "2025"
+},
+"20030558": {
+"filed": "2025-07-10",
+"member": "Susie Lee",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20030567": {
+"filed": "2025-06-26",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20030577": {
+"filed": "2025-07-01",
+"member": "Debbie Wasserman Schultz",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030579": {
+"filed": "2025-07-16",
+"member": "Mark Dr Green",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030585": {
+"filed": "2025-07-01",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030587": {
+"filed": "2025-07-03",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20030591": {
+"filed": "2025-07-01",
+"member": "Bradley S. Schneider",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030592": {
+"filed": "2025-07-02",
+"member": "April McClain Delaney",
+"status": "parsed",
+"trades": 6,
+"year": "2025"
+},
+"20030594": {
+"filed": "2025-07-02",
+"member": "Bradley S. Schneider",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030599": {
+"filed": "2025-07-14",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20030600": {
+"filed": "2025-07-25",
+"member": "Debbie Wasserman Schultz",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20030608": {
+"filed": "2025-07-15",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030610": {
+"filed": "2025-07-04",
+"member": "John W. Rose",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20030611": {
+"filed": "2025-07-04",
+"member": "John W. Rose",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030618": {
+"filed": "2025-07-07",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 4,
+"year": "2025"
+},
+"20030619": {
+"filed": "2025-07-17",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030620": {
+"filed": "2025-07-10",
+"member": "John McGuire",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20030621": {
+"filed": "2025-07-16",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 18,
+"year": "2025"
+},
+"20030622": {
+"filed": "2025-07-07",
+"member": "Michael A. Collins",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030630": {
+"filed": "2025-07-09",
+"member": "Nancy Pelosi",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030632": {
+"filed": "2025-07-08",
+"member": "Earl Leroy Carter",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030634": {
+"filed": "2025-07-10",
+"member": "Gilbert Cisneros",
+"status": "parsed",
+"trades": 27,
+"year": "2025"
+},
+"20030635": {
+"filed": "2025-07-08",
+"member": "Rob Bresnahan",
+"status": "parsed",
+"trades": 18,
+"year": "2025"
+},
+"20030637": {
+"filed": "2025-07-09",
+"member": "Tim Moore",
+"status": "parsed",
+"trades": 5,
+"year": "2025"
+},
+"20030639": {
+"filed": "2025-07-09",
+"member": "Mike Kelly",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20030641": {
+"filed": "2025-07-10",
+"member": "Brandon Gill",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030646": {
+"filed": "2025-07-09",
+"member": "Cliff Bentz",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20030647": {
+"filed": "2025-07-14",
+"member": "Julie Johnson",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20030663": {
+"filed": "2025-07-16",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030670": {
+"filed": "2025-07-14",
+"member": "Scott Scott Franklin",
+"status": "parsed",
+"trades": 16,
+"year": "2025"
+},
+"20030671": {
+"filed": "2025-07-16",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 4,
+"year": "2025"
+},
+"20030673": {
+"filed": "2025-07-16",
+"member": "Greg Steube",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030692": {
+"filed": "2025-07-19",
+"member": "Michael A. Collins",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030699": {
+"filed": "2025-09-17",
+"member": "Richard Dean Dr McCormick",
+"status": "parsed",
+"trades": 24,
+"year": "2025"
+},
+"20030711": {
+"filed": "2025-07-22",
+"member": "Marjorie Taylor Greene",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20030714": {
+"filed": "2025-07-23",
+"member": "August Lee Pfluger",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20030716": {
+"filed": "2025-08-11",
+"member": "James Comer",
+"status": "parsed",
+"trades": 10,
+"year": "2025"
+},
+"20030730": {
+"filed": "2025-07-25",
+"member": "Robert E. Latta",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030735": {
+"filed": "2025-08-13",
+"member": "Neal Patrick MD, Facs Dunn",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030737": {
+"filed": "2025-08-13",
+"member": "August Lee Pfluger",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20030742": {
+"filed": "2025-07-27",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030746": {
+"filed": "2025-08-02",
+"member": "Donald Sternoff Beyer",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030756": {
+"filed": "2025-08-05",
+"member": "Seth Moulton",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030778": {
+"filed": "2025-07-31",
+"member": "Scott Scott Franklin",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20030782": {
+"filed": "2025-09-02",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 21,
+"year": "2025"
+},
+"20030800": {
+"filed": "2025-10-10",
+"member": "Patrick Ryan",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030802": {
+"filed": "2025-08-03",
+"member": "Kelly Louise Morrison",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030803": {
+"filed": "2025-08-06",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 58,
+"year": "2025"
+},
+"20030810": {
+"filed": "2025-08-09",
+"member": "Laurel Lee",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030820": {
+"filed": "2025-08-04",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030822": {
+"filed": "2025-08-22",
+"member": "Susie Lee",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030824": {
+"filed": "2025-08-05",
+"member": "Tim Moore",
+"status": "parsed",
+"trades": 13,
+"year": "2025"
+},
+"20030826": {
+"filed": "2025-08-09",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030832": {
+"filed": "2025-08-05",
+"member": "April McClain Delaney",
+"status": "parsed",
+"trades": 8,
+"year": "2025"
+},
+"20030839": {
+"filed": "2025-08-06",
+"member": "Debbie Wasserman Schultz",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030848": {
+"filed": "2025-08-11",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 7,
+"year": "2025"
+},
+"20030850": {
+"filed": "2025-08-11",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030857": {
+"filed": "2025-08-25",
+"member": "Rob Bresnahan",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030860": {
+"filed": "2025-08-25",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 32,
+"year": "2025"
+},
+"20030868": {
+"filed": "2025-08-08",
+"member": "Adam Smith",
+"status": "parsed",
+"trades": 18,
+"year": "2025"
+},
+"20030869": {
+"filed": "2025-08-11",
+"member": "Shri Thanedar",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030875": {
+"filed": "2025-08-11",
+"member": "Laurel Lee",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20030876": {
+"filed": "2025-08-11",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030884": {
+"filed": "2025-08-13",
+"member": "Daniel Meuser",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20030886": {
+"filed": "2025-08-13",
+"member": "George Whitesides",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030889": {
+"filed": "2025-08-12",
+"member": "Brandon Gill",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030891": {
+"filed": "2025-08-13",
+"member": "Lisa McClain",
+"status": "parsed",
+"trades": 691,
+"year": "2025"
+},
+"20030892": {
+"filed": "2025-08-12",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030893": {
+"filed": "2025-08-19",
+"member": "Kelly Louise Morrison",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030894": {
+"filed": "2025-09-04",
+"member": "Donald W. Norcross",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030901": {
+"filed": "2025-08-14",
+"member": "Gilbert Cisneros",
+"status": "parsed",
+"trades": 23,
+"year": "2025"
+},
+"20030902": {
+"filed": "2025-08-13",
+"member": "Austin Scott",
+"status": "parsed",
+"trades": 17,
+"year": "2025"
+},
+"20030909": {
+"filed": "2025-08-14",
+"member": "Julie Johnson",
+"status": "parsed",
+"trades": 14,
+"year": "2025"
+},
+"20030918": {
+"filed": "2025-08-14",
+"member": "Scott Scott Franklin",
+"status": "parsed",
+"trades": 7,
+"year": "2025"
+},
+"20030922": {
+"filed": "2025-08-20",
+"member": "Daniel Meuser",
+"status": "parsed",
+"trades": 9,
+"year": "2025"
+},
+"20030924": {
+"filed": "2025-08-15",
+"member": "Marjorie Taylor Greene",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20030925": {
+"filed": "2025-08-15",
+"member": "Marjorie Taylor Greene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030929": {
+"filed": "2025-08-18",
+"member": "Debbie Wasserman Schultz",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030930": {
+"filed": "2025-08-20",
+"member": "Ritchie John Torres",
+"status": "parsed",
+"trades": 126,
+"year": "2025"
+},
+"20030932": {
+"filed": "2025-09-12",
+"member": "Lisa McClain",
+"status": "parsed",
+"trades": 140,
+"year": "2025"
+},
+"20030933": {
+"filed": "2025-08-18",
+"member": "Rudy C. Yakym",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030944": {
+"filed": "2025-08-20",
+"member": "Marjorie Taylor Greene",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030946": {
+"filed": "2025-08-20",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 6,
+"year": "2025"
+},
+"20030952": {
+"filed": "2025-08-21",
+"member": "Andrew Garbarino",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030955": {
+"filed": "2025-08-29",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030976": {
+"filed": "2025-08-27",
+"member": "Jake Auchincloss",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20030977": {
+"filed": "2026-01-13",
+"member": "Julia Letlow",
+"status": "parsed",
+"trades": 196,
+"year": "2026"
+},
+"20030989": {
+"filed": "2025-08-28",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20030996": {
+"filed": "2025-08-29",
+"member": "Marjorie Taylor Greene",
+"status": "parsed",
+"trades": 12,
+"year": "2025"
+},
+"20030998": {
+"filed": "2025-08-29",
+"member": "Rob Bresnahan",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20031001": {
+"filed": "2025-08-30",
+"member": "Judy Chu",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20031007": {
+"filed": "2025-09-02",
+"member": "Michael A. Collins",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20031011": {
+"filed": "2025-09-12",
+"member": "Steve Cohen",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20031013": {
+"filed": "2025-09-02",
+"member": "April McClain Delaney",
+"status": "parsed",
+"trades": 15,
+"year": "2025"
+},
+"20031014": {
+"filed": "2025-09-04",
+"member": "William R. Keating",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20031017": {
+"filed": "2025-09-03",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 35,
+"year": "2025"
+},
+"20031020": {
+"filed": "2025-09-03",
+"member": "Tim Moore",
+"status": "parsed",
+"trades": 16,
+"year": "2025"
+},
+"20031022": {
+"filed": "2025-09-12",
+"member": "Gilbert Cisneros",
+"status": "parsed",
+"trades": 62,
+"year": "2025"
+},
+"20031023": {
+"filed": "2025-09-23",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20031032": {
+"filed": "2025-09-05",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 5,
+"year": "2025"
+},
+"20032038": {
+"filed": "2025-09-05",
+"member": "Byron Donalds",
+"status": "parsed",
+"trades": 5,
+"year": "2025"
+},
+"20032040": {
+"filed": "2025-09-08",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20032051": {
+"filed": "2025-09-09",
+"member": "Laura Friedman",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20032052": {
+"filed": "2025-09-12",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20032054": {
+"filed": "2025-09-15",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20032061": {
+"filed": "2025-09-11",
+"member": "Kelly Louise Morrison",
+"status": "parsed",
+"trades": 11,
+"year": "2025"
+},
+"20032062": {
+"filed": "2025-09-10",
+"member": "Robert B. Aderholt",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20032066": {
+"filed": "2025-09-11",
+"member": "Julie Johnson",
+"status": "parsed",
+"trades": 61,
+"year": "2025"
+},
+"20032070": {
+"filed": "2025-09-12",
+"member": "Valerie Hoyle",
+"status": "parsed",
+"trades": 229,
+"year": "2025"
+},
+"20032080": {
+"filed": "2025-09-15",
+"member": "Pete Sessions",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20032087": {
+"filed": "2025-10-06",
+"member": "Debbie Wasserman Schultz",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20032089": {
+"filed": "2025-09-18",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 5,
+"year": "2025"
+},
+"20032091": {
+"filed": "2025-09-17",
+"member": "Dan Newhouse",
+"status": "parsed",
+"trades": 16,
+"year": "2025"
+},
+"20032094": {
+"filed": "2025-09-16",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20032102": {
+"filed": "2025-09-28",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20032106": {
+"filed": "2025-09-30",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 20,
+"year": "2025"
+},
+"20032129": {
+"filed": "2025-10-22",
+"member": "Lisa McClain",
+"status": "parsed",
+"trades": 91,
+"year": "2025"
+},
+"20032149": {
+"filed": "2025-10-05",
+"member": "Sheri Biggs",
+"status": "parsed",
+"trades": 75,
+"year": "2025"
+},
+"20032174": {
+"filed": "2025-09-27",
+"member": "Marjorie Taylor Greene",
+"status": "parsed",
+"trades": 10,
+"year": "2025"
+},
+"20032187": {
+"filed": "2025-10-28",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20032191": {
+"filed": "2025-10-01",
+"member": "Neal Patrick MD, Facs Dunn",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20032200": {
+"filed": "2025-10-02",
+"member": "Donald Sternoff Beyer",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20032204": {
+"filed": "2025-10-07",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20032205": {
+"filed": "2025-10-03",
+"member": "Katherine M. Clark",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20032211": {
+"filed": "2025-10-10",
+"member": "Valerie Hoyle",
+"status": "parsed",
+"trades": 159,
+"year": "2025"
+},
+"20032215": {
+"filed": "2025-10-06",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20032230": {
+"filed": "2025-10-06",
+"member": "Debbie Wasserman Schultz",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20032232": {
+"filed": "2025-10-15",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 4,
+"year": "2025"
+},
+"20032233": {
+"filed": "2025-10-06",
+"member": "April McClain Delaney",
+"status": "parsed",
+"trades": 8,
+"year": "2025"
+},
+"20032234": {
+"filed": "2025-10-07",
+"member": "Byron Donalds",
+"status": "parsed",
+"trades": 17,
+"year": "2025"
+},
+"20032236": {
+"filed": "2025-10-07",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 7,
+"year": "2025"
+},
+"20032242": {
+"filed": "2025-10-07",
+"member": "Julie Johnson",
+"status": "parsed",
+"trades": 20,
+"year": "2025"
+},
+"20032245": {
+"filed": "2025-10-13",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20032246": {
+"filed": "2025-10-15",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 10,
+"year": "2025"
+},
+"20032248": {
+"filed": "2025-10-10",
+"member": "Gilbert Cisneros",
+"status": "parsed",
+"trades": 50,
+"year": "2025"
+},
+"20032250": {
+"filed": "2025-10-08",
+"member": "Laura Friedman",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20032254": {
+"filed": "2025-10-09",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20032255": {
+"filed": "2025-10-09",
+"member": "Richard Dean Dr McCormick",
+"status": "parsed",
+"trades": 4,
+"year": "2025"
+},
+"20032256": {
+"filed": "2025-10-10",
+"member": "Tim Moore",
+"status": "parsed",
+"trades": 5,
+"year": "2025"
+},
+"20032269": {
+"filed": "2025-10-14",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 8,
+"year": "2025"
+},
+"20032276": {
+"filed": "2025-10-14",
+"member": "Rob Bresnahan",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20032279": {
+"filed": "2026-03-12",
+"member": "Austin Scott",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20032283": {
+"filed": "2025-10-17",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20032284": {
+"filed": "2025-10-16",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 4,
+"year": "2025"
+},
+"20032298": {
+"filed": "2025-10-16",
+"member": "Rick Larsen",
+"status": "parsed",
+"trades": 6,
+"year": "2025"
+},
+"20033314": {
+"filed": "2025-10-20",
+"member": "Marjorie Taylor Greene",
+"status": "parsed",
+"trades": 10,
+"year": "2025"
+},
+"20033318": {
+"filed": "2025-10-21",
+"member": "Eleanor Holmes Norton",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20033320": {
+"filed": "2025-10-24",
+"member": "Debbie Wasserman Schultz",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20033321": {
+"filed": "2025-10-21",
+"member": "Thomas Suozzi",
+"status": "parsed",
+"trades": 4,
+"year": "2025"
+},
+"20033325": {
+"filed": "2025-11-02",
+"member": "Donald Sternoff Beyer",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033326": {
+"filed": "2025-10-30",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 7,
+"year": "2025"
+},
+"20033327": {
+"filed": "2025-10-22",
+"member": "Scott Scott Franklin",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20033330": {
+"filed": "2025-10-22",
+"member": "Pete Sessions",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033335": {
+"filed": "2025-10-30",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033337": {
+"filed": "2025-10-24",
+"member": "Nancy Pelosi",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20033346": {
+"filed": "2025-10-27",
+"member": "Robert E. Latta",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20033360": {
+"filed": "2025-10-28",
+"member": "Marjorie Taylor Greene",
+"status": "parsed",
+"trades": 14,
+"year": "2025"
+},
+"20033370": {
+"filed": "2025-10-30",
+"member": "Dwight Evans",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20033379": {
+"filed": "2025-10-31",
+"member": "Sheri Biggs",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033393": {
+"filed": "2025-11-06",
+"member": "Katherine M. Clark",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033394": {
+"filed": "2025-11-03",
+"member": "Thomas Suozzi",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033395": {
+"filed": "2025-11-03",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 4,
+"year": "2025"
+},
+"20033398": {
+"filed": "2025-11-17",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 4,
+"year": "2025"
+},
+"20033402": {
+"filed": "2025-11-04",
+"member": "Chellie Pingree",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033403": {
+"filed": "2025-11-04",
+"member": "Ann Wagner",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033408": {
+"filed": "2025-11-04",
+"member": "April McClain Delaney",
+"status": "parsed",
+"trades": 16,
+"year": "2025"
+},
+"20033409": {
+"filed": "2025-11-10",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 4,
+"year": "2025"
+},
+"20033413": {
+"filed": "2025-11-12",
+"member": "Tim Moore",
+"status": "parsed",
+"trades": 10,
+"year": "2025"
+},
+"20033415": {
+"filed": "2025-11-13",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20033416": {
+"filed": "2025-11-19",
+"member": "Michael Patrick Guest",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20033420": {
+"filed": "2025-11-14",
+"member": "Julie Johnson",
+"status": "parsed",
+"trades": 16,
+"year": "2025"
+},
+"20033421": {
+"filed": "2025-11-22",
+"member": "Jared Moskowitz",
+"status": "parsed",
+"trades": 29,
+"year": "2025"
+},
+"20033424": {
+"filed": "2025-11-12",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 10,
+"year": "2025"
+},
+"20033425": {
+"filed": "2025-11-06",
+"member": "Kelly Louise Morrison",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033427": {
+"filed": "2025-11-07",
+"member": "Pete Sessions",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033428": {
+"filed": "2025-11-07",
+"member": "Marjorie Taylor Greene",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20033431": {
+"filed": "2025-11-12",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033446": {
+"filed": "2025-11-21",
+"member": "Lisa McClain",
+"status": "parsed",
+"trades": 472,
+"year": "2025"
+},
+"20033447": {
+"filed": "2025-11-11",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033455": {
+"filed": "2025-11-18",
+"member": "Gilbert Cisneros",
+"status": "parsed",
+"trades": 108,
+"year": "2025"
+},
+"20033458": {
+"filed": "2025-11-16",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 10,
+"year": "2025"
+},
+"20033462": {
+"filed": "2025-11-13",
+"member": "Marjorie Taylor Greene",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20033472": {
+"filed": "2025-11-14",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033474": {
+"filed": "2025-11-17",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20033476": {
+"filed": "2025-11-18",
+"member": "Brandon Gill",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20033488": {
+"filed": "2025-11-21",
+"member": "Peter Allen Stauber",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20033490": {
+"filed": "2025-11-18",
+"member": "Scott DesJarlais",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20033491": {
+"filed": "2025-11-18",
+"member": "Byron Donalds",
+"status": "parsed",
+"trades": 18,
+"year": "2025"
+},
+"20033492": {
+"filed": "2025-11-18",
+"member": "Jake Auchincloss",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20033493": {
+"filed": "2025-11-19",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 4,
+"year": "2025"
+},
+"20033495": {
+"filed": "2025-11-18",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 11,
+"year": "2025"
+},
+"20033500": {
+"filed": "2026-03-09",
+"member": "Pete Sessions",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20033505": {
+"filed": "2025-11-19",
+"member": "Marjorie Taylor Greene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033553": {
+"filed": "2025-12-01",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20033559": {
+"filed": "2025-12-10",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20033564": {
+"filed": "2025-12-02",
+"member": "Tim Moore",
+"status": "parsed",
+"trades": 13,
+"year": "2025"
+},
+"20033565": {
+"filed": "2025-12-01",
+"member": "Thomas Suozzi",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033566": {
+"filed": "2025-12-05",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 5,
+"year": "2025"
+},
+"20033570": {
+"filed": "2025-12-02",
+"member": "Marjorie Taylor Greene",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20033572": {
+"filed": "2025-12-16",
+"member": "Steve Cohen",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033574": {
+"filed": "2025-12-19",
+"member": "Rob Bresnahan",
+"status": "parsed",
+"trades": 2,
+"year": "2025"
+},
+"20033575": {
+"filed": "2025-12-14",
+"member": "Jefferson Shreve",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033576": {
+"filed": "2025-12-29",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 8,
+"year": "2025"
+},
+"20033579": {
+"filed": "2025-12-04",
+"member": "Sheri Biggs",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033581": {
+"filed": "2025-12-08",
+"member": "Debbie Wasserman Schultz",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20033587": {
+"filed": "2025-12-08",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033588": {
+"filed": "2025-12-11",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033589": {
+"filed": "2025-12-09",
+"member": "Richard W. Allen",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033590": {
+"filed": "2025-12-05",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20033604": {
+"filed": "2025-12-08",
+"member": "April McClain Delaney",
+"status": "parsed",
+"trades": 5,
+"year": "2025"
+},
+"20033610": {
+"filed": "2025-12-09",
+"member": "Richard Dean Dr McCormick",
+"status": "parsed",
+"trades": 25,
+"year": "2025"
+},
+"20033611": {
+"filed": "2025-12-11",
+"member": "Julie Johnson",
+"status": "parsed",
+"trades": 63,
+"year": "2025"
+},
+"20033615": {
+"filed": "2025-12-09",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033616": {
+"filed": "2025-12-17",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 15,
+"year": "2025"
+},
+"20033619": {
+"filed": "2025-12-15",
+"member": "Gilbert Cisneros",
+"status": "parsed",
+"trades": 173,
+"year": "2025"
+},
+"20033628": {
+"filed": "2025-12-16",
+"member": "William R. Keating",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033648": {
+"filed": "2026-04-07",
+"member": "Richard Dean Dr McCormick",
+"status": "parsed",
+"trades": 16,
+"year": "2026"
+},
+"20033649": {
+"filed": "2025-12-16",
+"member": "Marjorie Taylor Greene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033651": {
+"filed": "2025-12-19",
+"member": "Kelly Louise Morrison",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033654": {
+"filed": "2026-01-15",
+"member": "Dan Newhouse",
+"status": "parsed",
+"trades": 18,
+"year": "2026"
+},
+"20033659": {
+"filed": "2025-12-19",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20033661": {
+"filed": "2026-01-23",
+"member": "James French Hill",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20033666": {
+"filed": "2025-12-19",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 3,
+"year": "2025"
+},
+"20033667": {
+"filed": "2025-12-19",
+"member": "Dwight Evans",
+"status": "parsed",
+"trades": 6,
+"year": "2025"
+},
+"20033670": {
+"filed": "2025-12-19",
+"member": "Tim Moore",
+"status": "parsed",
+"trades": 6,
+"year": "2025"
+},
+"20033684": {
+"filed": "2025-12-23",
+"member": "Rudy C. Yakym",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033691": {
+"filed": "2025-12-24",
+"member": "Ed Case",
+"status": "parsed",
+"trades": 1,
+"year": "2025"
+},
+"20033694": {
+"filed": "2025-12-29",
+"member": "Sheri Biggs",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033695": {
+"filed": "2026-01-09",
+"member": "Doris O. Matsui",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033699": {
+"filed": "2025-12-30",
+"member": "Jefferson Shreve",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033700": {
+"filed": "2025-12-31",
+"member": "Jefferson Shreve",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2025"
+},
+"20033705": {
+"filed": "2026-01-01",
+"member": "Jefferson Shreve",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033709": {
+"filed": "2026-01-02",
+"member": "Jefferson Shreve",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033713": {
+"filed": "2026-01-02",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 5,
+"year": "2026"
+},
+"20033714": {
+"filed": "2026-01-02",
+"member": "Donald Sternoff Beyer",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033718": {
+"filed": "2026-01-02",
+"member": "Ann Wagner",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033725": {
+"filed": "2026-01-23",
+"member": "Nancy Pelosi",
+"status": "parsed",
+"trades": 16,
+"year": "2026"
+},
+"20033732": {
+"filed": "2026-01-16",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 3,
+"year": "2026"
+},
+"20033734": {
+"filed": "2026-01-05",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20033736": {
+"filed": "2026-01-07",
+"member": "Lisa McClain",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033737": {
+"filed": "2026-01-05",
+"member": "April McClain Delaney",
+"status": "parsed",
+"trades": 15,
+"year": "2026"
+},
+"20033738": {
+"filed": "2026-01-06",
+"member": "Zoe Lofgren",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033739": {
+"filed": "2026-01-08",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 6,
+"year": "2026"
+},
+"20033744": {
+"filed": "2026-01-12",
+"member": "Debbie Dingell",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033746": {
+"filed": "2026-01-07",
+"member": "Tim Moore",
+"status": "parsed",
+"trades": 3,
+"year": "2026"
+},
+"20033747": {
+"filed": "2026-01-07",
+"member": "Byron Donalds",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20033751": {
+"filed": "2026-01-15",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20033754": {
+"filed": "2026-01-14",
+"member": "Steve Cohen",
+"status": "parsed",
+"trades": 5,
+"year": "2026"
+},
+"20033755": {
+"filed": "2026-01-09",
+"member": "Linda T. Sanchez",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20033756": {
+"filed": "2026-01-14",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 9,
+"year": "2026"
+},
+"20033758": {
+"filed": "2026-01-07",
+"member": "David Rouzer",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20033759": {
+"filed": "2026-01-07",
+"member": "David Rouzer",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20033760": {
+"filed": "2026-01-16",
+"member": "Jared Moskowitz",
+"status": "parsed",
+"trades": 8,
+"year": "2026"
+},
+"20033762": {
+"filed": "2026-01-12",
+"member": "Gilbert Cisneros",
+"status": "parsed",
+"trades": 116,
+"year": "2026"
+},
+"20033763": {
+"filed": "2026-01-08",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033766": {
+"filed": "2026-01-12",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033779": {
+"filed": "2026-08-13",
+"member": "Carol Devine Miller",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20033780": {
+"filed": "2026-01-09",
+"member": "Byron Donalds",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033783": {
+"filed": "2026-01-15",
+"member": "Roger Williams",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20033789": {
+"filed": "2026-01-15",
+"member": "Julie Johnson",
+"status": "parsed",
+"trades": 61,
+"year": "2026"
+},
+"20033800": {
+"filed": "2026-01-14",
+"member": "Sheri Biggs",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033803": {
+"filed": "2026-01-14",
+"member": "James D Jordan",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20033804": {
+"filed": "2026-01-20",
+"member": "August Lee Pfluger",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20033813": {
+"filed": "2026-01-26",
+"member": "Steve Cohen",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20033814": {
+"filed": "2026-01-14",
+"member": "Rick Larsen",
+"status": "parsed",
+"trades": 6,
+"year": "2026"
+},
+"20033815": {
+"filed": "2026-01-19",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033821": {
+"filed": "2026-01-16",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 3,
+"year": "2026"
+},
+"20033829": {
+"filed": "2026-01-22",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20033830": {
+"filed": "2026-01-20",
+"member": "Kelly Louise Morrison",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20033835": {
+"filed": "2026-01-23",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033840": {
+"filed": "2026-01-20",
+"member": "Michael A. Collins",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033845": {
+"filed": "2026-01-21",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 9,
+"year": "2026"
+},
+"20033856": {
+"filed": "2026-01-24",
+"member": "Tim Moore",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20033857": {
+"filed": "2026-01-23",
+"member": "Robert E. Latta",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20033858": {
+"filed": "2026-02-03",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 6,
+"year": "2026"
+},
+"20033881": {
+"filed": "2026-01-29",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033889": {
+"filed": "2026-02-09",
+"member": "Steve Cohen",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20033903": {
+"filed": "2026-01-31",
+"member": "Donald Sternoff Beyer",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033910": {
+"filed": "2026-08-13",
+"member": "Shri Thanedar",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20033916": {
+"filed": "2026-02-02",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 31,
+"year": "2026"
+},
+"20033918": {
+"filed": "2026-02-02",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20033920": {
+"filed": "2026-02-11",
+"member": "August Lee Pfluger",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20033921": {
+"filed": "2026-02-02",
+"member": "April McClain Delaney",
+"status": "parsed",
+"trades": 15,
+"year": "2026"
+},
+"20033927": {
+"filed": "2026-02-05",
+"member": "Sheri Biggs",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033928": {
+"filed": "2026-02-04",
+"member": "Kelly Louise Morrison",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033929": {
+"filed": "2026-02-23",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 10,
+"year": "2026"
+},
+"20033930": {
+"filed": "2026-02-26",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 6,
+"year": "2026"
+},
+"20033944": {
+"filed": "2026-02-17",
+"member": "Michael Patrick Guest",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20033945": {
+"filed": "2026-02-17",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 3,
+"year": "2026"
+},
+"20033946": {
+"filed": "2026-02-06",
+"member": "William R. Keating",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033947": {
+"filed": "2026-02-06",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20033956": {
+"filed": "2026-02-10",
+"member": "John McGuire",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20033964": {
+"filed": "2026-02-11",
+"member": "Lisa McClain",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033981": {
+"filed": "2026-02-12",
+"member": "Byron Donalds",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20033983": {
+"filed": "2026-02-13",
+"member": "Gilbert Cisneros",
+"status": "parsed",
+"trades": 140,
+"year": "2026"
+},
+"20033989": {
+"filed": "2026-02-12",
+"member": "Kelly Louise Morrison",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033991": {
+"filed": "2026-02-12",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20033993": {
+"filed": "2026-04-21",
+"member": "Maria Elvira Salazar",
+"status": "parsed",
+"trades": 24,
+"year": "2026"
+},
+"20034010": {
+"filed": "2026-02-25",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034012": {
+"filed": "2026-02-18",
+"member": "Kevin Hern",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034013": {
+"filed": "2026-02-17",
+"member": "Sheri Biggs",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034016": {
+"filed": "2026-02-17",
+"member": "Daniel Meuser",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20034018": {
+"filed": "2026-02-24",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 6,
+"year": "2026"
+},
+"20034024": {
+"filed": "2026-02-19",
+"member": "Jake Auchincloss",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034025": {
+"filed": "2026-02-19",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 6,
+"year": "2026"
+},
+"20034034": {
+"filed": "2026-02-20",
+"member": "Tim Moore",
+"status": "parsed",
+"trades": 7,
+"year": "2026"
+},
+"20034035": {
+"filed": "2026-02-23",
+"member": "Debbie Dingell",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034036": {
+"filed": "2026-02-20",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 8,
+"year": "2026"
+},
+"20034044": {
+"filed": "2026-02-22",
+"member": "Rob Bresnahan",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034050": {
+"filed": "2026-02-23",
+"member": "Scott Scott Franklin",
+"status": "parsed",
+"trades": 3,
+"year": "2026"
+},
+"20034054": {
+"filed": "2026-03-19",
+"member": "August Lee Pfluger",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034056": {
+"filed": "2026-02-25",
+"member": "Kelly Louise Morrison",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034068": {
+"filed": "2026-02-26",
+"member": "William R. Keating",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034082": {
+"filed": "2026-03-02",
+"member": "Kelly Louise Morrison",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034084": {
+"filed": "2026-03-14",
+"member": "Jefferson Shreve",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034085": {
+"filed": "2026-03-01",
+"member": "Donald Sternoff Beyer",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034095": {
+"filed": "2026-03-02",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034099": {
+"filed": "2026-06-01",
+"member": "Christian D. Menefee",
+"status": "parsed",
+"trades": 7,
+"year": "2026"
+},
+"20034102": {
+"filed": "2026-03-03",
+"member": "Kelly Louise Morrison",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034105": {
+"filed": "2026-03-04",
+"member": "Lisa McClain",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20034106": {
+"filed": "2026-03-12",
+"member": "Julia Letlow",
+"status": "parsed",
+"trades": 32,
+"year": "2026"
+},
+"20034113": {
+"filed": "2026-03-12",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 14,
+"year": "2026"
+},
+"20034114": {
+"filed": "2026-03-17",
+"member": "Neal Patrick MD, Facs Dunn",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034119": {
+"filed": "2026-03-05",
+"member": "Steve Cohen",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034123": {
+"filed": "2026-03-05",
+"member": "Kelly Louise Morrison",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034128": {
+"filed": "2026-03-06",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034129": {
+"filed": "2026-03-30",
+"member": "Jared Moskowitz",
+"status": "parsed",
+"trades": 3,
+"year": "2026"
+},
+"20034130": {
+"filed": "2026-03-16",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 16,
+"year": "2026"
+},
+"20034132": {
+"filed": "2026-03-05",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034133": {
+"filed": "2026-03-11",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20034134": {
+"filed": "2026-03-06",
+"member": "Byron Donalds",
+"status": "parsed",
+"trades": 8,
+"year": "2026"
+},
+"20034138": {
+"filed": "2026-03-06",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 28,
+"year": "2026"
+},
+"20034144": {
+"filed": "2026-03-09",
+"member": "Gilbert Cisneros",
+"status": "parsed",
+"trades": 83,
+"year": "2026"
+},
+"20034155": {
+"filed": "2026-03-12",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034156": {
+"filed": "2026-03-10",
+"member": "Kelly Louise Morrison",
+"status": "parsed",
+"trades": 5,
+"year": "2026"
+},
+"20034158": {
+"filed": "2026-04-03",
+"member": "Daniel Meuser",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034159": {
+"filed": "2026-03-10",
+"member": "April McClain Delaney",
+"status": "parsed",
+"trades": 44,
+"year": "2026"
+},
+"20034160": {
+"filed": "2026-03-15",
+"member": "Pramila Jayapal",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034167": {
+"filed": "2026-03-26",
+"member": "Steve Cohen",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034168": {
+"filed": "2026-03-12",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034176": {
+"filed": "2026-03-14",
+"member": "Ed Case",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034177": {
+"filed": "2026-03-16",
+"member": "William R. Keating",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034178": {
+"filed": "2026-03-18",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034179": {
+"filed": "2026-03-17",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20034188": {
+"filed": "2026-03-17",
+"member": "Thomas Suozzi",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20034190": {
+"filed": "2026-03-18",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20034195": {
+"filed": "2026-03-21",
+"member": "Sheri Biggs",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034201": {
+"filed": "2026-03-31",
+"member": "Mark Alford",
+"status": "parsed",
+"trades": 7,
+"year": "2026"
+},
+"20034202": {
+"filed": "2026-03-18",
+"member": "Rob Bresnahan",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034207": {
+"filed": "2026-03-20",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 11,
+"year": "2026"
+},
+"20034213": {
+"filed": "2026-04-02",
+"member": "Kelly Louise Morrison",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034217": {
+"filed": "2026-03-24",
+"member": "Tim Moore",
+"status": "parsed",
+"trades": 8,
+"year": "2026"
+},
+"20034221": {
+"filed": "2026-04-06",
+"member": "Ed Case",
+"status": "parsed",
+"trades": 7,
+"year": "2026"
+},
+"20034223": {
+"filed": "2026-03-25",
+"member": "Warren Davidson",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034224": {
+"filed": "2026-07-08",
+"member": "Ritchie John Torres",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034247": {
+"filed": "2026-03-30",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034262": {
+"filed": "2026-04-03",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 16,
+"year": "2026"
+},
+"20034274": {
+"filed": "2026-04-30",
+"member": "Jared Moskowitz",
+"status": "parsed",
+"trades": 48,
+"year": "2026"
+},
+"20034280": {
+"filed": "2026-04-02",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20034285": {
+"filed": "2026-04-07",
+"member": "Gilbert Cisneros",
+"status": "parsed",
+"trades": 134,
+"year": "2026"
+},
+"20034292": {
+"filed": "2026-04-06",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20034295": {
+"filed": "2026-04-07",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034297": {
+"filed": "2026-04-08",
+"member": "Byron Donalds",
+"status": "parsed",
+"trades": 6,
+"year": "2026"
+},
+"20034298": {
+"filed": "2026-04-06",
+"member": "Rudy C. Yakym",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034299": {
+"filed": "2026-04-06",
+"member": "April McClain Delaney",
+"status": "parsed",
+"trades": 26,
+"year": "2026"
+},
+"20034300": {
+"filed": "2026-05-05",
+"member": "Kelly Louise Morrison",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034301": {
+"filed": "2026-04-08",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20034302": {
+"filed": "2026-04-07",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034305": {
+"filed": "2026-04-08",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 18,
+"year": "2026"
+},
+"20034307": {
+"filed": "2026-04-13",
+"member": "William R. Keating",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034311": {
+"filed": "2026-04-16",
+"member": "Jennifer McClellan",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034315": {
+"filed": "2026-05-04",
+"member": "Richard W. Allen",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034327": {
+"filed": "2026-04-13",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 8,
+"year": "2026"
+},
+"20034342": {
+"filed": "2026-04-29",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034345": {
+"filed": "2026-04-14",
+"member": "Greg Steube",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034346": {
+"filed": "2026-04-16",
+"member": "Sheri Biggs",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034348": {
+"filed": "2026-04-15",
+"member": "August Lee Pfluger",
+"status": "parsed",
+"trades": 6,
+"year": "2026"
+},
+"20034351": {
+"filed": "2026-04-15",
+"member": "Rick Larsen",
+"status": "parsed",
+"trades": 10,
+"year": "2026"
+},
+"20034355": {
+"filed": "2026-04-17",
+"member": "Laura Friedman",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034357": {
+"filed": "2026-04-20",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034359": {
+"filed": "2026-04-21",
+"member": "Daniel Meuser",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034368": {
+"filed": "2026-04-28",
+"member": "Steve Cohen",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034375": {
+"filed": "2026-05-09",
+"member": "Chip Roy",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034379": {
+"filed": "2026-04-20",
+"member": "Dwight Evans",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034384": {
+"filed": "2026-04-21",
+"member": "Terri A. Sewell",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20034400": {
+"filed": "2026-04-28",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034401": {
+"filed": "2026-04-24",
+"member": "Robert E. Latta",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034413": {
+"filed": "2026-05-01",
+"member": "Elizabeth Fletcher",
+"status": "parsed",
+"trades": 11,
+"year": "2026"
+},
+"20034414": {
+"filed": "2026-04-30",
+"member": "Lori Trahan",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034416": {
+"filed": "2026-04-28",
+"member": "Debbie Dingell",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034417": {
+"filed": "2026-05-18",
+"member": "William R. Keating",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034419": {
+"filed": "2026-04-28",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034424": {
+"filed": "2026-04-28",
+"member": "Tim Moore",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20034452": {
+"filed": "2026-05-15",
+"member": "Steve Cohen",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034461": {
+"filed": "2026-05-05",
+"member": "Kevin Hern",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034462": {
+"filed": "2026-05-04",
+"member": "Ann Wagner",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034466": {
+"filed": "2026-05-08",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034473": {
+"filed": "2026-06-05",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 5,
+"year": "2026"
+},
+"20034478": {
+"filed": "2026-05-13",
+"member": "Byron Donalds",
+"status": "parsed",
+"trades": 8,
+"year": "2026"
+},
+"20034479": {
+"filed": "2026-05-08",
+"member": "Maria Elvira Salazar",
+"status": "parsed",
+"trades": 12,
+"year": "2026"
+},
+"20034486": {
+"filed": "2026-05-06",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034487": {
+"filed": "2026-05-06",
+"member": "April McClain Delaney",
+"status": "parsed",
+"trades": 23,
+"year": "2026"
+},
+"20034489": {
+"filed": "2026-05-07",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 10,
+"year": "2026"
+},
+"20034496": {
+"filed": "2026-06-09",
+"member": "Sheri Biggs",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034498": {
+"filed": "2026-05-20",
+"member": "Sara Jacobs",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20034499": {
+"filed": "2026-05-07",
+"member": "Greg Stanton",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034500": {
+"filed": "2026-05-08",
+"member": "Gilbert Cisneros",
+"status": "parsed",
+"trades": 94,
+"year": "2026"
+},
+"20034502": {
+"filed": "2026-05-08",
+"member": "Earl Leroy Carter",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034503": {
+"filed": "2026-05-08",
+"member": "Thomas Suozzi",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034519": {
+"filed": "2026-05-27",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 5,
+"year": "2026"
+},
+"20034520": {
+"filed": "2026-05-21",
+"member": "Kelly Louise Morrison",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034521": {
+"filed": "2026-05-13",
+"member": "John McGuire",
+"status": "parsed",
+"trades": 3,
+"year": "2026"
+},
+"20034522": {
+"filed": "2026-05-18",
+"member": "Brian Babin",
+"status": "parsed",
+"trades": 12,
+"year": "2026"
+},
+"20034524": {
+"filed": "2026-05-09",
+"member": "Cliff Bentz",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034528": {
+"filed": "2026-05-11",
+"member": "Chip Roy",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034542": {
+"filed": "2026-05-12",
+"member": "Richard Dean Dr McCormick",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034547": {
+"filed": "2026-05-21",
+"member": "Daniel Meuser",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034552": {
+"filed": "2026-06-04",
+"member": "Susie Lee",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034556": {
+"filed": "2026-05-15",
+"member": "Dwight Evans",
+"status": "parsed",
+"trades": 5,
+"year": "2026"
+},
+"20034562": {
+"filed": "2026-06-01",
+"member": "Daniel Webster",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034563": {
+"filed": "2026-05-14",
+"member": "Laura Friedman",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034579": {
+"filed": "2026-05-18",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034581": {
+"filed": "2026-05-15",
+"member": "Valerie Hoyle",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034585": {
+"filed": "2026-05-19",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 25,
+"year": "2026"
+},
+"20034587": {
+"filed": "2026-05-19",
+"member": "Tim Moore",
+"status": "parsed",
+"trades": 3,
+"year": "2026"
+},
+"20034589": {
+"filed": "2026-05-20",
+"member": "Steve Cohen",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034591": {
+"filed": "2026-06-03",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034607": {
+"filed": "2026-05-20",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034615": {
+"filed": "2026-05-26",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034616": {
+"filed": "2026-05-22",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 5,
+"year": "2026"
+},
+"20034622": {
+"filed": "2026-05-22",
+"member": "Jake Auchincloss",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20034650": {
+"filed": "2026-05-28",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 12,
+"year": "2026"
+},
+"20034651": {
+"filed": "2026-05-29",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034653": {
+"filed": "2026-06-06",
+"member": "Jefferson Shreve",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034660": {
+"filed": "2026-06-03",
+"member": "Tim Walberg",
+"status": "parsed",
+"trades": 15,
+"year": "2026"
+},
+"20034668": {
+"filed": "2026-05-31",
+"member": "Ed Case",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034670": {
+"filed": "2026-06-02",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034688": {
+"filed": "2026-06-16",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034693": {
+"filed": "2026-06-03",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 20,
+"year": "2026"
+},
+"20034694": {
+"filed": "2026-07-19",
+"member": "Laurel Lee",
+"status": "parsed",
+"trades": 6,
+"year": "2026"
+},
+"20034695": {
+"filed": "2026-06-02",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20034702": {
+"filed": "2026-06-05",
+"member": "Debbie Dingell",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034706": {
+"filed": "2026-06-12",
+"member": "Julie Johnson",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20034709": {
+"filed": "2026-06-08",
+"member": "Maria Elvira Salazar",
+"status": "parsed",
+"trades": 14,
+"year": "2026"
+},
+"20034712": {
+"filed": "2026-06-04",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034713": {
+"filed": "2026-06-08",
+"member": "Gilbert Cisneros",
+"status": "parsed",
+"trades": 100,
+"year": "2026"
+},
+"20034717": {
+"filed": "2026-06-26",
+"member": "Greg Stanton",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034718": {
+"filed": "2026-06-05",
+"member": "April McClain Delaney",
+"status": "parsed",
+"trades": 52,
+"year": "2026"
+},
+"20034721": {
+"filed": "2026-06-05",
+"member": "Tim Moore",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20034726": {
+"filed": "2026-06-05",
+"member": "Robert E. Latta",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034727": {
+"filed": "2026-06-11",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034736": {
+"filed": "2026-07-27",
+"member": "Sam T. Liccardo",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034740": {
+"filed": "2026-06-16",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 3,
+"year": "2026"
+},
+"20034747": {
+"filed": "2026-06-09",
+"member": "Thomas Suozzi",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034748": {
+"filed": "2026-06-10",
+"member": "John McGuire",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20034749": {
+"filed": "2026-06-19",
+"member": "Jared Moskowitz",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20034762": {
+"filed": "2026-06-10",
+"member": "Chip Roy",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034767": {
+"filed": "2026-06-11",
+"member": "Mike Kelly",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20034774": {
+"filed": "2026-07-02",
+"member": "Daniel Meuser",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20034780": {
+"filed": "2026-06-12",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 7,
+"year": "2026"
+},
+"20034783": {
+"filed": "2026-06-18",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20034784": {
+"filed": "2026-06-19",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034790": {
+"filed": "2026-07-08",
+"member": "Susie Lee",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20034796": {
+"filed": "2026-06-17",
+"member": "Steve Cohen",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034800": {
+"filed": "2026-06-26",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20034806": {
+"filed": "2026-07-09",
+"member": "Kelly Louise Morrison",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034807": {
+"filed": "2026-06-17",
+"member": "Matthew Robert Van Epps",
+"status": "parsed",
+"trades": 13,
+"year": "2026"
+},
+"20034815": {
+"filed": "2026-06-23",
+"member": "Neal Patrick MD, Facs Dunn",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034836": {
+"filed": "2026-06-23",
+"member": "Nancy Pelosi",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20034851": {
+"filed": "2026-06-24",
+"member": "Dwight Evans",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20034869": {
+"filed": "2026-07-01",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034891": {
+"filed": "2026-07-01",
+"member": "Donald Sternoff Beyer",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034892": {
+"filed": "2026-07-14",
+"member": "Katherine M. Clark",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034894": {
+"filed": "2026-07-16",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 3,
+"year": "2026"
+},
+"20034895": {
+"filed": "2026-07-10",
+"member": "Virginia Foxx",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034897": {
+"filed": "2026-07-01",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20034898": {
+"filed": "2026-08-13",
+"member": "William R. Keating",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034906": {
+"filed": "2026-07-02",
+"member": "Gilbert Cisneros",
+"status": "parsed",
+"trades": 60,
+"year": "2026"
+},
+"20034908": {
+"filed": "2026-07-15",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 3,
+"year": "2026"
+},
+"20034911": {
+"filed": "2026-07-10",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034915": {
+"filed": "2026-07-02",
+"member": "Ann Wagner",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034916": {
+"filed": "2026-07-10",
+"member": "Robert J. Wittman",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034920": {
+"filed": "2026-07-07",
+"member": "Nicholas Begich",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034923": {
+"filed": "2026-07-06",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20034928": {
+"filed": "2026-07-07",
+"member": "Maria Elvira Salazar",
+"status": "parsed",
+"trades": 10,
+"year": "2026"
+},
+"20034932": {
+"filed": "2026-07-07",
+"member": "April McClain Delaney",
+"status": "parsed",
+"trades": 18,
+"year": "2026"
+},
+"20034938": {
+"filed": "2026-07-07",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 7,
+"year": "2026"
+},
+"20034942": {
+"filed": "2026-07-08",
+"member": "John McGuire",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20034945": {
+"filed": "2026-07-15",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034947": {
+"filed": "2026-07-08",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034949": {
+"filed": "2026-07-12",
+"member": "John James",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034952": {
+"filed": "2026-07-09",
+"member": "Tim Moore",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034954": {
+"filed": "2026-07-09",
+"member": "Richard Dean Dr McCormick",
+"status": "parsed",
+"trades": 12,
+"year": "2026"
+},
+"20034960": {
+"filed": "2026-07-15",
+"member": "Debbie Dingell",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20034963": {
+"filed": "2026-07-26",
+"member": "Jared Moskowitz",
+"status": "parsed",
+"trades": 16,
+"year": "2026"
+},
+"20034968": {
+"filed": "2026-07-15",
+"member": "Byron Donalds",
+"status": "parsed",
+"trades": 6,
+"year": "2026"
+},
+"20034972": {
+"filed": "2026-07-30",
+"member": "Kelly Louise Morrison",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20034977": {
+"filed": "2026-07-12",
+"member": "Rick Larsen",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20034984": {
+"filed": "2026-07-13",
+"member": "Rudy C. Yakym",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20034998": {
+"filed": "2026-07-17",
+"member": "Dan Newhouse",
+"status": "parsed",
+"trades": 31,
+"year": "2026"
+},
+"20034999": {
+"filed": "2026-07-14",
+"member": "Debbie Wasserman Schultz",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20035003": {
+"filed": "2026-07-15",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 17,
+"year": "2026"
+},
+"20035007": {
+"filed": "2026-07-27",
+"member": "Sheri Biggs",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035013": {
+"filed": "2026-07-16",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 3,
+"year": "2026"
+},
+"20035023": {
+"filed": "2026-07-30",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20035024": {
+"filed": "2026-07-16",
+"member": "Daniel Crenshaw",
+"status": "parsed",
+"trades": 7,
+"year": "2026"
+},
+"20035035": {
+"filed": "2026-08-05",
+"member": "Julie Johnson",
+"status": "parsed",
+"trades": 74,
+"year": "2026"
+},
+"20035042": {
+"filed": "2026-07-19",
+"member": "William R. Timmons",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035047": {
+"filed": "2026-07-20",
+"member": "James A. Himes",
+"status": "parsed",
+"trades": 3,
+"year": "2026"
+},
+"20035048": {
+"filed": "2026-07-22",
+"member": "Debbie Dingell",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035065": {
+"filed": "2026-07-24",
+"member": "Robert E. Latta",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20035067": {
+"filed": "2026-07-27",
+"member": "Adrian Smith",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035068": {
+"filed": "2026-07-24",
+"member": "Pete Sessions",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20035075": {
+"filed": "2026-07-26",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035106": {
+"filed": "2026-08-01",
+"member": "Donald Sternoff Beyer",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035118": {
+"filed": "2026-08-03",
+"member": "April McClain Delaney",
+"status": "parsed",
+"trades": 61,
+"year": "2026"
+},
+"20035130": {
+"filed": "2026-08-14",
+"member": "Michael Patrick Guest",
+"status": "parsed",
+"trades": 5,
+"year": "2026"
+},
+"20035131": {
+"filed": "2026-08-05",
+"member": "Lisa McClain",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035134": {
+"filed": "2026-08-10",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 7,
+"year": "2026"
+},
+"20035136": {
+"filed": "2026-08-05",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20035138": {
+"filed": "2026-08-07",
+"member": "Maria Elvira Salazar",
+"status": "parsed",
+"trades": 6,
+"year": "2026"
+},
+"20035143": {
+"filed": "2026-08-21",
+"member": "Nancy Pelosi",
+"status": "parsed",
+"trades": 6,
+"year": "2026"
+},
+"20035146": {
+"filed": "2026-08-06",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 10,
+"year": "2026"
+},
+"20035147": {
+"filed": "2026-08-07",
+"member": "Michael Rulli",
+"status": "parsed",
+"trades": 32,
+"year": "2026"
+},
+"20035157": {
+"filed": "2026-08-07",
+"member": "Christian D. Menefee",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20035175": {
+"filed": "2026-08-11",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035180": {
+"filed": "2026-08-10",
+"member": "John J Mr McGuire",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20035183": {
+"filed": "2026-08-13",
+"member": "Derek Tran",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035186": {
+"filed": "2026-08-10",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 13,
+"year": "2026"
+},
+"20035190": {
+"filed": "2026-09-04",
+"member": "Gilbert Cisneros",
+"status": "parsed",
+"trades": 64,
+"year": "2026"
+},
+"20035191": {
+"filed": "2026-08-17",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035196": {
+"filed": "2026-08-12",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20035203": {
+"filed": "2026-08-12",
+"member": "Mike Kelly",
+"status": "parsed",
+"trades": 3,
+"year": "2026"
+},
+"20035204": {
+"filed": "2026-08-14",
+"member": "Richard Dean Dr McCormick",
+"status": "parsed",
+"trades": 26,
+"year": "2026"
+},
+"20035209": {
+"filed": "2026-08-12",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035216": {
+"filed": "2026-08-12",
+"member": "Rob Bresnahan",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035235": {
+"filed": "2026-08-17",
+"member": "Steve Cohen",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035243": {
+"filed": "2026-08-27",
+"member": "Jared Moskowitz",
+"status": "parsed",
+"trades": 3,
+"year": "2026"
+},
+"20035244": {
+"filed": "2026-08-25",
+"member": "Kelly Louise Morrison",
+"status": "parsed",
+"trades": 7,
+"year": "2026"
+},
+"20035260": {
+"filed": "2026-08-18",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 3,
+"year": "2026"
+},
+"20035273": {
+"filed": "2026-08-18",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 6,
+"year": "2026"
+},
+"20035274": {
+"filed": "2026-08-21",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035275": {
+"filed": "2026-08-18",
+"member": "Ed Case",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20035289": {
+"filed": "2026-08-20",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 5,
+"year": "2026"
+},
+"20035291": {
+"filed": "2026-08-20",
+"member": "Tim Moore",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20035293": {
+"filed": "2026-08-25",
+"member": "William R. Keating",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035309": {
+"filed": "2026-08-25",
+"member": "Michael Rulli",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20035326": {
+"filed": "2026-09-01",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 27,
+"year": "2026"
+},
+"20035345": {
+"filed": "2026-09-02",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20035349": {
+"filed": "2026-09-01",
+"member": "Donald Sternoff Beyer",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035350": {
+"filed": "2026-09-01",
+"member": "Steve Cohen",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035365": {
+"filed": "2026-09-02",
+"member": "Michael Rulli",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20035367": {
+"filed": "2026-09-02",
+"member": "John J Mr McGuire",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20035370": {
+"filed": "2026-09-03",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20035390": {
+"filed": "2026-09-10",
+"member": "Gilbert Cisneros",
+"status": "parsed",
+"trades": 54,
+"year": "2026"
+},
+"20035392": {
+"filed": "2026-09-05",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 9,
+"year": "2026"
+},
+"20035400": {
+"filed": "2026-09-14",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035401": {
+"filed": "2026-09-08",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20035403": {
+"filed": "2026-09-08",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035408": {
+"filed": "2026-09-09",
+"member": "April McClain Delaney",
+"status": "parsed",
+"trades": 76,
+"year": "2026"
+},
+"20035410": {
+"filed": "2026-09-09",
+"member": "Brandon Gill",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035411": {
+"filed": "2026-09-09",
+"member": "Maria Elvira Salazar",
+"status": "parsed",
+"trades": 12,
+"year": "2026"
+},
+"20035420": {
+"filed": "2026-09-15",
+"member": "Byron Donalds",
+"status": "parsed",
+"trades": 6,
+"year": "2026"
+},
+"20035431": {
+"filed": "2026-09-12",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 6,
+"year": "2026"
+},
+"20035432": {
+"filed": "2026-09-14",
+"member": "August Lee Pfluger",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20035434": {
+"filed": "2026-09-21",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035444": {
+"filed": "2026-09-12",
+"member": "John W. Rose",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20035445": {
+"filed": "2026-09-12",
+"member": "John W. Rose",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035450": {
+"filed": "2026-09-17",
+"member": "Scott Scott Franklin",
+"status": "parsed",
+"trades": 11,
+"year": "2026"
+},
+"20035455": {
+"filed": "2026-09-14",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 6,
+"year": "2026"
+},
+"20035464": {
+"filed": "2026-10-01",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 5,
+"year": "2026"
+},
+"20035471": {
+"filed": "2026-09-17",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20035480": {
+"filed": "2026-09-18",
+"member": "Pete Sessions",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20035487": {
+"filed": "2026-10-14",
+"member": "Daniel Meuser",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20035489": {
+"filed": "2026-09-22",
+"member": "Sheri Biggs",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035490": {
+"filed": "2026-10-16",
+"member": "Laurel Lee",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20035491": {
+"filed": "2026-09-25",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 86,
+"year": "2026"
+},
+"20035492": {
+"filed": "2026-09-22",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 3,
+"year": "2026"
+},
+"20035498": {
+"filed": "2026-09-30",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035499": {
+"filed": "2026-09-22",
+"member": "Pete Sessions",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20035528": {
+"filed": "2026-09-27",
+"member": "Max Miller",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035539": {
+"filed": "2026-10-05",
+"member": "Vince Fong",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035549": {
+"filed": "2026-10-01",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 5,
+"year": "2026"
+},
+"20035551": {
+"filed": "2026-10-19",
+"member": "Jonathan Jackson",
+"status": "parsed",
+"trades": 6,
+"year": "2026"
+},
+"20035553": {
+"filed": "2026-10-02",
+"member": "Nancy Pelosi",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035555": {
+"filed": "2026-10-01",
+"member": "Donald Sternoff Beyer",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035558": {
+"filed": "2026-10-02",
+"member": "Michael Rulli",
+"status": "parsed",
+"trades": 3,
+"year": "2026"
+},
+"20035562": {
+"filed": "2026-10-07",
+"member": "Maria Elvira Salazar",
+"status": "parsed",
+"trades": 42,
+"year": "2026"
+},
+"20035580": {
+"filed": "2026-10-05",
+"member": "Lloyd Doggett",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20035585": {
+"filed": "2026-10-12",
+"member": "Lisa McClain",
+"status": "parsed",
+"trades": 9,
+"year": "2026"
+},
+"20035588": {
+"filed": "2026-10-13",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 18,
+"year": "2026"
+},
+"20035590": {
+"filed": "2026-10-07",
+"member": "Josh Gottheimer",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20035622": {
+"filed": "2026-10-12",
+"member": "Gilbert Cisneros",
+"status": "parsed",
+"trades": 52,
+"year": "2026"
+},
+"20035627": {
+"filed": "2026-10-14",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035635": {
+"filed": "2026-10-12",
+"member": "Rick Larsen",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20035637": {
+"filed": "2026-10-15",
+"member": "Scott H. Peters",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035648": {
+"filed": "2026-10-14",
+"member": "Richard W. Allen",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20035651": {
+"filed": "2026-10-14",
+"member": "Richard Dean Dr McCormick",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20035652": {
+"filed": "2026-10-14",
+"member": "Mike Kelly",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035660": {
+"filed": "2026-10-15",
+"member": "David J. Taylor",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20035669": {
+"filed": "2026-10-22",
+"member": "Cleo Fields",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
+"20035671": {
+"filed": "2026-10-19",
+"member": "Michael Rulli",
+"status": "parsed",
+"trades": 2,
+"year": "2026"
+},
+"20035687": {
+"filed": "2026-10-20",
+"member": "James A. Himes",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035691": {
+"filed": "2026-10-20",
+"member": "Rudy C. Yakym",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035700": {
+"filed": "2026-10-22",
+"member": "Darrell E. Issa",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"8220118": {
+"filed": "2024-01-29",
+"member": "Anna Paulina Luna",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220119": {
+"filed": "2024-01-30",
+"member": "Nicole Malliotakis",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220127": {
+"filed": "2024-02-05",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220147": {
+"filed": "2024-02-09",
+"member": "Charles J. \"Chuck\" Fleischmann",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220155": {
+"filed": "2024-02-20",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220162": {
+"filed": "2024-02-13",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220173": {
+"filed": "2024-03-06",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220176": {
+"filed": "2024-03-13",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220177": {
+"filed": "2024-03-13",
+"member": "Doug Lamborn",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220188": {
+"filed": "2024-03-15",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220192": {
+"filed": "2024-04-05",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220203": {
+"filed": "2024-04-10",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220205": {
+"filed": "2024-04-12",
+"member": "Doug Lamborn",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220214": {
+"filed": "2024-04-16",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220252": {
+"filed": "2024-05-06",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220271": {
+"filed": "2024-05-09",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220312": {
+"filed": "2024-05-15",
+"member": "Doug Lamborn",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220317": {
+"filed": "2024-05-15",
+"member": "Charles J. \"Chuck\" Fleischmann",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220320": {
+"filed": "2024-05-11",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220431": {
+"filed": "2024-06-03",
+"member": "Doug Lamborn",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220451": {
+"filed": "2024-06-05",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220508": {
+"filed": "2024-06-14",
+"member": "Nicole Malliotakis",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220516": {
+"filed": "2024-06-13",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220529": {
+"filed": "2024-06-26",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220534": {
+"filed": "2024-07-08",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220536": {
+"filed": "2024-07-10",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220551": {
+"filed": "2024-07-22",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220567": {
+"filed": "2024-08-01",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220570": {
+"filed": "2024-08-07",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220589": {
+"filed": "2024-08-12",
+"member": "Doug Lamborn",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220615": {
+"filed": "2024-08-15",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220617": {
+"filed": "2024-08-16",
+"member": "Charles J. \"Chuck\" Fleischmann",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220626": {
+"filed": "2024-09-06",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220628": {
+"filed": "2024-09-11",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220643": {
+"filed": "2024-09-16",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220660": {
+"filed": "2024-10-04",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220661": {
+"filed": "2024-10-10",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220665": {
+"filed": "2024-10-23",
+"member": "Doug Lamborn",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220672": {
+"filed": "2024-11-01",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220674": {
+"filed": "2024-11-08",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220682": {
+"filed": "2024-11-08",
+"member": "Byron Donalds",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220683": {
+"filed": "2024-11-12",
+"member": "Charles J. \"Chuck\" Fleischmann",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220685": {
+"filed": "2024-11-12",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220691": {
+"filed": "2024-12-05",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220692": {
+"filed": "2024-12-05",
+"member": "Doug Lamborn",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220695": {
+"filed": "2024-12-05",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220698": {
+"filed": "2024-12-12",
+"member": "Tony Wied",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220706": {
+"filed": "2024-12-16",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220710": {
+"filed": "2025-01-07",
+"member": "Nicole Malliotakis",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220711": {
+"filed": "2025-01-08",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220714": {
+"filed": "2025-01-09",
+"member": "Tony Wied",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220716": {
+"filed": "2025-01-10",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220717": {
+"filed": "2025-01-10",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220718": {
+"filed": "2025-01-10",
+"member": "Ann Wagner",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220723": {
+"filed": "2025-01-15",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220731": {
+"filed": "2025-01-23",
+"member": "Keith Alan Self",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220747": {
+"filed": "2025-02-06",
+"member": "Gus M. Bilirakis",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220750": {
+"filed": "2025-02-06",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220753": {
+"filed": "2025-02-10",
+"member": "Charles J. \"Chuck\" Fleischmann",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220754": {
+"filed": "2025-02-11",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220755": {
+"filed": "2025-02-12",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220757": {
+"filed": "2025-02-10",
+"member": "Tony Wied",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220763": {
+"filed": "2025-02-14",
+"member": "Ann Wagner",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8220764": {
+"filed": "2025-02-13",
+"member": "Adrian Smith",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220765": {
+"filed": "2025-02-14",
+"member": "Ann Wagner",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220768": {
+"filed": "2025-02-20",
+"member": "Brad Sherman",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220770": {
+"filed": "2025-02-25",
+"member": "Brad Sherman",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220780": {
+"filed": "2025-03-03",
+"member": "Brad Sherman",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220782": {
+"filed": "2025-03-06",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220783": {
+"filed": "2025-03-06",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220796": {
+"filed": "2025-03-13",
+"member": "Vicente Gonzalez",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220799": {
+"filed": "2025-03-14",
+"member": "Tony Wied",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220809": {
+"filed": "2025-03-31",
+"member": "Vicente Gonzalez",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220824": {
+"filed": "2025-04-04",
+"member": "Tony Wied",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220827": {
+"filed": "2025-04-10",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220828": {
+"filed": "2025-04-09",
+"member": "Jamie Raskin",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220834": {
+"filed": "2025-04-17",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220836": {
+"filed": "2025-04-16",
+"member": "Ann Wagner",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220844": {
+"filed": "2025-05-01",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220845": {
+"filed": "2025-04-30",
+"member": "Vicente Gonzalez",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220902": {
+"filed": "2025-05-13",
+"member": "Charles J. \"Chuck\" Fleischmann",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220903": {
+"filed": "2025-05-13",
+"member": "Tony Wied",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220904": {
+"filed": "2025-05-12",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220906": {
+"filed": "2025-05-12",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8220958": {
+"filed": "2025-05-20",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221120": {
+"filed": "2025-06-09",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221123": {
+"filed": "2025-06-11",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221124": {
+"filed": "2025-06-10",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221173": {
+"filed": "2025-07-07",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221176": {
+"filed": "2025-07-09",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221177": {
+"filed": "2025-07-09",
+"member": "Tony Wied",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221212": {
+"filed": "2025-10-23",
+"member": "Lisa McClain",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221223": {
+"filed": "2025-11-05",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221228": {
+"filed": "2025-11-10",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221231": {
+"filed": "2025-11-06",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221233": {
+"filed": "2025-11-10",
+"member": "Tony Wied",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221237": {
+"filed": "2025-11-14",
+"member": "Charles J. \"Chuck\" Fleischmann",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221238": {
+"filed": "2025-11-14",
+"member": "Adrian Smith",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221263": {
+"filed": "2025-12-09",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221264": {
+"filed": "2025-12-08",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221270": {
+"filed": "2025-12-11",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221276": {
+"filed": "2025-12-19",
+"member": "Nicole Malliotakis",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221285": {
+"filed": "2026-01-06",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221287": {
+"filed": "2026-01-07",
+"member": "Nicole Malliotakis",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221297": {
+"filed": "2026-01-09",
+"member": "Tony Wied",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221302": {
+"filed": "2026-01-15",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221310": {
+"filed": "2026-01-16",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"8221321": {
+"filed": "2026-02-09",
+"member": "Charles J. \"Chuck\" Fleischmann",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"8221322": {
+"filed": "2026-02-06",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"8221326": {
+"filed": "2026-02-11",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"8221332": {
+"filed": "2026-02-13",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"8221334": {
+"filed": "2026-02-19",
+"member": "Byron Donalds",
+"status": "unreadable",
+"trades": 0,
+"year": "2024"
+},
+"8221358": {
+"filed": "2026-03-09",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"8221359": {
+"filed": "2026-03-10",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"8221360": {
+"filed": "2026-03-09",
+"member": "Tony Wied",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9115546": {
+"filed": "2025-07-23",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"9115549": {
+"filed": "2025-07-24",
+"member": "Adrian Smith",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"9115623": {
+"filed": "2025-08-27",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"9115635": {
+"filed": "2025-09-04",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"9115662": {
+"filed": "2025-09-25",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"9115664": {
+"filed": "2025-08-12",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"9115665": {
+"filed": "2025-08-06",
+"member": "Tony Wied",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"9115670": {
+"filed": "2025-08-15",
+"member": "Charles J. \"Chuck\" Fleischmann",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"9115671": {
+"filed": "2025-08-07",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"9115676": {
+"filed": "2025-09-09",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"9115677": {
+"filed": "2025-09-11",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"9115679": {
+"filed": "2025-10-03",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"9115684": {
+"filed": "2025-10-10",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"9115686": {
+"filed": "2025-10-14",
+"member": "Keith Alan Self",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"9115689": {
+"filed": "2025-10-16",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2025"
+},
+"9115704": {
+"filed": "2026-03-20",
+"member": "Charles J. \"Chuck\" Fleischmann",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9115711": {
+"filed": "2026-03-20",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9115726": {
+"filed": "2026-04-07",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9115728": {
+"filed": "2026-04-08",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9115762": {
+"filed": "2026-04-21",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9115808": {
+"filed": "2026-05-08",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9115809": {
+"filed": "2026-05-06",
+"member": "Diana Harshbarger",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9115811": {
+"filed": "2026-05-06",
+"member": "Diana Harshbarger",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9115812": {
+"filed": "2026-05-06",
+"member": "Diana Harshbarger",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9115813": {
+"filed": "2026-05-06",
+"member": "Diana Harshbarger",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9115814": {
+"filed": "2026-05-06",
+"member": "Diana Harshbarger",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9115815": {
+"filed": "2026-05-06",
+"member": "Diana Harshbarger",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9115816": {
+"filed": "2026-05-05",
+"member": "Tony Wied",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9115820": {
+"filed": "2026-05-04",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9115821": {
+"filed": "2026-05-12",
+"member": "Charles J. \"Chuck\" Fleischmann",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9115822": {
+"filed": "2026-05-11",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9115901": {
+"filed": "2026-06-04",
+"member": "Diana Harshbarger",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116141": {
+"filed": "2026-06-10",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116142": {
+"filed": "2026-06-09",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116146": {
+"filed": "2026-06-10",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116197": {
+"filed": "2026-06-30",
+"member": "Keith Alan Self",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116206": {
+"filed": "2026-07-06",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116211": {
+"filed": "2026-07-08",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116212": {
+"filed": "2026-07-08",
+"member": "Charles J. \"Chuck\" Fleischmann",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116217": {
+"filed": "2026-07-14",
+"member": "Nicole Malliotakis",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116218": {
+"filed": "2026-07-14",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116249": {
+"filed": "2026-07-21",
+"member": "Tom Cole",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116256": {
+"filed": "2026-08-03",
+"member": "Diana Harshbarger",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116257": {
+"filed": "2026-08-03",
+"member": "Diana Harshbarger",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116258": {
+"filed": "2026-08-03",
+"member": "Diana Harshbarger",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116260": {
+"filed": "2026-07-24",
+"member": "Tony Wied",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116267": {
+"filed": "2026-08-07",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116290": {
+"filed": "2026-08-12",
+"member": "Charles J. \"Chuck\" Fleischmann",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116292": {
+"filed": "2026-08-13",
+"member": "Tracey Robert Mann",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116308": {
+"filed": "2026-08-18",
+"member": "Tony Wied",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116311": {
+"filed": "2026-08-20",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116326": {
+"filed": "2026-09-02",
+"member": "Tony Wied",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116328": {
+"filed": "2026-09-04",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116331": {
+"filed": "2026-09-11",
+"member": "Diana Harshbarger",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116342": {
+"filed": "2026-09-23",
+"member": "Harold Dallas Rogers",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116355": {
+"filed": "2026-10-01",
+"member": "Diana Harshbarger",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116356": {
+"filed": "2026-10-01",
+"member": "Diana Harshbarger",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116357": {
+"filed": "2026-10-01",
+"member": "Diana Harshbarger",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116361": {
+"filed": "2026-10-02",
+"member": "Tony Wied",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116376": {
+"filed": "2026-10-07",
+"member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116378": {
+"filed": "2026-10-14",
+"member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+}
+}

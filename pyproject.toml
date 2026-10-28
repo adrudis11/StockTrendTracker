@@ -1,0 +1,65 @@
+[project]
+name = "stocktrend"
+version = "0.1.0"
+description = "Geopolitical-signal analysis of US and European stocks"
+requires-python = ">=3.13"
+dependencies = [
+    "exchange-calendars>=4.5",
+    "feedparser>=6.0",
+    "requests>=2.32",
+    "lxml>=5.0",
+    "pandas>=2.2",
+    "pyarrow>=17.0",
+    "pydantic>=2.8",
+    "pypdf>=5.0",
+    "pyyaml>=6.0",
+    "typer>=0.12",
+    "yfinance>=0.2.50",
+]
+
+[project.scripts]
+stt = "stocktrend.cli:app"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.11",
+    "pandas-stubs>=2.2",
+    "pytest>=8.3",
+    "ruff>=0.6",
+    "types-pyyaml>=6.0",
+    "types-requests>=2.32",
+]
+
+[build-system]
+requires = ["uv_build>=0.11.32,<0.12.0"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501"]  # sample feeds and HTML fixtures
+"src/stocktrend/report/*" = ["RUF001"]  # en dashes and × are deliberate typography
+"src/stocktrend/tracking/scoreboard.py" = ["RUF001"]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+warn_unused_ignores = false
+
+[[tool.mypy.overrides]]
+module = ["yfinance.*", "feedparser.*", "exchange_calendars.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["live: hits real network sources (deselect with -m 'not live')"]
+addopts = "-m 'not live'"
+filterwarnings = [
+    # pandas 3.1 deprecations raised inside exchange_calendars, not our code
+    "ignore:Series.values returning an ndarray that drops timezone:DeprecationWarning",
+]

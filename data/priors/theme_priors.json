@@ -1,0 +1,313 @@
+{
+ "generated_at": "2026-10-28T10:25:48.360919+00:00",
+ "period": "2021-09-29 to 2026-10-27",
+ "method": "driver 5-day move > 2.0 sigma in the theme direction; members' sign-weighted excess return vs regional benchmark over the next horizon; usable with >= 8 non-overlapping shocks",
+ "themes": {
+  "defense_us": {
+   "driver": "ITA",
+   "5": {
+    "n": 14,
+    "mean_excess": -0.00271,
+    "hit_rate": 0.5,
+    "t_stat": -0.44,
+    "usable": true
+   },
+   "20": {
+    "n": 11,
+    "mean_excess": -0.0199,
+    "hit_rate": 0.364,
+    "t_stat": -0.93,
+    "usable": true
+   }
+  },
+  "defense_europe": {
+   "driver": "WDEF.MI",
+   "5": {
+    "n": 3,
+    "mean_excess": -0.00134,
+    "hit_rate": 0.333,
+    "t_stat": -0.04,
+    "usable": false
+   },
+   "20": {
+    "n": 3,
+    "mean_excess": -0.04103,
+    "hit_rate": 0.333,
+    "t_stat": -0.99,
+    "usable": false
+   }
+  },
+  "oil_supply_shock": {
+   "driver": "BZ=F",
+   "5": {
+    "n": 15,
+    "mean_excess": -0.00503,
+    "hit_rate": 0.533,
+    "t_stat": -0.63,
+    "usable": true
+   },
+   "20": {
+    "n": 10,
+    "mean_excess": -0.0177,
+    "hit_rate": 0.4,
+    "t_stat": -0.68,
+    "usable": true
+   }
+  },
+  "eu_gas_shock": {
+   "driver": "TTF=F",
+   "5": {
+    "n": 8,
+    "mean_excess": 0.00925,
+    "hit_rate": 0.75,
+    "t_stat": 1.62,
+    "usable": true
+   },
+   "20": {
+    "n": 5,
+    "mean_excess": 0.00754,
+    "hit_rate": 0.8,
+    "t_stat": 0.53,
+    "usable": false
+   }
+  },
+  "us_china_trade_escalation": {
+   "driver": "FXI",
+   "5": {
+    "n": 4,
+    "mean_excess": 0.00087,
+    "hit_rate": 0.5,
+    "t_stat": 0.06,
+    "usable": false
+   },
+   "20": {
+    "n": 4,
+    "mean_excess": -0.0289,
+    "hit_rate": 0.25,
+    "t_stat": -0.93,
+    "usable": false
+   }
+  },
+  "critical_minerals": {
+   "driver": "REMX",
+   "5": {
+    "n": 14,
+    "mean_excess": 0.00433,
+    "hit_rate": 0.643,
+    "t_stat": 0.67,
+    "usable": true
+   },
+   "20": {
+    "n": 12,
+    "mean_excess": 0.01182,
+    "hit_rate": 0.75,
+    "t_stat": 1.25,
+    "usable": true
+   }
+  },
+  "middle_east_escalation": {
+   "driver": "BZ=F",
+   "5": {
+    "n": 15,
+    "mean_excess": -0.00947,
+    "hit_rate": 0.267,
+    "t_stat": -1.93,
+    "usable": true
+   },
+   "20": {
+    "n": 10,
+    "mean_excess": -0.02403,
+    "hit_rate": 0.4,
+    "t_stat": -1.36,
+    "usable": true
+   }
+  },
+  "russia_ukraine_escalation": {
+   "driver": "WDEF.MI",
+   "5": {
+    "n": 3,
+    "mean_excess": -0.0132,
+    "hit_rate": 0.333,
+    "t_stat": -0.44,
+    "usable": false
+   },
+   "20": {
+    "n": 3,
+    "mean_excess": -0.02615,
+    "hit_rate": 0.667,
+    "t_stat": -0.7,
+    "usable": false
+   }
+  },
+  "taiwan_strait_tension": {
+   "driver": "EWT",
+   "5": {
+    "n": 17,
+    "mean_excess": -0.00338,
+    "hit_rate": 0.412,
+    "t_stat": -0.57,
+    "usable": true
+   },
+   "20": {
+    "n": 12,
+    "mean_excess": 0.00459,
+    "hit_rate": 0.583,
+    "t_stat": 0.54,
+    "usable": true
+   }
+  },
+  "us_infrastructure_spending": {
+   "driver": "PAVE",
+   "5": {
+    "n": 20,
+    "mean_excess": 0.00287,
+    "hit_rate": 0.55,
+    "t_stat": 0.48,
+    "usable": true
+   },
+   "20": {
+    "n": 15,
+    "mean_excess": 2e-05,
+    "hit_rate": 0.533,
+    "t_stat": 0.0,
+    "usable": true
+   }
+  },
+  "clean_energy_policy": {
+   "driver": "ICLN",
+   "5": {
+    "n": 11,
+    "mean_excess": -0.00264,
+    "hit_rate": 0.364,
+    "t_stat": -0.5,
+    "usable": true
+   },
+   "20": {
+    "n": 11,
+    "mean_excess": 0.0154,
+    "hit_rate": 0.636,
+    "t_stat": 1.14,
+    "usable": true
+   }
+  },
+  "nuclear_buildout": {
+   "driver": "URA",
+   "5": {
+    "n": 15,
+    "mean_excess": -0.00361,
+    "hit_rate": 0.667,
+    "t_stat": -0.34,
+    "usable": true
+   },
+   "20": {
+    "n": 12,
+    "mean_excess": 0.02201,
+    "hit_rate": 0.75,
+    "t_stat": 0.87,
+    "usable": true
+   }
+  },
+  "us_rates_up": {
+   "driver": "^TNX",
+   "5": {
+    "n": 5,
+    "mean_excess": 0.00498,
+    "hit_rate": 0.6,
+    "t_stat": 0.59,
+    "usable": false
+   },
+   "20": {
+    "n": 5,
+    "mean_excess": -0.00096,
+    "hit_rate": 0.4,
+    "t_stat": -0.06,
+    "usable": false
+   }
+  },
+  "safe_haven_risk_off": {
+   "driver": "GC=F",
+   "5": {
+    "n": 22,
+    "mean_excess": -0.00345,
+    "hit_rate": 0.5,
+    "t_stat": -0.47,
+    "usable": true
+   },
+   "20": {
+    "n": 16,
+    "mean_excess": 0.00761,
+    "hit_rate": 0.562,
+    "t_stat": 0.58,
+    "usable": true
+   }
+  },
+  "food_supply_shock": {
+   "driver": "ZW=F",
+   "5": {
+    "n": 12,
+    "mean_excess": 0.00091,
+    "hit_rate": 0.417,
+    "t_stat": 0.09,
+    "usable": true
+   },
+   "20": {
+    "n": 11,
+    "mean_excess": -0.00677,
+    "hit_rate": 0.364,
+    "t_stat": -0.58,
+    "usable": true
+   }
+  },
+  "cyber_threat": {
+   "driver": "CIBR",
+   "5": {
+    "n": 17,
+    "mean_excess": 0.0197,
+    "hit_rate": 0.706,
+    "t_stat": 1.63,
+    "usable": true
+   },
+   "20": {
+    "n": 12,
+    "mean_excess": 0.06919,
+    "hit_rate": 0.833,
+    "t_stat": 2.03,
+    "usable": true
+   }
+  },
+  "china_stimulus": {
+   "driver": "FXI",
+   "5": {
+    "n": 9,
+    "mean_excess": 0.00692,
+    "hit_rate": 0.667,
+    "t_stat": 0.56,
+    "usable": true
+   },
+   "20": {
+    "n": 6,
+    "mean_excess": 0.02026,
+    "hit_rate": 0.833,
+    "t_stat": 1.2,
+    "usable": false
+   }
+  },
+  "shipping_disruption": {
+   "driver": "BOAT",
+   "5": {
+    "n": 19,
+    "mean_excess": 0.00386,
+    "hit_rate": 0.579,
+    "t_stat": 0.9,
+    "usable": true
+   },
+   "20": {
+    "n": 13,
+    "mean_excess": 0.00399,
+    "hit_rate": 0.538,
+    "t_stat": 0.38,
+    "usable": true
+   }
+  }
+ }
+}

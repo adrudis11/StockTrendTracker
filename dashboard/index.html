@@ -1,0 +1,486 @@
+<meta name="dash-one-writer">
+<style>
+  .stt { display: grid; gap: var(--cds-gap-xl); font-family: var(--font-anthropic-sans); max-width: 78rem; margin-inline: auto; }
+  .stt h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; text-wrap: balance; }
+  .stt h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0; }
+  .stt h3 { font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium); margin: 0; }
+  .stt p { margin: 0; line-height: 1.5; }
+  .stt-head { display: grid; gap: var(--cds-gap-sm); }
+  .stt-take { color: var(--color-fg-muted); max-width: 70ch; }
+  .stt-take b, .stt-note b { color: var(--color-fg); font-weight: var(--cds-font-weight-medium); }
+  .stt-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr)); gap: var(--cds-gap-md); }
+  .stt-tile, .stt-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); }
+  .stt-tile { padding: var(--cds-pad-md); display: grid; gap: var(--cds-gap-xs); }
+  .stt-tile .lbl { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .stt-tile .val { font-family: var(--font-anthropic-serif); font-size: var(--cds-font-size-title); font-variant-numeric: tabular-nums; }
+  .stt-card { padding: var(--cds-pad-lg); display: grid; gap: var(--cds-gap-md); min-width: 0; align-content: start; }
+  .stt-section { display: grid; gap: var(--cds-gap-md); }
+  .stt-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 30rem), 1fr)); gap: var(--cds-gap-md); }
+  .stt-note { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .stt-view { max-width: 75ch; }
+  .stt-wrap { overflow-x: auto; }
+  .stt-t { width: 100%; border-collapse: collapse; font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; }
+  .stt-t th { text-align: left; color: var(--color-fg-muted); font-weight: var(--cds-font-weight-medium); padding: var(--cds-pad-xs) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
+  .stt-t td { padding: var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); vertical-align: top; }
+  .stt-t tr:last-child td { border-bottom: 0; }
+  .stt-t .num { text-align: right; white-space: nowrap; }
+  .stt-t .tick { font-weight: var(--cds-font-weight-medium); white-space: nowrap; }
+  .stt-t .why { min-width: 14rem; }
+  .stt-t .risk { color: var(--color-warn); }
+  .stt-conv { display: inline-flex; align-items: center; gap: var(--cds-gap-xs); }
+  .stt-conv span { display: inline-block; height: 0.5rem; border-radius: var(--cds-radius); background: var(--cds-chart-muted); }
+  .stt-conv.long span { background: var(--color-ok); }
+  .stt-conv.avoid span { background: var(--color-bad); }
+  .stt-chart { position: relative; min-height: 12rem; }
+  .stt-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); white-space: nowrap; }
+  .stt-tip .k { color: var(--cds-text-secondary); }
+  .stt-foot { display: grid; gap: var(--cds-gap-sm); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); max-width: 80ch; }
+  [data-dash-source-state=empty] { color: transparent; }
+  [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+  @media (max-width: 40rem) { .stt-t .opt { display: none; } }
+</style>
+
+<div class="stt">
+  <header class="stt-head" id="top">
+    <h1>StockTrendTracker</h1>
+    <p class="stt-take">
+      Picks for <b data-draw="s-date" data-source="summary" data-field="date" data-row="0">—</b>, made before the markets opened.
+      Market regime: <b data-draw="s-regime" data-source="summary" data-field="regime" data-row="0">—</b>.
+      <b data-draw="s-p5" data-source="summary" data-field="picks_5d" data-row="0">—</b> picks for the next week and
+      <b data-draw="s-p20" data-source="summary" data-field="picks_20d" data-row="0">—</b> for the next month, from
+      <b data-draw="s-events" data-source="summary" data-field="events" data-row="0">—</b> political and geopolitical events.
+    </p>
+  </header>
+
+  <section class="stt-tiles" id="markets" aria-label="Markets over the last 20 trading days">
+    <div class="stt-tile"><span class="lbl">VIX (US volatility)</span><span class="val" data-draw="s-vix" data-source="summary" data-field="vix" data-row="0">—</span></div>
+    <div class="stt-tile"><span class="lbl">S&amp;P 500, 20 days</span><span class="val" data-draw="s-spy" data-source="summary" data-field="spy_r20d" data-row="0">—</span></div>
+    <div class="stt-tile"><span class="lbl">STOXX Europe 600, 20 days</span><span class="val" data-draw="s-stoxx" data-source="summary" data-field="stoxx_r20d" data-row="0">—</span></div>
+    <div class="stt-tile"><span class="lbl">Brent crude, 20 days</span><span class="val" data-draw="s-brent" data-source="summary" data-field="brent_r20d" data-row="0">—</span></div>
+    <div class="stt-tile"><span class="lbl">EU gas (TTF), 20 days</span><span class="val" data-draw="s-ttf" data-source="summary" data-field="ttf_r20d" data-row="0">—</span></div>
+    <div class="stt-tile"><span class="lbl">US 10-year yield</span><span class="val" data-draw="s-tnx" data-source="summary" data-field="us10y" data-row="0">—</span></div>
+  </section>
+
+  <section class="stt-card" id="backdrop">
+    <h2>Backdrop</h2>
+    <p class="stt-view" data-draw="s-view" data-source="summary" data-field="market_view" data-row="0">—</p>
+  </section>
+
+  <section class="stt-section" id="picks">
+    <h2>Picks</h2>
+    <p class="stt-note">Ranked by conviction: how strongly the day's events point at a stock, adjusted for its price trend, moves already made and risks such as earnings. p(beat) is the estimated chance of beating the benchmark (S&amp;P 500 for US listings, STOXX Europe 600 for European ones). It stays uncalibrated until enough picks have matured to measure it.</p>
+    <p data-unless="n_picks" hidden>No stock cleared the bar today: the day's events didn't point strongly enough at any covered stock.</p>
+    <div class="stt-grid" data-if="n_picks" hidden>
+      <div class="stt-card" id="picks-week">
+        <h3>Next week · 5 trading days</h3>
+        <div class="stt-wrap">
+          <table class="stt-t" data-source="picks" data-row-key="key">
+            <thead><tr><th data-field="rank">#</th><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="last_close" class="num">Last close</th><th data-field="conviction">Conviction</th><th data-field="prob" class="num">p(beat)</th><th data-field="r20d" class="num opt">20-day move</th><th data-field="driver">Why</th><th data-field="risks" class="opt">Risks / notes</th></tr></thead>
+            <tbody data-draw="picks-5-long"></tbody>
+          </table>
+        </div>
+        <p class="stt-note" data-empty="5-long" hidden>No picks cleared the bar for this horizon.</p>
+        <h3>Likely to lag</h3>
+        <div class="stt-wrap">
+          <table class="stt-t" data-source="picks" data-row-key="key">
+            <thead><tr><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="conviction">Conviction</th><th data-field="driver">Why</th></tr></thead>
+            <tbody data-draw="picks-5-avoid"></tbody>
+          </table>
+        </div>
+        <p class="stt-note" data-empty="5-avoid" hidden>Nothing flagged to avoid.</p>
+      </div>
+      <div class="stt-card" id="picks-month">
+        <h3>Next month · 20 trading days</h3>
+        <div class="stt-wrap">
+          <table class="stt-t" data-source="picks" data-row-key="key">
+            <thead><tr><th data-field="rank">#</th><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="last_close" class="num">Last close</th><th data-field="conviction">Conviction</th><th data-field="prob" class="num">p(beat)</th><th data-field="r20d" class="num opt">20-day move</th><th data-field="driver">Why</th><th data-field="risks" class="opt">Risks / notes</th></tr></thead>
+            <tbody data-draw="picks-20-long"></tbody>
+          </table>
+        </div>
+        <p class="stt-note" data-empty="20-long" hidden>No picks cleared the bar for this horizon.</p>
+        <h3>Likely to lag</h3>
+        <div class="stt-wrap">
+          <table class="stt-t" data-source="picks" data-row-key="key">
+            <thead><tr><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="conviction">Conviction</th><th data-field="driver">Why</th></tr></thead>
+            <tbody data-draw="picks-20-avoid"></tbody>
+          </table>
+        </div>
+        <p class="stt-note" data-empty="20-avoid" hidden>Nothing flagged to avoid.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="stt-card" id="open-picks">
+    <h2>Open picks</h2>
+    <p class="stt-note">Picks from earlier days still inside their horizon. Entry is the open of the first session after the pick was made, which is what the track record scores from; Now is the latest close and Since the move between them, in the listing's currency. vs benchmark is the excess return so far, as the track record will score it: positive means the call is working, for avoids too.</p>
+    <p class="stt-note" data-if="open_entered" hidden><b data-draw="s-ontrack" data-source="summary" data-field="open_on_track" data-row="0">—</b> of the <b data-draw="s-entered" data-source="summary" data-field="open_entered" data-row="0">—</b> open picks that have traded are on track.</p>
+    <div class="stt-wrap" data-if="n_open" hidden>
+      <table class="stt-t" data-source="open_picks" data-row-key="key">
+        <thead><tr><th data-field="date">Picked</th><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="horizon">Horizon</th><th data-field="side">Side</th><th data-field="entry" class="num">Entry</th><th data-field="now" class="num">Now</th><th data-field="since" class="num">Since</th><th data-field="vs_benchmark" class="num">vs benchmark</th><th data-field="ends" class="opt">Ends</th></tr></thead>
+        <tbody data-draw="open-picks"></tbody>
+      </table>
+    </div>
+    <p class="stt-note" data-unless="n_open" hidden>No picks from earlier days are open yet. Today's picks show here from the next run, once their entry price is known.</p>
+  </section>
+
+  <section class="stt-card" id="trump">
+    <h2>Trump tracker</h2>
+    <p class="stt-note">Stocks Donald Trump said or hinted are a buy, or attacked, in the last 90 days, from news coverage of his posts, interviews and remarks. Price then is the close before he said it, Now the latest close and Since the move between them, in the listing's currency. Day move is the stock on the day he said it, against its benchmark; much of that often happens within minutes of a post. vs benchmark runs from the first open after the call was logged, which is what acting on it would have earned. A call came true if the stock then beat its benchmark after praise, or lagged it after an attack.</p>
+    <p class="stt-note" data-if="trump_scored" hidden>So far <b data-draw="s-trump-true" data-source="summary" data-field="trump_true" data-row="0">—</b> of <b data-draw="s-trump-scored" data-source="summary" data-field="trump_scored" data-row="0">—</b> calls came true. They carry no weight in the picks: each is logged as the Trump strategy in the track record, so its real results show up there.</p>
+    <p class="stt-note" data-if="trump_calls" data-unless="trump_scored" hidden>No call has traded since it was logged yet. Calls carry no weight in the picks: each is logged as the Trump strategy in the track record, so its real results show up there.</p>
+    <div class="stt-wrap" data-if="trump_calls" hidden>
+      <table class="stt-t" data-source="trump" data-row-key="key">
+        <thead><tr><th data-field="said_on">Said</th><th data-field="ticker">Ticker</th><th data-field="company" class="opt">Company</th><th data-field="stance">Call</th><th data-field="quote" class="opt">Quote</th><th data-field="price_then" class="num">Price then</th><th data-field="now" class="num">Now</th><th data-field="since" class="num">Since</th><th data-field="reaction" class="num opt">Day move</th><th data-field="excess" class="num">vs benchmark</th><th data-field="came_true">Came true?</th></tr></thead>
+        <tbody data-draw="trump"></tbody>
+      </table>
+    </div>
+    <p class="stt-note" data-unless="trump_calls" hidden>No stock or market calls by Trump logged in the last 90 days.</p>
+  </section>
+
+  <section class="stt-card" id="track-record">
+    <h2>Track record</h2>
+    <p class="stt-note">Every pick is logged before the open and scored when its horizon ends: entry at the next open, exit at the close of the last day, against the benchmark. Momentum and random picks from the same sectors are logged the same way, so we can see whether the geopolitical reading adds anything.</p>
+    <p data-unless="matured" hidden>No picks have matured yet (<b data-draw="s-open" data-source="summary" data-field="open" data-row="0">—</b> open). The first one-week results are due on <b data-draw="s-first" data-source="summary" data-field="first_results" data-row="0">—</b>.</p>
+    <div data-if="matured" hidden>
+      <div class="stt-grid">
+        <div class="stt-wrap">
+          <table class="stt-t" data-source="scoreboard" data-row-key="key">
+            <thead><tr><th data-field="strategy">Strategy</th><th data-field="horizon">Horizon</th><th data-field="side">Side</th><th data-field="n" class="num">Matured</th><th data-field="hit_rate" class="num">Hit rate</th><th data-field="mean_excess" class="num">Mean excess</th><th data-field="t_stat" class="num opt">t</th></tr></thead>
+            <tbody data-draw="board"></tbody>
+          </table>
+        </div>
+        <div>
+          <h3>Mean excess return of long picks, by strategy</h3>
+          <div class="stt-chart" id="excess-chart" data-draw="board-chart" data-source="scoreboard"></div>
+        </div>
+      </div>
+      <p class="stt-note">Under <b data-draw="min-n">—</b> matured geopolitical picks, differences are mostly noise.</p>
+    </div>
+    <div class="stt-section" id="results" data-if="n_results" hidden>
+      <h3>Latest matured picks</h3>
+      <div class="stt-wrap">
+        <table class="stt-t" data-source="results" data-row-key="key">
+          <thead><tr><th data-field="date">Picked</th><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="horizon">Horizon</th><th data-field="side">Side</th><th data-field="entry" class="num">Entry</th><th data-field="exit" class="num">Exit</th><th data-field="result" class="num">Result</th><th data-field="vs_benchmark" class="num">vs benchmark</th><th data-field="correct">Correct?</th><th data-field="now" class="num opt">Now</th><th data-field="since" class="num opt">Since entry</th></tr></thead>
+          <tbody data-draw="results"></tbody>
+        </table>
+      </div>
+      <p class="stt-note">Entry is the open after the pick was made and Exit the close on the last day of its horizon; Result is the move between them, in the listing's currency. vs benchmark and Correct? are as scored (in euros for European listings; for avoids, positive means it lagged as called). Now is the latest close and Since entry the move from the entry, to show what happened after.</p>
+    </div>
+  </section>
+
+  <section class="stt-card" id="congress">
+    <h2>Congress trades</h2>
+    <p class="stt-note">Stock trades by members of the US House, from their official STOCK Act filings, disclosed in the last 30 days. Trades are reported up to 45 days after they happen, and automatic dividend reinvestments are left out. Score: purchases count by size, sales count half.</p>
+    <p class="stt-note">Weight in today's picks: <b data-draw="s-tw" data-source="summary" data-field="tracker_weight" data-row="0">—</b>% at most, set by the tracker's own backtest. It's also logged as a separate strategy in the track record, so its real results show up there.</p>
+    <p class="stt-note" data-if="n_congress" hidden>House filings give amount ranges, not prices, so Price then is an estimate: the stock's close on each trade date, weighted by the size of the trade, over their purchases where members were net buyers and their sales where they were net sellers. Now is the close on <b data-draw="s-cpx" data-source="summary" data-field="prices_as_of" data-row="0">—</b>, and Since the move from Price then.</p>
+    <div class="stt-wrap" data-if="n_congress" hidden>
+      <table class="stt-t" data-source="congress" data-row-key="ticker">
+        <thead><tr><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="score" class="num">Score</th><th data-field="buyers" class="num">Buyers</th><th data-field="sellers" class="num">Sellers</th><th data-field="price_then" class="num">Price then (est.)</th><th data-field="now" class="num">Now</th><th data-field="since" class="num">Since</th><th data-field="members" class="opt">Members</th><th data-field="last_filed" class="opt">Last filed</th></tr></thead>
+        <tbody data-draw="congress"></tbody>
+      </table>
+    </div>
+    <p class="stt-note" data-unless="n_congress" hidden>No stock trades disclosed by House members in the last 30 days.</p>
+  </section>
+
+  <section class="stt-card" id="insiders">
+    <h2>Insider buying</h2>
+    <p class="stt-note">Open-market purchases of their own company's shares by officers, directors and 10% owners of S&amp;P 500 companies, from the SEC Form 4 filings of the last 30 days (due within two business days of a trade). Score: purchases count by size. Sales are counted but don't lower it, since insiders sell for many reasons.</p>
+    <p class="stt-note" data-if="n_insiders" hidden>Paid is the insiders' average price per share, Now the close on <b data-draw="s-ipx" data-source="summary" data-field="prices_as_of" data-row="0">—</b>, and Since the move from their price. Over 2021–2026, a stock's distance from the insiders' price didn't reliably predict how it did next: ones already well above it didn't do worse.</p>
+    <p class="stt-note">Weight in today's picks: <b data-draw="s-iw" data-source="summary" data-field="insider_weight" data-row="0">—</b>% at most, set by the tracker's own backtest. It's also logged as a separate strategy in the track record, so its real results show up there.</p>
+    <div class="stt-wrap" data-if="n_insiders" hidden>
+      <table class="stt-t" data-source="insiders" data-row-key="ticker">
+        <thead><tr><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="score" class="num">Score</th><th data-field="buyers" class="num">Buyers</th><th data-field="bought" class="num">Bought</th><th data-field="paid" class="num">Paid (avg)</th><th data-field="now" class="num">Now</th><th data-field="since" class="num">Since</th><th data-field="sellers" class="num opt">Sellers</th><th data-field="insiders" class="opt">Who bought</th><th data-field="last_buy" class="opt">Last buy</th></tr></thead>
+        <tbody data-draw="insiders"></tbody>
+      </table>
+    </div>
+    <p class="stt-note" data-unless="n_insiders" hidden>No open-market purchases by insiders filed in the last 30 days.</p>
+  </section>
+
+  <section class="stt-card" id="events">
+    <h2>Today's events</h2>
+    <p class="stt-note">Claude's reading of the day's news. "New" runs from 0 (a rehash) to 1 (first reported today). Arrows show which way each theme, stock or sector should move.</p>
+    <div class="stt-wrap" data-if="events" hidden>
+      <table class="stt-t" data-source="events" data-row-key="id">
+        <thead><tr><th data-field="title">Event</th><th data-field="category" class="opt">Category</th><th data-field="novelty" class="num">New</th><th data-field="certainty" class="opt">Certainty</th><th data-field="targets">Moves</th></tr></thead>
+        <tbody data-draw="events"></tbody>
+      </table>
+    </div>
+    <p class="stt-note" data-unless="events" hidden>No market-relevant events today.</p>
+  </section>
+
+  <footer class="stt-foot">
+    <p>Each weekday before the European open, a scheduled Claude session reads the day's top-ranked stories from Google News, the BBC, the ECB, the European Commission, the US Federal Register and GDELT. It writes down the market-relevant events with their likely winners and losers, and a scoring model turns them into picks across large US and European stocks and sector, theme and country ETFs.</p>
+    <p>A research tool for personal use, not investment advice. It never places trades.</p>
+  </footer>
+</div>
+
+<script>
+  const pct = d3.format('+.1f');
+  const two = d3.format('.2f');
+  const rows = (id) => { const g = dash.data(id); return g.status === 'ok' ? g.data : []; };
+  const blank = (v) => v === null || v === undefined || v === '' || (typeof v === 'number' && !isFinite(v));
+  const first = (id) => rows(id)[0] || null;
+  const MIN_FOR_VERDICT = 100; // matured geo picks before the scoreboard means much
+  dash.draw('min-n', (el) => { el.textContent = String(MIN_FOR_VERDICT); });
+
+  // Single values from the summary row.
+  const value = (name, key, fmt) => dash.draw(name, (el) => {
+    const r = first('summary');
+    el.textContent = r && !blank(r[key]) ? fmt(r[key]) : '—';
+  });
+  const date = (v) => d3.utcFormat('%-d %b %Y')(new Date(v));
+  value('s-date', 'date', date);
+  value('s-regime', 'regime', String);
+  value('s-p5', 'picks_5d', String);
+  value('s-p20', 'picks_20d', String);
+  value('s-events', 'events', String);
+  value('s-vix', 'vix', (v) => d3.format('.1f')(v));
+  value('s-spy', 'spy_r20d', (v) => pct(v) + '%');
+  value('s-stoxx', 'stoxx_r20d', (v) => pct(v) + '%');
+  value('s-brent', 'brent_r20d', (v) => pct(v) + '%');
+  value('s-ttf', 'ttf_r20d', (v) => pct(v) + '%');
+  value('s-tnx', 'us10y', (v) => two(v) + '%');
+  value('s-view', 'market_view', String);
+  value('s-open', 'open', String);
+  value('s-first', 'first_results', date);
+  value('s-tw', 'tracker_weight', String);
+  value('s-iw', 'insider_weight', String);
+  value('s-ipx', 'prices_as_of', date);
+  value('s-cpx', 'prices_as_of', date);
+  value('s-trump-true', 'trump_true', String);
+  value('s-ontrack', 'open_on_track', String);
+  value('s-entered', 'open_entered', String);
+  value('s-trump-scored', 'trump_scored', String);
+
+  // Show the tables that have rows, or the sentences that stand in for them. The
+  // summary row counts each dataset: one with no rows can't load, so it is never read.
+  dash.onData(() => {
+    const s = first('summary');
+    const has = (key) => !!s && Number(s[key]) > 0;
+    document.querySelectorAll('[data-if], [data-unless]').forEach((el) => {
+      const show = !!s && (!el.dataset.if || has(el.dataset.if)) && (!el.dataset.unless || !has(el.dataset.unless));
+      el.hidden = !show;
+    });
+    const picks = has('n_picks') ? dash.data('picks') : null;
+    document.querySelectorAll('[data-empty]').forEach((el) => {
+      const [h, side] = el.dataset.empty.split('-');
+      el.hidden = !picks || picks.status !== 'ok' || picks.data.some((p) => String(p.horizon) === h && p.side === side);
+    });
+  });
+
+  const cell = (tr, text, cls) => {
+    const td = tr.insertCell();
+    td.textContent = text;
+    if (cls) td.className = cls;
+    return td;
+  };
+  const usd = (v) => (blank(v) ? '—' : '$' + d3.format(',.2f')(v));
+  const price = (v, cur) => {
+    if (blank(v)) return '—';
+    if (cur === 'EUR') return '€' + d3.format(',.2f')(v);
+    if (cur === 'GBp') return d3.format(',.0f')(v) + 'p';
+    return cur && cur !== 'USD' ? d3.format(',.2f')(v) + ' ' + cur : usd(v);
+  };
+  const conviction = (tr, p) => {
+    const td = tr.insertCell();
+    const wrap = document.createElement('span');
+    wrap.className = 'stt-conv ' + p.side;
+    const bar = document.createElement('span');
+    bar.style.width = Math.max(2, Math.round(Number(p.conviction) * 120)) + 'px';
+    wrap.append(bar, document.createTextNode(two(p.conviction)));
+    td.append(wrap);
+  };
+
+  const pickTable = (horizon, side) => dash.draw(`picks-${horizon}-${side}`, (tbody) => {
+    tbody.replaceChildren();
+    rows('picks')
+      .filter((p) => Number(p.horizon) === horizon && p.side === side)
+      .sort((a, b) => Number(a.rank) - Number(b.rank))
+      .forEach((p) => {
+        const tr = tbody.insertRow();
+        tr.dataset.key = p.key;
+        if (side === 'long') cell(tr, String(p.rank));
+        cell(tr, p.ticker, 'tick');
+        cell(tr, p.name, 'opt');
+        if (side === 'long') cell(tr, price(p.last_close, p.currency), 'num');
+        conviction(tr, p);
+        if (side === 'long') {
+          cell(tr, blank(p.prob) ? '—' : d3.format('.0f')(p.prob) + '%', 'num');
+          cell(tr, blank(p.r20d) ? '—' : pct(p.r20d) + '%', 'num opt');
+        }
+        cell(tr, p.driver, 'why');
+        if (side === 'long') cell(tr, p.risks || '', p.risks ? 'opt risk' : 'opt');
+      });
+  });
+  [5, 20].forEach((h) => { pickTable(h, 'long'); pickTable(h, 'avoid'); });
+
+  dash.draw('events', (tbody) => {
+    tbody.replaceChildren();
+    rows('events').forEach((e) => {
+      const tr = tbody.insertRow();
+      tr.dataset.key = e.id;
+      cell(tr, e.title, 'why');
+      cell(tr, e.category, 'opt');
+      cell(tr, d3.format('.1f')(e.novelty), 'num');
+      cell(tr, e.certainty, 'opt');
+      cell(tr, e.targets);
+    });
+  });
+
+  dash.draw('congress', (tbody) => {
+    tbody.replaceChildren();
+    rows('congress').forEach((r) => {
+      const tr = tbody.insertRow();
+      tr.dataset.key = r.ticker;
+      cell(tr, r.ticker, 'tick');
+      cell(tr, r.name, 'opt');
+      cell(tr, d3.format('+.2f')(r.score), 'num');
+      cell(tr, String(r.buyers), 'num');
+      cell(tr, String(r.sellers), 'num');
+      cell(tr, usd(r.price_then), 'num');
+      cell(tr, usd(r.now), 'num');
+      cell(tr, blank(r.since) ? '—' : pct(r.since) + '%', 'num');
+      cell(tr, r.members, 'why opt');
+      cell(tr, r.last_filed, 'opt');
+    });
+  });
+
+  const money = (v) => (v >= 1e6 ? '$' + d3.format('.1f')(v / 1e6) + 'M' : '$' + d3.format('.0f')(v / 1e3) + 'k');
+  dash.draw('insiders', (tbody) => {
+    tbody.replaceChildren();
+    rows('insiders').forEach((r) => {
+      const tr = tbody.insertRow();
+      tr.dataset.key = r.ticker;
+      cell(tr, r.ticker, 'tick');
+      cell(tr, r.name, 'opt');
+      cell(tr, d3.format('.1f')(r.score), 'num');
+      cell(tr, String(r.buyers), 'num');
+      cell(tr, money(Number(r.bought)), 'num');
+      cell(tr, usd(r.paid), 'num');
+      cell(tr, usd(r.now), 'num');
+      cell(tr, blank(r.since) ? '—' : pct(r.since) + '%', 'num');
+      cell(tr, String(r.sellers), 'num opt');
+      cell(tr, r.insiders, 'why opt');
+      cell(tr, r.last_buy, 'opt');
+    });
+  });
+
+  const signed = (v) => (blank(v) ? '—' : pct(v) + '%');
+  dash.draw('results', (tbody) => {
+    tbody.replaceChildren();
+    rows('results').forEach((r) => {
+      const tr = tbody.insertRow();
+      tr.dataset.key = r.key;
+      cell(tr, r.date);
+      cell(tr, r.ticker, 'tick');
+      cell(tr, r.name, 'opt');
+      cell(tr, r.horizon + ' days');
+      cell(tr, r.side === 'long' ? 'Long' : 'Avoid');
+      cell(tr, price(r.entry, r.currency), 'num');
+      cell(tr, price(r.exit, r.currency), 'num');
+      cell(tr, signed(r.result), 'num');
+      cell(tr, signed(r.vs_benchmark), 'num');
+      cell(tr, r.correct);
+      cell(tr, price(r.now, r.currency), 'num opt');
+      cell(tr, signed(r.since), 'num opt');
+    });
+  });
+
+  dash.draw('open-picks', (tbody) => {
+    tbody.replaceChildren();
+    rows('open_picks').forEach((r) => {
+      const tr = tbody.insertRow();
+      tr.dataset.key = r.key;
+      cell(tr, r.date);
+      cell(tr, r.ticker, 'tick');
+      cell(tr, r.name, 'opt');
+      cell(tr, r.horizon + ' days');
+      cell(tr, r.side === 'long' ? 'Long' : 'Avoid');
+      cell(tr, price(r.entry, r.currency), 'num');
+      cell(tr, price(r.now, r.currency), 'num');
+      cell(tr, signed(r.since), 'num');
+      cell(tr, signed(r.vs_benchmark), 'num');
+      cell(tr, r.ends, 'opt');
+    });
+  });
+
+  dash.draw('trump', (tbody) => {
+    tbody.replaceChildren();
+    rows('trump').forEach((r) => {
+      const tr = tbody.insertRow();
+      tr.dataset.key = r.key;
+      cell(tr, r.said_on);
+      cell(tr, r.ticker, 'tick');
+      cell(tr, r.company, 'opt');
+      cell(tr, r.stance + (r.explicit ? ' (explicit)' : ''));
+      cell(tr, r.quote, 'why opt');
+      cell(tr, price(r.price_then, r.currency), 'num');
+      cell(tr, price(r.now, r.currency), 'num');
+      cell(tr, signed(r.since), 'num');
+      cell(tr, signed(r.reaction), 'num opt');
+      cell(tr, signed(r.excess), 'num');
+      cell(tr, r.came_true || 'Open');
+    });
+  });
+
+  const order = { Geopolitical: 0, Momentum: 1, Random: 2, Congress: 3, Insiders: 4, Trump: 5 };
+  dash.draw('board', (tbody) => {
+    tbody.replaceChildren();
+    rows('scoreboard')
+      .slice()
+      .sort((a, b) => a.horizon - b.horizon || a.side.localeCompare(b.side) || order[a.strategy] - order[b.strategy])
+      .forEach((r) => {
+        const tr = tbody.insertRow();
+        tr.dataset.key = r.key;
+        cell(tr, r.strategy, 'tick');
+        cell(tr, r.horizon + ' days');
+        cell(tr, r.side);
+        cell(tr, String(r.n), 'num');
+        cell(tr, blank(r.hit_rate) ? '—' : d3.format('.0f')(r.hit_rate) + '%', 'num');
+        cell(tr, blank(r.mean_excess) ? '—' : d3.format('+.2f')(r.mean_excess) + '%', 'num');
+        cell(tr, blank(r.t_stat) ? '—' : d3.format('+.1f')(r.t_stat), 'num opt');
+      });
+  });
+
+  dash.draw('board-chart', (el) => {
+    el.replaceChildren();
+    const data = rows('scoreboard')
+      .filter((r) => r.side === 'long' && !blank(r.mean_excess))
+      .map((r) => ({ label: `${r.strategy} · ${r.horizon}d`, strategy: r.strategy, v: Number(r.mean_excess), n: r.n }))
+      .sort((a, b) => a.label.localeCompare(b.label));
+    if (!data.length) { el.textContent = '—'; return; }
+    const width = el.clientWidth || 480;
+    const rowH = 28;
+    const svg = d3.select(el).append('svg').attr('width', '100%');
+    const labels = svg.append('g').selectAll('text').data(data).join('text')
+      .attr('font-size', 12).attr('fill', 'var(--color-fg-muted)').text((d) => d.label);
+    const labelW = d3.max(labels.nodes(), (n) => n.getComputedTextLength()) + 12;
+    const height = data.length * rowH + 24;
+    svg.attr('viewBox', `0 0 ${width} ${height}`);
+    const ext = d3.max(data, (d) => Math.abs(d.v)) || 1;
+    const x = d3.scaleLinear([-ext * 1.25, ext * 1.25], [labelW, width - 48]);
+    const y = d3.scaleBand(data.map((d) => d.label), [8, height - 16]).padding(0.3);
+    labels.attr('x', 0).attr('y', (d) => y(d.label) + y.bandwidth() / 2).attr('dominant-baseline', 'middle');
+    svg.append('line').attr('x1', x(0)).attr('x2', x(0)).attr('y1', 4).attr('y2', height - 12)
+      .attr('stroke', 'var(--cds-chart-reference)');
+    const tip = d3.select(el).append('div').attr('class', 'stt-tip').attr('hidden', '');
+    svg.append('g').selectAll('rect').data(data).join('rect')
+      .attr('x', (d) => Math.min(x(0), x(d.v))).attr('width', (d) => Math.abs(x(d.v) - x(0)))
+      .attr('y', (d) => y(d.label)).attr('height', y.bandwidth()).attr('rx', 3)
+      .attr('fill', (d) => (d.strategy === 'Geopolitical' ? dash.colors[0] : 'var(--cds-chart-muted)'))
+      .on('pointermove', (event, d) => {
+        const [px, py] = d3.pointer(event, el);
+        tip.attr('hidden', null).html('');
+        tip.append('div').attr('class', 'k').text(d.label);
+        tip.append('div').text(`${d3.format('+.2f')(d.v)}% vs benchmark, ${d.n} picks`);
+        const w = tip.node().offsetWidth;
+        tip.style('left', `${Math.min(Math.max(0, px + 12), el.clientWidth - w)}px`).style('top', `${py + 12}px`);
+      })
+      .on('pointerleave', () => tip.attr('hidden', ''));
+    svg.append('g').selectAll('text').data(data).join('text')
+      .attr('font-size', 12).attr('fill', 'var(--color-fg)').attr('dominant-baseline', 'middle')
+      .attr('x', (d) => (d.v >= 0 ? x(d.v) + 4 : x(d.v) - 4)).attr('text-anchor', (d) => (d.v >= 0 ? 'start' : 'end'))
+      .attr('y', (d) => y(d.label) + y.bandwidth() / 2)
+      .text((d) => d3.format('+.2f')(d.v) + '%');
+  });
+</script>

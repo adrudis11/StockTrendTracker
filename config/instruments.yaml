@@ -1,0 +1,138 @@
+# Non-stock instruments downloaded every day alongside the stock universe.
+# All tickers are Yahoo Finance symbols and were checked to return data on 2026-10-28.
+#
+# kind:
+#   benchmark   what picks are measured against
+#   index       market indices (context, not tradable)
+#   sector_etf  one per GICS sector, used for "did it beat its sector?"
+#   theme_etf   industries and themes that geopolitics moves directly
+#   country_etf country exposure
+#   macro       volatility, rates, currencies, commodities (market regime)
+
+benchmarks:
+  US: SPY
+  Europe: EXSA.DE
+
+instruments:
+  # --- Benchmarks and indices -------------------------------------------------
+  - {ticker: SPY, kind: benchmark, region: US, name: SPDR S&P 500}
+  - {ticker: EXSA.DE, kind: benchmark, region: Europe, name: iShares STOXX Europe 600}
+  - {ticker: ^GSPC, kind: index, region: US, name: S&P 500}
+  - {ticker: QQQ, kind: index, region: US, name: Nasdaq-100 ETF}
+  - {ticker: IWM, kind: index, region: US, name: Russell 2000 ETF}
+  - {ticker: ^STOXX, kind: index, region: Europe, name: STOXX Europe 600}
+  - {ticker: ^STOXX50E, kind: index, region: Europe, name: Euro STOXX 50}
+  - {ticker: ^GDAXI, kind: index, region: Europe, name: DAX}
+  - {ticker: ^FCHI, kind: index, region: Europe, name: CAC 40}
+  - {ticker: ^IBEX, kind: index, region: Europe, name: IBEX 35}
+  - {ticker: ^FTSE, kind: index, region: Europe, name: FTSE 100}
+  - {ticker: FTSEMIB.MI, kind: index, region: Europe, name: FTSE MIB}
+  - {ticker: ^AEX, kind: index, region: Europe, name: AEX}
+  - {ticker: ^SSMI, kind: index, region: Europe, name: SMI}
+
+  # --- US sector ETFs (GICS) --------------------------------------------------
+  - {ticker: XLC, kind: sector_etf, region: US, sector: Communication Services, name: Communication Services Select Sector SPDR}
+  - {ticker: XLY, kind: sector_etf, region: US, sector: Consumer Discretionary, name: Consumer Discretionary Select Sector SPDR}
+  - {ticker: XLP, kind: sector_etf, region: US, sector: Consumer Staples, name: Consumer Staples Select Sector SPDR}
+  - {ticker: XLE, kind: sector_etf, region: US, sector: Energy, name: Energy Select Sector SPDR}
+  - {ticker: XLF, kind: sector_etf, region: US, sector: Financials, name: Financial Select Sector SPDR}
+  - {ticker: XLV, kind: sector_etf, region: US, sector: Health Care, name: Health Care Select Sector SPDR}
+  - {ticker: XLI, kind: sector_etf, region: US, sector: Industrials, name: Industrial Select Sector SPDR}
+  - {ticker: XLK, kind: sector_etf, region: US, sector: Information Technology, name: Technology Select Sector SPDR}
+  - {ticker: XLB, kind: sector_etf, region: US, sector: Materials, name: Materials Select Sector SPDR}
+  - {ticker: XLRE, kind: sector_etf, region: US, sector: Real Estate, name: Real Estate Select Sector SPDR}
+  - {ticker: XLU, kind: sector_etf, region: US, sector: Utilities, name: Utilities Select Sector SPDR}
+
+  # --- European sector ETFs (STOXX Europe 600 supersectors) -------------------
+  # Supersectors don't map 1:1 onto GICS; `sector` is the closest GICS sector.
+  - {ticker: EXV2.DE, kind: sector_etf, region: Europe, sector: Communication Services, name: STOXX Europe 600 Telecommunications}
+  - {ticker: EXH6.DE, kind: theme_etf, region: Europe, sector: Communication Services, name: STOXX Europe 600 Media}
+  - {ticker: EXV5.DE, kind: sector_etf, region: Europe, sector: Consumer Discretionary, name: STOXX Europe 600 Automobiles & Parts}
+  - {ticker: EXV9.DE, kind: theme_etf, region: Europe, sector: Consumer Discretionary, name: STOXX Europe 600 Travel & Leisure}
+  - {ticker: EXH8.DE, kind: theme_etf, region: Europe, sector: Consumer Discretionary, name: STOXX Europe 600 Retail}
+  - {ticker: EXH7.DE, kind: theme_etf, region: Europe, sector: Consumer Discretionary, name: STOXX Europe 600 Personal & Household Goods}
+  - {ticker: EXH3.DE, kind: sector_etf, region: Europe, sector: Consumer Staples, name: STOXX Europe 600 Food & Beverage}
+  - {ticker: EXH1.DE, kind: sector_etf, region: Europe, sector: Energy, name: STOXX Europe 600 Oil & Gas}
+  - {ticker: EXV1.DE, kind: sector_etf, region: Europe, sector: Financials, name: STOXX Europe 600 Banks}
+  - {ticker: EXH5.DE, kind: theme_etf, region: Europe, sector: Financials, name: STOXX Europe 600 Insurance}
+  - {ticker: EXH2.DE, kind: theme_etf, region: Europe, sector: Financials, name: STOXX Europe 600 Financial Services}
+  - {ticker: EXV4.DE, kind: sector_etf, region: Europe, sector: Health Care, name: STOXX Europe 600 Health Care}
+  - {ticker: EXH4.DE, kind: sector_etf, region: Europe, sector: Industrials, name: STOXX Europe 600 Industrial Goods & Services}
+  - {ticker: EXV8.DE, kind: theme_etf, region: Europe, sector: Industrials, name: STOXX Europe 600 Construction & Materials}
+  - {ticker: EXV3.DE, kind: sector_etf, region: Europe, sector: Information Technology, name: STOXX Europe 600 Technology}
+  - {ticker: EXV6.DE, kind: sector_etf, region: Europe, sector: Materials, name: STOXX Europe 600 Basic Resources}
+  - {ticker: EXV7.DE, kind: theme_etf, region: Europe, sector: Materials, name: STOXX Europe 600 Chemicals}
+  - {ticker: EXI5.DE, kind: sector_etf, region: Europe, sector: Real Estate, name: STOXX Europe 600 Real Estate}
+  - {ticker: EXH9.DE, kind: sector_etf, region: Europe, sector: Utilities, name: STOXX Europe 600 Utilities}
+
+  # --- Theme ETFs: things geopolitics moves directly --------------------------
+  - {ticker: ITA, kind: theme_etf, region: US, theme: defense, name: iShares US Aerospace & Defense}
+  - {ticker: XAR, kind: theme_etf, region: US, theme: defense, name: SPDR S&P Aerospace & Defense}
+  - {ticker: WDEF.MI, kind: theme_etf, region: Europe, theme: defense, name: WisdomTree Europe Defence}
+  - {ticker: DFEN.DE, kind: theme_etf, region: Global, theme: defense, name: VanEck Defense UCITS}
+  - {ticker: SMH, kind: theme_etf, region: US, theme: semiconductors, name: VanEck Semiconductor}
+  - {ticker: SOXX, kind: theme_etf, region: US, theme: semiconductors, name: iShares Semiconductor}
+  - {ticker: CIBR, kind: theme_etf, region: US, theme: cybersecurity, name: First Trust Cybersecurity}
+  - {ticker: XOP, kind: theme_etf, region: US, theme: oil_gas, name: SPDR Oil & Gas Exploration & Production}
+  - {ticker: OIH, kind: theme_etf, region: US, theme: oil_gas, name: VanEck Oil Services}
+  - {ticker: URA, kind: theme_etf, region: Global, theme: uranium, name: Global X Uranium}
+  - {ticker: LIT, kind: theme_etf, region: Global, theme: battery_metals, name: Global X Lithium & Battery Tech}
+  - {ticker: REMX, kind: theme_etf, region: Global, theme: rare_earths, name: VanEck Rare Earth & Strategic Metals}
+  - {ticker: COPX, kind: theme_etf, region: Global, theme: copper, name: Global X Copper Miners}
+  - {ticker: GDX, kind: theme_etf, region: Global, theme: gold_miners, name: VanEck Gold Miners}
+  - {ticker: XME, kind: theme_etf, region: US, theme: metals_mining, name: SPDR S&P Metals & Mining}
+  - {ticker: JETS, kind: theme_etf, region: US, theme: airlines, name: US Global Jets}
+  - {ticker: BOAT, kind: theme_etf, region: Global, theme: shipping, name: SonicShares Global Shipping}
+  - {ticker: IYT, kind: theme_etf, region: US, theme: transport, name: iShares US Transportation}
+  - {ticker: MOO, kind: theme_etf, region: Global, theme: agriculture, name: VanEck Agribusiness}
+  - {ticker: TAN, kind: theme_etf, region: Global, theme: solar, name: Invesco Solar}
+  - {ticker: ICLN, kind: theme_etf, region: Global, theme: clean_energy, name: iShares Global Clean Energy}
+  - {ticker: PAVE, kind: theme_etf, region: US, theme: infrastructure, name: Global X US Infrastructure Development}
+  - {ticker: KRE, kind: theme_etf, region: US, theme: regional_banks, name: SPDR S&P Regional Banking}
+  - {ticker: XHB, kind: theme_etf, region: US, theme: homebuilders, name: SPDR S&P Homebuilders}
+
+  # --- Country ETFs (US-listed, USD) ------------------------------------------
+  - {ticker: VGK, kind: country_etf, region: Europe, country: Europe, name: Vanguard FTSE Europe}
+  - {ticker: FEZ, kind: country_etf, region: Europe, country: Eurozone, name: SPDR Euro STOXX 50}
+  - {ticker: EWG, kind: country_etf, region: Europe, country: Germany, name: iShares MSCI Germany}
+  - {ticker: EWQ, kind: country_etf, region: Europe, country: France, name: iShares MSCI France}
+  - {ticker: EWP, kind: country_etf, region: Europe, country: Spain, name: iShares MSCI Spain}
+  - {ticker: EWI, kind: country_etf, region: Europe, country: Italy, name: iShares MSCI Italy}
+  - {ticker: EWU, kind: country_etf, region: Europe, country: United Kingdom, name: iShares MSCI United Kingdom}
+  - {ticker: EWL, kind: country_etf, region: Europe, country: Switzerland, name: iShares MSCI Switzerland}
+  - {ticker: EWN, kind: country_etf, region: Europe, country: Netherlands, name: iShares MSCI Netherlands}
+  - {ticker: EPOL, kind: country_etf, region: Europe, country: Poland, name: iShares MSCI Poland}
+  - {ticker: TUR, kind: country_etf, region: Europe, country: Turkey, name: iShares MSCI Turkey}
+  - {ticker: FXI, kind: country_etf, region: Asia, country: China, name: iShares China Large-Cap}
+  - {ticker: KWEB, kind: country_etf, region: Asia, country: China, name: KraneShares China Internet}
+  - {ticker: EWJ, kind: country_etf, region: Asia, country: Japan, name: iShares MSCI Japan}
+  - {ticker: EWT, kind: country_etf, region: Asia, country: Taiwan, name: iShares MSCI Taiwan}
+  - {ticker: EWY, kind: country_etf, region: Asia, country: South Korea, name: iShares MSCI South Korea}
+  - {ticker: INDA, kind: country_etf, region: Asia, country: India, name: iShares MSCI India}
+  - {ticker: EIS, kind: country_etf, region: Middle East, country: Israel, name: iShares MSCI Israel}
+  - {ticker: KSA, kind: country_etf, region: Middle East, country: Saudi Arabia, name: iShares MSCI Saudi Arabia}
+  - {ticker: EWZ, kind: country_etf, region: Americas, country: Brazil, name: iShares MSCI Brazil}
+  - {ticker: EWW, kind: country_etf, region: Americas, country: Mexico, name: iShares MSCI Mexico}
+  - {ticker: ARGT, kind: country_etf, region: Americas, country: Argentina, name: Global X MSCI Argentina}
+  - {ticker: EZA, kind: country_etf, region: Africa, country: South Africa, name: iShares MSCI South Africa}
+
+  # --- Macro: volatility, rates, currencies, commodities ----------------------
+  # VSTOXX (^V2TX) is not available on Yahoo.
+  - {ticker: ^VIX, kind: macro, region: US, name: CBOE Volatility Index}
+  - {ticker: ^TNX, kind: macro, region: US, name: US 10-year Treasury yield}
+  - {ticker: ^IRX, kind: macro, region: US, name: US 13-week T-bill yield}
+  - {ticker: DX-Y.NYB, kind: macro, region: US, name: US Dollar Index}
+  - {ticker: EURUSD=X, kind: macro, region: Global, name: EUR/USD}
+  - {ticker: GBPUSD=X, kind: macro, region: Global, name: GBP/USD}
+  - {ticker: USDCHF=X, kind: macro, region: Global, name: USD/CHF}
+  - {ticker: EURGBP=X, kind: macro, region: Global, name: EUR/GBP}
+  - {ticker: EURCHF=X, kind: macro, region: Global, name: EUR/CHF}
+  - {ticker: CL=F, kind: macro, region: Global, name: WTI crude oil}
+  - {ticker: BZ=F, kind: macro, region: Global, name: Brent crude oil}
+  - {ticker: NG=F, kind: macro, region: US, name: Henry Hub natural gas}
+  - {ticker: TTF=F, kind: macro, region: Europe, name: Dutch TTF natural gas}
+  - {ticker: GC=F, kind: macro, region: Global, name: Gold}
+  - {ticker: SI=F, kind: macro, region: Global, name: Silver}
+  - {ticker: HG=F, kind: macro, region: Global, name: Copper}
+  - {ticker: ZW=F, kind: macro, region: Global, name: Wheat}
+  - {ticker: ZC=F, kind: macro, region: Global, name: Corn}
