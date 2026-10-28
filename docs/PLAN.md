@@ -459,8 +459,8 @@ Built: `stt record` (append-only ledger with momentum and random-sector baseline
 t-statistic, Brier score, calibration), `stt backtest` (5-year momentum baseline and
 theme priors). The daily report now ends with the track record.
 
-- **Ledger started 2026-10-28** with 77 entries: 14 geopolitical picks plus 63 baseline
-  picks. Entry is the first open after logging (today's were logged at 09:38 UTC, after
+- **Ledger started 2026-10-28** with 77 entries: 17 geopolitical picks plus 60 baseline
+  picks (20 `congress` entries were added later that day, when the tracker arrived). Entry is the first open after logging (today's were logged at 09:38 UTC, after
   Europe's open, so European picks enter on 29 October). First results: 3 November.
 - **Momentum baseline, 5 years** (2021–2026, current index members, so flattered by
   survivorship bias): 5-day picks +0.14% excess per period, hit rate 48%, t = 0.7 (no
