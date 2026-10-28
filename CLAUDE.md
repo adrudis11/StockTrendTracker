@@ -24,6 +24,9 @@ days, keeping an honest track record. Full plan and progress log: `docs/PLAN.md`
   Claude's analysis, `stt daily finish`, dashboard refresh, commit `data/`).
 - Saturdays: `prompts/weekly_review.md` (score the week, write `data/reviews/`, small
   edits to `config/exposures.yaml` and the analysis prompt).
+- Both run in the runner session `session_013RsqR6xHbq73HAZ5KzSrjh` (it has the repo
+  attached; fresh sessions spawned by scheduled tasks don't). Scheduled tasks:
+  `trig_016rhLYvBBRMi2Z8uNFtrene` (daily), `trig_017pWbZ6vhDLnh1ro7bUqwv8` (weekly).
 - Dashboard: `config/dashboard.yaml` (a claude.ai Dashboard artifact; its page source
   is kept in `dashboard/index.html`).
 

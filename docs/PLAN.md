@@ -476,3 +476,44 @@ theme priors). The daily report now ends with the track record.
   picks were unaffected.
 - Writing the tests caught a sign error: priors had been flipped for "avoid" calls.
   Fixed before any prior was ever applied.
+
+### Phase 5 · Automation (set up 2026-10-28)
+
+Built: `stt daily prepare` / `stt daily finish`, `stt dashboard`, runbooks
+`prompts/daily_run.md` and `prompts/weekly_review.md`, the claude.ai dashboard
+(`config/dashboard.yaml`, page source in `dashboard/index.html`).
+
+How the runs are wired:
+
+- **Runner session** `session_013RsqR6xHbq73HAZ5KzSrjh` ("StockTrendTracker daily
+  runner"), created with this repository and branch attached, auto permission mode,
+  Opus 5.5. Two scheduled tasks wake it:
+  - **Daily run**, weekdays 07:17 Paris time (`trig_016rhLYvBBRMi2Z8uNFtrene`).
+    First run: 2026-10-29.
+  - **Weekly review**, Saturdays 09:43 Paris time (`trig_017pWbZ6vhDLnh1ro7bUqwv8`).
+    First run: 2026-10-31.
+- Why a runner session: a test showed that a scheduled task created from inside a
+  session starts a fresh session **without the repository** (empty working
+  directory). A session created with the repository attached can clone and push, so
+  the schedules send their prompts into that one session. Its conversation grows over
+  time; auto-compaction keeps it bounded.
+- Setup checks: the runner passed all five (repo and branch, `uv sync` and CLI,
+  Yahoo prices, push dry-run, artifact tools) at about $0.26 of usage at list prices.
+  The cost of a full daily run will be measured after the first runs.
+- **Dashboard:** a private claude.ai Dashboard artifact with four datasets
+  (summary, picks, events, scoreboard) uploaded as JSON by each daily run.
+
+Still to watch in the first two weeks (the Phase 5 exit criterion):
+
+- that every weekday run commits, and that the dashboard refresh works unattended;
+- the cost per run;
+- Yahoo rate limits: a plain `curl` to Yahoo from a fresh session got HTTP 429, while
+  yfinance's own client worked.
+
+### Phase 6 · Paper-tracking period (started 2026-10-28)
+
+Runs automatically: the ledger grows every weekday, `stt evaluate` scores picks as
+they mature (first 1-week results on 2026-11-03), and the weekly review writes
+`data/reviews/`. A verdict needs at least 100 matured geopolitical picks, which at the
+current pace (around 5–15 per day) means late November to December. Only then:
+calibrate the probabilities and refit the weights.
