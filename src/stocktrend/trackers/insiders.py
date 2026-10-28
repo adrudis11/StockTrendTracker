@@ -464,10 +464,11 @@ def signal(
     ``score`` sums ``purchase_weight`` over open-market purchases, so several insiders
     or big purchases count more. Sales don't lower it (see the module docstring) but
     are counted. Only filings dated before ``as_of`` (public that morning) and trades
-    from the last ``max_trade_age_days`` count.
+    from the last ``max_trade_age_days`` count. ``avg_price`` is what the buyers paid
+    per share on average (dollar-weighted), ``last_buy`` their latest purchase date.
     """
-    columns = ["ticker", "score", "buyers", "sellers", "bought", "sold", "insiders",
-               "last_filed"]  # fmt: skip
+    columns = ["ticker", "score", "buyers", "sellers", "bought", "sold", "avg_price",
+               "last_buy", "insiders", "last_filed"]  # fmt: skip
     if trades.empty:
         return pd.DataFrame(columns=columns).set_index("ticker")
     recent = trades[
@@ -481,6 +482,8 @@ def signal(
     for ticker, g in recent.groupby("ticker"):
         buys, sells = g[g["code"] == "P"], g[g["code"] == "S"]
         buyers = buys.groupby("owner")["role"].first()
+        priced = buys[buys["value"] > 0]
+        shares = float(priced["shares"].sum())
         rows.append(
             {
                 "ticker": str(ticker),
@@ -489,6 +492,8 @@ def signal(
                 "sellers": sells["owner"].nunique(),
                 "bought": round(float(buys["value"].sum())),
                 "sold": round(float(sells["value"].sum())),
+                "avg_price": round(float(priced["value"].sum()) / shares, 2) if shares else None,
+                "last_buy": max(buys["tx_date"]) if len(buys) else None,
                 "insiders": "; ".join(f"{o} ({r})" for o, r in buyers.items()),
                 "last_filed": max(g["filed"]),
             }

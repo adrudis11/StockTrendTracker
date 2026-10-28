@@ -161,10 +161,11 @@
   <section class="stt-card" id="insiders">
     <h2>Insider buying</h2>
     <p class="stt-note">Open-market purchases of their own company's shares by officers, directors and 10% owners of S&amp;P 500 companies, from the SEC Form 4 filings of the last 30 days (due within two business days of a trade). Score: purchases count by size. Sales are counted but don't lower it, since insiders sell for many reasons.</p>
+    <p class="stt-note" data-if="n_insiders" hidden>Paid is the insiders' average price per share, Now the close on <b data-draw="s-ipx" data-source="summary" data-field="insider_prices_as_of" data-row="0">—</b>, and Since the move from their price. Over 2021–2026, a stock's distance from the insiders' price didn't reliably predict how it did next: ones already well above it didn't do worse.</p>
     <p class="stt-note">Weight in today's picks: <b data-draw="s-iw" data-source="summary" data-field="insider_weight" data-row="0">—</b>% at most, set by the tracker's own backtest. It's also logged as a separate strategy in the track record, so its real results show up there.</p>
     <div class="stt-wrap" data-if="n_insiders" hidden>
       <table class="stt-t" data-source="insiders" data-row-key="ticker">
-        <thead><tr><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="score" class="num">Score</th><th data-field="buyers" class="num">Buyers</th><th data-field="bought" class="num">Bought</th><th data-field="sellers" class="num opt">Sellers</th><th data-field="insiders" class="opt">Who bought</th><th data-field="last_filed" class="opt">Last filed</th></tr></thead>
+        <thead><tr><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="score" class="num">Score</th><th data-field="buyers" class="num">Buyers</th><th data-field="bought" class="num">Bought</th><th data-field="paid" class="num">Paid (avg)</th><th data-field="now" class="num">Now</th><th data-field="since" class="num">Since</th><th data-field="sellers" class="num opt">Sellers</th><th data-field="insiders" class="opt">Who bought</th><th data-field="last_buy" class="opt">Last buy</th></tr></thead>
         <tbody data-draw="insiders"></tbody>
       </table>
     </div>
@@ -220,6 +221,7 @@
   value('s-first', 'first_results', date);
   value('s-tw', 'tracker_weight', String);
   value('s-iw', 'insider_weight', String);
+  value('s-ipx', 'insider_prices_as_of', date);
   value('s-trump-true', 'trump_true', String);
   value('s-trump-scored', 'trump_scored', String);
 
@@ -316,9 +318,12 @@
       cell(tr, d3.format('.1f')(r.score), 'num');
       cell(tr, String(r.buyers), 'num');
       cell(tr, money(Number(r.bought)), 'num');
+      cell(tr, blank(r.paid) ? '—' : '$' + d3.format(',.2f')(r.paid), 'num');
+      cell(tr, blank(r.now) ? '—' : '$' + d3.format(',.2f')(r.now), 'num');
+      cell(tr, blank(r.since) ? '—' : pct(r.since) + '%', 'num');
       cell(tr, String(r.sellers), 'num opt');
       cell(tr, r.insiders, 'why opt');
-      cell(tr, r.last_filed, 'opt');
+      cell(tr, r.last_buy, 'opt');
     });
   });
 

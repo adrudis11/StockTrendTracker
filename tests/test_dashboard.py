@@ -18,3 +18,6 @@ def test_dashboard_datasets_from_committed_day() -> None:
               "trump": "trump_calls", "scoreboard": "matured"}  # fmt: skip
     for name, key in counts.items():
         assert (summary[key] > 0) == bool(data[name]), name
+    for r in data["insiders"]:  # what insiders paid and where the stock is now
+        if r["paid"] and r["now"]:
+            assert r["since"] == round(100 * (r["now"] / r["paid"] - 1), 1)

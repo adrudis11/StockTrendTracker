@@ -388,6 +388,8 @@ def test_insider_signal_counts_purchases_only() -> None:
     a = sig.loc["AAPL"]
     assert a["score"] == pytest.approx(np.log10(500) + np.log10(20))
     assert (a["buyers"], a["sellers"], a["bought"]) == (2, 1, 520_000)
+    assert a["avg_price"] == 260_000 and a["last_buy"] == d - timedelta(days=4)  # 2 shares
+    assert pd.isna(sig.loc["MSFT", "avg_price"])
     assert sig.loc["MSFT", "score"] == 0
     assert (
         insiders.note(a.to_dict()) == "2 insiders bought $520k (Form 4s filed in the last 30 days)"
@@ -399,8 +401,11 @@ def test_insiders_report_section() -> None:
     from stocktrend.report.render import insiders_markdown
 
     row = {"ticker": "AAPL", "name": "Apple", "score": 4.3, "buyers": 2, "bought": 520_000,
+           "paid": 250.0, "now": 262.5, "since": 5.0, "price_date": "2026-10-27",
            "sellers": 1, "insiders": "A (Director); B (CEO)", "last_filed": "2026-10-26"}  # fmt: skip
-    md = insiders_markdown([row], 0.0)
-    assert "| AAPL | Apple | 4.3 | 2 | $520k | 1 | A (Director); B (CEO) |" in md
+    md = insiders_markdown([row, {**row, "ticker": "X", "now": None, "since": None}], 0.0)
+    assert ("| AAPL | Apple | 4.3 | 2 | $520k | $250.00 | $262.50 | +5.0% | 1 | "
+            "A (Director); B (CEO) |") in md  # fmt: skip
+    assert "| $250.00 | \u2013 | \u2013 |" in md and "the close on 2026-10-27" in md
     assert "Weight in the score: 0" in md
     assert "No open-market purchases" in insiders_markdown([], 0.0)

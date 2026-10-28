@@ -82,6 +82,9 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
         "n_picks": len(picks.picks),
         "n_congress": len(congress),
         "n_insiders": len(insider),
+        "insider_prices_as_of": max(
+            (r["price_date"] for r in insider if r["price_date"]), default=None
+        ),
         "matured": sb["matured"],
         "open": sb["open"],
         "first_results": first.isoformat() if first else None,
@@ -178,7 +181,8 @@ def congress_rows(day: str) -> list[dict[str, Any]]:
 
 
 def insider_rows(day: str) -> list[dict[str, Any]]:
-    """The strongest open-market buying by company insiders, Form 4s of the last 30 days."""
+    """The strongest open-market buying by company insiders, Form 4s of the last 30 days,
+    with what they paid and the latest close (``since``: the move from their price)."""
     from datetime import date
 
     from stocktrend.trackers import insiders
@@ -187,19 +191,47 @@ def insider_rows(day: str) -> list[dict[str, Any]]:
     names = dict(zip(*(load_universe()[c] for c in ("ticker", "name")), strict=True))
     sig = insiders.signal(insiders.load_trades(), date.fromisoformat(day))
     sig = sig[sig["score"] > 0].head(INSIDER_ROWS)
-    return [
-        {
-            "ticker": t,
-            "name": names.get(t, ""),
-            "score": round(float(r["score"]), 2),
-            "buyers": int(r["buyers"]),
-            "bought": round(float(r["bought"])),
-            "sellers": int(r["sellers"]),
-            "insiders": _first(str(r["insiders"]).split("; "), 3),
-            "last_filed": str(r["last_filed"]),
-        }
-        for t, r in sig.iterrows()
-    ]
+    closes = _last_closes(list(sig.index), day)
+    rows = []
+    for t, r in sig.iterrows():
+        paid = _float(r["avg_price"])
+        now, as_of = closes.get(str(t), (None, None))
+        rows.append(
+            {
+                "ticker": t,
+                "name": names.get(t, ""),
+                "score": round(float(r["score"]), 2),
+                "buyers": int(r["buyers"]),
+                "bought": round(float(r["bought"])),
+                "paid": paid,
+                "last_buy": str(r["last_buy"]),
+                "now": now,
+                "since": _pct(now / paid - 1) if now and paid else None,
+                "price_date": as_of,
+                "sellers": int(r["sellers"]),
+                "insiders": _first(str(r["insiders"]).split("; "), 3),
+                "last_filed": str(r["last_filed"]),
+            }
+        )
+    return rows
+
+
+def _last_closes(tickers: list[str], day: str) -> dict[str, tuple[float, str]]:
+    """ticker -> (latest close before ``day``, its date); empty without cached prices."""
+    import pandas as pd
+
+    from stocktrend.ingest import prices as price_store
+
+    try:
+        px = price_store.load()
+    except FileNotFoundError:
+        return {}
+    px = px[px["ticker"].isin(tickers) & (px["date"] < pd.Timestamp(day))].sort_values("date")
+    last = px.groupby("ticker").last()
+    return {
+        str(t): (round(float(r["close"]), 2), pd.Timestamp(r["date"]).date().isoformat())
+        for t, r in last.iterrows()
+    }
 
 
 def _first(names: list[str], n: int) -> str:

@@ -634,3 +634,22 @@ weight in the score is **0** (`insider_weight` in `data/priors/trackers.json`; u
 ±20% once the monthly backtest shows t ≥ 2). It is shown in the report and on the
 dashboard, noted on picks it touches, and logged as its own strategy (`insiders`,
 started 2026-10-28) so the live record can change that.
+
+**Paid vs now (added 2026-10-28).** The report and dashboard show what insiders paid
+(dollar-weighted average), the latest close and the move since, so a reader can see
+how far the price has run. Does that distance matter? Every 5 sessions from 2021-12
+to 2026-09, each stock in the signal (6,185 stock-dates), bucketed by its move from
+the insiders' price, then its excess return over SPY in the next 20 sessions:
+
+| Move since insiders bought | n | Mean | Median | Hit | t (per date) |
+|---|---|---|---|---|---|
+| below −10% | 706 | +1.31% | +0.92% | 53% | 2.7 |
+| −10% to −5% | 561 | +0.32% | −0.03% | 50% | 0.6 |
+| −5% to 0 | 1,559 | −0.10% | −0.35% | 48% | 0.0 |
+| 0 to +5% | 1,971 | −0.09% | −0.45% | 48% | −1.0 |
+| +5% to +10% | 867 | −0.03% | −0.07% | 50% | −2.1 |
+| above +10% | 521 | +1.56% | +1.00% | 56% | 1.8 |
+
+No "too late to enter" rule: stocks already 10%+ above the insiders' price did no
+worse. The two extremes did best, but these are 12 tests on overlapping 20-day windows
+(which inflate t), so neither is solid. At 5 sessions every bucket is flat.

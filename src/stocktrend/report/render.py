@@ -216,23 +216,29 @@ def insiders_markdown(rows: list[dict[str, Any]], weight: float) -> str:
             [*lines, "_No open-market purchases by insiders filed in the window._", ""]
         )
     lines += [
-        "| Ticker | Name | Score | Buyers | Bought | Sellers | Who bought |",
-        "|---|---|---|---|---|---|---|",
+        "| Ticker | Name | Score | Buyers | Bought | Paid (avg) | Now | Since | Sellers | "
+        "Who bought |",
+        "|---|---|---|---|---|---|---|---|---|---|",
     ]
     for r in rows:
         bought = r["bought"]
         money = f"${bought / 1e6:.1f}M" if bought >= 1e6 else f"${bought / 1e3:.0f}k"
+        paid = f"${r['paid']:,.2f}" if r["paid"] else "–"
+        now = f"${r['now']:,.2f}" if r["now"] else "–"
         lines.append(
             f"| {r['ticker']} | {r['name']} | {r['score']:.1f} | {r['buyers']} | {money} | "
-            f"{r['sellers']} | {r['insiders']} |"
+            f"{paid} | {now} | {_num(r['since'])} | {r['sellers']} | {r['insiders']} |"
         )
+    as_of = max((r["price_date"] for r in rows if r.get("price_date")), default=None)
     return "\n".join(
         [
             *lines,
             "",
             "Open-market purchases by officers, directors and 10% owners of S&P 500 companies, "
-            "from their Form 4 filings (due within two business days). Sales are counted but "
-            f"don't lower the score: insiders sell for many reasons. {_weight_note(weight)}",
+            "from their Form 4 filings (due within two business days). Paid: their average "
+            f"price per share; Now: the close on {as_of or 'the last trading day'}; Since: the "
+            "move from their price. Sales are counted but don't lower the score: insiders "
+            f"sell for many reasons. {_weight_note(weight)}",
             "",
         ]
     )
