@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass, field
+from datetime import date, timedelta
 from pathlib import Path
 
 from pydantic import ValidationError
@@ -87,6 +88,25 @@ def check(
             v.warnings.append(f"{where}: every impact has confidence >= 0.85; be calibrated")
     if not ef.events:
         v.warnings.append("no events: a quiet day, or nothing market-relevant?")
+    seen_calls: set[str] = set()
+    for n, call in enumerate(ef.trump_calls):
+        where = f"trump_calls[{n}] {call.ticker}"
+        if call.ticker not in tickers:
+            v.errors.append(f"{where}: unknown ticker (see `stt universe find`)")
+        if call.ticker in seen_calls:
+            v.errors.append(f"{where}: one entry per ticker per day")
+        seen_calls.add(call.ticker)
+        missing = [s for s in call.sources if s not in story_ids]
+        if missing:
+            v.errors.append(f"{where}: sources not in the digest: {missing}")
+        try:
+            said, today = date.fromisoformat(call.said_on), date.fromisoformat(day)
+            if not today - timedelta(days=14) <= said <= today:
+                v.errors.append(f"{where}: said_on must be within the 14 days up to {day}")
+        except ValueError:
+            v.errors.append(f"{where}: said_on must be YYYY-MM-DD")
+        if call.explicit and call.stance in ("positive", "negative"):
+            v.warnings.append(f"{where}: explicit calls are 'buy' or 'sell'")
     return v
 
 

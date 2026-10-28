@@ -101,6 +101,7 @@ class Pick(BaseModel):
     next_earnings: str | None
     tracker: float = 0.0  # congressional buying (+) or selling (-) in [-1, 1]
     tracker_note: str | None = None
+    trump_note: str | None = None  # what Trump said about it lately (no weight in the score)
 
 
 class PicksFile(BaseModel):
@@ -275,12 +276,15 @@ def score(
     priors: dict[str, dict[int, float]] | None = None,
     tracker: pd.DataFrame | None = None,
     tracker_weight: float = 0.0,
+    trump_notes: dict[str, str] | None = None,
 ) -> PicksFile:
     """``meta``: index ticker, columns name, region, sector, kind ("stock" or "etf").
 
     ``tracker`` is the congressional-trades signal per ticker (``trackers.congress``).
     It can only scale an existing geopolitical signal, by up to ``tracker_weight``,
     which ``stt backtest`` sets from the tracker's historical record (0 = no edge).
+    ``trump_notes`` (``trackers.trump.recent_notes``) are remarks only: a call that
+    should move a stock reaches the score as an event impact in the analysis.
     """
     tracker_rows: dict[Any, dict[Any, Any]] = (
         tracker.to_dict("index") if tracker is not None else {}
@@ -359,6 +363,7 @@ def score(
                 next_earnings=earnings.get(ticker),
                 tracker=round(tracker_score, 3),
                 tracker_note=_congress_note(congress),
+                trump_note=(trump_notes or {}).get(ticker),
             )
         )
     picks = _select(scored)

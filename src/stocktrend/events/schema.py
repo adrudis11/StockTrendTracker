@@ -84,9 +84,35 @@ class Event(BaseModel):
     impacts: list[Impact] = Field(min_length=1, max_length=8)
 
 
+Stance = Literal["buy", "positive", "negative", "sell"]
+BULLISH: frozenset[str] = frozenset({"buy", "positive"})
+MARKET_TICKERS: frozenset[str] = frozenset({"SPY", "QQQ", "IWM", "^GSPC"})  # "the market"
+
+
+class TrumpCall(BaseModel):
+    """Something Donald Trump said or hinted about a specific stock, company or the market.
+
+    Tracked by ``trackers.trump`` to see how often these calls come true.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    ticker: str = Field(description="Covered ticker; SPY or QQQ for 'the market'")
+    company: str = Field(max_length=80)
+    stance: Stance = Field(
+        description="buy: says to buy; positive: praise or a hint; "
+        "negative: attack or threat; sell: says to sell or avoid"
+    )
+    explicit: bool = Field(description="True only if he plainly says buy or sell")
+    said_on: str = Field(description="YYYY-MM-DD when he said it")
+    quote: str = Field(min_length=5, max_length=300, description="His words or a close paraphrase")
+    sources: list[str] = Field(min_length=1, description="Digest story ids")
+
+
 class EventsFile(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     date: str
     market_view: str = Field(max_length=1000)
     events: list[Event] = Field(max_length=20)
+    trump_calls: list[TrumpCall] = Field(default_factory=list, max_length=20)

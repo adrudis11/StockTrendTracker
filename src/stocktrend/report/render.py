@@ -60,11 +60,14 @@ def _pick_table(picks: list[Pick]) -> list[str]:
         "|---|---|---|---|---|---|---|---|",
     ]
     for p in picks:
+        mark = " ★" if p.trump_note else ""
         lines.append(
-            f"| {p.rank} | **{p.ticker}** | {p.name} | {p.conviction:.2f} | {p.prob:.0%} | "
+            f"| {p.rank} | **{p.ticker}**{mark} | {p.name} | {p.conviction:.2f} | {p.prob:.0%} | "
             f"{_pct(p.r5d)} / {_pct(p.r20d)} | {_why(p)} | {'; '.join(p.risks) or '–'} |"
         )
-    return [*lines, ""]
+    lines.append("")
+    trump = [f"- ★ **{p.ticker}**: {p.trump_note}" for p in picks if p.trump_note]
+    return [*lines, *trump, ""] if trump else lines
 
 
 def _details(picks: list[Pick]) -> list[str]:
@@ -76,6 +79,8 @@ def _details(picks: list[Pick]) -> list[str]:
         )
         if p.tracker_note:
             lines.append(f"  - Congress: {p.tracker_note} (tracker {p.tracker:+.2f})")
+        if p.trump_note:
+            lines.append(f"  - {p.trump_note} (a remark: no weight in the score)")
         for d in p.drivers:
             via = f"theme {d.via}" if d.via not in ("direct", "sector") else d.via
             lines.append(f"  - `{d.event_id}` via {via} ({d.strength:+.3f}): {d.rationale}")
@@ -97,6 +102,7 @@ def render(
     digest: Digest | None,
     track_record: str | None = None,
     congress_md: str | None = None,
+    trump_md: str | None = None,
 ) -> str:
     lines = [f"# StockTrendTracker: {picks.date}", "", DISCLAIMER, ""]
     lines += ["## Backdrop", ""]
@@ -122,6 +128,8 @@ def render(
         "",
     ]
 
+    if trump_md:
+        lines += [trump_md]
     if track_record:
         lines += [track_record]
     if congress_md:
@@ -184,6 +192,51 @@ def congress_markdown(rows: list[dict[str, Any]], weight: float) -> str:
             *lines,
             "",
             f"Official House filings (STOCK Act; trades are reported up to 45 days late). {note}",
+            "",
+        ]
+    )
+
+
+def _num(x: float | None) -> str:
+    return "–" if x is None else f"{x:+.1f}%"
+
+
+def trump_markdown(rows: list[dict[str, Any]]) -> str:
+    """The Trump tracker: his recent stock calls and whether they came true (``trump_rows``)."""
+    lines = ["## Trump tracker (calls in the last 90 days)", ""]
+    if not rows:
+        return "\n".join([*lines, "_No stock or market calls by Trump logged in the window._", ""])
+    lines += [
+        "| Said | Ticker | Company | Call | Quote | Day move† | Since logged† | vs benchmark | "
+        "Came true? |",
+        "|---|---|---|---|---|---|---|---|---|",
+    ]
+    for r in rows:
+        call = r["stance"] + (" (explicit)" if r["explicit"] else "")
+        quote = r["quote"].replace("|", "/")
+        lines.append(
+            f"| {r['said_on']} | **{r['ticker']}** | {r['company']} | {call} | {quote} | "
+            f"{_num(r['reaction'])} | {_num(r['since'])} | {_num(r['excess'])} | "
+            f"{r['came_true'] or 'open'} |"
+        )
+    scored = [r for r in rows if r["came_true"]]
+    hits = sum(r["came_true"] == "Yes" for r in scored)
+    record = (
+        f"So far {hits} of {len(scored)} came true (a bullish call ahead of its benchmark, "
+        "or a bearish one behind it)."
+        if scored
+        else "None has traded since it was logged yet."
+    )
+    return "\n".join(
+        [
+            *lines,
+            "",
+            f"{record} † Day move: the stock on the day he said it, minus its benchmark. "
+            "Since logged: from the first open after we logged the call, in euros for "
+            "European listings. Ahead of the benchmark (behind it for an attack) counts as "
+            '"came true"; whole-market calls count in absolute terms. Calls carry no weight '
+            "in the score; each is logged as strategy `trump` so the track record shows "
+            "whether following them works.",
             "",
         ]
     )

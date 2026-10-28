@@ -49,7 +49,10 @@ uv run stt universe find airbus
 ```
 
 The analysis step between `digest` and `validate` is done by Claude in a cloud session,
-following [prompts/daily_analysis.md](prompts/daily_analysis.md).
+following [prompts/daily_analysis.md](prompts/daily_analysis.md). It also logs any stock
+Trump talks up or attacks (`trump_calls`): the **Trump tracker** marks those picks with
+a ★, logs each call as its own strategy in the ledger, and shows his recent calls and
+whether they came true in the report and on the dashboard.
 
 `stt ingest` prints a per-source health table and exits with status 1 if the run isn't
 usable (prices failed, or a whole news source failed). Add `--strict` to fail on any single

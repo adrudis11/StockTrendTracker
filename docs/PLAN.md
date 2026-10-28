@@ -561,7 +561,36 @@ Not added:
   content X keeps behind its login, so they aren't used.
 - **Cramer**: no clean data source, and the evidence is against it (Mad Money picks get
   a brief bump that reverses; the Inverse Cramer ETF shut down within about a year).
-- **US Senate trades**: the Senate's search site requires accepting its terms of use,
-  which needs the owner's consent.
+- **US Senate trades**: the owner accepted the Senate search site's terms on
+  2026-10-28, but the site (efdsearch.senate.gov) answers every request from the cloud
+  session with an Akamai "Access Denied" page. Getting past that would mean evading the
+  site's bot protection, so it isn't done. The House filings cover most of the same
+  ground (Pelosi is a House member).
 - **Corporate insider buying (SEC Form 4)**: the best-supported tracker in the research,
   but the SEC requires a contact email in automated requests. Waiting on the owner.
+
+### Trump tracker (added 2026-10-28)
+
+Request: flag stocks Trump says or hints are a good buy ("a lot of those come true"),
+with a section of its own.
+
+- **Source**: news coverage of his posts, interviews and remarks. Three Google News
+  queries (`trump_posts`, `trump_says`, `trump_stocks`) feed a "Trump statements"
+  section at the top of the digest, with at least 15 stories kept a day.
+- **Logging**: the daily analysis records each call in `trump_calls` in
+  `data/events/<date>.json`: ticker, stance (`buy`, `positive`, `negative`, `sell`),
+  whether it was explicit, the day he said it, a quote and the source stories.
+  `stt validate` checks the ticker, the sources and the date (within 14 days).
+- **Remark on picks**: a pick he talked up or attacked in the last 30 days carries a ★
+  and the quote in the report, and a note in the dashboard. It has no weight in the
+  score: if a statement should move a stock, the analysis adds a normal event for it.
+- **Ledger**: every stock or ETF call is logged as strategy `trump` at both horizons
+  (praise or "buy" as longs, attacks or "sell" as avoids), so the scoreboard measures
+  whether following him beats the market. Whole-market calls (SPY, QQQ) aren't logged.
+- **Report and dashboard section**: his calls of the last 90 days, the move on the day
+  he said it (net of the benchmark) and the return since the call was logged (in euros
+  for European listings), and whether it came true so far.
+
+There is no free, reliable history of his past calls to backtest, so the record starts
+on 2026-10-29. The day-of move often happens within minutes of a post, before anyone
+reading the news can act; the "since logged" column is the fair test.

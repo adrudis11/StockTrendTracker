@@ -21,6 +21,9 @@ topics:
   # Trump's posts move markets (tariffs, sanctions, named companies). Outlets report
   # them within minutes, so coverage of "Truth Social" stands in for the posts.
   trump_posts: '"Truth Social"'
+  # Trump talking up or attacking specific companies, stocks or the market.
+  trump_says: '"Trump says" (stock OR stocks OR shares OR buy OR company)'
+  trump_stocks: '(Trump touts OR Trump praises OR Trump slams OR Trump attacks) (company OR stock OR CEO)'
 
 google_news:
   editions:

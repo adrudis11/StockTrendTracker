@@ -21,13 +21,16 @@ from stocktrend.tracking.evaluate import first_matures, read_outcomes
 from stocktrend.tracking.ledger import read as read_ledger
 
 OUT_DIR = CACHE_DIR / "dashboard"
-DATASETS = ("summary", "picks", "events", "scoreboard", "congress")
+DATASETS = ("summary", "picks", "events", "scoreboard", "congress", "trump")
 CONGRESS_ROWS = 15
+TRUMP_DAYS, TRUMP_ROWS = 90, 25
+STANCE_NAMES = {"buy": "Buy", "positive": "Talked up", "negative": "Attacked", "sell": "Sell"}
 STRATEGY_NAMES = {
     "geo": "Geopolitical",
     "momentum": "Momentum",
     "random": "Random",
     "congress": "Congress",
+    "trump": "Trump",
 }
 REGIME_NAMES = {"risk_on": "Risk-on", "neutral": "Neutral", "risk_off": "Risk-off"}
 
@@ -56,6 +59,8 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
     done = {o.pick_id for o in outcomes}
     first = first_matures([e for e in entries if e.strategy == "geo" and e.pick_id not in done])
     r = picks.regime
+    trump = trump_rows(day)
+    scored = [t for t in trump if t["came_true"]]
 
     summary = {
         "date": picks.date,
@@ -75,6 +80,9 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
         "first_results": first.isoformat() if first else None,
         "model": picks.model_version,
         "tracker_weight": round(100 * picks.tracker_weight),
+        "trump_calls": len(trump),
+        "trump_scored": len(scored),
+        "trump_true": sum(t["came_true"] == "Yes" for t in scored),
     }
     pick_rows = [
         {
@@ -91,7 +99,7 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
             "r20d": _pct(p.r20d),
             "driver": p.drivers[0].title if p.drivers else "",
             "theme": _theme(p.primary_theme),
-            "risks": "; ".join(p.risks + ([p.tracker_note] if p.tracker_note else [])),
+            "risks": "; ".join(p.risks + [n for n in (p.tracker_note, p.trump_note) if n]),
         }
         for p in picks.picks
     ]
@@ -128,6 +136,7 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
         "events": event_rows,
         "scoreboard": board_rows,
         "congress": congress_rows(day),
+        "trump": trump,
     }
 
 
@@ -155,6 +164,56 @@ def congress_rows(day: str) -> list[dict[str, Any]]:
         }
         for t, r in sig.iterrows()
     ]
+
+
+def trump_rows(day: str) -> list[dict[str, Any]]:
+    """Trump's stock and market calls of the last 90 days, newest first, and how they did.
+
+    ``came_true`` is "Yes", "No" or "" (not traded since it was logged).
+    """
+    from datetime import date, timedelta
+
+    import pandas as pd
+
+    from stocktrend.ingest import prices as price_store
+    from stocktrend.trackers import trump
+    from stocktrend.universe.instruments import load_instruments
+
+    since = (date.fromisoformat(day) - timedelta(days=TRUMP_DAYS)).isoformat()
+    calls = trump.load_calls()
+    calls = calls[(calls["logged"] <= day) & (calls["said_on"] >= since)]
+    if calls.empty:
+        return []
+    try:
+        prices = price_store.load()
+    except FileNotFoundError:  # cache not downloaded in this session: show the calls alone
+        prices = pd.DataFrame(columns=["date", "ticker", "open", "close", "adj_close"])
+    perf = trump.performance(calls, prices, load_instruments().benchmarks)
+    perf = perf.sort_values(["said_on", "logged"], ascending=False).head(TRUMP_ROWS)
+    rows = []
+    for c in perf.to_dict("records"):
+        true = c["came_true"]
+        rows.append(
+            {
+                "key": f"{c['logged']}:{c['ticker']}",
+                "said_on": str(c["said_on"]),
+                "logged": str(c["logged"]),
+                "ticker": str(c["ticker"]),
+                "company": str(c["company"]),
+                "stance": STANCE_NAMES[str(c["stance"])],
+                "explicit": bool(c["explicit"]),
+                "quote": str(c["quote"]),
+                "reaction": _pct(_float(c["reaction"])),
+                "since": _pct(_float(c["since"])),
+                "excess": _pct(_float(c["excess"])),
+                "came_true": "" if true is None or pd.isna(true) else ("Yes" if true else "No"),
+            }
+        )
+    return rows
+
+
+def _float(x: Any) -> float | None:
+    return None if x is None or x != x else float(x)
 
 
 def write(day: str, out_dir: Path = OUT_DIR) -> dict[str, Path]:

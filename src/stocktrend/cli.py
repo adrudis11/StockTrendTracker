@@ -161,6 +161,8 @@ def score(day: DayOption = None) -> None:
 @app.command()
 def record(day: DayOption = None) -> None:
     """Append the day's picks and baselines to the ledger (never overwrites)."""
+    from stocktrend.events.schema import EventsFile
+    from stocktrend.events.validate import events_path
     from stocktrend.scoring.run import context, tracker_signal
     from stocktrend.scoring.run import load as load_picks
     from stocktrend.tracking.ledger import LEDGER
@@ -168,7 +170,16 @@ def record(day: DayOption = None) -> None:
 
     d = _day(day)
     ctx = context()
-    n = record_picks(load_picks(d), ctx.features, ctx.meta, tracker=tracker_signal(d, ctx.meta))
+    ev_path = events_path(d)
+    calls = (
+        EventsFile.model_validate_json(ev_path.read_text(encoding="utf-8")).trump_calls
+        if ev_path.exists()
+        else []
+    )
+    n = record_picks(
+        load_picks(d), ctx.features, ctx.meta, tracker=tracker_signal(d, ctx.meta),
+        trump_calls=calls,
+    )  # fmt: skip
     typer.echo(f"Logged {n} new ledger entries for {d} -> {LEDGER}")
 
 
@@ -333,12 +344,13 @@ def report(day: DayOption = None) -> None:
     track = sb.to_markdown(
         sb.compute(entries, read_outcomes()), first.isoformat() if first else None
     )
-    from stocktrend.report.dashboard import congress_rows
-    from stocktrend.report.render import congress_markdown
+    from stocktrend.report.dashboard import congress_rows, trump_rows
+    from stocktrend.report.render import congress_markdown, trump_markdown
 
     picks_obj = load_picks(d)
     congress_md = congress_markdown(congress_rows(d)[:10], picks_obj.tracker_weight)
-    path = write(d, render(picks_obj, events, digest_obj, track, congress_md))
+    trump_md = trump_markdown(trump_rows(d))
+    path = write(d, render(picks_obj, events, digest_obj, track, congress_md, trump_md))
     typer.echo(f"Report -> {path}")
 
 
@@ -524,6 +536,6 @@ def daily_finish() -> None:
     report(day=d)
     dashboard(day=d)
     typer.echo(
-        "\nNEXT: upload the five files above to the dashboard and commit data/ "
+        "\nNEXT: upload the six files above to the dashboard and commit data/ "
         "(see prompts/daily_run.md)."
     )

@@ -50,7 +50,11 @@ days, keeping an honest track record. Full plan and progress log: `docs/PLAN.md`
 
 Trackers: `stt trackers update` (new House STOCK Act filings → `data/trackers/`, run
 by `daily prepare`), `stt trackers show` (strongest congressional buying/selling).
-Polymarket odds are fetched by `stt ingest` and shown in the digest.
+Polymarket odds are fetched by `stt ingest` and shown in the digest. Trump tracker: the
+analysis logs his stock calls in `trump_calls` (events file); they become a ★ remark on
+picks, the `trump` ledger strategy and a report/dashboard section (`trackers/trump.py`).
+They carry no weight in the score. Senate trades are blocked by the site's bot
+protection (Akamai); don't try to get around it.
 
 Occasional: `stt backtest` (5-year momentum baseline and theme priors, monthly),
 `stt scoreboard`.

@@ -25,6 +25,9 @@ from stocktrend.ingest.models import NewsItem
 
 MAX_STORIES = 150
 PER_TOPIC_MIN = 6  # every topic gets at least its top stories in
+# Trump's statements get a bigger floor and their own section (the Trump tracker).
+TRUMP_TOPICS = ("trump_posts", "trump_says", "trump_stocks")
+TRUMP_MIN = 15
 MAX_OFFICIAL = 25
 SIMILARITY = 0.35  # Jaccard similarity of headline words to count as the same story
 # Ceremonial proclamations ("National Seafood Month, 2026") carry no market news.
@@ -284,7 +287,8 @@ def select(stories: list[Story], max_stories: int = MAX_STORIES) -> list[Story]:
         chosen[id(s)] = s
     topics = {t for s in ranked for t in s.topics}
     for topic in sorted(topics):
-        for s in [s for s in ranked if topic in s.topics and not s.official][:PER_TOPIC_MIN]:
+        floor = TRUMP_MIN if topic in TRUMP_TOPICS else PER_TOPIC_MIN
+        for s in [s for s in ranked if topic in s.topics and not s.official][:floor]:
             chosen[id(s)] = s
     for s in ranked:
         if len(chosen) >= max_stories:
@@ -347,18 +351,31 @@ def to_markdown(d: Digest) -> str:
     ]
     if d.market:
         lines += [market_markdown(d.market), ""]
+    trump = [s for s in d.stories if any(t in TRUMP_TOPICS for t in s.topics)]
+    if trump:
+        lines += [
+            "## Trump statements",
+            "",
+            "Coverage of Trump's posts, interviews and remarks. Log any stock, company or "
+            "market call in `trump_calls`.",
+            "",
+        ]
+        lines += [_story_line(s) for s in trump] + [""]
     lines += ["## Stories", "", "id | pubs | topics | headline — summary", ""]
-    for s in d.stories:
-        tag = "OFFICIAL " if s.official else ""
-        pubs = f"{s.n_publishers}: {', '.join(s.publishers[:3])}"
-        gd = ""
-        if s.gdelt:
-            actors = "/".join(s.gdelt.get("actor_countries", []))
-            gd = f" [GDELT {s.gdelt.get('event_type')} {actors}]"
-        summary = f" — {s.summary[:220]}" if s.summary else ""
-        topics = ",".join(s.topics) or "-"
-        lines.append(f"{s.id} | {pubs} | {topics} | {tag}{s.title}{gd}{summary}")
+    lines += [_story_line(s) for s in d.stories if s not in trump]
     return "\n".join(lines) + "\n"
+
+
+def _story_line(s: Story) -> str:
+    tag = "OFFICIAL " if s.official else ""
+    pubs = f"{s.n_publishers}: {', '.join(s.publishers[:3])}"
+    gd = ""
+    if s.gdelt:
+        actors = "/".join(s.gdelt.get("actor_countries", []))
+        gd = f" [GDELT {s.gdelt.get('event_type')} {actors}]"
+    summary = f" — {s.summary[:220]}" if s.summary else ""
+    topics = ",".join(s.topics) or "-"
+    return f"{s.id} | {pubs} | {topics} | {tag}{s.title}{gd}{summary}"
 
 
 def _num(x: float) -> str:

@@ -109,6 +109,20 @@
     </div>
   </section>
 
+  <section class="stt-card" id="trump">
+    <h2>Trump tracker</h2>
+    <p class="stt-note">Stocks Donald Trump said or hinted are a buy, or attacked, in the last 90 days, from news coverage of his posts, interviews and remarks. Day move is the stock on the day he said it, against its benchmark; much of that often happens within minutes of a post. Since logged runs from the first open after the call was logged, which is what acting on it would have earned. A call came true if the stock then beat its benchmark after praise, or lagged it after an attack.</p>
+    <p class="stt-note" data-trump="scored" hidden>So far <b data-draw="s-trump-true" data-source="summary" data-field="trump_true" data-row="0">—</b> of <b data-draw="s-trump-scored" data-source="summary" data-field="trump_scored" data-row="0">—</b> calls came true. They carry no weight in the picks: each is logged as the Trump strategy in the track record, so its real results show up there.</p>
+    <p class="stt-note" data-trump="unscored" hidden>No call has traded since it was logged yet. Calls carry no weight in the picks: each is logged as the Trump strategy in the track record, so its real results show up there.</p>
+    <div class="stt-wrap" data-trump="table" hidden>
+      <table class="stt-t" data-source="trump" data-row-key="key">
+        <thead><tr><th data-field="said_on">Said</th><th data-field="ticker">Ticker</th><th data-field="company" class="opt">Company</th><th data-field="stance">Call</th><th data-field="quote" class="opt">Quote</th><th data-field="reaction" class="num">Day move</th><th data-field="since" class="num opt">Since logged</th><th data-field="excess" class="num">vs benchmark</th><th data-field="came_true">Came true?</th></tr></thead>
+        <tbody data-draw="trump"></tbody>
+      </table>
+    </div>
+    <p class="stt-note" data-empty-trump hidden>No stock or market calls by Trump logged in the last 90 days.</p>
+  </section>
+
   <section class="stt-card" id="track-record">
     <h2>Track record</h2>
     <p class="stt-note">Every pick is logged before the open and scored when its horizon ends: entry at the next open, exit at the close of the last day, against the benchmark. Momentum and random picks from the same sectors are logged the same way, so we can see whether the geopolitical reading adds anything.</p>
@@ -190,6 +204,8 @@
   value('s-open', 'open', String);
   value('s-first', 'first_results', date);
   value('s-tw', 'tracker_weight', String);
+  value('s-trump-true', 'trump_true', String);
+  value('s-trump-scored', 'trump_scored', String);
 
   // Show the empty-state sentences or the tables they stand in for.
   dash.onData(() => {
@@ -199,6 +215,13 @@
     document.querySelectorAll('[data-when="results"]').forEach((el) => { el.hidden = !s || matured === 0; });
     const cg = dash.data('congress');
     document.querySelectorAll('[data-empty-congress]').forEach((el) => { el.hidden = cg.status !== 'ok' || cg.data.length > 0; });
+    const tp = dash.data('trump');
+    const calls = tp.status === 'ok' && tp.data.length > 0;
+    const scored = s ? Number(s.trump_scored) : 0;
+    document.querySelectorAll('[data-empty-trump]').forEach((el) => { el.hidden = tp.status !== 'ok' || calls; });
+    document.querySelectorAll('[data-trump="table"]').forEach((el) => { el.hidden = !calls; });
+    document.querySelectorAll('[data-trump="scored"]').forEach((el) => { el.hidden = !calls || scored === 0; });
+    document.querySelectorAll('[data-trump="unscored"]').forEach((el) => { el.hidden = !calls || scored > 0; });
     const picks = dash.data('picks');
     document.querySelectorAll('[data-empty]').forEach((el) => {
       const [h, side] = el.dataset.empty.split('-');
@@ -272,7 +295,25 @@
     });
   });
 
-  const order = { Geopolitical: 0, Momentum: 1, Random: 2, Congress: 3 };
+  const signed = (v) => (blank(v) ? '—' : pct(v) + '%');
+  dash.draw('trump', (tbody) => {
+    tbody.replaceChildren();
+    rows('trump').forEach((r) => {
+      const tr = tbody.insertRow();
+      tr.dataset.key = r.key;
+      cell(tr, r.said_on);
+      cell(tr, r.ticker, 'tick');
+      cell(tr, r.company, 'opt');
+      cell(tr, r.stance + (r.explicit ? ' (explicit)' : ''));
+      cell(tr, r.quote, 'why opt');
+      cell(tr, signed(r.reaction), 'num');
+      cell(tr, signed(r.since), 'num opt');
+      cell(tr, signed(r.excess), 'num');
+      cell(tr, r.came_true || 'Open');
+    });
+  });
+
+  const order = { Geopolitical: 0, Momentum: 1, Random: 2, Congress: 3, Trump: 4 };
   dash.draw('board', (tbody) => {
     tbody.replaceChildren();
     rows('scoreboard')

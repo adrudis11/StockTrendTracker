@@ -12,6 +12,8 @@ Baselines logged alongside the geopolitical picks, same day and horizons:
   picks. Answers "is this just sector luck?"
 * ``congress``: the stocks with the strongest net buying by House members disclosed
   in the last 30 days. Answers "does following Congress work?"
+* ``trump``: the stocks Trump talked up (longs) or attacked (avoids), from the
+  day's ``trump_calls``. Answers "does following Trump work?"
 """
 
 from __future__ import annotations
@@ -27,11 +29,12 @@ import pandas as pd
 from pydantic import BaseModel
 
 from stocktrend.config import DATA_DIR
+from stocktrend.events.schema import BULLISH, MARKET_TICKERS, TrumpCall
 from stocktrend.scoring.model import HORIZONS, MAX_AVOID, MAX_PICKS, PicksFile
 
 LEDGER = DATA_DIR / "ledger" / "picks.jsonl"
 
-Strategy = Literal["geo", "momentum", "random", "congress"]
+Strategy = Literal["geo", "momentum", "random", "congress", "trump"]
 
 
 class LedgerEntry(BaseModel):
@@ -150,6 +153,33 @@ def baseline_entries(
     return entries
 
 
+def trump_entries(
+    day: str, calls: list[TrumpCall], meta: pd.DataFrame, logged_at: datetime
+) -> list[LedgerEntry]:
+    """Each stock or ETF call at both horizons; whole-market calls (SPY, QQQ) are left out."""
+    entries = []
+    stocks = [c for c in calls if c.ticker in meta.index and c.ticker not in MARKET_TICKERS]
+    for h in HORIZONS:
+        for rank, c in enumerate(stocks, 1):
+            side: Literal["long", "avoid"] = "long" if c.stance in BULLISH else "avoid"
+            entries.append(
+                LedgerEntry(
+                    pick_id=pick_id(day, "trump", h, side, c.ticker),
+                    date=day,
+                    logged_at=logged_at,
+                    strategy="trump",
+                    horizon=h,
+                    side=side,
+                    ticker=c.ticker,
+                    region=str(meta.at[c.ticker, "region"]),
+                    sector=str(meta.at[c.ticker, "sector"]),
+                    kind=str(meta.at[c.ticker, "kind"]),
+                    rank=rank,
+                )
+            )
+    return entries
+
+
 def record(
     picks: PicksFile,
     features: pd.DataFrame,
@@ -157,10 +187,13 @@ def record(
     logged_at: datetime | None = None,
     path: Path = LEDGER,
     tracker: pd.DataFrame | None = None,
+    trump_calls: list[TrumpCall] | None = None,
 ) -> int:
     logged_at = logged_at or datetime.now(UTC)
-    entries = geo_entries(picks, logged_at) + baseline_entries(
-        picks, features, meta, logged_at, tracker
+    entries = (
+        geo_entries(picks, logged_at)
+        + baseline_entries(picks, features, meta, logged_at, tracker)
+        + trump_entries(picks.date, trump_calls or [], meta, logged_at)
     )
     return append(entries, path)
 

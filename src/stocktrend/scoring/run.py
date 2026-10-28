@@ -15,7 +15,7 @@ from stocktrend.features import earnings, regime, technical
 from stocktrend.ingest import prices as price_store
 from stocktrend.markets import split_suffix
 from stocktrend.scoring import model
-from stocktrend.trackers import congress
+from stocktrend.trackers import congress, trump
 from stocktrend.universe.build import load as load_universe
 from stocktrend.universe.exposures import Exposures, load_exposures
 from stocktrend.universe.instruments import InstrumentsConfig, load_instruments
@@ -146,6 +146,7 @@ def run(day: str, ctx: Context | None = None) -> model.PicksFile:
     result = model.score(
         as_of, events, exposures, meta, feats, sector_etfs, reg, earn, priors,
         tracker=tracker_signal(day, meta), tracker_weight=tracker_weight(),
+        trump_notes=trump.recent_notes(trump.load_calls(), as_of),
     )  # fmt: skip
     path = picks_path(day)
     path.parent.mkdir(parents=True, exist_ok=True)

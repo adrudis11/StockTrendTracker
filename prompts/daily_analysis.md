@@ -42,6 +42,17 @@ scores and ranks stocks from your file, so be precise, calibrated and honest.
         }
       ]
     }
+  ],
+  "trump_calls": [
+    {
+      "ticker": "LMT",
+      "company": "Lockheed Martin",
+      "stance": "positive",
+      "explicit": false,
+      "said_on": "<date he said it>",
+      "quote": "Says he'll consider selling Turkey F-35 jets",
+      "sources": ["S041"]
+    }
   ]
 }
 ```
@@ -92,6 +103,23 @@ points in a day is news in itself, even without a headline.
 **Already priced in?** Check the market snapshot. If the obvious winners have
 already moved a lot (e.g. oil +11% in 20 days), lower magnitude or confidence, say
 so in the rationale, or look for the second-order effect markets haven't priced yet.
+
+**Trump calls (the Trump tracker).** The digest's "Trump statements" section collects
+coverage of his posts, interviews and remarks. Add an entry to `trump_calls` whenever
+he says or clearly hints that a specific company, stock or the market is a good buy,
+or attacks or threatens one. One entry per ticker per day; skip it if the same
+statement was already logged on an earlier day.
+- `stance`: `buy` = he says to buy it ("great time to buy", "buy Tesla");
+  `positive` = praise, a deal or a policy he presents as good for that company;
+  `negative` = attacks, threats, tariffs or boycotts aimed at it; `sell` = he says
+  to sell or avoid it.
+- `explicit`: true only for a plain "buy" or "sell". Praise and hints are false.
+- `ticker`: a covered ticker (`stt universe find`); SPY or QQQ for the whole market.
+  Skip companies we don't cover. `said_on` is the day he said it, `quote` his words
+  or a close paraphrase, `sources` the story ids.
+- If the statement should move the stock, also add a normal event with a `ticker:`
+  impact. Moves on his posts often happen within minutes, so judge how much is
+  already priced in.
 
 **Rules.**
 - Only targets that exist: themes from `stt themes`, tickers from `stt universe find`.

@@ -146,6 +146,44 @@ def test_validation_catches_schema_errors() -> None:
     assert _check("{not json")
 
 
+def _with_calls(*calls: dict[str, object]) -> str:
+    raw = json.loads(_events())
+    base = {"ticker": "XOM", "company": "Exxon Mobil", "stance": "positive", "explicit": False,
+            "said_on": DAY, "quote": "Great company, doing great", "sources": ["S002"]}  # fmt: skip
+    raw["trump_calls"] = [{**base, **c} for c in calls]
+    return json.dumps(raw)
+
+
+def test_trump_calls_validation() -> None:
+    assert _check(_with_calls({})) == []
+    errors = _check(_with_calls(
+        {"ticker": "FAKE"},
+        {"sources": ["S999"]},
+        {"said_on": "2026-09-01"},
+    ))  # fmt: skip
+    assert any("FAKE" in e and "unknown ticker" in e for e in errors)
+    assert any("one entry per ticker" in e for e in errors)
+    assert any("S999" in e for e in errors)
+    assert any("within the 14 days" in e for e in errors)
+    assert any("stance" in e for e in _check(_with_calls({"stance": "hold"})))
+    v = check(_with_calls({"explicit": True}), DAY, {"S001", "S002"}, {"XOM"}, {"oil_supply_shock"})
+    assert v.ok and any("explicit" in w for w in v.warnings)
+
+
+def test_digest_puts_trump_statements_in_their_own_section() -> None:
+    trump = dg.Story(
+        id="S001", title="Trump says Exxon is a great buy", publishers=["p"], n_publishers=1,
+        topics=["trump_says"], official=False, first_seen=NOW, score=1.0, urls=["https://x/1"],
+    )  # fmt: skip
+    other = trump.model_copy(update={"id": "S002", "title": "Oil rises", "topics": ["energy"]})
+    d = dg.Digest(date=DAY, generated_at=NOW, window_start=DAY, n_items=2, n_stories_total=2,
+                  stories=[trump, other])  # fmt: skip
+    md = dg.to_markdown(d)
+    head, stories = md.split("## Stories")
+    assert "## Trump statements" in head and "great buy" in head and "Oil rises" not in head
+    assert "Oil rises" in stories and "great buy" not in stories
+
+
 def test_committed_events_files_are_valid() -> None:
     from stocktrend.config import DATA_DIR
     from stocktrend.events.validate import validate

@@ -9,3 +9,4 @@ datasets:
   events: events.json
   scoreboard: scoreboard.json
   congress: congress.json
+  trump: trump.json
