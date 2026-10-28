@@ -1,6 +1,6 @@
 # StockTrendTracker — Project Plan
 
-> Status: **Phase 1 (foundation) done** · next: Phase 2 (event analysis) · Last updated: 2026-10-28
+> Status: **Phase 2 (event analysis) done** · next: Phase 3 (scoring) · Last updated: 2026-10-28
 >
 > This is a research and decision-support tool for personal use. It is **not investment
 > advice**, and it never places trades.
@@ -324,7 +324,7 @@ prompt as a commit you can review. To avoid overfitting to a few weeks of data, 
 |---|---|---|
 | **0 · Planning** | This document, decisions (§8), GitHub access, network allowlist. | Decisions made ✅; GitHub access and the allowlist are in place. |
 | **1 · Foundation** ✅ | Project skeleton, US + European universe and ETFs, exchange calendars, price download, GDELT + RSS + Federal Register + EU sources ingestion, storage layout, tests. | `stt ingest` gathers a full day of data for both markets reliably. |
-| **2 · Event analysis** | Event schema, digest builder, `daily_analysis.md` prompt, exposure map v1 (~20 themes), validation. | One manual run turns a day's news into sensible, validated event → ticker mappings. |
+| **2 · Event analysis** ✅ | Event schema, digest builder, `daily_analysis.md` prompt, exposure map v1 (~20 themes), validation. | One manual run turns a day's news into sensible, validated event → ticker mappings. |
 | **3 · Quant + scoring** | Price features, regime, priced-in check, risk filters, scoring v1, report v1. | A daily report with top-10 picks per horizon and full rationale. |
 | **4 · Tracking + backtest** | Ledger, automatic scoring, baselines, scoreboard; event-study backtest of the quant layer on GDELT history. | Scoreboard works; we know whether the quant layer on its own beats baselines historically. |
 | **5 · Automation** | Scheduled daily session, dashboard, weekly review, credits-per-run measured. | Runs unattended for 2 weeks without manual fixes. |
@@ -403,3 +403,28 @@ Findings and deviations from the plan:
   data in Phase 3.
 - Prices only include completed sessions: when a market is open, Yahoo's partial bar for
   today is dropped.
+
+### Phase 2 · Event analysis (done 2026-10-28)
+
+Built: `stt digest`, `stt validate`, `stt themes`, `stt universe find`;
+`config/exposures.yaml` (28 themes, 355 stock/ETF links), `prompts/daily_analysis.md`,
+`CLAUDE.md` for future sessions.
+
+- **Digest:** 1,736 items → 1,462 stories (headlines grouped by word overlap, Jaccard ≥
+  0.35) → top 150 by publisher count, official-source bonus and a per-topic floor.
+  The Markdown version is ~6,500 tokens, which keeps the daily analysis cheap. It opens
+  with a market snapshot (key indices, oil, gas, FX, theme ETFs, biggest 5-day movers)
+  so the analyst can judge what is already priced in.
+- **First analysis (2026-10-28):** 13 validated events, e.g. the Houthi strike on Ras
+  Tanura, mines near Hormuz, Qatari mediation, Qatar LNG force majeure, the Kherson truce
+  and possible US sanctions relief for Russia, US-EU friction over an Airbus loan, Canada
+  auto tariff threats, US wind-turbine tariffs, Belgian nuclear nationalisation, and the
+  Israeli election deadlock.
+- Universe corrections: 7 duplicate listings dropped (e.g. SHELL.AS kept as SHEL.L), 8
+  Spanish/Italian utilities moved from Energy to Utilities. Universe is now 798 stocks.
+- Federal Register presidential documents carry no abstract and their full text sits
+  behind a CAPTCHA, so the digest now shows the **signing date**: the three documents
+  published on 28 October were signed on 22 October, so markets already knew.
+- One headline ("Supreme Court invalidates most of Trump's tariffs") appeared in only one
+  item with no summary, so it was not treated as new. Single-source big claims need
+  corroboration before they become events.

@@ -4,7 +4,7 @@ Daily analysis of political and geopolitical news to find liquid US and European
 ETFs likely to outperform over the following days to weeks. It explains the reasoning behind
 every pick and keeps an honest, automatically scored track record.
 
-**Status:** Phase 1 (data foundation) done. See [docs/PLAN.md](docs/PLAN.md) for the plan,
+**Status:** Phase 2 (event analysis) done. See [docs/PLAN.md](docs/PLAN.md) for the plan,
 phases and progress log.
 
 > Research and decision-support tool for personal use. Not investment advice; it never
@@ -26,7 +26,14 @@ uv run stt ingest --skip prices --skip gdelt_doc
 uv run stt calendar            # which exchanges trade today
 uv run stt universe show       # stocks covered, by country and sector
 uv run stt universe build      # refresh data/universe/stocks.csv from Wikipedia (monthly)
+uv run stt digest --print      # group and rank today's news into ~150 stories
+uv run stt validate            # check Claude's data/events/<today>.json
+uv run stt themes              # geopolitical themes and their main winners/losers
+uv run stt universe find airbus
 ```
+
+The analysis step between `digest` and `validate` is done by Claude in a cloud session,
+following [prompts/daily_analysis.md](prompts/daily_analysis.md).
 
 `stt ingest` prints a per-source health table and exits with status 1 if the run isn't
 usable (prices failed, or a whole news source failed). Add `--strict` to fail on any single
@@ -44,8 +51,11 @@ Output of one run, in `cache/` (not committed, re-downloaded each session):
 ## Layout
 
 ```
-config/            instruments.yaml (ETFs, benchmarks, macro), news_sources.yaml (topics, feeds)
-data/universe/     stocks.csv: the 805 covered stocks (committed)
+config/            instruments.yaml, exposures.yaml (themes), news_sources.yaml, universe_overrides.yaml
+data/universe/     stocks.csv: the 798 covered stocks (committed)
+data/digests/      daily ranked stories (committed, so events can be traced to sources)
+data/events/       Claude's daily structured analysis (committed)
+prompts/           instructions for the Claude steps
 src/stocktrend/    universe/ (stock list, sectors), ingest/ (prices, RSS, Federal Register, GDELT)
 tests/             offline unit tests; `uv run pytest -m live` hits the real sources
 ```

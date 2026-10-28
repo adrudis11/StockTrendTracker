@@ -1,0 +1,340 @@
+{
+  "date": "2026-10-28",
+  "market_view": "The Iran war still dominates: Brent is near $114 (+11% in 20 days) and Dutch gas is up 38%, with fresh Houthi strikes on Saudi refining and mine damage near Hormuz offset by Qatari mediation. Europe is pricing tentative Russia-Ukraine de-escalation (a widening local truce in Kherson, possible US sanctions relief). Trade frictions are broadening (Canadian autos, US-EU over Airbus), and the Fed meets this week ahead of the 3 November US midterms, with markets braced for a hawkish hold.",
+  "events": [
+    {
+      "id": "2026-10-28-01",
+      "title": "Houthi missile strike on Saudi Ras Tanura refinery; Saudi supply at three-decade low",
+      "category": "supply_disruption",
+      "regions": ["SA", "YE"],
+      "summary": "Yemen's Houthis say they hit Saudi Arabia's Ras Tanura refinery, its largest; Saudi forces report intercepting further missiles. The IEA says Saudi oil supply has fallen to a more than three-decade low after the attacks.",
+      "certainty": "confirmed",
+      "novelty": 0.8,
+      "severity": 0.6,
+      "duration": "weeks",
+      "sources": ["S005", "S022", "S056", "S074", "S094", "S118", "S129", "S131", "S139"],
+      "impacts": [
+        {
+          "target": "theme:oil_supply_shock",
+          "direction": 1,
+          "magnitude": 0.4,
+          "confidence": 0.5,
+          "horizon_days": 5,
+          "rationale": "Attack on the largest Saudi refinery plus IEA-reported supply low -> tighter crude and product balance -> producers up, airlines and cruise lines down. Brent already +11% in 20 days, so size kept moderate."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-28-02",
+      "title": "Tanker hits mines near Hormuz; Iran asserts control of the strait",
+      "category": "conflict",
+      "regions": ["IR", "US", "KR"],
+      "summary": "Iran's army says an oil tanker caught fire after hitting naval mines east of the Strait of Hormuz. Iran's leadership stressed control over the strait and threatened legal action against a South Korean shipowner; CENTCOM denied Iranian claims that US forces had left.",
+      "certainty": "reported",
+      "novelty": 0.6,
+      "severity": 0.6,
+      "duration": "weeks",
+      "sources": ["S004", "S010", "S025", "S027", "S040", "S081"],
+      "impacts": [
+        {
+          "target": "theme:shipping_disruption",
+          "direction": 1,
+          "magnitude": 0.4,
+          "confidence": 0.5,
+          "horizon_days": 5,
+          "rationale": "Mines and Iranian threats against named shipowners -> higher war-risk insurance and freight rates through Hormuz -> tanker and shipping owners gain."
+        },
+        {
+          "target": "theme:middle_east_escalation",
+          "direction": 1,
+          "magnitude": 0.3,
+          "confidence": 0.45,
+          "horizon_days": 5,
+          "rationale": "Physical damage to shipping keeps the regional war premium in oil, defence and gold, and weighs on airlines."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-28-03",
+      "title": "Qatar presents Iran with a deal to end the war; US warns of renewed strikes after midterms",
+      "category": "diplomacy",
+      "regions": ["QA", "IR", "US"],
+      "summary": "Qatari mediators presented Iran with a new proposal to end the war, and Iran welcomed regional security talks; Qatar says any mediation requires reopening Hormuz. Separately, the US warned Gulf states of a possible short, intense renewal of the war after the midterms.",
+      "certainty": "reported",
+      "novelty": 0.6,
+      "severity": 0.5,
+      "duration": "weeks",
+      "sources": ["S120", "S026", "S028", "S093", "S023"],
+      "impacts": [
+        {
+          "target": "theme:middle_east_escalation",
+          "direction": -1,
+          "magnitude": 0.3,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "A credible peace framework would cut the oil and war premium; offset by the US warning of a renewed campaign after 3 November, so confidence is low."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-28-04",
+      "title": "Qatar extends LNG force majeure to Italy's Edison until year-end",
+      "category": "energy",
+      "regions": ["QA", "IT", "EU"],
+      "summary": "QatarEnergy extended force majeure on LNG cargoes to Italy's Edison until the end of December, keeping European winter supply tight. EU farmers are cutting fertilizer demand because of high prices.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.5,
+      "duration": "months",
+      "sources": ["S135", "S108"],
+      "impacts": [
+        {
+          "target": "theme:eu_gas_shock",
+          "direction": 1,
+          "magnitude": 0.3,
+          "confidence": 0.5,
+          "horizon_days": 20,
+          "rationale": "Less Qatari LNG into Italy through winter -> TTF stays high -> margin pressure on European chemicals, support for US gas producers. TTF already +38% in 20 days, so mostly priced."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-28-05",
+      "title": "Russia-Ukraine: local Kherson truce widens; US weighs easing sanctions on Russia's investment fund",
+      "category": "diplomacy",
+      "regions": ["RU", "UA", "US"],
+      "summary": "A US-brokered local ceasefire in Oleshky was extended across the Kherson region with no breaches reported. Norway's and Finland's leaders held a rare call with Putin. The NYT reports the US is considering lifting sanctions on the Russian Direct Investment Fund.",
+      "certainty": "reported",
+      "novelty": 0.6,
+      "severity": 0.4,
+      "duration": "weeks",
+      "sources": ["S007", "S009", "S038", "S062", "S063", "S101", "S013", "S001", "S021", "S132"],
+      "impacts": [
+        {
+          "target": "theme:ukraine_peace_reconstruction",
+          "direction": 1,
+          "magnitude": 0.25,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "A widening truce and signs of US sanctions relief raise the odds of a broader deal -> reconstruction materials and Polish assets gain. The truce is local and Putin's rhetoric stays hard, so the size is small."
+        },
+        {
+          "target": "theme:defense_europe",
+          "direction": -1,
+          "magnitude": 0.15,
+          "confidence": 0.35,
+          "horizon_days": 5,
+          "rationale": "Peace headlines have repeatedly knocked European defence stocks short term, even though budgets are structural; low confidence."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-28-06",
+      "title": "US trade official warns EU loan to Airbus threatens the US-EU trade truce",
+      "category": "trade",
+      "regions": ["US", "EU"],
+      "summary": "A Trump trade official warned that an EU loan to Airbus threatens the trade truce between the US and the EU.",
+      "certainty": "reported",
+      "novelty": 0.7,
+      "severity": 0.4,
+      "duration": "weeks",
+      "sources": ["S016"],
+      "impacts": [
+        {
+          "target": "theme:us_eu_trade_tensions",
+          "direction": 1,
+          "magnitude": 0.3,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "A state-aid dispute could unravel the truce -> risk of new US tariffs on EU autos, luxury and spirits."
+        },
+        {
+          "target": "ticker:AIR.PA",
+          "direction": -1,
+          "magnitude": 0.3,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Airbus is the direct target of any US retaliation over the loan (the old Airbus-Boeing subsidy fight)."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-28-07",
+      "title": "Threat of 50% US tariffs on Canadian-built cars amid tense trade talks",
+      "category": "trade",
+      "regions": ["US", "CA"],
+      "summary": "Honda warned that 50% US tariffs on Canadian auto imports would be catastrophic for the industry. Trump praised Canadian separatists during delicate trade talks.",
+      "certainty": "reported",
+      "novelty": 0.5,
+      "severity": 0.5,
+      "duration": "weeks",
+      "sources": ["S029", "S072", "S080"],
+      "impacts": [
+        {
+          "target": "ticker:STLAM.MI",
+          "direction": -1,
+          "magnitude": 0.3,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Stellantis assembles vehicles in Ontario (Windsor, Brampton) for the US market -> direct tariff cost."
+        },
+        {
+          "target": "ticker:GM",
+          "direction": -1,
+          "magnitude": 0.3,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "GM builds trucks in Ontario for the US -> higher costs if tariffs rise."
+        },
+        {
+          "target": "ticker:F",
+          "direction": -1,
+          "magnitude": 0.2,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Ford's Canadian plants (Oakville, Windsor engines) feed US production -> moderate exposure."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-28-08",
+      "title": "US Section 232 tariffs on imported wind turbines and components",
+      "category": "trade",
+      "regions": ["US", "EU"],
+      "summary": "A presidential proclamation adjusting imports of wind turbines and their parts was published in the Federal Register. It was signed on 22 October, so markets have known for several days.",
+      "certainty": "confirmed",
+      "novelty": 0.3,
+      "severity": 0.4,
+      "duration": "years",
+      "sources": ["S032"],
+      "impacts": [
+        {
+          "target": "ticker:ENR.DE",
+          "direction": -1,
+          "magnitude": 0.3,
+          "confidence": 0.5,
+          "horizon_days": 20,
+          "rationale": "Siemens Gamesa ships turbines and parts into the US -> tariffs hurt US orders and margins; partly priced (-12% in 20 days)."
+        },
+        {
+          "target": "ticker:GEV",
+          "direction": 1,
+          "magnitude": 0.25,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "GE Vernova's US-built onshore turbines gain share against tariffed imports."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-28-09",
+      "title": "Defense Production Act determination for US petroleum production, refining and logistics",
+      "category": "industrial_policy",
+      "regions": ["US"],
+      "summary": "A presidential determination under Section 303 of the Defense Production Act covers domestic petroleum production, refining and logistics capacity. It was signed on 22 October.",
+      "certainty": "confirmed",
+      "novelty": 0.3,
+      "severity": 0.3,
+      "duration": "years",
+      "sources": ["S030"],
+      "impacts": [
+        {
+          "target": "theme:us_fossil_energy_policy",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Opens DPA funding and priority support for US oil output, refining and pipelines -> modest support for midstream and producers, negative read for solar."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-28-10",
+      "title": "Fed decision this week with a hawkish tilt expected",
+      "category": "central_bank",
+      "regions": ["US"],
+      "summary": "The Fed is expected to hold rates this week, but Chair Warsh may point to further hikes; Treasury yields rose ahead of the decision.",
+      "certainty": "scheduled",
+      "novelty": 0.4,
+      "severity": 0.5,
+      "duration": "weeks",
+      "sources": ["S033", "S034"],
+      "impacts": [
+        {
+          "target": "theme:us_rates_up",
+          "direction": 1,
+          "magnitude": 0.25,
+          "confidence": 0.4,
+          "horizon_days": 5,
+          "rationale": "Guidance toward more hikes -> higher yields -> banks gain, homebuilders and REITs lose. Homebuilders rallied 5-7% this week, adding downside if the Fed is hawkish."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-28-11",
+      "title": "Belgium prepares forced nationalisation of Engie's nuclear plants",
+      "category": "regulation",
+      "regions": ["BE", "FR"],
+      "summary": "Belgium is preparing a forced nationalisation of its nuclear plants after talks with operator Engie stalled.",
+      "certainty": "reported",
+      "novelty": 0.6,
+      "severity": 0.4,
+      "duration": "months",
+      "sources": ["S091"],
+      "impacts": [
+        {
+          "target": "ticker:ENGI.PA",
+          "direction": -1,
+          "magnitude": 0.3,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "A forced takeover risks compensation below book value and a legal fight; partly offset if it removes Engie's nuclear liabilities."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-28-12",
+      "title": "Israeli election ends without a clear winner",
+      "category": "election",
+      "regions": ["IL"],
+      "summary": "Israel's election, with turnout of 77.7%, produced no clear winner. Netanyahu's bloc leads the count, and Arab parties may hold the balance between Netanyahu and Eisenkot.",
+      "certainty": "confirmed",
+      "novelty": 0.8,
+      "severity": 0.4,
+      "duration": "weeks",
+      "sources": ["S006", "S011", "S017", "S035", "S036", "S060", "S061", "S099", "S116", "S122"],
+      "impacts": [
+        {
+          "target": "ticker:EIS",
+          "direction": -1,
+          "magnitude": 0.2,
+          "confidence": 0.35,
+          "horizon_days": 5,
+          "rationale": "Deadlock -> weeks of coalition talks or a repeat election -> policy uncertainty for Israeli assets after a +2.8% run into the vote."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-28-13",
+      "title": "EU and Australia fund non-Chinese critical minerals supply",
+      "category": "industrial_policy",
+      "regions": ["EU", "AU", "CN"],
+      "summary": "The EU plans a large investment in Australia's critical minerals to reduce dependence on China. Australia will fund a rare earths project with A$180 million.",
+      "certainty": "reported",
+      "novelty": 0.5,
+      "severity": 0.3,
+      "duration": "years",
+      "sources": ["S064", "S070", "S113"],
+      "impacts": [
+        {
+          "target": "theme:critical_minerals",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Government funding and offtake for non-Chinese supply -> continued policy support for rare earth and battery-metal producers."
+        }
+      ]
+    }
+  ]
+}

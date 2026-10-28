@@ -10,14 +10,15 @@ from __future__ import annotations
 import io
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 import pandas as pd
 import requests
 
-from stocktrend.config import UNIVERSE_CSV
+from stocktrend.config import UNIVERSE_CSV, load_yaml
 from stocktrend.http import DEFAULT_TIMEOUT
 from stocktrend.markets import exchange_for, to_yahoo
-from stocktrend.universe.sectors import normalize_label, to_gics
+from stocktrend.universe.sectors import GICS_SECTORS, normalize_label, to_gics
 
 WIKI_URL = "https://en.wikipedia.org/wiki/{page}"
 
@@ -150,9 +151,29 @@ def fetch_page(http: requests.Session, page: str) -> str:
     return r.text
 
 
+def apply_overrides(universe: pd.DataFrame, overrides: dict[str, Any]) -> pd.DataFrame:
+    """Drop secondary listings (merging their index memberships) and fix sectors."""
+    u = universe.set_index("ticker")
+    for secondary, primary in (overrides.get("duplicate_listings") or {}).items():
+        if secondary not in u.index:
+            continue
+        if primary in u.index:
+            joined = str(u.at[primary, "indices"]).split("|") + str(
+                u.at[secondary, "indices"]
+            ).split("|")
+            u.at[primary, "indices"] = "|".join(dict.fromkeys(joined))
+        u = u.drop(secondary)
+    for ticker, sector in (overrides.get("sector") or {}).items():
+        if sector not in GICS_SECTORS:
+            raise ValueError(f"override for {ticker}: unknown sector {sector!r}")
+        if ticker in u.index:
+            u.at[ticker, "sector"] = sector
+    return u.reset_index()[COLUMNS]
+
+
 def build(http: requests.Session, out: Path = UNIVERSE_CSV) -> pd.DataFrame:
     frames = [parse_constituents(fetch_page(http, spec.page), spec) for spec in INDEX_SPECS]
-    universe = merge(frames)
+    universe = apply_overrides(merge(frames), load_yaml("universe_overrides.yaml"))
     out.parent.mkdir(parents=True, exist_ok=True)
     universe.to_csv(out, index=False)
     return universe

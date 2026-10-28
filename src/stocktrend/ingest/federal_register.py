@@ -20,6 +20,7 @@ FIELDS = [
     "type",
     "agencies",
     "document_number",
+    "signing_date",
 ]
 MAX_PAGES = 10
 
@@ -36,7 +37,10 @@ def parse_results(results: list[dict[str, Any]], feed_id: str) -> Iterator[NewsI
             feed=feed_id,
             title=clean_text(doc["title"], limit=300) or doc["document_number"],
             published_at=published,
-            summary=clean_text(doc.get("abstract")),
+            # Presidential documents have no abstract; the signing date tells the
+            # analyst how long markets have known (publication lags by days).
+            summary=clean_text(doc.get("abstract"))
+            or (f"Signed {doc['signing_date']}." if doc.get("signing_date") else None),
             publisher="Federal Register",
             language="en",
             country="US",
@@ -44,6 +48,7 @@ def parse_results(results: list[dict[str, Any]], feed_id: str) -> Iterator[NewsI
                 "official": True,
                 "document_type": doc.get("type"),
                 "document_number": doc.get("document_number"),
+                "signing_date": doc.get("signing_date"),
                 "agencies": [a for a in agencies if a],
             },
         )

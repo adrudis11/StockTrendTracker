@@ -1,0 +1,24 @@
+# Corrections applied by `stt universe build` after scraping the index tables.
+
+# The same company listed on two exchanges: drop the secondary listing (key) and
+# keep the primary one (value). Index memberships are merged into the primary.
+duplicate_listings:
+  SHELL.AS: SHEL.L
+  STLAP.PA: STLAM.MI
+  UNA.AS: ULVR.L
+  STMMI.MI: STMPA.PA
+  MTS.MC: MT.AS
+  IAG.MC: IAG.L
+  REN.AS: REL.L
+
+# Sector fixes where an index table's label is ambiguous. The IBEX 35 table calls
+# power and gas utilities "Energy"; GICS puts them in Utilities.
+sector:
+  IBE.MC: Utilities
+  ELE.MC: Utilities
+  NTGY.MC: Utilities
+  ANE.MC: Utilities
+  RED.MC: Utilities
+  ENG.MC: Utilities
+  SRG.MI: Utilities
+  SLR.MC: Utilities

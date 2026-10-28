@@ -55,6 +55,98 @@ def _print_universe(u: object) -> None:
     typer.echo(u["sector"].value_counts().to_string())
 
 
+@universe_app.command("find")
+def universe_find(query: Annotated[list[str], typer.Argument(help="Names or tickers")]) -> None:
+    """Look up tickers by company name or ticker (stocks and ETFs/instruments)."""
+    from stocktrend.universe.build import load
+    from stocktrend.universe.instruments import load_instruments
+
+    u = load()
+    instruments = load_instruments().instruments
+    for q in query:
+        ql = q.lower()
+        hits = u[
+            u["name"].str.lower().str.contains(ql, regex=False) | (u["ticker"].str.lower() == ql)
+        ]
+        for r in hits.itertuples():
+            typer.echo(f"{r.ticker:<10} {r.name} ({r.country}, {r.sector}; {r.industry})")
+        for i in instruments:
+            if ql in i.name.lower() or ql == i.ticker.lower():
+                typer.echo(f"{i.ticker:<10} {i.name} ({i.kind}, {i.region})")
+        if hits.empty and not any(
+            ql in i.name.lower() or ql == i.ticker.lower() for i in instruments
+        ):
+            typer.echo(f"{q}: not covered")
+
+
+def _day(day: str | None) -> str:
+    return date.fromisoformat(day).isoformat() if day else datetime.now(UTC).date().isoformat()
+
+
+DayOption = Annotated[str | None, typer.Option("--day", help="YYYY-MM-DD; default today (UTC)")]
+
+
+@app.command()
+def themes() -> None:
+    """List the geopolitical themes events can target, with their main members."""
+    from stocktrend.universe.exposures import load_exposures
+
+    for tid, th in load_exposures().themes.items():
+        top = sorted(th.members.items(), key=lambda kv: -abs(kv[1]))
+        up = [t for t, w in top if w > 0][:6]
+        down = [t for t, w in top if w < 0][:4]
+        typer.echo(f"theme:{tid} - {th.name}: {th.description}")
+        typer.echo(f"    up: {', '.join(up) or '-'}   down: {', '.join(down) or '-'}")
+
+
+@app.command()
+def digest(
+    day: DayOption = None,
+    show: Annotated[bool, typer.Option("--print", help="Print the Markdown digest")] = False,
+) -> None:
+    """Group and rank the ingested news into data/digests/<day>.json (+ Markdown in cache/)."""
+    from stocktrend.config import raw_dir
+    from stocktrend.events import digest as dg
+    from stocktrend.features.returns import snapshot
+    from stocktrend.ingest import prices
+    from stocktrend.universe.build import load
+    from stocktrend.universe.instruments import load_instruments
+
+    d = _day(day)
+    cfg = load_instruments()
+    market = snapshot(
+        prices.load(), {i.ticker: i.name for i in cfg.instruments}, load(), cfg.benchmarks
+    )
+    result = dg.build(d, datetime.now(UTC), market)
+    path = dg.save(result)
+    md = dg.to_markdown(result)
+    md_path = raw_dir(d) / "digest.md"
+    md_path.write_text(md, encoding="utf-8")
+    if show:
+        typer.echo(md)
+    typer.echo(
+        f"{len(result.stories)} stories (of {result.n_stories_total}, from {result.n_items} items)"
+        f" -> {path}\nReadable version: {md_path}"
+    )
+
+
+@app.command()
+def validate(day: DayOption = None) -> None:
+    """Check data/events/<day>.json against the schema, digest and reference data."""
+    from stocktrend.events.validate import validate as run_validation
+
+    d = _day(day)
+    v = run_validation(d)
+    for w in v.warnings:
+        typer.secho(f"warning: {w}", fg="yellow")
+    for e in v.errors:
+        typer.secho(f"error: {e}", fg="red", err=True)
+    if not v.ok:
+        raise typer.Exit(1)
+    n = len(v.events.events) if v.events else 0
+    typer.secho(f"OK: {n} events valid", fg="green")
+
+
 @app.command()
 def calendar(
     day: Annotated[str | None, typer.Option(help="YYYY-MM-DD; default today (UTC)")] = None,

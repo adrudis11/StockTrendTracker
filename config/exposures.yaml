@@ -1,0 +1,529 @@
+# Geopolitical themes -> stocks and ETFs they move.
+#
+# Each theme is a situation that can intensify (impact direction +1) or ease (-1).
+# `members` maps a ticker to a signed weight in [-1, 1]: positive means it tends to
+# rise when the theme intensifies, negative means it tends to fall. Weights are
+# judgement calls, kept coarse on purpose (1 = core exposure, 0.5 = partial,
+# 0.3 = incidental). Every ticker must be in data/universe/stocks.csv or
+# config/instruments.yaml (checked by the tests).
+#
+# `driver` is a price series that tracks the theme (optional). Phase 4 uses it to
+# measure how members historically reacted after big moves in the driver.
+#
+# Changes are proposed by Claude in the weekly review and reviewed in git.
+
+themes:
+  defense_us:
+    name: US defense spending
+    description: Larger US defense budgets, arms sales, replenishing weapons stocks.
+    driver: ITA
+    members:
+      LMT: 1
+      RTX: 1
+      NOC: 1
+      GD: 1
+      LHX: 1
+      HII: 0.8
+      LDOS: 0.6
+      TDG: 0.6
+      HWM: 0.5
+      PLTR: 0.5
+      AXON: 0.3
+      BA: 0.4
+      ITA: 1
+      XAR: 1
+
+  defense_europe:
+    name: European rearmament
+    description: Higher European defence budgets, NATO targets, joint procurement, aid to Ukraine.
+    driver: WDEF.MI
+    members:
+      RHM.DE: 1
+      BA.L: 1
+      LDO.MI: 1
+      HO.PA: 1
+      IDR.MC: 0.8
+      SAF.PA: 0.6
+      BAB.L: 0.6
+      FCT.MI: 0.6
+      AVIO.MI: 0.6
+      RR.L: 0.5
+      MTX.DE: 0.4
+      AIR.PA: 0.4
+      WDEF.MI: 1
+      DFEN.DE: 0.8
+
+  oil_supply_shock:
+    name: Oil supply shock
+    description: Supply disruption, OPEC+ cuts or sanctions that push crude prices up.
+    driver: BZ=F
+    members:
+      XOM: 1
+      CVX: 1
+      COP: 1
+      OXY: 1
+      EOG: 1
+      DVN: 1
+      FANG: 1
+      APA: 1
+      SLB: 0.6
+      HAL: 0.6
+      BKR: 0.5
+      SHEL.L: 1
+      BP.L: 1
+      TTE.PA: 1
+      ENI.MI: 1
+      REP.MC: 1
+      ITH.L: 1
+      TEN.MI: 0.5
+      SPM.MI: 0.5
+      XLE: 1
+      XOP: 1
+      OIH: 0.7
+      EXH1.DE: 1
+      DAL: -1
+      UAL: -1
+      LUV: -0.8
+      CCL: -0.7
+      RCL: -0.7
+      NCLH: -0.7
+      IAG.L: -1
+      EZJ.L: -1
+      JETS: -1
+      EXV9.DE: -0.5
+
+  eu_gas_shock:
+    name: European gas shock
+    description: Disruption to gas or LNG supply into Europe that lifts TTF prices.
+    driver: TTF=F
+    members:
+      EQT: 0.6
+      EXE: 0.6
+      CF: 0.6
+      BAS.DE: -1
+      AKZA.AS: -0.4
+      EXV7.DE: -0.8
+      RWE.DE: 0.3
+      CNA.L: 0.4
+
+  us_china_trade_escalation:
+    name: US-China trade escalation
+    description: New tariffs, retaliation or decoupling measures between the US and China.
+    driver: FXI
+    driver_sign: -1
+    members:
+      AAPL: -1
+      NKE: -0.8
+      QCOM: -0.8
+      AMAT: -0.7
+      LRCX: -0.7
+      KLAC: -0.7
+      TSLA: -0.6
+      LVS: -0.6
+      WYNN: -0.6
+      NVDA: -0.5
+      AMD: -0.5
+      MU: -0.5
+      SBUX: -0.5
+      BA: -0.5
+      TXN: -0.4
+      CAT: -0.4
+      FXI: -1
+      KWEB: -1
+      NUE: 0.5
+      STLD: 0.5
+
+  us_eu_trade_tensions:
+    name: US-EU trade tensions
+    description: US tariffs on European goods (cars, luxury, spirits, pharma) or EU retaliation.
+    members:
+      VOW3.DE: -1
+      BMW.DE: -1
+      MBG.DE: -1
+      PAH3.DE: -0.8
+      STLAM.MI: -0.8
+      RI.PA: -0.8
+      MC.PA: -0.8
+      KER.PA: -0.7
+      CPR.MI: -0.7
+      CFR.SW: -0.6
+      DGE.L: -0.6
+      RACE.MI: -0.5
+      RMS.PA: -0.5
+      NOVN.SW: -0.5
+      ROP.SW: -0.5
+      SAN.PA: -0.5
+      AIR.PA: -0.5
+      SIE.DE: -0.4
+      EXV5.DE: -1
+      FEZ: -0.6
+      VGK: -0.5
+
+  chip_export_controls:
+    name: Chip export controls
+    description: Tighter US or allied limits on selling advanced chips and chipmaking tools to China.
+    members:
+      NVDA: -1
+      AMAT: -1
+      LRCX: -1
+      KLAC: -1
+      ASML.AS: -1
+      AMD: -0.8
+      ASM.AS: -0.8
+      BESI.AS: -0.6
+      QCOM: -0.5
+      SMH: -0.8
+      SOXX: -0.8
+
+  semis_industrial_policy:
+    name: Chip subsidies and reshoring
+    description: Subsidies, tax credits or mandates for chip plants in the US or Europe.
+    members:
+      INTC: 1
+      MU: 0.8
+      TXN: 0.7
+      AMAT: 0.6
+      IFX.DE: 0.7
+      STMPA.PA: 0.7
+      ASML.AS: 0.5
+      SMH: 0.6
+
+  critical_minerals:
+    name: Critical minerals squeeze
+    description: Chinese export curbs on rare earths or battery metals; Western push for own supply.
+    driver: REMX
+    members:
+      REMX: 1
+      ALB: 0.8
+      LIT: 0.6
+      FCX: 0.4
+      RIO.L: 0.4
+      GLEN.L: 0.4
+      AAL.L: 0.4
+      ANTO.L: 0.3
+      TSLA: -0.3
+      GM: -0.3
+      F: -0.3
+
+  middle_east_escalation:
+    name: Middle East escalation
+    description: Conflict involving Iran, Israel or the Gulf; threats to Hormuz or Red Sea shipping.
+    driver: BZ=F
+    members:
+      XLE: 0.8
+      XOM: 0.6
+      CVX: 0.6
+      SHEL.L: 0.6
+      BP.L: 0.6
+      TTE.PA: 0.6
+      LMT: 0.6
+      RTX: 0.6
+      NOC: 0.6
+      ITA: 0.6
+      BA.L: 0.4
+      LDO.MI: 0.4
+      GDX: 0.6
+      NEM: 0.5
+      BOAT: 0.6
+      DAL: -0.8
+      UAL: -0.8
+      IAG.L: -0.8
+      EZJ.L: -0.8
+      JETS: -0.8
+      CCL: -0.6
+      RCL: -0.6
+      EXV9.DE: -0.5
+      EIS: -0.8
+
+  russia_ukraine_escalation:
+    name: Russia-Ukraine escalation
+    description: Escalation of the war, new offensives, attacks on energy infrastructure or NATO borders.
+    driver: WDEF.MI
+    members:
+      RHM.DE: 0.8
+      LDO.MI: 0.8
+      HO.PA: 0.8
+      BA.L: 0.8
+      WDEF.MI: 0.8
+      CF: 0.5
+      MOS: 0.4
+      MOO: 0.4
+      GDX: 0.4
+      BAS.DE: -0.5
+      EXV7.DE: -0.5
+      UCG.MI: -0.4
+      EXV1.DE: -0.3
+      VGK: -0.4
+      EPOL: -0.8
+
+  ukraine_peace_reconstruction:
+    name: Ukraine ceasefire and reconstruction
+    description: Ceasefire or peace deal; rebuilding demand; lower European energy and risk premia.
+    members:
+      HEI.DE: 0.8
+      HOLN.SW: 0.7
+      BZU.MI: 0.6
+      SGO.PA: 0.5
+      AMRZ.SW: 0.5
+      CAT: 0.3
+      UCG.MI: 0.4
+      BAS.DE: 0.4
+      EXV7.DE: 0.4
+      EPOL: 1
+      VGK: 0.4
+      RHM.DE: -0.7
+      WDEF.MI: -0.7
+      LDO.MI: -0.5
+      HO.PA: -0.4
+
+  taiwan_strait_tension:
+    name: Taiwan Strait tension
+    description: Chinese military pressure on Taiwan, blockade drills, threats to chip supply.
+    driver: EWT
+    driver_sign: -1
+    members:
+      EWT: -1
+      SMH: -0.8
+      SOXX: -0.8
+      AAPL: -0.6
+      NVDA: -0.6
+      AMD: -0.5
+      QCOM: -0.5
+      ASML.AS: -0.5
+      INTC: 0.4
+      TXN: 0.3
+      LMT: 0.5
+      RTX: 0.5
+      NOC: 0.5
+      ITA: 0.5
+      GDX: 0.3
+
+  us_infrastructure_spending:
+    name: US infrastructure spending
+    description: Federal spending on roads, grid, water and construction.
+    driver: PAVE
+    members:
+      PAVE: 1
+      VMC: 1
+      MLM: 1
+      URI: 0.8
+      CAT: 0.7
+      PWR: 0.7
+      NUE: 0.6
+      STLD: 0.6
+      ETN: 0.5
+      DE: 0.3
+
+  us_fossil_energy_policy:
+    name: US pro-fossil energy policy
+    description: Drilling permits, LNG export approvals, rollback of clean-energy credits.
+    members:
+      XOP: 0.7
+      KMI: 0.6
+      WMB: 0.6
+      OKE: 0.5
+      TRGP: 0.5
+      EQT: 0.5
+      XLE: 0.5
+      TAN: -0.8
+      ICLN: -0.6
+      FSLR: -0.6
+
+  clean_energy_policy:
+    name: Clean energy support
+    description: Renewables subsidies, EU Green Deal measures, grid investment, carbon pricing.
+    driver: ICLN
+    members:
+      ICLN: 1
+      TAN: 1
+      FSLR: 0.8
+      NEE: 0.6
+      GEV: 0.5
+      ENR.DE: 0.7
+      SLR.MC: 0.8
+      ANE.MC: 0.7
+      IBE.MC: 0.6
+      RWE.DE: 0.6
+      ENEL.MI: 0.5
+      SSE.L: 0.5
+      EXH9.DE: 0.4
+
+  nuclear_buildout:
+    name: Nuclear power buildout
+    description: Policy support for new reactors, SMRs and uranium supply security.
+    driver: URA
+    members:
+      URA: 1
+      CEG: 0.9
+      VST: 0.7
+      GEV: 0.5
+      RR.L: 0.5
+
+  us_drug_pricing_pressure:
+    name: US drug pricing pressure
+    description: Price controls, most-favoured-nation pricing or tariffs on imported medicines.
+    members:
+      LLY: -1
+      PFE: -0.8
+      MRK: -0.8
+      ABBV: -0.8
+      BMY: -0.8
+      AMGN: -0.7
+      JNJ: -0.6
+      GILD: -0.6
+      NOVN.SW: -0.6
+      ROP.SW: -0.6
+      AZN.L: -0.6
+      GSK.L: -0.6
+      SAN.PA: -0.6
+      BAYN.DE: -0.4
+      XLV: -0.7
+      EXV4.DE: -0.5
+
+  big_tech_regulation:
+    name: Big Tech regulation
+    description: EU Digital Markets Act fines, US antitrust cases, digital taxes.
+    members:
+      GOOGL: -1
+      GOOG: -1
+      META: -1
+      AAPL: -0.8
+      AMZN: -0.7
+      MSFT: -0.5
+      XLC: -0.5
+
+  us_rates_up:
+    name: Higher US rates
+    description: Hawkish Federal Reserve or rising Treasury yields (e.g. fiscal or inflation scare).
+    driver: ^TNX
+    members:
+      KRE: 0.8
+      BAC: 0.6
+      WFC: 0.6
+      C: 0.5
+      JPM: 0.4
+      XLF: 0.5
+      XLRE: -0.8
+      XLU: -0.6
+      XHB: -0.8
+      DHI: -0.8
+      LEN: -0.8
+      PHM: -0.8
+
+  eu_rates_up:
+    name: Higher euro-area rates
+    description: Hawkish ECB or rising euro-area yields.
+    members:
+      EXV1.DE: 0.8
+      CBK.DE: 0.7
+      CABK.MC: 0.7
+      BNP.PA: 0.6
+      SAN.MC: 0.6
+      BBVA.MC: 0.6
+      ISP.MI: 0.6
+      UCG.MI: 0.6
+      INGA.AS: 0.6
+      DBK.DE: 0.6
+      EXI5.DE: -0.8
+      VNA.DE: -0.9
+      URW.PA: -0.6
+      EXH9.DE: -0.5
+
+  safe_haven_risk_off:
+    name: Geopolitical risk-off
+    description: Broad fear (war scares, nuclear threats) that lifts gold and defensives.
+    driver: GC=F
+    members:
+      GDX: 1
+      NEM: 0.8
+      FRES.L: 0.7
+      EDV.L: 0.7
+      XLU: 0.3
+      XLP: 0.3
+      EXH3.DE: 0.3
+      NESN.SW: 0.3
+      IWM: -0.5
+      XLY: -0.4
+      EXV5.DE: -0.4
+
+  food_supply_shock:
+    name: Food and fertilizer shock
+    description: Grain export bans, Black Sea disruption, droughts or fertilizer supply cuts.
+    driver: ZW=F
+    members:
+      MOO: 1
+      CF: 0.8
+      MOS: 0.8
+      ADM: 0.7
+      BG: 0.7
+      DE: 0.4
+      GIS: -0.3
+      BN.PA: -0.2
+      NESN.SW: -0.2
+
+  cyber_threat:
+    name: State-sponsored cyber threats
+    description: Major cyberattacks attributed to states; new cybersecurity mandates.
+    driver: CIBR
+    members:
+      CIBR: 1
+      PANW: 0.8
+      CRWD: 0.8
+      FTNT: 0.8
+
+  china_stimulus:
+    name: China stimulus
+    description: Chinese fiscal or monetary stimulus that lifts demand for metals, luxury and autos.
+    driver: FXI
+    members:
+      FXI: 1
+      KWEB: 1
+      COPX: 0.8
+      MC.PA: 0.7
+      KER.PA: 0.7
+      CFR.SW: 0.7
+      BRBY.L: 0.6
+      RIO.L: 0.6
+      GLEN.L: 0.6
+      AAL.L: 0.6
+      ANTO.L: 0.6
+      LVS: 0.6
+      WYNN: 0.6
+      EXV6.DE: 0.6
+      RMS.PA: 0.5
+      MONC.MI: 0.5
+      FCX: 0.5
+      VOW3.DE: 0.4
+      BMW.DE: 0.4
+      MBG.DE: 0.4
+
+  german_fiscal_expansion:
+    name: German fiscal expansion
+    description: German infrastructure and defence funds, looser debt brake.
+    members:
+      EWG: 0.8
+      HEI.DE: 0.7
+      RHM.DE: 0.6
+      EXV8.DE: 0.6
+      SIE.DE: 0.5
+      DBK.DE: 0.4
+      CBK.DE: 0.4
+      BAS.DE: 0.3
+
+  steel_protection:
+    name: Steel protection
+    description: Tariffs, quotas or safeguards on steel imports in the US or EU.
+    members:
+      NUE: 0.9
+      STLD: 0.9
+      MT.AS: 0.5
+      ACX.MC: 0.5
+      XME: 0.5
+
+  shipping_disruption:
+    name: Shipping chokepoint disruption
+    description: Attacks or closures at the Red Sea, Hormuz, Suez, Panama or Taiwan Strait.
+    driver: BOAT
+    members:
+      BOAT: 1
+      IYT: -0.3
