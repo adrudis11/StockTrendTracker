@@ -13,6 +13,10 @@ days, keeping an honest track record. Full plan and progress log: `docs/PLAN.md`
   committed. `cache/` is re-downloaded and gitignored.
 - Don't put personal contact details in HTTP headers; use `config.USER_AGENT`.
 - Use `requests`, not `httpx` (Wikipedia blocks httpx).
+- **Never edit or delete lines in `data/ledger/`.** The ledger is the honest track
+  record; `stt record` only appends and a re-run never replaces a day's picks.
+- Don't re-run `stt score` for a day that is already recorded: the ledger keeps the
+  first version, so the picks file and the ledger would disagree.
 
 ## Pipeline and commands (`uv run stt ...`)
 
@@ -23,7 +27,12 @@ days, keeping an honest track record. Full plan and progress log: `docs/PLAN.md`
 | Analyse (Claude) | follow `prompts/daily_analysis.md` | `data/events/<date>.json` |
 | Check the analysis | `stt validate --day <date>` | exit 1 on errors |
 | Rank picks | `stt score` | `data/picks/<date>.json` |
-| Write the report | `stt report` | `data/reports/<date>.md` |
+| Log picks + baselines | `stt record` | `data/ledger/picks.jsonl` (append-only) |
+| Score matured picks | `stt evaluate` | `data/ledger/outcomes.jsonl` |
+| Write the report | `stt report` | `data/reports/<date>.md` (includes track record) |
+
+Occasional: `stt backtest` (5-year momentum baseline and theme priors, monthly),
+`stt scoreboard`.
 
 Helpers: `stt themes` (targets for impacts), `stt universe find <name>` (tickers),
 `stt calendar` (which exchanges trade today), `stt universe build` (monthly refresh).

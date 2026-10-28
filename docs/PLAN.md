@@ -1,6 +1,6 @@
 # StockTrendTracker — Project Plan
 
-> Status: **Phase 3 (scoring) done** · next: Phase 4 (tracking) · Last updated: 2026-10-28
+> Status: **Phase 4 (tracking and backtests) done** · next: Phase 5 (automation) · Last updated: 2026-10-28
 >
 > This is a research and decision-support tool for personal use. It is **not investment
 > advice**, and it never places trades.
@@ -332,7 +332,7 @@ prompt as a commit you can review. To avoid overfitting to a few weeks of data, 
 | **1 · Foundation** ✅ | Project skeleton, US + European universe and ETFs, exchange calendars, price download, GDELT + RSS + Federal Register + EU sources ingestion, storage layout, tests. | `stt ingest` gathers a full day of data for both markets reliably. |
 | **2 · Event analysis** ✅ | Event schema, digest builder, `daily_analysis.md` prompt, exposure map v1 (~20 themes), validation. | One manual run turns a day's news into sensible, validated event → ticker mappings. |
 | **3 · Quant + scoring** ✅ | Price features, regime, priced-in check, risk filters, scoring v1, report v1. | A daily report with top-10 picks per horizon and full rationale. |
-| **4 · Tracking + backtest** | Ledger, automatic scoring, baselines, scoreboard; event-study backtest of the quant layer on GDELT history. | Scoreboard works; we know whether the quant layer on its own beats baselines historically. |
+| **4 · Tracking + backtest** ✅ | Ledger, automatic scoring, baselines, scoreboard; event-study backtest of the quant layer on GDELT history. | Scoreboard works; we know whether the quant layer on its own beats baselines historically. |
 | **5 · Automation** | Scheduled daily session, dashboard, weekly review, credits-per-run measured. | Runs unattended for 2 weeks without manual fixes. |
 | **6 · Paper-tracking period** | At least 8–12 weeks of live tracking, then calibrate weights; then consider expanding (EU stocks, prediction markets, alerts). | ≥100 matured picks with an honest verdict: does it beat SPY and the baselines? |
 
@@ -451,3 +451,28 @@ liquidity in USD/EUR), `features/regime.py`, `features/earnings.py`, `scoring/mo
 - Lists are short by design: at most 3 picks per theme and 3 ETFs per list, and weak
   calls (geo < 0.10) don't qualify. More picks will qualify as aligned events build up
   over several days.
+
+### Phase 4 · Tracking and backtests (done 2026-10-28)
+
+Built: `stt record` (append-only ledger with momentum and random-sector baselines),
+`stt evaluate` (scores matured picks), `stt scoreboard` (hit rate, excess return,
+t-statistic, Brier score, calibration), `stt backtest` (5-year momentum baseline and
+theme priors). The daily report now ends with the track record.
+
+- **Ledger started 2026-10-28** with 77 entries: 14 geopolitical picks plus 63 baseline
+  picks. Entry is the first open after logging (today's were logged at 09:38 UTC, after
+  Europe's open, so European picks enter on 29 October). First results: 3 November.
+- **Momentum baseline, 5 years** (2021–2026, current index members, so flattered by
+  survivorship bias): 5-day picks +0.14% excess per period, hit rate 48%, t = 0.7 (no
+  edge); 20-day picks +2.0% per period, hit rate 50%, t = 1.9. The 20-day bar is
+  demanding.
+- **Theme priors** (members' excess return after the driver spikes > 2σ in the theme's
+  direction): mostly noise (|t| < 2). Notable: after Brent spikes, Middle East
+  escalation stocks *gave back* ~0.9% over 5 days (t = −1.9); cyber-security stocks kept
+  rising after CIBR spikes (+6.9% over 20 days, t = 2.0).
+- Because priors are measured *after* driver spikes, the model only applies a prior
+  while that driver is spiking now (5-day z ≥ 1.5), and shrinks it by min(1, |t|/2).
+  On 2026-10-28 only the cyber theme qualified, and no event targeted it, so the logged
+  picks were unaffected.
+- Writing the tests caught a sign error: priors had been flipped for "avoid" calls.
+  Fixed before any prior was ever applied.

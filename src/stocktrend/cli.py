@@ -150,6 +150,100 @@ def score(day: DayOption = None) -> None:
 
 
 @app.command()
+def record(day: DayOption = None) -> None:
+    """Append the day's picks and baselines to the ledger (never overwrites)."""
+    from stocktrend.scoring.run import context
+    from stocktrend.scoring.run import load as load_picks
+    from stocktrend.tracking.ledger import LEDGER
+    from stocktrend.tracking.ledger import record as record_picks
+
+    d = _day(day)
+    ctx = context()
+    n = record_picks(load_picks(d), ctx.features, ctx.meta)
+    typer.echo(f"Logged {n} new ledger entries for {d} -> {LEDGER}")
+
+
+@app.command()
+def evaluate() -> None:
+    """Score every ledger pick whose horizon has ended (uses cached prices)."""
+    from stocktrend.ingest import prices
+    from stocktrend.scoring.run import sector_etf_map
+    from stocktrend.tracking.evaluate import OUTCOMES
+    from stocktrend.tracking.evaluate import evaluate as run_evaluation
+    from stocktrend.universe.instruments import load_instruments
+
+    cfg = load_instruments()
+    new, still_open = run_evaluation(prices.load(), cfg.benchmarks, sector_etf_map(cfg))
+    typer.echo(f"Scored {new} matured picks ({still_open} still open) -> {OUTCOMES}")
+
+
+@app.command()
+def scoreboard() -> None:
+    """Track record of the geo picks against the momentum and random baselines."""
+    import json
+
+    from stocktrend.config import DATA_DIR
+    from stocktrend.tracking import scoreboard as sb
+    from stocktrend.tracking.evaluate import first_matures, read_outcomes
+    from stocktrend.tracking.ledger import read
+
+    entries = read()
+    result = sb.compute(entries, read_outcomes())
+    path = DATA_DIR / "ledger" / "scoreboard.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(result, indent=1), encoding="utf-8")
+    first = first_matures(entries)
+    typer.echo(sb.to_markdown(result, first.isoformat() if first else None))
+
+
+@app.command()
+def backtest(
+    years: Annotated[int, typer.Option(help="Years of daily history")] = 5,
+) -> None:
+    """Backtest the momentum baseline and compute theme priors from price history."""
+    import json
+
+    from stocktrend.backtest import history, momentum, priors
+    from stocktrend.config import DATA_DIR
+    from stocktrend.scoring.run import PRIORS_PATH, listing_region
+    from stocktrend.universe.build import load
+    from stocktrend.universe.exposures import load_exposures
+    from stocktrend.universe.instruments import load_instruments
+
+    cfg = load_instruments()
+    universe = load()
+    tickers = list(universe["ticker"]) + [i.ticker for i in cfg.instruments]
+    today = datetime.now(UTC).date()
+    typer.echo(f"Loading {years}y of history for {len(tickers)} tickers (cached after first run)")
+    closes = history.wide_closes(history.load_or_download(tickers, today, years))
+
+    regions = dict(zip(universe["ticker"], universe["region"], strict=True))
+    out = {str(h): momentum.run(closes, regions, cfg.benchmarks, h) for h in (5, 20)}
+    mom_path = DATA_DIR / "backtests" / "momentum.json"
+    mom_path.parent.mkdir(parents=True, exist_ok=True)
+    mom_path.write_text(json.dumps(out, indent=1), encoding="utf-8")
+    for h, r in out.items():
+        lg = r["long"]
+        typer.echo(
+            f"momentum {h}d: long mean excess {lg['mean_excess']}, hit {lg['hit_rate']},"
+            f" t {lg['t_stat']} over {lg['periods']} periods"
+        )
+
+    all_regions = {**{i.ticker: listing_region(i.ticker) for i in cfg.instruments}, **regions}
+    pri = priors.compute(closes, load_exposures(), all_regions, cfg.benchmarks)
+    PRIORS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    PRIORS_PATH.write_text(json.dumps(pri, indent=1), encoding="utf-8")
+    for tid, t in pri["themes"].items():
+        cells = []
+        for h in ("5", "20"):
+            r = t[h]
+            mark = "" if r.get("usable") else " (not usable)"
+            cells.append(f"{h}d n={r['n']} mean={r.get('mean_excess')} t={r.get('t_stat')}{mark}")
+        typer.echo(f"prior {tid:<28} " + " | ".join(cells))
+    typer.echo(f"-> {mom_path}, {PRIORS_PATH}")
+
+
+@app.command()
 def report(day: DayOption = None) -> None:
     """Write the daily Markdown report to data/reports/<day>.md."""
     from stocktrend.events.digest import digest_path
@@ -167,7 +261,16 @@ def report(day: DayOption = None) -> None:
         else None
     )
     digest_obj = load_digest(d) if digest_path(d).exists() else None
-    path = write(d, render(load_picks(d), events, digest_obj))
+    from stocktrend.tracking import scoreboard as sb
+    from stocktrend.tracking.evaluate import first_matures, read_outcomes
+    from stocktrend.tracking.ledger import read
+
+    entries = read()
+    first = first_matures([e for e in entries if e.strategy == "geo"])
+    track = sb.to_markdown(
+        sb.compute(entries, read_outcomes()), first.isoformat() if first else None
+    )
+    path = write(d, render(load_picks(d), events, digest_obj, track))
     typer.echo(f"Report -> {path}")
 
 

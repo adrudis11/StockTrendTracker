@@ -15,7 +15,8 @@ momentum alone can never create a pick.
 * ``trend`` rewards price action that agrees with the thesis (up to 1.5 sigma);
   ``priced_in`` penalises moves beyond 2 sigma that already happened.
 * ``prior`` is the historical reaction of the theme's members after big moves in the
-  theme's driver (Phase 4); 0 when unavailable.
+  theme's driver (``stt backtest``). It applies only while that driver is spiking
+  now, shrunk by its t-statistic; 0 otherwise.
 * ``risk`` is a multiplier below 1 for earnings inside the horizon, unknown
   earnings dates and very high volatility. Illiquid tickers are excluded.
 
@@ -106,6 +107,7 @@ class PicksFile(BaseModel):
     weights: dict[str, float]
     risk_multipliers: dict[str, float]
     regime: dict[str, Any]
+    active_priors: dict[str, dict[int, float]] = {}  # themes whose driver is spiking now
     events_used: list[str]
     picks: list[Pick]
 
@@ -122,6 +124,7 @@ class Contribution:
     strength: float
     impact_horizon: int
     rationale: str
+    direction: int = 1  # of the impact: +1 theme intensifies, -1 eases
 
 
 def trading_days_between(start: date, end: date) -> int:
@@ -182,7 +185,7 @@ def expand(
                         out[(ticker, h)].append(
                             Contribution(
                                 ev.id, ev.title, imp.target, via, base * weight * spill,
-                                imp.horizon_days, imp.rationale,
+                                imp.horizon_days, imp.rationale, imp.direction,
                             )
                         )  # fmt: skip
     return out
@@ -205,13 +208,25 @@ def _primary_theme(contribs: list[Contribution]) -> str | None:
     return max(by_via, key=lambda k: by_via[k]) if by_via else None
 
 
-def _prior(contribs: list[Contribution], priors: dict[str, dict[int, float]], h: int) -> float:
-    """Weighted historical reaction of the themes behind this signal, scaled to [-1, 1]."""
+def _prior(
+    contribs: list[Contribution], priors: dict[str, dict[int, float]], h: int, side: int
+) -> float:
+    """Historical reaction of the themes behind this signal, scaled to [-1, 1].
+
+    A theme prior is the members' sign-weighted excess return after the driver
+    spiked in the theme's direction, so it is already "in the thesis direction"
+    for winners and losers alike: positive = the move tended to continue. It only
+    applies to contributions from an intensifying theme (direction +1) that push
+    this ticker the same way as its overall signal. ``priors`` should hold only
+    themes whose driver is spiking right now (see ``scoring.run.active_priors``).
+    """
     total = sum(abs(c.strength) for c in contribs)
     if not total or not priors:
         return 0.0
     value = sum(
-        abs(c.strength) / total * priors.get(c.via, {}).get(h, 0.0) / 0.02 for c in contribs
+        abs(c.strength) / total * priors[c.via].get(h, 0.0) / 0.02
+        for c in contribs
+        if c.via in priors and c.direction == 1 and c.strength * side > 0
     )
     return max(-1.0, min(1.0, value))
 
@@ -270,7 +285,7 @@ def score(
         aligned = side * move_z(float(excess), float(feat["vol_daily"]), h)
         trend = max(-2.0, min(1.5, aligned)) / 1.5
         priced_in = min(1.0, max(0.0, aligned - 2.0) / 2.0)
-        prior = _prior(contribs, priors or {}, h) * side
+        prior = _prior(contribs, priors or {}, h, side)
         kind = str(meta.at[ticker, "kind"])
         risk, risk_notes = _risk(
             feat, kind, earnings.get(ticker), as_of, h, regime.get("label", "")
@@ -335,6 +350,7 @@ def score(
         weights=WEIGHTS,
         risk_multipliers=RISK,
         regime=regime,
+        active_priors=priors or {},
         events_used=sorted({ev.id for ef in events for ev in ef.events}),
         picks=picks,
     )

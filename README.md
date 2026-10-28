@@ -4,7 +4,7 @@ Daily analysis of political and geopolitical news to find liquid US and European
 ETFs likely to outperform over the following days to weeks. It explains the reasoning behind
 every pick and keeps an honest, automatically scored track record.
 
-**Status:** Phase 3 (scoring and daily report) done. See [docs/PLAN.md](docs/PLAN.md) for the plan,
+**Status:** Phase 4 (track record and backtests) done. See [docs/PLAN.md](docs/PLAN.md) for the plan,
 phases and progress log.
 
 > Research and decision-support tool for personal use. Not investment advice; it never
@@ -29,7 +29,11 @@ uv run stt universe build      # refresh data/universe/stocks.csv from Wikipedia
 uv run stt digest --print      # group and rank today's news into ~150 stories
 uv run stt validate            # check Claude's data/events/<today>.json
 uv run stt score               # rank picks for 5 and 20 trading days -> data/picks/
+uv run stt record              # append picks + baselines to the ledger (append-only)
+uv run stt evaluate            # score picks whose horizon has ended
+uv run stt scoreboard          # track record vs momentum and random baselines
 uv run stt report              # daily Markdown report -> data/reports/
+uv run stt backtest            # 5-year momentum baseline + theme priors (monthly)
 uv run stt themes              # geopolitical themes and their main winners/losers
 uv run stt universe find airbus
 ```
@@ -59,6 +63,8 @@ data/digests/      daily ranked stories (committed, so events can be traced to s
 data/events/       Claude's daily structured analysis (committed)
 data/picks/        ranked picks with every score component (committed)
 data/reports/      daily Markdown reports (committed)
+data/ledger/       every pick ever made and its outcome (append-only, committed)
+data/backtests/    momentum baseline results; data/priors/ theme priors
 prompts/           instructions for the Claude steps
 src/stocktrend/    universe/ (stock list, sectors), ingest/ (prices, RSS, Federal Register, GDELT)
 tests/             offline unit tests; `uv run pytest -m live` hits the real sources

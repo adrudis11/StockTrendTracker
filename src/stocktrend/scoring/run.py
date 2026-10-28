@@ -2,22 +2,26 @@
 
 from __future__ import annotations
 
+import json
+from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 
 import pandas as pd
 
+from stocktrend.backtest.priors import shock_z
 from stocktrend.config import DATA_DIR
 from stocktrend.features import earnings, regime, technical
 from stocktrend.ingest import prices as price_store
 from stocktrend.markets import split_suffix
 from stocktrend.scoring import model
 from stocktrend.universe.build import load as load_universe
-from stocktrend.universe.exposures import load_exposures
+from stocktrend.universe.exposures import Exposures, load_exposures
 from stocktrend.universe.instruments import InstrumentsConfig, load_instruments
 
 PICKABLE_ETF_KINDS = {"sector_etf", "theme_etf", "country_etf"}
 PRIORS_PATH = DATA_DIR / "priors" / "theme_priors.json"
+ACTIVE_Z = 1.5
 
 
 def picks_path(day: str) -> Path:
@@ -57,19 +61,49 @@ def sector_etf_map(cfg: InstrumentsConfig) -> dict[tuple[str, str], str]:
 
 
 def load_priors() -> dict[str, dict[int, float]]:
+    """Usable theme priors, shrunk toward 0 when weak: mean x min(1, |t| / 2)."""
     if not PRIORS_PATH.exists():
         return {}
-    import json
-
     raw = json.loads(PRIORS_PATH.read_text(encoding="utf-8"))
-    return {
-        theme: {int(h): float(v["mean_excess"]) for h, v in horizons.items() if v.get("usable")}
-        for theme, horizons in raw.get("themes", {}).items()
-    }
+    out: dict[str, dict[int, float]] = {}
+    for theme, entry in raw.get("themes", {}).items():
+        for h, v in entry.items():
+            if h.isdigit() and isinstance(v, dict) and v.get("usable"):
+                shrink = min(1.0, abs(v.get("t_stat") or 0.0) / 2)
+                out.setdefault(theme, {})[int(h)] = float(v["mean_excess"]) * shrink
+    return out
 
 
-def run(day: str) -> model.PicksFile:
-    as_of = date.fromisoformat(day)
+def active_priors(
+    priors: dict[str, dict[int, float]], exposures: Exposures, prices: pd.DataFrame
+) -> dict[str, dict[int, float]]:
+    """Keep the priors of themes whose driver is spiking now (5-day z >= ACTIVE_Z).
+
+    The priors were measured after driver shocks, so they say nothing on calm days.
+    """
+    active = {}
+    for theme, by_h in priors.items():
+        th = exposures.themes.get(theme)
+        if th is None or not th.driver:
+            continue
+        closes = prices.loc[prices["ticker"] == th.driver].sort_values("date")["close"]
+        z = shock_z(closes.reset_index(drop=True))
+        if z is not None and th.driver_sign * z >= ACTIVE_Z:
+            active[theme] = by_h
+    return active
+
+
+@dataclass
+class Context:
+    cfg: InstrumentsConfig
+    meta: pd.DataFrame
+    sector_etfs: dict[tuple[str, str], str]
+    prices: pd.DataFrame
+    features: pd.DataFrame
+
+
+def context() -> Context:
+    """Reference data, cached prices and today's features, shared by score and record."""
     cfg = load_instruments()
     meta = build_meta(load_universe(), cfg)
     sector_etfs = sector_etf_map(cfg)
@@ -80,7 +114,14 @@ def run(day: str) -> model.PicksFile:
         cfg.benchmarks,
         sector_etfs,
     )
-    reg = regime.compute(prices)
+    return Context(cfg, meta, sector_etfs, prices, feats)
+
+
+def run(day: str, ctx: Context | None = None) -> model.PicksFile:
+    as_of = date.fromisoformat(day)
+    ctx = ctx or context()
+    meta, sector_etfs, feats = ctx.meta, ctx.sector_etfs, ctx.features
+    reg = regime.compute(ctx.prices)
     events = model.load_events(DATA_DIR / "events", as_of)
     exposures = load_exposures()
     contribs = model.expand(events, as_of, exposures, meta, sector_etfs)
@@ -88,9 +129,8 @@ def run(day: str) -> model.PicksFile:
         t for t in model.candidates(contribs) if t in meta.index and meta.at[t, "kind"] == "stock"
     )
     earn = earnings.next_earnings(stock_candidates, as_of)
-    result = model.score(
-        as_of, events, exposures, meta, feats, sector_etfs, reg, earn, load_priors()
-    )
+    priors = active_priors(load_priors(), exposures, ctx.prices)
+    result = model.score(as_of, events, exposures, meta, feats, sector_etfs, reg, earn, priors)
     path = picks_path(day)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(result.model_dump_json(indent=1), encoding="utf-8")

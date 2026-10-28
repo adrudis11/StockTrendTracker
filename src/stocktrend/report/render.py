@@ -89,7 +89,12 @@ def _sources(stories: dict[str, Any], ids: list[str]) -> str:
     return ", ".join(links)
 
 
-def render(picks: PicksFile, events: EventsFile | None, digest: Digest | None) -> str:
+def render(
+    picks: PicksFile,
+    events: EventsFile | None,
+    digest: Digest | None,
+    track_record: str | None = None,
+) -> str:
     lines = [f"# StockTrendTracker: {picks.date}", "", DISCLAIMER, ""]
     lines += ["## Backdrop", ""]
     if events and events.market_view:
@@ -114,6 +119,8 @@ def render(picks: PicksFile, events: EventsFile | None, digest: Digest | None) -
         "",
     ]
 
+    if track_record:
+        lines += [track_record]
     if events:
         stories = {s.id: s for s in digest.stories} if digest else {}
         lines += ["## Today's events", ""]
