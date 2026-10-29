@@ -8413,6 +8413,13 @@
 "trades": 1,
 "year": "2026"
 },
+"20035525": {
+"filed": "2026-10-27",
+"member": "Sheri Biggs",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
 "20035528": {
 "filed": "2026-09-27",
 "member": "Max Miller",
@@ -8467,6 +8474,13 @@
 "member": "Maria Elvira Salazar",
 "status": "parsed",
 "trades": 42,
+"year": "2026"
+},
+"20035563": {
+"filed": "2026-10-27",
+"member": "Pete Sessions",
+"status": "parsed",
+"trades": 32,
 "year": "2026"
 },
 "20035580": {
@@ -8574,6 +8588,13 @@
 "trades": 0,
 "year": "2026"
 },
+"20035689": {
+"filed": "2026-10-28",
+"member": "Suzan K. DelBene",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
 "20035691": {
 "filed": "2026-10-20",
 "member": "Rudy C. Yakym",
@@ -8584,6 +8605,20 @@
 "20035700": {
 "filed": "2026-10-22",
 "member": "Darrell E. Issa",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035714": {
+"filed": "2026-10-27",
+"member": "Jodey Arrington",
+"status": "no_stock_trades",
+"trades": 0,
+"year": "2026"
+},
+"20035715": {
+"filed": "2026-10-27",
+"member": "Max Miller",
 "status": "no_stock_trades",
 "trades": 0,
 "year": "2026"
