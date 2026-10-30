@@ -1,0 +1,63 @@
+# The Saturday review, outside Claude sessions: refresh prices, score the week's
+# matured picks and analysis calls, and write data/reviews/<date>.md through the
+# Claude API (`stt review`). Unattended, it proposes changes to the theme map and the
+# analysis prompt but makes none; apply them yourself or in a Claude session.
+#
+# Like the daily run, scheduled runs need the repository variable STT_RUNNER=github.
+# The monthly upkeep needs no step here: `stt daily finish` refreshes the theme
+# priors when they are a month old. Rebuild the universe (`stt universe build`) by
+# hand now and then and review its diff.
+
+name: Weekly review
+
+on:
+  schedule:
+    - cron: "41 8 * * 6" # Saturdays 08:41 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pipeline
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash # -eo pipefail
+
+jobs:
+  review:
+    if: github.event_name == 'workflow_dispatch' || vars.STT_RUNNER == 'github'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv sync --locked
+      - name: Score the week
+        run: |
+          uv run stt ingest --skip rss --skip federal_register --skip gdelt_events \
+            --skip gdelt_doc --skip polymarket
+          uv run stt evaluate
+          uv run stt scoreboard
+          uv run stt feedback
+      - name: Write the review (Claude API)
+        run: uv run stt review
+      - name: Commit and push data/
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then echo "Nothing to commit."; exit 0; fi
+          git commit -q -m "Weekly review $(date -u +%F) (GitHub Actions)"
+          for wait in 2 4 8 16; do
+            git push origin "HEAD:$GITHUB_REF_NAME" && exit 0
+            sleep "$wait"
+            git pull --rebase origin "$GITHUB_REF_NAME"
+          done
+          git push origin "HEAD:$GITHUB_REF_NAME"

@@ -15,6 +15,7 @@ dependencies = [
     "pyyaml>=6.0",
     "typer>=0.12",
     "yfinance>=0.2.50",
+    "anthropic>=1.0",
 ]
 
 [project.scripts]

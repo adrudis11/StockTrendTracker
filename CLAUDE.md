@@ -6,8 +6,13 @@ days, keeping an honest track record. Full plan and progress log: `docs/PLAN.md`
 
 ## Ground rules
 
-- Everything runs in Claude Code cloud sessions on free data sources. Don't add paid
-  APIs or an Anthropic API key: the analysis step is done by the session's Claude.
+- Free data sources only; don't add paid data APIs. The one paid service is the
+  Claude API for the unattended runs, the owner's choice on 2026-10-30 (the cloud
+  session credits end on 2026-11-05): `stt analyze` and `stt review`, settings in
+  `config/analysis.yaml`, the key in the `ANTHROPIC_API_KEY` repository secret, every
+  call's cost in `data/usage/api.jsonl`. Don't add other API calls without asking, and
+  never ask for the key in chat. In a Claude session, the session's Claude can still
+  do the analysis by hand (`prompts/daily_analysis.md`).
 - It is a research tool. Never add trading or order placement.
 - Containers are wiped between sessions: anything worth keeping goes in `data/` and is
   committed. `cache/` is re-downloaded and gitignored.
@@ -28,15 +33,25 @@ days, keeping an honest track record. Full plan and progress log: `docs/PLAN.md`
 
 ## Scheduled runs
 
-- Weekdays before the European open: `prompts/daily_run.md` (`stt daily prepare`,
-  Claude's analysis, `stt daily finish`, dashboard refresh, commit `data/`).
-- Saturdays: `prompts/weekly_review.md` (score the week, write `data/reviews/`, small
-  edits to `config/exposures.yaml` and the analysis prompt).
-- Both run in the runner session `session_013RsqR6xHbq73HAZ5KzSrjh` (it has the repo
-  attached; fresh sessions spawned by scheduled tasks don't). Scheduled tasks:
-  `trig_016rhLYvBBRMi2Z8uNFtrene` (daily), `trig_017pWbZ6vhDLnh1ro7bUqwv8` (weekly).
-- Dashboard: `config/dashboard.yaml` (a claude.ai Dashboard artifact; its page source
-  is kept in `dashboard/index.html`).
+- **GitHub Actions** (from November 2026), in `.github/workflows/`, active once the
+  repository variable `STT_RUNNER` is `github`:
+  - `daily.yml`, weekdays 05:23 UTC: `stt daily prepare`, `stt analyze` (Claude API),
+    `stt daily finish`, commit `data/` as github-actions[bot], publish the dashboard to
+    GitHub Pages (`stt site`). Run by hand with "test" ticked to try it without
+    recording anything.
+  - `weekly.yml`, Saturdays 08:41 UTC: score the week, `stt review` writes
+    `data/reviews/`. Unattended it only *proposes* edits to `config/exposures.yaml` and
+    the analysis prompt; apply them in a session if they hold up.
+- **Claude Code cloud sessions** (until the credits end on 2026-11-05):
+  `prompts/daily_run.md` and `prompts/weekly_review.md`, in the runner session
+  `session_013RsqR6xHbq73HAZ5KzSrjh` (it has the repo attached; fresh sessions spawned
+  by scheduled tasks don't). Scheduled tasks: `trig_016rhLYvBBRMi2Z8uNFtrene` (daily),
+  `trig_017pWbZ6vhDLnh1ro7bUqwv8` (weekly). Pause them once GitHub takes over. If both
+  run, the second does nothing: `daily prepare` stops when the day is recorded.
+- Dashboards: the static one on GitHub Pages (`stt site`: `dashboard/index.html` in
+  `dashboard/standalone/shell.html` with `dash.js` standing in for the dashboard
+  runtime) and the claude.ai Dashboard artifact (`config/dashboard.yaml`), which only a
+  Claude session can refresh.
 
 ## Pipeline and commands (`uv run stt ...`)
 
@@ -44,7 +59,7 @@ days, keeping an honest track record. Full plan and progress log: `docs/PLAN.md`
 |---|---|---|
 | Ingest prices and news | `stt ingest` | `cache/prices/daily.parquet`, `cache/raw/<date>/news.jsonl` |
 | Rank news into stories | `stt digest` | `data/digests/<date>.json`, `cache/raw/<date>/digest.md` |
-| Analyse (Claude) | follow `prompts/daily_analysis.md` | `data/events/<date>.json` |
+| Analyse (Claude) | follow `prompts/daily_analysis.md`, or `stt analyze` (API) | `data/events/<date>.json` |
 | Check the analysis | `stt validate --day <date>` | exit 1 on errors |
 | Rank picks | `stt score` | `data/picks/<date>.json` |
 | Log picks + baselines | `stt record` | `data/ledger/picks.jsonl` (append-only) |
@@ -63,7 +78,10 @@ They carry no weight in the score. Senate trades are blocked by the site's bot
 protection (Akamai); don't try to get around it.
 
 Occasional: `stt backtest` (5-year momentum baseline and theme priors, monthly),
-`stt scoreboard`.
+`stt scoreboard`. Unattended runs: `stt analyze` (the analysis through the API, with
+`stt validate`'s checks and up to two fix rounds; `--out` for a test), `stt review`
+(the weekly review, written only), `stt site` (the dashboard as a static site in
+`site/`, from `cache/dashboard/`).
 
 Helpers: `stt themes` (targets for impacts), `stt universe find <name>` (tickers),
 `stt calendar` (which exchanges trade today), `stt universe build` (monthly refresh).

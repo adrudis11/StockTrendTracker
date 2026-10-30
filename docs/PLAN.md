@@ -348,7 +348,9 @@ is still useful, but we'd be clear about what it is.
 1. **Markets:** US **and** Europe from the start (§3.2).
 2. **Schedule:** weekdays, before the European open (09:00 CET).
 3. **Paid data:** none. All free sources.
-4. **GitHub Actions:** not used; tests run in sessions.
+4. **GitHub Actions:** not used; tests run in sessions. *Changed 2026-10-30:* the
+   scheduled runs move to GitHub Actions with the Claude API (see the progress log,
+   "Unattended runs").
 5. **Risk profile:** liquid stocks and ETFs only; no penny stocks, options or leverage.
 6. **Where you read results:** daily Markdown report in the repo + private dashboard page.
    No email or Telegram alerts for now.
@@ -367,6 +369,8 @@ is still useful, but we'd be clear about what it is.
 | Free data sources break or rate-limit (yfinance is unofficial) | Several independent news sources, retries, health checks that fail the run loudly (§10). |
 | Overfitting to a small sample | No weight tuning before ~100 matured picks; baselines; out-of-sample checks. |
 | Session credits per run grow over time | Capped digest size; measure credits per run in Phase 5; Python does the heavy lifting. |
+| API cost of the unattended runs | One request a day plus fix rounds; prompt caching; every call's cost in `data/usage/api.jsonl`; a spend limit in the Anthropic Console. |
+| GitHub-hosted runners get blocked or rate-limited by a source (Yahoo, GDELT, feeds) | Same health checks and one retry; a failed run emails the owner and records nothing, so the next day starts clean. |
 | Ephemeral containers lose state | Everything important is committed to git at the end of each run. |
 | Mixing markets distorts results (currencies, holidays, different trading hours) | Score each stock in local currency against its own market's benchmark; per-exchange calendars. |
 | European data is thinner on free sources (earnings dates, sector tags) | Cross-check Yahoo with index lists; tag missing earnings dates as a risk instead of assuming none. |
@@ -708,3 +712,38 @@ chart (stated confidence against how often calls came true, by band).
 Expected pace: the first 5-day calls mature on 2026-11-03; with about 19 calls a day a
 solid finding needs at least 20 days of calls, so the first advice can appear around
 early December, and per-category findings take months.
+
+### Unattended runs: GitHub Actions + Claude API (added 2026-10-30)
+
+The Claude Code cloud credits end on 2026-11-05. The owner chose to keep the project
+running on GitHub Actions (free for a public repository) with a pay-as-you-go Claude
+API key for the analysis, on the same model as the sessions (Opus 5.5, high effort).
+
+- **`stt analyze`** (`analysis/analyze.py`, `analysis/api.py`): one streamed request
+  with what a session reads: the analysis prompt, the themes, the covered tickers
+  (system prompt, cached), and the feedback note, the last three events files and
+  the digest (user message). The reply is the events file as JSON under a structured
+  output schema (the pydantic schema minus the keywords structured outputs don't
+  take; pydantic re-checks them). Python runs `stt validate`'s checks and sends any
+  errors back in the same conversation, up to two rounds, before failing the run. A
+  safety refusal is retried server-side on Anthropic's fallback model. Every call's
+  tokens and estimated cost go to `data/usage/api.jsonl`.
+- **`stt review`** (`analysis/review.py`): the Saturday review with the scoreboard,
+  the feedback note, the week's matured picks and calls, and the week's reports. It
+  writes `data/reviews/<date>.md` and only proposes edits to the theme map and the
+  analysis prompt; it can't make them.
+- **`stt site`** (`report/site.py`, `dashboard/standalone/`): the dashboard page as a
+  static site, with a small stand-in for the claude.ai dashboard runtime, published
+  to GitHub Pages by the daily run. The claude.ai dashboard can only be refreshed from
+  a Claude session, so it stops updating after the handover.
+- **Workflows** (`.github/workflows/daily.yml`, `weekly.yml`): gated on the repository
+  variable `STT_RUNNER=github`, so the schedules start only when the owner switches
+  them on; a manual "test" run of the daily workflow runs the analysis into a
+  downloadable file without recording anything. Commits come from
+  github-actions[bot]. Setup steps are in the README.
+- **Handover:** test run, set `STT_RUNNER`, then pause the two cloud scheduled tasks.
+  The first scheduled GitHub run is the next weekday after that.
+
+Expected cost: about $0.40–0.80 per daily run, $10–15 a month with the reviews;
+measured from `data/usage/api.jsonl` after the first weeks.
+

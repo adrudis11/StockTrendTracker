@@ -1,0 +1,15 @@
+# The Claude API settings for runs outside a Claude session (`stt analyze`, `stt review`),
+# used by the GitHub Actions workflows. The owner chose the model on 2026-10-30.
+# The API key comes from the ANTHROPIC_API_KEY secret; it is never stored in the repo.
+model: claude-opus-5-5
+effort: high          # careful reasoning: the analysis is the core of the project
+max_tokens: 64000     # room for thinking plus the events file; requests are streamed
+retries: 2            # extra turns to fix validation errors before a run fails
+
+# USD per million tokens, for the cost log in data/usage/api.jsonl. These are the
+# prices of October 2026: check https://www.anthropic.com/pricing if they change.
+price:
+  input: 4.00
+  output: 20.00
+  cache_write: 5.00   # 1.25 x input (5-minute cache)
+  cache_read: 0.20

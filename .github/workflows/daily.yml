@@ -1,0 +1,129 @@
+# The weekday run, outside Claude sessions: data, the analysis through the Claude API
+# (`stt analyze`), picks, report, commit of data/ and the dashboard on GitHub Pages.
+#
+# Scheduled runs only happen once the repository variable STT_RUNNER is `github`
+# (Settings > Secrets and variables > Actions > Variables), so this and the cloud
+# session never both run. Even then a second run on the same day does nothing: `stt
+# daily prepare` stops when the day is already in the ledger.
+#
+# Run it by hand from the Actions tab: with "test" ticked (the default) it fetches
+# the news and runs the analysis into a downloadable file, and records, commits and
+# publishes nothing.
+
+name: Daily run
+
+on:
+  schedule:
+    - cron: "23 5 * * 1-5" # 05:23 UTC: well before the European open all year
+  workflow_dispatch:
+    inputs:
+      test:
+        description: "Test only: run the analysis, record and publish nothing"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pipeline
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash # -eo pipefail
+
+jobs:
+  run:
+    if: github.event_name == 'workflow_dispatch' || vars.STT_RUNNER == 'github'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      STT_SEC_CONTACT: ${{ secrets.STT_SEC_CONTACT }}
+      TEST: ${{ github.event_name == 'workflow_dispatch' && inputs.test }}
+    outputs:
+      publish: ${{ steps.site.outputs.publish }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv sync --locked
+
+      - name: Test run (records, commits and publishes nothing)
+        if: env.TEST == 'true'
+        run: |
+          uv run stt ingest
+          uv run stt trackers insiders || echo "::warning::SEC insider filings failed"
+          uv run stt digest
+          uv run stt feedback
+          mkdir -p "$RUNNER_TEMP/test"
+          uv run stt analyze --out "$RUNNER_TEMP/test/events.json"
+      - name: Keep the test analysis
+        if: env.TEST == 'true' && always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-analysis
+          path: |
+            ${{ runner.temp }}/test/
+            data/usage/api.jsonl
+          if-no-files-found: ignore
+
+      - name: Prepare (prices, news, trackers, scoring of matured picks, digest)
+        id: prepare
+        if: env.TEST != 'true'
+        run: |
+          log="$RUNNER_TEMP/prepare.log"
+          if ! uv run stt daily prepare | tee "$log"; then
+            echo "A data source failed; trying once more in a minute."
+            sleep 60
+            uv run stt daily prepare | tee "$log"
+          fi
+          if grep -q "NOTHING TO DO" "$log"; then echo "skip=true" >> "$GITHUB_OUTPUT"; fi
+      - name: Analyse (Claude API)
+        if: env.TEST != 'true' && steps.prepare.outputs.skip != 'true'
+        run: uv run stt analyze
+      - name: Finish (picks, ledger, report, dashboard data)
+        if: env.TEST != 'true' && steps.prepare.outputs.skip != 'true'
+        run: uv run stt daily finish
+      - name: Commit and push data/
+        if: env.TEST != 'true' && steps.prepare.outputs.skip != 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then echo "Nothing to commit."; exit 0; fi
+          day=$(date -u +%F)
+          events=$(jq '.events | length' "data/events/$day.json")
+          picks=$(jq '.picks | length' "data/picks/$day.json")
+          git commit -q -m "Daily run $day: $events events, $picks picks (GitHub Actions)"
+          for wait in 2 4 8 16; do
+            git push origin "HEAD:$GITHUB_REF_NAME" && exit 0
+            sleep "$wait"
+            git pull --rebase origin "$GITHUB_REF_NAME"
+          done
+          git push origin "HEAD:$GITHUB_REF_NAME"
+      - name: Build the dashboard site
+        id: site
+        if: env.TEST != 'true' && steps.prepare.outputs.skip != 'true'
+        run: |
+          uv run stt site
+          echo "publish=true" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.site.outputs.publish == 'true'
+        with:
+          path: site
+
+  deploy:
+    needs: run
+    if: needs.run.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

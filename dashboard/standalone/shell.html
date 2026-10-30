@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StockTrendTracker</title>
+<meta name="description" content="Daily geopolitical stock picks with an honest, automatically scored track record. Research, not investment advice.">
+<style>
+  /* The design tokens the page uses, in place of the claude.ai dashboard's. */
+  :root {
+    color-scheme: light;
+    --color-bg: #faf9f6;
+    --color-panel: #ffffff;
+    --color-fg: #1f1e1c;
+    --color-fg-muted: #6b6a64;
+    --color-border-line: #e6e4dd;
+    --color-ok: #1a7f37;
+    --color-warn: #9a6700;
+    --color-bad: #c4352a;
+    --series-1: #2a78d6;
+    --cds-chart-muted: #c9c7bf;
+    --cds-chart-reference: #8f8d85;
+    --cds-surface-popover: #ffffff;
+    --cds-border: #dcdad2;
+    --cds-text-secondary: #6b6a64;
+    --cds-shadow-popover: 0 4px 16px rgb(0 0 0 / 0.12);
+    --cds-radius: 8px;
+    --cds-pad-xs: 4px;
+    --cds-pad-sm: 8px;
+    --cds-pad-md: 12px;
+    --cds-pad-lg: 16px;
+    --cds-gap-xs: 4px;
+    --cds-gap-sm: 8px;
+    --cds-gap-md: 12px;
+    --cds-gap-xl: 24px;
+    --cds-dur-slow: 300ms;
+    --cds-font-size-caption: 12.5px;
+    --cds-font-size-body: 15px;
+    --cds-font-size-heading: 18px;
+    --cds-font-size-title: 26px;
+    --cds-font-weight-medium: 600;
+    --font-anthropic-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-anthropic-serif: Georgia, "Times New Roman", serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --color-bg: #121211;
+      --color-panel: #1a1a19;
+      --color-fg: #f0efec;
+      --color-fg-muted: #b3b2a8;
+      --color-border-line: #33322f;
+      --color-ok: #4ac26b;
+      --color-warn: #d4a72c;
+      --color-bad: #f47067;
+      --series-1: #3987e5;
+      --cds-chart-muted: #4a4945;
+      --cds-chart-reference: #8a8983;
+      --cds-surface-popover: #232321;
+      --cds-border: #3a3936;
+      --cds-text-secondary: #b3b2a8;
+      --cds-shadow-popover: 0 4px 16px rgb(0 0 0 / 0.5);
+    }
+  }
+  body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-anthropic-sans);
+    font-size: var(--cds-font-size-body);
+  }
+  #dash-root { padding: 24px 16px 48px; }
+  .site-links { max-width: 78rem; margin: 0 auto 16px; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .site-links a { color: inherit; }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="dash.js"></script>
+</head>
+<body>
+<main id="dash-root">
+<p class="site-links">Updated every weekday before the European open · <a href="https://github.com/adrudis11/StockTrendTracker/tree/claude/beautiful-lovelace-8iabbf/data/reports">Daily reports</a> · <a href="https://github.com/adrudis11/StockTrendTracker">Source and track record</a></p>
+<!-- PAGE -->
+</main>
+</body>
+</html>

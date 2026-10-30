@@ -31,3 +31,15 @@ class Exposures(BaseModel):
 
 def load_exposures() -> Exposures:
     return Exposures.model_validate(load_yaml("exposures.yaml"))
+
+
+def themes_text(exposures: Exposures) -> str:
+    """The themes events can target, with their main winners and losers (`stt themes`)."""
+    lines = []
+    for tid, th in exposures.themes.items():
+        top = sorted(th.members.items(), key=lambda kv: -abs(kv[1]))
+        up = [t for t, w in top if w > 0][:6]
+        down = [t for t, w in top if w < 0][:4]
+        lines.append(f"theme:{tid} - {th.name}: {th.description}")
+        lines.append(f"    up: {', '.join(up) or '-'}   down: {', '.join(down) or '-'}")
+    return "\n".join(lines)

@@ -12,3 +12,6 @@ cache/
 
 # The owner's contact email for SEC EDGAR requests (never committed: the repo is public).
 .sec_contact
+
+# The static dashboard built by `stt site` (published by GitHub Actions).
+site/

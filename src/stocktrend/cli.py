@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 from datetime import UTC, date, datetime
+from pathlib import Path
 from typing import Annotated
 
 import typer
@@ -93,14 +94,9 @@ DayOption = Annotated[str | None, typer.Option("--day", help="YYYY-MM-DD; defaul
 @app.command()
 def themes() -> None:
     """List the geopolitical themes events can target, with their main members."""
-    from stocktrend.universe.exposures import load_exposures
+    from stocktrend.universe.exposures import load_exposures, themes_text
 
-    for tid, th in load_exposures().themes.items():
-        top = sorted(th.members.items(), key=lambda kv: -abs(kv[1]))
-        up = [t for t, w in top if w > 0][:6]
-        down = [t for t, w in top if w < 0][:4]
-        typer.echo(f"theme:{tid} - {th.name}: {th.description}")
-        typer.echo(f"    up: {', '.join(up) or '-'}   down: {', '.join(down) or '-'}")
+    typer.echo(themes_text(load_exposures()))
 
 
 @app.command()
@@ -337,6 +333,60 @@ def _backtest_trackers(
     TRACKERS_PATH.parent.mkdir(parents=True, exist_ok=True)
     TRACKERS_PATH.write_text(json.dumps(out, indent=1, default=str), encoding="utf-8")
     typer.echo(f"-> {TRACKERS_PATH}")
+
+
+@app.command()
+def analyze(
+    day: DayOption = None,
+    out: Annotated[
+        Path | None, typer.Option(help="Write here instead of data/events/ (a test run)")
+    ] = None,
+) -> None:
+    """Write the day's events file with the Claude API, outside a Claude session."""
+    from stocktrend.analysis import analyze as analysis
+    from stocktrend.analysis import api
+    from stocktrend.events.validate import events_path
+
+    d = _day(day)
+    try:
+        v = analysis.run(d, out=out)
+    except analysis.AnalysisFailed as e:
+        typer.secho(f"The events file still fails validation: {e}", fg="red", err=True)
+        raise typer.Exit(1) from e
+    except RuntimeError as e:  # no key, a refusal, a reply cut off
+        typer.secho(f"Analysis failed: {e}", fg="red", err=True)
+        raise typer.Exit(1) from e
+    for w in v.warnings:
+        typer.secho(f"warning: {w}", fg="yellow")
+    ef = v.events
+    assert ef is not None
+    typer.echo(
+        f"{len(ef.events)} events, {len(ef.trump_calls)} Trump calls -> {out or events_path(d)}"
+        f" (API cost today about ${api.spent(d, 'analysis'):.2f})"
+    )
+
+
+@app.command()
+def review(day: DayOption = None) -> None:
+    """Write the weekly review with the Claude API (it proposes changes, makes none)."""
+    from stocktrend.analysis import api
+    from stocktrend.analysis import review as weekly
+
+    d = _day(day)
+    try:
+        path = weekly.run(d)
+    except RuntimeError as e:
+        typer.secho(f"Review failed: {e}", fg="red", err=True)
+        raise typer.Exit(1) from e
+    typer.echo(f"Review -> {path} (API cost about ${api.spent(d, 'review'):.2f})")
+
+
+@app.command()
+def site() -> None:
+    """Build the dashboard as a static site for GitHub Pages, from cache/dashboard/."""
+    from stocktrend.report.site import build
+
+    typer.echo(f"Site -> {build()}")
 
 
 @app.command()

@@ -1,9 +1,12 @@
 # Daily run (scheduled, weekdays before the European open)
 
 You are the scheduled daily run of StockTrendTracker, in a fresh cloud session with
-the repository cloned. Work through the steps in order. Don't change code in this
-run: if a bug blocks a step, stop and describe it in your final message. Keep reading
-to what the steps name; the digest is the only news you need.
+the repository cloned. (The same run also exists as a GitHub Actions workflow,
+`.github/workflows/daily.yml`, which takes over when the cloud credits end. If it has
+already recorded today, step 2 prints `NOTHING TO DO`.) Work through the steps in
+order. Don't change code in this run: if a bug blocks a step, stop and describe it in
+your final message. Keep reading to what the steps name; the digest is the only news
+you need.
 
 ## 1. Set up
 
