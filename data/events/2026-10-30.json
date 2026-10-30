@@ -1,0 +1,191 @@
+{
+  "date": "2026-10-30",
+  "market_view": "Hormuz flared again: the IRGC says three tankers hit mines, UKMTO confirmed a tanker struck by a projectile, and odds of the US-Iran ceasefire holding through the midterms fell 11 points to 82%. Brent is near $115 (+12% in 20 days). In Europe, the ECB signalled a December hike and Lagarde will step down early in February, while the EU invited states to draw €21.3bn of SAFE defence loans. US markets are pricing a 72% chance of a December Fed hike, and the midterms on 3 November look set to give Democrats the House (94%).",
+  "events": [
+    {
+      "id": "2026-10-30-01",
+      "title": "Tankers hit mines and a projectile in the Strait of Hormuz; ceasefire odds fall",
+      "category": "conflict",
+      "regions": ["IR", "US", "KR"],
+      "summary": "Iran's IRGC says three oil tankers hit mines in the Strait of Hormuz, and UKMTO confirmed a tanker was struck by an unknown projectile, with vessel fires and explosions reported. The IRGC says it downed a US-made drone, and South Korea is considering deploying forces to the strait. Polymarket odds of the US-Iran ceasefire holding through the midterms fell 11 points to 82%.",
+      "certainty": "confirmed",
+      "novelty": 0.6,
+      "severity": 0.7,
+      "duration": "weeks",
+      "sources": ["S002", "S003", "S010", "S015", "S023", "S071", "S073", "S077", "S084", "S093", "S031", "S086"],
+      "impacts": [
+        {
+          "target": "theme:shipping_disruption",
+          "direction": 1,
+          "magnitude": 0.35,
+          "confidence": 0.5,
+          "horizon_days": 5,
+          "rationale": "Several hulls hit in one day, confirmed by UKMTO -> war-risk premiums and tanker rates up -> shipping owners gain. BOAT is only +2% in 20 days, so this is not fully priced."
+        },
+        {
+          "target": "theme:middle_east_escalation",
+          "direction": 1,
+          "magnitude": 0.3,
+          "confidence": 0.5,
+          "horizon_days": 20,
+          "rationale": "Attacks on shipping plus falling ceasefire odds and talk of a post-midterm campaign -> energy majors gain, airlines lose. Brent is already +12% in 20 days, so the size is moderate. This cuts against yesterday's low-confidence call that diplomacy would ease the oil premium; the money has moved toward escalation."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-30-02",
+      "title": "ECB signals a December hike; Lagarde to step down in February 2027",
+      "category": "central_bank",
+      "regions": ["EU", "FR"],
+      "summary": "The ECB published its monetary policy decision, and coverage reads Lagarde's comments as pointing to a December rate hike. The ECB announced that Lagarde will step down on 7 February 2027, which lets EU leaders pick a successor before the French presidential election.",
+      "certainty": "confirmed",
+      "novelty": 0.7,
+      "severity": 0.5,
+      "duration": "months",
+      "sources": ["S042", "S039", "S037", "S062", "S017", "S001"],
+      "impacts": [
+        {
+          "target": "theme:eu_rates_up",
+          "direction": 1,
+          "magnitude": 0.25,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Guidance toward a December hike to fight energy-driven inflation -> higher euro-area yields -> banks gain, real estate loses. Lagarde's early exit adds succession uncertainty but no immediate policy change."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-30-03",
+      "title": "EU invites states to use €21.3bn of SAFE defence loans; Russian strike on Dnipro station",
+      "category": "defense",
+      "regions": ["EU", "UA", "RU", "US"],
+      "summary": "The European Commission invited member states to use €21.3 billion under the SAFE instrument for defence readiness and support to Ukraine. A Russian drone strike killed at least 14 people at a rail station in Dnipro, drawing outrage in Europe. Reuters reports that the Pentagon told Europeans to cool their rhetoric on Russia, and NATO will discuss Ukraine aid amid delayed Patriot deliveries.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.4,
+      "duration": "months",
+      "sources": ["S040", "S007", "S008", "S016", "S113", "S096"],
+      "impacts": [
+        {
+          "target": "theme:defense_europe",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.5,
+          "horizon_days": 20,
+          "rationale": "SAFE money being called up -> concrete procurement funding for European primes. WDEF.MI is flat this week, so this is not priced. US pressure to tone down Russia rhetoric is a mild offset."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-30-04",
+      "title": "QatarEnergy buys US LNG, including a 20-year Woodside deal, to hedge Hormuz risk",
+      "category": "energy",
+      "regions": ["QA", "US"],
+      "summary": "Reuters reports that QatarEnergy is buying US and other LNG to hedge future Hormuz disruptions, and it signed a 20-year deal to buy US LNG from Woodside.",
+      "certainty": "confirmed",
+      "novelty": 0.7,
+      "severity": 0.3,
+      "duration": "years",
+      "sources": ["S006", "S021", "S075"],
+      "impacts": [
+        {
+          "target": "ticker:EQT",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Even Qatar now contracts US LNG long-term -> more Gulf Coast liquefaction demand -> more US feedgas -> support for the largest US gas producer. Henry Hub rose 4.8% yesterday."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-30-05",
+      "title": "US promised Audi tariff relief to secure a Georgia plant",
+      "category": "trade",
+      "regions": ["US", "DE"],
+      "summary": "The WSJ and Reuters report, citing sources, that the US administration promised tariff relief in talks with Audi over a factory in Georgia. Volkswagen separately posted a $6.5 billion quarterly loss on a China slump and a Porsche writedown.",
+      "certainty": "reported",
+      "novelty": 0.7,
+      "severity": 0.3,
+      "duration": "months",
+      "sources": ["S018", "S126", "S094"],
+      "impacts": [
+        {
+          "target": "ticker:VOW3.DE",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Tariff relief tied to a US plant would cut Audi's import costs into the US -> lower tariff drag on Volkswagen group margins. The loss is already public and the relief is unconfirmed, so the size is small."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-30-06",
+      "title": "Reports Nvidia's Huang was the target of a Chinese spy plot; DOJ scrutiny continues",
+      "category": "technology",
+      "regions": ["US", "CN"],
+      "summary": "The NYT reports Nvidia CEO Jensen Huang was seen as the target of a Chinese spy plot, and another report says Trump knew of Huang's ties to a Chinese spy. Nvidia shares slipped on the DOJ antitrust inquiry into its Hugging Face deal. Polymarket odds of Nvidia being the world's largest company at year-end fell 11 points to 52%.",
+      "certainty": "reported",
+      "novelty": 0.6,
+      "severity": 0.3,
+      "duration": "weeks",
+      "sources": ["S019", "S087", "S100", "S128"],
+      "impacts": [
+        {
+          "target": "ticker:NVDA",
+          "direction": -1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 5,
+          "rationale": "Spy-plot headlines plus the antitrust inquiry -> political and China-access risk premium on Nvidia; the money (Polymarket -11 pts, QQQ -1.4%) shows sentiment turning. Builds on yesterday's DOJ call, so small."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-30-07",
+      "title": "North Korean hackers suspected in record $6.3bn Binance hack",
+      "category": "technology",
+      "regions": ["KP"],
+      "summary": "Crypto exchange Binance was hit by a $6.3 billion hack, suspected to be the largest ever; two analytics firms attributed it to North Korea's TraderTraitor unit.",
+      "certainty": "reported",
+      "novelty": 0.9,
+      "severity": 0.4,
+      "duration": "weeks",
+      "sources": ["S092", "S103"],
+      "impacts": [
+        {
+          "target": "theme:cyber_threat",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.4,
+          "horizon_days": 5,
+          "rationale": "A record state-attributed theft -> pressure on firms and regulators to spend on security -> cybersecurity names gain. Fortinet's -20% this week is an earnings move, so the theme reaction may be muted."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-30-08",
+      "title": "UK backs Rolls-Royce's new engine with a £1.25bn subsidy",
+      "category": "industrial_policy",
+      "regions": ["GB"],
+      "summary": "The Guardian reports a £1.25 billion UK government subsidy for Rolls-Royce's new engine.",
+      "certainty": "reported",
+      "novelty": 0.6,
+      "severity": 0.2,
+      "duration": "years",
+      "sources": ["S117"],
+      "impacts": [
+        {
+          "target": "ticker:RR.L",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "State co-funding of engine development -> lower R&D cash burn for Rolls-Royce. Single-outlet coverage, so the size is small."
+        }
+      ]
+    }
+  ],
+  "trump_calls": []
+}

@@ -8609,6 +8609,13 @@
 "trades": 0,
 "year": "2026"
 },
+"20035710": {
+"filed": "2026-10-28",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 3,
+"year": "2026"
+},
 "20035714": {
 "filed": "2026-10-27",
 "member": "Jodey Arrington",
@@ -9851,6 +9858,27 @@
 "9116378": {
 "filed": "2026-10-14",
 "member": "Michael T. McCaul",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116389": {
+"filed": "2026-10-27",
+"member": "Diana Harshbarger",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116390": {
+"filed": "2026-10-27",
+"member": "Diana Harshbarger",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116391": {
+"filed": "2026-10-27",
+"member": "Diana Harshbarger",
 "status": "unreadable",
 "trades": 0,
 "year": "2026"
