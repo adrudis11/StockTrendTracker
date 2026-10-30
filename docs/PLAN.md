@@ -672,3 +672,39 @@ conversion). Today's picks join it from the next run, once their entry is known.
 Under the track record, "Latest matured picks" lists the last 60 scored picks: entry
 and exit prices, the result, vs benchmark and the verdict as scored, and the latest
 close with the move since entry, to show what happened after the horizon.
+
+### Learning loop (added 2026-10-28)
+
+Request: improve accuracy over time by seeing what works and what doesn't; and keep in
+mind that media coverage sometimes shows the opposite of what is really happening.
+
+- **Every call is scored** (`tracking/impacts.py`), not just the picks: each impact in
+  the events files (about 19 a day) once its horizon ends, like a pick (entry at the
+  open after the analysis, against SPY or the STOXX 600 in euros). A theme scores as
+  its members' excess returns signed by their weights. Each outcome records the kind
+  of call: category, horizon, target type, certainty, confidence, official source or
+  media only, number of outlets, whether it bet against the coverage's framing, and
+  whether the market was already moving the called way. Written once to
+  `data/ledger/impact_outcomes.jsonl`.
+- **Feedback note** (`tracking/feedback.py`, `stt feedback`, run by `daily prepare`):
+  hit rate and mean excess by kind of call, each kind against the rest of its section
+  on the same days, and calibration by stated confidence. t-statistics are computed
+  across days (calls on the same day move together). Only solid findings (20+ days,
+  |t| >= 2) become advice; everything else is labelled weak. The daily analysis reads
+  it first and acts only on its "What to adjust" list; the weekly review uses it as
+  the basis for prompt and theme edits instead of a single week's anecdotes.
+- **Coverage vs what is happening**: the analysis prompt now ranks evidence (official
+  documents, hard data and money-backed signals such as prices and Polymarket odds
+  above reporting and commentary), caps single-outlet or anonymous claims at
+  `reported`/`rumor`, and flags calls that bet against the coverage's framing
+  (`against_coverage`). It doesn't assume coverage is wrong by default: the feedback
+  note measures whether contrarian calls, media-only calls and calls chasing a move
+  do better or worse than the rest.
+
+The dashboard's "How the analysis is doing" card shows the same: the overall record,
+the adjustments the analysis is making, results by kind of call, and a calibration
+chart (stated confidence against how often calls came true, by band).
+
+Expected pace: the first 5-day calls mature on 2026-11-03; with about 19 calls a day a
+solid finding needs at least 20 days of calls, so the first advice can appear around
+early December, and per-category findings take months.

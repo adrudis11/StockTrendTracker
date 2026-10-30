@@ -1,0 +1,296 @@
+{
+  "date": "2026-10-29",
+  "market_view": "The Fed held rates in a hawkish hold before the 3 November midterms, with Polymarket still pricing a 78% chance of a December hike. The Iran war gives mixed signals: the US warned allies to prepare for strikes after the elections and Iran threatened retaliation over US-escorted Hormuz transits, but Iran says Hormuz could reopen within days if the blockade is lifted and ceasefire odds rose 8 points. Brent ($115, +11% in 20 days) and Dutch gas (+39% in 20 days) carry a large premium, and Qatar extended its LNG suspensions. Israel's election remains deadlocked and Israeli stocks fell 4.9%.",
+  "events": [
+    {
+      "id": "2026-10-29-01",
+      "title": "Fed holds rates with a hawkish tone; Cook dissents",
+      "category": "central_bank",
+      "regions": ["US"],
+      "summary": "The Federal Reserve kept rates unchanged in its last decision before the midterms despite elevated inflation, and coverage describes the hold as hawkish. Governor Lisa Cook dissented, and Chair Warsh said politics played no role.",
+      "certainty": "confirmed",
+      "novelty": 0.4,
+      "severity": 0.5,
+      "duration": "weeks",
+      "sources": ["S001", "S002", "S026", "S027", "S052", "S085"],
+      "impacts": [
+        {
+          "target": "theme:us_rates_up",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 5,
+          "rationale": "Hawkish hold keeps a December hike (78% on Polymarket) in play -> yields stay high -> banks favoured over homebuilders and REITs. The hold was expected and the 10-year yield fell 2% this week, so the size is small."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-29-02",
+      "title": "US warns allies of possible Iran strikes after midterms; Hormuz incidents continue",
+      "category": "conflict",
+      "regions": ["US", "IR"],
+      "summary": "AP sources say the US told allies to prepare for possible strikes on Iran and Iranian retaliation after the elections. Iran threatened retaliation after Trump said the US would guide ships through Hormuz. Iran says it intercepted a US MQ-1 drone, and the IRGC reports a tanker explosion in the strait.",
+      "certainty": "reported",
+      "novelty": 0.5,
+      "severity": 0.6,
+      "duration": "weeks",
+      "sources": ["S003", "S083", "S053", "S036", "S098", "S104", "S040", "S011", "S021", "S059"],
+      "impacts": [
+        {
+          "target": "theme:middle_east_escalation",
+          "direction": 1,
+          "magnitude": 0.3,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "A signalled post-midterm campaign plus US escorts through Hormuz -> risk of renewed fighting -> energy majors up, airlines down. The warning partly repeats yesterday's report, and ceasefire odds rose rather than fell, so confidence is moderate."
+        },
+        {
+          "target": "theme:shipping_disruption",
+          "direction": 1,
+          "magnitude": 0.25,
+          "confidence": 0.45,
+          "horizon_days": 5,
+          "rationale": "Drone shoot-down, a tanker explosion and Iranian threats against US-escorted transits -> war-risk premiums and freight rates stay high."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-29-03",
+      "title": "Iran offers to reopen Hormuz in 4-5 days if the US lifts its blockade",
+      "category": "diplomacy",
+      "regions": ["IR", "US", "TR", "QA"],
+      "summary": "Iran said Hormuz could reopen within 4-5 days if the US lifts its blockade, and its foreign minister said Tehran is giving diplomacy a chance. Iran rejected Qatar's proposal to end the war, Turkey says it is working to resolve the Hormuz crisis, and Trump denies peace talks. Polymarket odds of the US-Iran ceasefire holding through 8 November rose 8 points to 82%.",
+      "certainty": "reported",
+      "novelty": 0.5,
+      "severity": 0.5,
+      "duration": "weeks",
+      "sources": ["S037", "S022", "S065", "S073", "S079", "S147"],
+      "impacts": [
+        {
+          "target": "theme:oil_supply_shock",
+          "direction": -1,
+          "magnitude": 0.25,
+          "confidence": 0.35,
+          "horizon_days": 20,
+          "rationale": "A concrete reopening offer and rising ceasefire odds point to an eventual unwind of the large crude premium (Brent +11% in 20 days). Iran rejected the Qatari plan and the US talks of renewed strikes, so confidence is low.",
+          "against_coverage": true
+        }
+      ]
+    },
+    {
+      "id": "2026-10-29-04",
+      "title": "QatarEnergy extends LNG suspensions to Italy and South Asia through year-end; EU convenes refiners on energy crisis",
+      "category": "energy",
+      "regions": ["QA", "IT", "EU"],
+      "summary": "QatarEnergy extended its LNG delivery suspensions to Italy and to South Asian buyers until the end of the year. EU Energy Commissioner Jørgensen met European refiners and said Europe faces another energy crisis. TTF rose 4.9% on the day.",
+      "certainty": "confirmed",
+      "novelty": 0.4,
+      "severity": 0.5,
+      "duration": "months",
+      "sources": ["S035", "S043"],
+      "impacts": [
+        {
+          "target": "theme:eu_gas_shock",
+          "direction": 1,
+          "magnitude": 0.25,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Wider Qatari suspensions through winter -> Europe competes with Asia for spot LNG -> TTF stays high -> pressure on European chemicals, support for US gas producers. TTF is already +39% in 20 days, so much is priced."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-29-05",
+      "title": "US approves $8.2bn ST LNG deepwater port licence; FERC proposes faster LNG approvals",
+      "category": "energy",
+      "regions": ["US"],
+      "summary": "The US Department of Transportation approved the deepwater port licence application for the $8.2 billion ST LNG export project. Separately, a US regulator proposed rules to speed up LNG project approvals.",
+      "certainty": "confirmed",
+      "novelty": 0.6,
+      "severity": 0.3,
+      "duration": "years",
+      "sources": ["S012", "S013"],
+      "impacts": [
+        {
+          "target": "theme:us_fossil_energy_policy",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Faster LNG approvals -> more US export capacity -> more feedgas demand and pipeline volumes -> gas producers and midstream (EQT, KMI, WMB) gain over years. The near-term move is small."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-29-06",
+      "title": "DOJ inquiry into Nvidia's purchase of Hugging Face",
+      "category": "regulation",
+      "regions": ["US"],
+      "summary": "Reuters reports, citing sources, that the US Justice Department is asking about Nvidia's purchase of Hugging Face as part of a broader AI antitrust probe.",
+      "certainty": "reported",
+      "novelty": 0.8,
+      "severity": 0.3,
+      "duration": "months",
+      "sources": ["S097", "S117"],
+      "impacts": [
+        {
+          "target": "ticker:NVDA",
+          "direction": -1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 5,
+          "rationale": "An early-stage inquiry into one deal, not a case -> headline risk and a possible remedy, but small relative to Nvidia's earnings drivers."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-29-07",
+      "title": "Trump finds imported robotics a security risk but imposes no tariffs",
+      "category": "trade",
+      "regions": ["US", "EU", "JP"],
+      "summary": "Trump said imported robotics pose national security risks but did not impose tariffs.",
+      "certainty": "confirmed",
+      "novelty": 0.6,
+      "severity": 0.3,
+      "duration": "months",
+      "sources": ["S049"],
+      "impacts": [
+        {
+          "target": "ticker:ABBN.SW",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 5,
+          "rationale": "No tariffs from the robotics security review removes a near-term cost on ABB's imported robots into the US. The security finding leaves the door open for later action, so the size is small."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-29-08",
+      "title": "UK pledges defence spending of 3% of GDP by 2030; Netherlands adds Ukraine aid while Italy delays",
+      "category": "defense",
+      "regions": ["GB", "NL", "IT", "UA"],
+      "summary": "UK Defence Secretary Healey pledged to raise defence spending to 3% of output by 2030. The Netherlands announced €500 million in military aid to Ukraine, while Italy is delaying a new military aid package.",
+      "certainty": "reported",
+      "novelty": 0.5,
+      "severity": 0.3,
+      "duration": "years",
+      "sources": ["S075", "S033", "S080"],
+      "impacts": [
+        {
+          "target": "ticker:BA.L",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.5,
+          "horizon_days": 20,
+          "rationale": "A firmer UK path to 3% of GDP -> more domestic procurement -> BAE Systems is the main UK beneficiary."
+        },
+        {
+          "target": "theme:defense_europe",
+          "direction": 1,
+          "magnitude": 0.1,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Budget pledges keep the rearmament story intact, but Italy's delay offsets the Dutch aid, so the net effect is small."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-29-09",
+      "title": "Japan and US agree to build a joint missile-production facility",
+      "category": "defense",
+      "regions": ["US", "JP", "CN"],
+      "summary": "The US and Japan agreed to set up a missile-production facility in response to Chinese military pressure.",
+      "certainty": "confirmed",
+      "novelty": 0.7,
+      "severity": 0.3,
+      "duration": "years",
+      "sources": ["S068"],
+      "impacts": [
+        {
+          "target": "theme:defense_us",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Co-production adds long-run missile demand for US primes (RTX, LMT) under licence. LMT is already +14% in 5 days, so little extra is likely near term."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-29-10",
+      "title": "Russia in talks with US over investment fund sanctions; grain shipping permits issued",
+      "category": "diplomacy",
+      "regions": ["RU", "US", "UA"],
+      "summary": "A Kremlin aide says Moscow is in talks with the US over sanctions on its investment fund. A US-brokered local ceasefire in Kherson has held for 30 hours. CBOT wheat fell after Russia issued grain vessel permits.",
+      "certainty": "reported",
+      "novelty": 0.4,
+      "severity": 0.3,
+      "duration": "weeks",
+      "sources": ["S019", "S025", "S090"],
+      "impacts": [
+        {
+          "target": "theme:ukraine_peace_reconstruction",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Moscow confirming sanctions talks adds to yesterday's report -> slightly higher odds of a broader deal -> reconstruction materials and Polish assets gain. Reports of a missile launch toward NATO (tabloid-sourced, VIX fell) keep the size small."
+        },
+        {
+          "target": "theme:food_supply_shock",
+          "direction": -1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 5,
+          "rationale": "Russian grain vessel permits -> more Black Sea supply -> lower grain prices -> fertilizer and grain names soften. Wheat is already -11% in 20 days, so mostly priced."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-29-11",
+      "title": "Sanofi settles US antitrust case over Lantus",
+      "category": "regulation",
+      "regions": ["US", "FR"],
+      "summary": "Sanofi agreed to settle a US antitrust case over its diabetes drug Lantus.",
+      "certainty": "reported",
+      "novelty": 0.7,
+      "severity": 0.2,
+      "duration": "days",
+      "sources": ["S116"],
+      "impacts": [
+        {
+          "target": "ticker:SAN.PA",
+          "direction": 1,
+          "magnitude": 0.1,
+          "confidence": 0.45,
+          "horizon_days": 5,
+          "rationale": "A settlement removes a litigation overhang; the cost is likely provisioned, so the effect is small."
+        }
+      ]
+    },
+    {
+      "id": "2026-10-29-12",
+      "title": "Japan-Germany and France-Western Australia critical minerals deals",
+      "category": "industrial_policy",
+      "regions": ["JP", "DE", "FR", "AU", "CN"],
+      "summary": "Japan's and Germany's leaders agreed to closer ties on critical minerals, and Western Australia signed a critical minerals deal with France.",
+      "certainty": "reported",
+      "novelty": 0.3,
+      "severity": 0.2,
+      "duration": "years",
+      "sources": ["S100", "S102", "S099"],
+      "impacts": [
+        {
+          "target": "theme:critical_minerals",
+          "direction": 1,
+          "magnitude": 0.1,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "More government-backed offtake for non-Chinese supply continues yesterday's theme -> mild support for Western miners."
+        }
+      ]
+    }
+  ],
+  "trump_calls": []
+}

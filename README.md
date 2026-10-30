@@ -38,7 +38,8 @@ uv run stt digest --print      # group and rank today's news into ~150 stories
 uv run stt validate            # check Claude's data/events/<today>.json
 uv run stt score               # rank picks for 5 and 20 trading days -> data/picks/
 uv run stt record              # append picks + baselines to the ledger (append-only)
-uv run stt evaluate            # score picks whose horizon has ended
+uv run stt evaluate            # score picks, and every analysis call, whose horizon has ended
+uv run stt feedback            # how past calls did, by kind: read by the daily analysis
 uv run stt scoreboard          # track record vs momentum and random baselines
 uv run stt report              # daily Markdown report -> data/reports/
 uv run stt backtest            # 5-year momentum baseline, theme priors, tracker backtest

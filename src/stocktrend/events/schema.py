@@ -51,6 +51,11 @@ class Impact(BaseModel):
     rationale: str = Field(
         min_length=10, max_length=400, description="event -> mechanism -> target"
     )
+    against_coverage: bool = Field(
+        default=False,
+        description="True when the call bets against how most of the cited coverage "
+        "frames the story; tracked to see whether such calls do better",
+    )
 
     @field_validator("target")
     @classmethod

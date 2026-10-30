@@ -116,26 +116,32 @@ class _Window:
     excess: float  # from the pick's point of view: positive = the call is right
 
 
-def _window(
-    e: LedgerEntry, book: PriceBook, benchmarks: dict[str, str], start: pd.Timestamp,
-    end: pd.Timestamp,
+def window(
+    ticker: str, region: str, sign: int, book: PriceBook, benchmarks: dict[str, str],
+    start: pd.Timestamp, end: pd.Timestamp,
 ) -> _Window | None:  # fmt: skip
-    """The pick's return and excess over the benchmark from ``start``'s open to ``end``."""
-    window = book.window_return(e.ticker, start, end)
-    bench = benchmarks[e.region]
+    """Return and excess over the region's benchmark from ``start``'s open to ``end``.
+
+    ``sign`` is +1 for a call that the instrument beats the benchmark, -1 that it lags.
+    """
+    own = book.window_return(ticker, start, end)
+    bench = benchmarks[region]
     bench_window = book.window_return(bench, start, end)
-    if window is None or bench_window is None:
+    if own is None or bench_window is None:
         return None
-    entry_px, exit_px, d0, d1 = window
+    entry_px, exit_px, d0, d1 = own
     ret = exit_px / entry_px - 1
-    pair = FX_PAIRS.get(exchange_for(e.ticker).currency) if e.region == "Europe" else None
+    pair = FX_PAIRS.get(exchange_for(ticker).currency) if region == "Europe" else None
     if pair:  # e.g. GBP per EUR: a weaker pound shrinks the EUR return
         fx0, fx1 = book.close_on_or_before(pair, d0), book.close_on_or_before(pair, d1)
         if fx0 and fx1:
             ret = (1 + ret) * fx0 / fx1 - 1
     bench_ret = bench_window[1] / bench_window[0] - 1
-    sign = 1 if e.side == "long" else -1
     return _Window(entry_px, exit_px, d0, d1, ret, bench, bench_ret, sign * (ret - bench_ret))
+
+
+def _sign(e: LedgerEntry) -> int:
+    return 1 if e.side == "long" else -1
 
 
 def evaluate_entry(
@@ -152,10 +158,10 @@ def evaluate_entry(
     last = book.last_date(e.ticker)
     if last is None or last < end:
         return None
-    w = _window(e, book, benchmarks, start, end)
+    w = window(e.ticker, e.region, _sign(e), book, benchmarks, start, end)
     if w is None:
         return None
-    sign = 1 if e.side == "long" else -1
+    sign = _sign(e)
     sector_etf = sector_etfs.get((e.region, e.sector)) if e.kind == "stock" else None
     sector_ret = sector_excess = None
     if sector_etf:
@@ -207,7 +213,7 @@ def mark(e: LedgerEntry, book: PriceBook, benchmarks: dict[str, str]) -> Mark:
         return m  # not entered yet
     bars = book.by_ticker[e.ticker]
     m.entry_open = float(bars.loc[bars.index >= start, "open"].iloc[0])
-    w = _window(e, book, benchmarks, start, min(last, end))
+    w = window(e.ticker, e.region, _sign(e), book, benchmarks, start, min(last, end))
     m.excess = None if w is None else w.excess
     return m
 

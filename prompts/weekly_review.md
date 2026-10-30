@@ -14,6 +14,7 @@ uv sync
 uv run stt ingest --skip rss --skip federal_register --skip gdelt_events --skip gdelt_doc
 uv run stt evaluate
 uv run stt scoreboard
+uv run stt feedback
 ```
 
 (The ingest here only refreshes prices, so that the week's matured picks get scored.)
@@ -31,9 +32,12 @@ the universe, remove or replace that member (use `uv run stt universe find`).
 
 ## 3. Review the week
 
-Read this week's files in `data/events/`, `data/picks/` and `data/reports/`, and the
-outcomes in `data/ledger/outcomes.jsonl` whose `exit_date` falls in the past week
-(match them to `data/ledger/picks.jsonl` by `pick_id`).
+Read the feedback note (`cache/raw/<today>/feedback.md`): it scores every analysis
+call so far by kind, and only its solid findings justify a change. Then read this
+week's files in `data/events/`, `data/picks/` and `data/reports/`, and the outcomes in
+`data/ledger/outcomes.jsonl` and `data/ledger/impact_outcomes.jsonl` whose `exit_date`
+falls in the past week (match picks to `data/ledger/picks.jsonl` by `pick_id`, calls
+to the events files by `impact_id`).
 
 Write `data/reviews/<today>.md` (under 600 words):
 
@@ -43,7 +47,8 @@ Write `data/reviews/<today>.md` (under 600 words):
 2. **Calls that worked and calls that didn't**, with the reason in one line each:
    wrong direction, right direction but already priced in, swamped by earnings or
    the broad market, or a theme member that doesn't really move with its theme.
-3. **Calibration**: were confidence levels too high or too low?
+3. **Calibration**: were confidence levels too high or too low (the feedback note's
+   calibration table, not just this week)?
    Also note how the tracker strategies are doing against the others: `congress`
    (House members' disclosed buys), `insiders` (company insiders' open-market buys,
    SEC Form 4) and `trump` (stocks Trump talked up or attacked). The congress and
