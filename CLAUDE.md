@@ -33,8 +33,9 @@ days, keeping an honest track record. Full plan and progress log: `docs/PLAN.md`
 
 ## Scheduled runs
 
-- **GitHub Actions** (from November 2026), in `.github/workflows/`, active once the
-  repository variable `STT_RUNNER` is `github`:
+- **GitHub Actions**, in `.github/workflows/`, scheduled from 2026-11-04 (`START` in
+  each workflow; the repository variable `STT_RUNNER` overrides it: `github` on, `off`
+  paused):
   - `daily.yml`, weekdays 05:23 UTC: `stt daily prepare`, `stt analyze` (Claude API),
     `stt daily finish`, commit `data/` as github-actions[bot], publish the dashboard to
     GitHub Pages (`stt site`). Run by hand with "test" ticked to try it without
@@ -42,12 +43,13 @@ days, keeping an honest track record. Full plan and progress log: `docs/PLAN.md`
   - `weekly.yml`, Saturdays 08:41 UTC: score the week, `stt review` writes
     `data/reviews/`. Unattended it only *proposes* edits to `config/exposures.yaml` and
     the analysis prompt; apply them in a session if they hold up.
-- **Claude Code cloud sessions** (until the credits end on 2026-11-05):
+- **Claude Code cloud sessions** (daily until 2026-11-03; credits end 2026-11-05):
   `prompts/daily_run.md` and `prompts/weekly_review.md`, in the runner session
   `session_013RsqR6xHbq73HAZ5KzSrjh` (it has the repo attached; fresh sessions spawned
   by scheduled tasks don't). Scheduled tasks: `trig_016rhLYvBBRMi2Z8uNFtrene` (daily),
-  `trig_017pWbZ6vhDLnh1ro7bUqwv8` (weekly). Pause them once GitHub takes over. If both
-  run, the second does nothing: `daily prepare` stops when the day is recorded.
+  `trig_017pWbZ6vhDLnh1ro7bUqwv8` (weekly). The daily one only fires on Nov 2 and 3;
+  both get paused once the first GitHub run (Nov 4) is checked. If two runs meet on
+  one day, the second does nothing: `daily prepare` stops when the day is recorded.
 - Dashboards: the static one on GitHub Pages (`stt site`: `dashboard/index.html` in
   `dashboard/standalone/shell.html` with `dash.js` standing in for the dashboard
   runtime) and the claude.ai Dashboard artifact (`config/dashboard.yaml`), which only a

@@ -1,10 +1,11 @@
 # The weekday run, outside Claude sessions: data, the analysis through the Claude API
 # (`stt analyze`), picks, report, commit of data/ and the dashboard on GitHub Pages.
 #
-# Scheduled runs only happen once the repository variable STT_RUNNER is `github`
-# (Settings > Secrets and variables > Actions > Variables), so this and the cloud
-# session never both run. Even then a second run on the same day does nothing: `stt
-# daily prepare` stops when the day is already in the ledger.
+# Scheduled runs start on START (below), 2026-11-04: the handover from the Claude
+# Code cloud sessions, whose credits end on 2026-11-05 (their daily run stops after
+# 2026-11-03). The repository variable STT_RUNNER (Settings > Secrets and variables >
+# Actions > Variables) overrides the date: `github` runs them now, `off` pauses them.
+# A second run on a recorded day does nothing: `stt daily prepare` stops.
 #
 # Run it by hand from the Actions tab: with "test" ticked (the default) it fetches
 # the news and runs the analysis into a downloadable file, and records, commits and
@@ -27,6 +28,9 @@ permissions:
   pages: write
   id-token: write
 
+env:
+  START: "2026-11-04" # first scheduled run
+
 concurrency:
   group: pipeline
   cancel-in-progress: false
@@ -36,8 +40,28 @@ defaults:
     shell: bash # -eo pipefail
 
 jobs:
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      go: ${{ steps.check.outputs.go }}
+    steps:
+      - id: check
+        env:
+          STT_RUNNER: ${{ vars.STT_RUNNER }}
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ] || [ "$STT_RUNNER" = github ]; then
+            go=true
+          elif [ "$STT_RUNNER" = off ] || [[ "$(date -u +%F)" < "$START" ]]; then
+            go=false
+            echo "Scheduled runs are off (start $START, STT_RUNNER=${STT_RUNNER:-unset})."
+          else
+            go=true
+          fi
+          echo "go=$go" >> "$GITHUB_OUTPUT"
+
   run:
-    if: github.event_name == 'workflow_dispatch' || vars.STT_RUNNER == 'github'
+    needs: gate
+    if: needs.gate.outputs.go == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 90
     env:

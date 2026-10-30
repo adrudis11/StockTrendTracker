@@ -3,7 +3,8 @@
 # Claude API (`stt review`). Unattended, it proposes changes to the theme map and the
 # analysis prompt but makes none; apply them yourself or in a Claude session.
 #
-# Like the daily run, scheduled runs need the repository variable STT_RUNNER=github.
+# Like the daily run, scheduled runs start on START (the first is 2026-11-07), and
+# the repository variable STT_RUNNER overrides that (`github` now, `off` paused).
 # The monthly upkeep needs no step here: `stt daily finish` refreshes the theme
 # priors when they are a month old. Rebuild the universe (`stt universe build`) by
 # hand now and then and review its diff.
@@ -18,6 +19,9 @@ on:
 permissions:
   contents: write
 
+env:
+  START: "2026-11-04"
+
 concurrency:
   group: pipeline
   cancel-in-progress: false
@@ -27,8 +31,28 @@ defaults:
     shell: bash # -eo pipefail
 
 jobs:
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      go: ${{ steps.check.outputs.go }}
+    steps:
+      - id: check
+        env:
+          STT_RUNNER: ${{ vars.STT_RUNNER }}
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ] || [ "$STT_RUNNER" = github ]; then
+            go=true
+          elif [ "$STT_RUNNER" = off ] || [[ "$(date -u +%F)" < "$START" ]]; then
+            go=false
+            echo "Scheduled runs are off (start $START, STT_RUNNER=${STT_RUNNER:-unset})."
+          else
+            go=true
+          fi
+          echo "go=$go" >> "$GITHUB_OUTPUT"
+
   review:
-    if: github.event_name == 'workflow_dispatch' || vars.STT_RUNNER == 'github'
+    needs: gate
+    if: needs.gate.outputs.go == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:

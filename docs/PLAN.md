@@ -736,13 +736,22 @@ API key for the analysis, on the same model as the sessions (Opus 5.5, high effo
   static site, with a small stand-in for the claude.ai dashboard runtime, published
   to GitHub Pages by the daily run. The claude.ai dashboard can only be refreshed from
   a Claude session, so it stops updating after the handover.
-- **Workflows** (`.github/workflows/daily.yml`, `weekly.yml`): gated on the repository
-  variable `STT_RUNNER=github`, so the schedules start only when the owner switches
-  them on; a manual "test" run of the daily workflow runs the analysis into a
-  downloadable file without recording anything. Commits come from
-  github-actions[bot]. Setup steps are in the README.
-- **Handover:** test run, set `STT_RUNNER`, then pause the two cloud scheduled tasks.
-  The first scheduled GitHub run is the next weekday after that.
+- **Workflows** (`.github/workflows/daily.yml`, `weekly.yml`): scheduled runs start
+  on 2026-11-04 (a small gate job checks the date; the repository variable
+  `STT_RUNNER` overrides it, `github` on and `off` paused). A manual "test" run of the
+  daily workflow runs the analysis into a downloadable file without recording
+  anything. Commits come from github-actions[bot]. Setup steps are in the README.
+- **Handover**, planned so there's a day of credits left to fix problems:
+  - The owner adds the API key and SEC contact as repository secrets and turns on
+    Pages (README).
+  - 2026-11-02: a check from the build session confirms the setup with a test run
+    (and again on 11-03 if something was missing).
+  - 2026-11-02 and 11-03: last daily runs in the cloud session (its schedule was cut
+    to those two days).
+  - 2026-11-04 05:23 UTC: first scheduled GitHub run. At 06:13 UTC the build session
+    reviews it (logs, commit, ledger, report, Pages, cost), fixes and re-runs it if
+    needed (or, as a last resort, does the day in the session), then pauses both
+    cloud scheduled tasks.
 
 Expected cost: about $0.40–0.80 per daily run, $10–15 a month with the reviews;
 measured from `data/usage/api.jsonl` after the first weeks.

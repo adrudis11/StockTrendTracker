@@ -20,10 +20,11 @@ Claude through the API), `stt daily finish` (picks, ledger, report), a commit of
 [weekly.yml](.github/workflows/weekly.yml) scores the week and writes a review to
 `data/reviews/`.
 
-Until 2026-11-05 the same runs also happen in a Claude Code cloud session
-([prompts/daily_run.md](prompts/daily_run.md),
+The GitHub runs start on 2026-11-04. Until 2026-11-03 the daily run happens in a
+Claude Code cloud session ([prompts/daily_run.md](prompts/daily_run.md),
 [prompts/weekly_review.md](prompts/weekly_review.md)), which also refreshes a private
-claude.ai dashboard. Whichever runs first records the day; the other then does nothing.
+claude.ai dashboard; its credits end on 2026-11-05. If both ever run on the same day,
+the first records it and the second does nothing.
 
 ### Setting up the GitHub runs
 
@@ -40,8 +41,9 @@ claude.ai dashboard. Whichever runs first records the day; the other then does n
 4. **Test.** Actions → Daily run → Run workflow, with "test" ticked. It runs the
    analysis into a downloadable `test-analysis` file and records nothing. Its log ends
    with the number of events and the API cost.
-5. **Switch on.** Settings → Secrets and variables → Actions → Variables → New
-   repository variable: `STT_RUNNER` = `github`. From then on the schedules run.
+5. **Nothing to switch on.** The schedules start by themselves on 2026-11-04. The
+   repository variable `STT_RUNNER` (Settings → Secrets and variables → Actions →
+   Variables) overrides that: `github` starts them now, `off` pauses them.
 
 Cost: the analysis is one request a day (about 35,000 tokens in and 10,000–30,000
 out, including Claude's reasoning) plus a fix round now and then: roughly $0.40–0.80 a
