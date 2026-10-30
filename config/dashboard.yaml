@@ -13,3 +13,6 @@ datasets:
   congress: congress.json
   insiders: insiders.json
   trump: trump.json
+  call_kinds: call_kinds.json
+  calibration: calibration.json
+  adjustments: adjustments.json

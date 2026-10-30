@@ -129,3 +129,26 @@ def test_feedback_note_with_too_little_evidence() -> None:
     md = feedback.to_markdown(out, "2026-01-20")
     assert "Nothing is solid yet" in md
     assert "| Against the coverage's framing | no | 12 |" in md
+
+
+def test_dashboard_shows_the_learning_loop(monkeypatch: pytest.MonkeyPatch) -> None:
+    from stocktrend.report.dashboard import feedback_data
+
+    rng = np.random.default_rng(1)
+    out = [_outcome(date(2026, 1, 5) + timedelta(days=d), k, 0.02 + rng.normal(0, 0.01),
+                    confidence=0.85) for d in range(25) for k in range(3)]  # fmt: skip
+    monkeypatch.setattr(impacts, "read", lambda *a, **k: out)
+    data = feedback_data("2026-03-01")
+    s = data["summary"]
+    assert (s["calls_scored"], s["calls_days"]) == (75, 25)
+    assert s["n_call_kinds"] == len(data["call_kinds"]) > 0
+    kinds = {r["key"]: r for r in data["call_kinds"]}
+    assert kinds["Horizon|5 days"]["calls"] == 75 and kinds["Horizon|5 days"]["evidence"] in (
+        "Solid",
+        "Weak",
+    )
+    (band,) = data["calibration"]
+    assert band["band"] == "0.7 and above" and band["stated"] == 85.0
+    assert s["n_adjustments"] == len(data["adjustments"])
+    empty = feedback_data("2026-01-01")  # before anything was scored
+    assert empty["summary"]["calls_scored"] == 0 and empty["call_kinds"] == []

@@ -14,7 +14,7 @@
   .stt-tile .lbl { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
   .stt-tile .val { font-family: var(--font-anthropic-serif); font-size: var(--cds-font-size-title); font-variant-numeric: tabular-nums; }
   .stt-card { padding: var(--cds-pad-lg); display: grid; gap: var(--cds-gap-md); min-width: 0; align-content: start; }
-  .stt-section { display: grid; gap: var(--cds-gap-md); }
+  .stt-section { display: grid; gap: var(--cds-gap-md); align-content: start; }
   .stt-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 30rem), 1fr)); gap: var(--cds-gap-md); }
   .stt-note { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
   .stt-view { max-width: 75ch; }
@@ -32,6 +32,7 @@
   .stt-conv.long span { background: var(--color-ok); }
   .stt-conv.avoid span { background: var(--color-bad); }
   .stt-chart { position: relative; min-height: 12rem; }
+  .stt-chart.compact { min-height: 0; }
   .stt-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); white-space: nowrap; }
   .stt-tip .k { color: var(--cds-text-secondary); }
   .stt-foot { display: grid; gap: var(--cds-gap-sm); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); max-width: 80ch; }
@@ -168,6 +169,45 @@
     </div>
   </section>
 
+  <section class="stt-card" id="learning">
+    <h2>How the analysis is doing</h2>
+    <p class="stt-note">Every call in the daily analysis (for example "oil producers up over 5 days") is scored when its horizon ends, the same way as the picks. The analysis reads these results every morning and acts only on solid findings: at least 20 days of calls and a t-statistic of 2 or more, since calls made on the same day tend to move together.</p>
+    <p data-unless="calls_scored" hidden>No calls have been scored yet (<b data-draw="s-calls-open" data-source="summary" data-field="calls_open" data-row="0">—</b> waiting). The first are scored on <b data-draw="s-calls-first" data-source="summary" data-field="first_results" data-row="0">—</b>.</p>
+    <p data-if="calls_scored" hidden><b data-draw="s-calls" data-source="summary" data-field="calls_scored" data-row="0">—</b> calls scored over <b data-draw="s-calls-days" data-source="summary" data-field="calls_days" data-row="0">—</b> days: right <b data-draw="s-calls-right" data-source="summary" data-field="calls_right" data-row="0">—</b> of the time, <b data-draw="s-calls-mean" data-source="summary" data-field="calls_mean" data-row="0">—</b> a call against the benchmark on average. <b data-draw="s-calls-open2" data-source="summary" data-field="calls_open" data-row="0">—</b> more are waiting for their horizon to end.</p>
+    <div class="stt-section" data-if="calls_scored" hidden>
+      <h3>What the analysis is adjusting</h3>
+      <div class="stt-wrap" data-if="n_adjustments" hidden>
+        <table class="stt-t" data-source="adjustments" data-row-key="key">
+          <thead><tr><th data-field="text">Adjustment</th></tr></thead>
+          <tbody data-draw="adjustments"></tbody>
+        </table>
+      </div>
+      <p class="stt-note" data-unless="n_adjustments" hidden>Nothing is solid yet, so the analysis keeps calling as before. Weak results are shown below but not acted on.</p>
+    </div>
+    <div class="stt-grid" data-if="calls_scored" hidden>
+      <div class="stt-section" id="call-kinds">
+        <h3>By kind of call</h3>
+        <div class="stt-wrap" data-if="n_call_kinds" hidden>
+          <table class="stt-t" data-source="call_kinds" data-row-key="key">
+            <thead><tr><th data-field="kind">Kind</th><th data-field="group">Group</th><th data-field="calls" class="num">Calls</th><th data-field="right" class="num">Right</th><th data-field="mean" class="num">vs benchmark</th><th data-field="vs_rest" class="num opt">vs the rest (t)</th><th data-field="evidence">Evidence</th></tr></thead>
+            <tbody data-draw="call-kinds"></tbody>
+          </table>
+        </div>
+        <p class="stt-note" data-unless="n_call_kinds" hidden>Each kind of call shows here once it has at least 10 scored calls.</p>
+      </div>
+      <div class="stt-section" id="calibration" data-if="n_calibration" hidden>
+        <h3>Stated confidence vs how often calls came true</h3>
+        <div class="stt-chart compact" id="calibration-chart" data-draw="calibration-chart" data-source="calibration"></div>
+        <div class="stt-wrap">
+          <table class="stt-t" data-source="calibration" data-row-key="band">
+            <thead><tr><th data-field="band">Stated confidence</th><th data-field="calls" class="num">Calls</th><th data-field="stated" class="num">Average stated</th><th data-field="actual" class="num">Actually right</th></tr></thead>
+            <tbody data-draw="calibration"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="stt-card" id="congress">
     <h2>Congress trades</h2>
     <p class="stt-note">Stock trades by members of the US House, from their official STOCK Act filings, disclosed in the last 30 days. Trades are reported up to 45 days after they happen, and automatic dividend reinvestments are left out. Score: purchases count by size, sales count half.</p>
@@ -249,6 +289,13 @@
   value('s-cpx', 'prices_as_of', date);
   value('s-trump-true', 'trump_true', String);
   value('s-ontrack', 'open_on_track', String);
+  value('s-calls', 'calls_scored', String);
+  value('s-calls-open', 'calls_open', String);
+  value('s-calls-open2', 'calls_open', String);
+  value('s-calls-first', 'first_results', date);
+  value('s-calls-days', 'calls_days', String);
+  value('s-calls-right', 'calls_right', (v) => d3.format('.0f')(v) + '%');
+  value('s-calls-mean', 'calls_mean', (v) => d3.format('+.2f')(v) + '%');
   value('s-entered', 'open_entered', String);
   value('s-trump-scored', 'trump_scored', String);
 
@@ -366,6 +413,103 @@
   });
 
   const signed = (v) => (blank(v) ? '—' : pct(v) + '%');
+  dash.draw('adjustments', (tbody) => {
+    tbody.replaceChildren();
+    rows('adjustments').forEach((r) => {
+      const tr = tbody.insertRow();
+      tr.dataset.key = r.key;
+      cell(tr, r.text, 'why');
+    });
+  });
+
+  dash.draw('call-kinds', (tbody) => {
+    tbody.replaceChildren();
+    rows('call_kinds').forEach((r) => {
+      const tr = tbody.insertRow();
+      tr.dataset.key = r.key;
+      cell(tr, r.kind);
+      cell(tr, r.group, 'tick');
+      cell(tr, String(r.calls), 'num');
+      cell(tr, blank(r.right) ? '—' : d3.format('.0f')(r.right) + '%', 'num');
+      cell(tr, blank(r.mean) ? '—' : d3.format('+.2f')(r.mean) + '%', 'num');
+      cell(tr, blank(r.vs_rest) ? '—' : d3.format('+.2f')(r.vs_rest) + ' pts (' + (blank(r.vs_rest_t) ? '—' : d3.format('+.1f')(r.vs_rest_t)) + ')', 'num opt');
+      cell(tr, r.evidence);
+    });
+  });
+
+  dash.draw('calibration', (tbody) => {
+    tbody.replaceChildren();
+    rows('calibration').forEach((r) => {
+      const tr = tbody.insertRow();
+      tr.dataset.key = r.band;
+      cell(tr, r.band, 'tick');
+      cell(tr, String(r.calls), 'num');
+      cell(tr, d3.format('.0f')(r.stated) + '%', 'num');
+      cell(tr, d3.format('.0f')(r.actual) + '%', 'num');
+    });
+  });
+
+  // Calibration as a dumbbell: per confidence band, what was stated and what came true.
+  dash.draw('calibration-chart', (el) => {
+    el.replaceChildren();
+    const data = rows('calibration').map((r) => ({ band: r.band, n: Number(r.calls), stated: Number(r.stated), actual: Number(r.actual) }));
+    if (!data.length) { el.textContent = '—'; return; }
+    const width = el.clientWidth || 480;
+    const top = 30, bottom = 24, rowH = 36;
+    const height = top + data.length * rowH + bottom;
+    const color = dash.colors[0];
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${width} ${height}`)
+      .attr('role', 'img').attr('aria-label', 'Stated confidence against how often calls came true, by confidence band');
+    const legend = svg.append('g').attr('transform', 'translate(0, 10)');
+    [['Stated confidence', 0.45], ['Actually right', 1]].forEach(([label, opacity], i) => {
+      const item = legend.append('g').attr('transform', `translate(${i * 150}, 0)`);
+      item.append('circle').attr('cx', 5).attr('r', 5).attr('fill', color).attr('fill-opacity', opacity);
+      item.append('text').attr('x', 14).attr('dominant-baseline', 'middle').attr('font-size', 12)
+        .attr('fill', 'var(--color-fg-muted)').text(label);
+    });
+    const labels = svg.append('g').selectAll('text').data(data).join('text')
+      .attr('font-size', 12).attr('fill', 'var(--color-fg-muted)').text((d) => d.band);
+    const labelW = d3.max(labels.nodes(), (n) => n.getComputedTextLength()) + 12;
+    const x = d3.scaleLinear([0, 100], [labelW, width - 44]);
+    const y = d3.scaleBand(data.map((d) => d.band), [top, height - bottom]).padding(0.2);
+    const cy = (d) => y(d.band) + y.bandwidth() / 2;
+    labels.attr('x', 0).attr('y', cy).attr('dominant-baseline', 'middle');
+    const ticks = [0, 25, 50, 75, 100];
+    svg.append('g').selectAll('line').data(ticks).join('line')
+      .attr('x1', x).attr('x2', x).attr('y1', top - 4).attr('y2', height - bottom)
+      .attr('stroke', (t) => (t === 50 ? 'var(--cds-chart-reference)' : 'var(--color-border-line)'));
+    svg.append('g').selectAll('text').data(ticks).join('text')
+      .attr('x', x).attr('y', height - 6).attr('text-anchor', 'middle').attr('font-size', 11)
+      .attr('fill', 'var(--color-fg-muted)').text((t) => (t === 50 ? '50% (coin flip)' : t + '%'));
+    svg.append('g').selectAll('line').data(data).join('line')
+      .attr('x1', (d) => x(d.stated)).attr('x2', (d) => x(d.actual)).attr('y1', cy).attr('y2', cy)
+      .attr('stroke', color).attr('stroke-opacity', 0.5).attr('stroke-width', 2);
+    ['stated', 'actual'].forEach((key) => {
+      svg.append('g').selectAll('circle').data(data).join('circle')
+        .attr('cx', (d) => x(d[key])).attr('cy', cy).attr('r', 5)
+        .attr('fill', color).attr('fill-opacity', key === 'stated' ? 0.45 : 1)
+        .attr('stroke', 'var(--color-panel)').attr('stroke-width', 2);
+    });
+    svg.append('g').selectAll('text').data(data).join('text')
+      .attr('x', (d) => x(d.actual) + (d.actual >= d.stated ? 10 : -10))
+      .attr('text-anchor', (d) => (d.actual >= d.stated ? 'start' : 'end'))
+      .attr('y', cy).attr('dominant-baseline', 'middle').attr('font-size', 12)
+      .attr('fill', 'var(--color-fg)').text((d) => d.actual + '%');
+    const tip = d3.select(el).append('div').attr('class', 'stt-tip').attr('hidden', '');
+    svg.append('g').selectAll('rect').data(data).join('rect')
+      .attr('x', 0).attr('width', width).attr('y', (d) => y(d.band)).attr('height', y.bandwidth())
+      .attr('fill', 'transparent')
+      .on('pointermove', (event, d) => {
+        const [px, py] = d3.pointer(event, el);
+        tip.attr('hidden', null).html('');
+        tip.append('div').attr('class', 'k').text(`Calls rated ${d.band}`);
+        tip.append('div').text(`Stated ${d.stated}%, actually right ${d.actual}% (${d.n} calls)`);
+        const w = tip.node().offsetWidth;
+        tip.style('left', `${Math.min(Math.max(0, px + 12), el.clientWidth - w)}px`).style('top', `${py + 12}px`);
+      })
+      .on('pointerleave', () => tip.attr('hidden', ''));
+  });
+
   dash.draw('results', (tbody) => {
     tbody.replaceChildren();
     rows('results').forEach((r) => {

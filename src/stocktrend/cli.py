@@ -634,6 +634,6 @@ def daily_finish() -> None:
     report(day=d)
     dashboard(day=d)
     typer.echo(
-        "\nNEXT: upload the nine files above to the dashboard and commit data/ "
+        "\nNEXT: upload the files above to the dashboard and commit data/ "
         "(see prompts/daily_run.md)."
     )

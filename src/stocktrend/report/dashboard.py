@@ -25,7 +25,7 @@ from stocktrend.tracking.ledger import read as read_ledger
 OUT_DIR = CACHE_DIR / "dashboard"
 DATASETS = (
     "summary", "picks", "open_picks", "results", "events", "scoreboard", "congress", "insiders",
-    "trump",
+    "trump", "call_kinds", "calibration", "adjustments",
 )  # fmt: skip
 RESULT_ROWS = 60
 CONGRESS_ROWS = INSIDER_ROWS = 15
@@ -72,6 +72,7 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
     insider = insider_rows(day)
     open_picks = open_pick_rows(day)
     results = result_rows(day)
+    loop = feedback_data(day)
 
     summary = {
         "date": picks.date,
@@ -89,6 +90,7 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
         "n_picks": len(picks.picks),
         "n_open": len(open_picks),
         "n_results": len(results),
+        **loop["summary"],
         "open_on_track": sum(r["on_track"] == "Yes" for r in open_picks),
         "open_entered": sum(bool(r["on_track"]) for r in open_picks),
         "n_congress": len(congress),
@@ -162,6 +164,9 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
         "picks": pick_rows,
         "open_picks": open_picks,
         "results": results,
+        "call_kinds": loop["call_kinds"],
+        "calibration": loop["calibration"],
+        "adjustments": loop["adjustments"],
         "events": event_rows,
         "scoreboard": board_rows,
         "congress": congress,
@@ -222,6 +227,60 @@ def open_pick_rows(day: str) -> list[dict[str, Any]]:
             }
         )
     return rows
+
+
+def feedback_data(day: str) -> dict[str, Any]:
+    """The learning loop: how the analysis's calls have done (``tracking.feedback``).
+
+    ``summary`` holds the headline figures and the row counts the page gates on;
+    ``call_kinds``, ``calibration`` and ``adjustments`` are the note's three parts.
+    """
+    from stocktrend.events.schema import EventsFile
+    from stocktrend.tracking import feedback, impacts
+
+    scored = [o for o in impacts.read() if o.exit_date < day]
+    made = sum(
+        len(ev.impacts)
+        for path in sorted(impacts.EVENTS_DIR.glob("*.json"))
+        if path.stem <= day
+        for ev in EventsFile.model_validate_json(path.read_text(encoding="utf-8")).events
+    )
+    r = feedback.results(scored)
+    summary: dict[str, Any] = {
+        "calls_scored": len(scored),
+        "calls_open": max(0, made - len(scored)),
+        "calls_days": r.overall.days if r else 0,
+        "calls_right": _pct(r.overall.hit, 0) if r else None,
+        "calls_mean": _pct(r.overall.mean, 2) if r else None,
+        "n_call_kinds": len(r.groups) if r else 0,
+        "n_calibration": len(r.calibration) if r else 0,
+        "n_adjustments": len(r.advice) if r else 0,
+    }
+    if r is None:
+        return {"summary": summary, "call_kinds": [], "calibration": [], "adjustments": []}
+    kinds = [
+        {
+            "key": f"{g.section}|{g.label}",
+            "kind": g.section,
+            "group": g.label,
+            "calls": g.n,
+            "days": g.days,
+            "right": _pct(g.hit, 0),
+            "mean": _pct(g.mean, 2),
+            "t": None if g.t is None else round(g.t, 1),
+            "vs_rest": _pct(g.vs_rest, 2),
+            "vs_rest_t": None if g.vs_rest_t is None else round(g.vs_rest_t, 1),
+            "evidence": "Solid" if g.solid or g.solid_vs_rest else "Weak",
+        }
+        for g in r.groups
+    ]
+    calibration = [
+        {"band": band, "calls": n, "stated": _pct(stated, 0), "actual": _pct(actual, 0)}
+        for band, n, stated, actual in r.calibration
+    ]
+    adjustments = [{"key": str(i + 1), "text": text} for i, text in enumerate(r.advice)]
+    return {"summary": summary, "call_kinds": kinds, "calibration": calibration,
+            "adjustments": adjustments}  # fmt: skip
 
 
 def result_rows(day: str, limit: int = RESULT_ROWS) -> list[dict[str, Any]]:

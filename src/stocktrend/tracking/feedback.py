@@ -154,13 +154,30 @@ def _t(t: float | None) -> str:
     return "–" if t is None else f"{t:+.1f}"
 
 
+@dataclass
+class Results:
+    overall: Group
+    groups: list[Group]
+    calibration: list[tuple[str, int, float, float]]
+    advice: list[str]
+
+
+def results(outcomes: list[ImpactOutcome]) -> Results | None:
+    """Everything the note and the dashboard show, or None before any call is scored."""
+    if not outcomes:
+        return None
+    df = frame(outcomes)
+    gs, cal = groups(df), calibration(df)
+    return Results(_group("All", "all calls", df), gs, cal, advice(gs, cal))
+
+
 def to_markdown(outcomes: list[ImpactOutcome], as_of: str) -> str:
     lines = [f"# Your track record (as of {as_of})", ""]
-    if not outcomes:
+    r = results(outcomes)
+    if r is None:
         return "\n".join([*lines, "No calls have been scored yet. Make calls as the prompt "
                           "says; this note fills in as their horizons end.", ""])  # fmt: skip
-    df = frame(outcomes)
-    overall = _group("All", "all calls", df)
+    overall = r.overall
     lines += [
         f"{overall.n} calls scored over {overall.days} days: right {overall.hit:.0%}, mean "
         f"excess {100 * overall.mean:+.2f}% (t {_t(overall.t)}). A call is right when its "
@@ -175,9 +192,8 @@ def to_markdown(outcomes: list[ImpactOutcome], as_of: str) -> str:
         "## What to adjust",
         "",
     ]
-    gs, cal = groups(df), calibration(df)
-    tips = advice(gs, cal)
-    lines += [f"- {t}" for t in tips] or [
+    gs, cal = r.groups, r.calibration
+    lines += [f"- {t}" for t in r.advice] or [
         "- Nothing is solid yet. Keep calling as before; don't react to single wins or losses."
     ]
     lines += ["", "## By kind of call", "",

@@ -701,6 +701,10 @@ mind that media coverage sometimes shows the opposite of what is really happenin
   note measures whether contrarian calls, media-only calls and calls chasing a move
   do better or worse than the rest.
 
+The dashboard's "How the analysis is doing" card shows the same: the overall record,
+the adjustments the analysis is making, results by kind of call, and a calibration
+chart (stated confidence against how often calls came true, by band).
+
 Expected pace: the first 5-day calls mature on 2026-11-03; with about 19 calls a day a
 solid finding needs at least 20 days of calls, so the first advice can appear around
 early December, and per-category findings take months.
