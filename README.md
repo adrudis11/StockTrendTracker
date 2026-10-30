@@ -45,10 +45,12 @@ the first records it and the second does nothing.
    repository variable `STT_RUNNER` (Settings → Secrets and variables → Actions →
    Variables) overrides that: `github` starts them now, `off` pauses them.
 
-Cost: the analysis is one request a day (about 35,000 tokens in and 10,000–30,000
-out, including Claude's reasoning) plus a fix round now and then: roughly $0.40–0.80 a
-day at the prices in [config/analysis.yaml](config/analysis.yaml), so about $10–15 a
-month with the weekly review. Every call's actual cost is logged in
+Cost: the analysis is one request a day (about 52,000 tokens in, half of them the
+cached instructions and ticker list, and about 9,000 out including Claude's reasoning)
+plus a fix round when the validator finds a problem. The first test (2026-10-30) cost
+$0.41 for the request and $0.23 for one fix round, at the prices in
+[config/analysis.yaml](config/analysis.yaml): about $9–14 a month with the weekly
+review. Every call's actual cost is logged in
 `data/usage/api.jsonl`. GitHub Actions and Pages are free for a public repository.
 
 ## Setup

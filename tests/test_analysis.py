@@ -129,7 +129,8 @@ def test_schema_keeps_every_field_and_only_supported_keywords() -> None:
 def test_analysis_sends_errors_back_then_writes_the_file(offline: None, tmp_path: Path) -> None:
     client = FakeClient([_events("NOPE"), _events()])
     out, usage = tmp_path / "events.json", tmp_path / "usage.jsonl"
-    v = analyze.run(DAY, client, out=out, usage_path=usage)
+    said: list[str] = []
+    v = analyze.run(DAY, client, out=out, usage_path=usage, say=said.append)
 
     assert v.ok and json.loads(out.read_text()) == json.loads(_events())
     first, second = client.requests
@@ -141,6 +142,7 @@ def test_analysis_sends_errors_back_then_writes_the_file(offline: None, tmp_path
     assert user == {"role": "user", "content": "today's digest"}
     assert assistant["role"] == "assistant" and assistant["content"][0].text == _events("NOPE")
     assert "ticker:NOPE: unknown ticker" in fix["content"]
+    assert len(said) == 1 and said[0].startswith("Reply 1 failed") and "NOPE" in said[0]
     assert [json.loads(line)["purpose"] for line in usage.read_text().splitlines()] == [
         "analysis", "analysis"
     ]  # fmt: skip

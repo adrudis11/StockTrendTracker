@@ -349,7 +349,7 @@ def analyze(
 
     d = _day(day)
     try:
-        v = analysis.run(d, out=out)
+        v = analysis.run(d, out=out, say=lambda s: typer.secho(s, fg="yellow"))
     except analysis.AnalysisFailed as e:
         typer.secho(f"The events file still fails validation: {e}", fg="red", err=True)
         raise typer.Exit(1) from e

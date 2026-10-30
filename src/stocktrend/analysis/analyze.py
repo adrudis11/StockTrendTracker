@@ -10,6 +10,7 @@ in the same conversation to fix, up to ``retries`` times, before the run fails.
 from __future__ import annotations
 
 import json
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
@@ -118,8 +119,10 @@ def run(
     client: Any = None,
     out: Path | None = None,
     usage_path: Path = api.USAGE_PATH,
+    say: Callable[[str], None] = lambda _: None,
 ) -> Validation:
-    """Write the day's events file (to ``out`` if given). Raises if it can't validate."""
+    """Write the day's events file (to ``out`` if given). Raises if it can't validate.
+    ``say`` gets each fix round's errors, so the run's log shows what went wrong."""
     cfg = api.settings()
     client = client or api.client()
     stories, tickers, themes = references(day)
@@ -137,6 +140,7 @@ def run(
             return v
         if attempt < cfg.retries:
             errors = "\n".join(f"- {e}" for e in v.errors)
+            say(f"Reply {attempt + 1} failed validation; sending the errors back:\n{errors}")
             messages += [
                 {"role": "assistant", "content": message.content},  # unchanged, thinking too
                 {"role": "user", "content": "`stt validate` found these problems:\n"

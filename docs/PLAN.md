@@ -753,6 +753,11 @@ API key for the analysis, on the same model as the sessions (Opus 5.5, high effo
     needed (or, as a last resort, does the day in the session), then pauses both
     cloud scheduled tasks.
 
-Expected cost: about $0.40–0.80 per daily run, $10–15 a month with the reviews;
-measured from `data/usage/api.jsonl` after the first weeks.
+First test run on GitHub (2026-10-30, test mode): all sources worked from GitHub's
+servers (only GDELT's article search was rate-limited, a minor source), and the
+analysis took 2 minutes: 11 events and 16 impacts, against 8 and 9 in that morning's
+session run, with the same main stories. The first reply failed validation and one
+fix round fixed it ($0.41 + $0.23); the run now prints the errors of each fix round
+so repeated mistakes can be fixed in the prompt. Expected: about $9–14 a month with
+the reviews, measured from `data/usage/api.jsonl` after the first weeks.
 
