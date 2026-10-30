@@ -32,9 +32,9 @@ the first records it and the second does nothing.
    billing (pay as you go; a monthly spend limit is a good idea) and create an API
    key.
 2. **Secrets.** In the repository, Settings → Secrets and variables → Actions → New
-   repository secret: `ANTHROPIC_API_KEY` (the key) and `STT_SEC_CONTACT` (the
-   contact email the SEC asks for; optional, the insider tracker is skipped without
-   it). Secrets stay out of the public repository and the logs.
+   repository secret: `ANTHROPIC_API_KEY_STOCKTRACKER` (the key) and `STT_SEC_CONTACT`
+   (the contact email the SEC asks for; optional, the insider tracker is skipped
+   without it). Secrets stay out of the public repository and the logs.
 3. **Pages.** Settings → Pages → Build and deployment → Source: **GitHub Actions**.
    After the first real run the dashboard is at
    <https://adrudis11.github.io/StockTrendTracker/> (public, like the repository).

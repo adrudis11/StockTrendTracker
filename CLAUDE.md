@@ -9,8 +9,9 @@ days, keeping an honest track record. Full plan and progress log: `docs/PLAN.md`
 - Free data sources only; don't add paid data APIs. The one paid service is the
   Claude API for the unattended runs, the owner's choice on 2026-10-30 (the cloud
   session credits end on 2026-11-05): `stt analyze` and `stt review`, settings in
-  `config/analysis.yaml`, the key in the `ANTHROPIC_API_KEY` repository secret, every
-  call's cost in `data/usage/api.jsonl`. Don't add other API calls without asking, and
+  `config/analysis.yaml`, the key in the `ANTHROPIC_API_KEY_STOCKTRACKER` repository
+  secret (the runs pass it on as `ANTHROPIC_API_KEY`), every call's cost in
+  `data/usage/api.jsonl`. Don't add other API calls without asking, and
   never ask for the key in chat. In a Claude session, the session's Claude can still
   do the analysis by hand (`prompts/daily_analysis.md`).
 - It is a research tool. Never add trading or order placement.

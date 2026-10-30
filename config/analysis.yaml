@@ -1,6 +1,7 @@
 # The Claude API settings for runs outside a Claude session (`stt analyze`, `stt review`),
 # used by the GitHub Actions workflows. The owner chose the model on 2026-10-30.
-# The API key comes from the ANTHROPIC_API_KEY secret; it is never stored in the repo.
+# The API key comes from the ANTHROPIC_API_KEY_STOCKTRACKER repository secret; it is
+# never stored in the repo.
 model: claude-opus-5-5
 effort: high          # careful reasoning: the analysis is the core of the project
 max_tokens: 64000     # room for thinking plus the events file; requests are streamed

@@ -48,7 +48,9 @@ def client() -> Any:
     import anthropic
 
     if not os.environ.get("ANTHROPIC_API_KEY"):
-        raise RuntimeError("ANTHROPIC_API_KEY is not set (for GitHub runs: a repository secret)")
+        raise RuntimeError(
+            "ANTHROPIC_API_KEY is not set (GitHub runs: the ANTHROPIC_API_KEY_STOCKTRACKER secret)"
+        )
     return anthropic.Anthropic(max_retries=4)
 
 

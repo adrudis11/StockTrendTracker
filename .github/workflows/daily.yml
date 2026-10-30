@@ -65,7 +65,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 90
     env:
-      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY_STOCKTRACKER }}
       STT_SEC_CONTACT: ${{ secrets.STT_SEC_CONTACT }}
       TEST: ${{ github.event_name == 'workflow_dispatch' && inputs.test }}
     outputs:
