@@ -9,7 +9,8 @@
 #
 # Run it by hand from the Actions tab: with "test" ticked (the default) it fetches
 # the news and runs the analysis into a downloadable file, and records, commits and
-# publishes nothing.
+# publishes nothing. Unticked on a day that is already recorded, it only refreshes the
+# dashboard on GitHub Pages (prices and outcomes as of now).
 
 name: Daily run
 
@@ -107,6 +108,7 @@ jobs:
             uv run stt daily prepare | tee "$log"
           fi
           if grep -q "NOTHING TO DO" "$log"; then echo "skip=true" >> "$GITHUB_OUTPUT"; fi
+          if grep -q "already in the ledger" "$log"; then echo "recorded=true" >> "$GITHUB_OUTPUT"; fi
       - name: Analyse (Claude API)
         if: env.TEST != 'true' && steps.prepare.outputs.skip != 'true'
         run: uv run stt analyze
@@ -130,9 +132,17 @@ jobs:
             git pull --rebase origin "$GITHUB_REF_NAME"
           done
           git push origin "HEAD:$GITHUB_REF_NAME"
+      - name: Refresh the dashboard data (the day is already recorded)
+        if: steps.prepare.outputs.recorded == 'true'
+        run: |
+          uv run stt ingest --skip rss --skip federal_register --skip gdelt_events \
+            --skip gdelt_doc --skip polymarket
+          uv run stt dashboard
       - name: Build the dashboard site
         id: site
-        if: env.TEST != 'true' && steps.prepare.outputs.skip != 'true'
+        if: >-
+          env.TEST != 'true' &&
+          (steps.prepare.outputs.skip != 'true' || steps.prepare.outputs.recorded == 'true')
         run: |
           uv run stt site
           echo "publish=true" >> "$GITHUB_OUTPUT"
