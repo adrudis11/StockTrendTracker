@@ -1,0 +1,254 @@
+{
+  "date": "2026-11-02",
+  "market_view": "Risk came off on Friday: the Nasdaq-100 fell 3.5%, semiconductors 7% and the VIX rose 13%, while Brent rose 2.4% to $118 (+15% in 20 days) and Dutch gas 5.4%. Attacks on Hormuz shipping spread to a Qatari LNG carrier, even as Iran shortened its proposed reopening plan to two days and oil eased on talk of Qatari-led negotiations. The US midterms are on Tuesday, with Polymarket at 94% for a Democratic House and 72% for a Democratic Senate, while Fed speakers push for more hikes and the Bank of England is expected to raise rates.",
+  "events": [
+    {
+      "id": "2026-11-02-01",
+      "title": "Qatari LNG carrier struck in the Gulf as Hormuz tanker attacks continue",
+      "category": "conflict",
+      "regions": ["QA", "IR", "US"],
+      "summary": "Qatar's Nakilat reported an attack on one of its LNG carriers in Gulf waters, which caught fire after being struck by unidentified objects. The IRGC says four tankers caught fire and two were halted after incidents in the Strait of Hormuz, and UKMTO reported another vessel hit by a projectile. Trump named a further Iranian target and said the war will end 'one way or the other'.",
+      "certainty": "confirmed",
+      "novelty": 0.6,
+      "severity": 0.7,
+      "duration": "weeks",
+      "sources": ["S009", "S039", "S080", "S140", "S004", "S012", "S019", "S041", "S073", "S134", "S137", "S070", "S071"],
+      "impacts": [
+        {
+          "target": "theme:eu_gas_shock",
+          "direction": 1,
+          "magnitude": 0.3,
+          "confidence": 0.5,
+          "horizon_days": 20,
+          "rationale": "First attack on a Qatari LNG carrier -> threat to the main remaining Gulf LNG flows into a tight winter -> TTF higher (+5.4% Friday) -> European chemicals lose, US gas producers gain. TTF is already +39% in 20 days, so the size is held moderate."
+        },
+        {
+          "target": "theme:shipping_disruption",
+          "direction": 1,
+          "magnitude": 0.3,
+          "confidence": 0.45,
+          "horizon_days": 5,
+          "rationale": "Daily strikes on tankers and now LNG carriers -> war-risk premiums and freight rates stay high -> shipping owners gain. Talks on reopening could undercut this within the week, so confidence is moderate."
+        }
+      ]
+    },
+    {
+      "id": "2026-11-02-02",
+      "title": "Iran cuts its Hormuz reopening plan to two days; oil eases on Qatari-led talks",
+      "category": "diplomacy",
+      "regions": ["IR", "US", "QA"],
+      "summary": "Iran says talks are underway on a plan to reopen the Strait of Hormuz within two days, down from 4-5 days. Oil fell about 3% on optimism over Qatari-led talks, though negotiators are reported to be 'braced for the worst'. Polymarket odds of a US-Iran Hormuz agreement by year-end fell 7 points to 32%.",
+      "certainty": "reported",
+      "novelty": 0.5,
+      "severity": 0.5,
+      "duration": "weeks",
+      "sources": ["S027", "S059", "S023", "S032", "S074", "S025"],
+      "impacts": [
+        {
+          "target": "theme:oil_supply_shock",
+          "direction": -1,
+          "magnitude": 0.15,
+          "confidence": 0.35,
+          "horizon_days": 20,
+          "rationale": "A faster reopening offer and active talks could unwind part of the crude premium (Brent +15% in 20 days). The money disagrees: agreement odds fell 7 points and attacks continue, so confidence is low and the size small.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-02-03",
+      "title": "US Section 232 proclamation adjusts imports of robotics and industrial machinery",
+      "category": "trade",
+      "regions": ["US", "EU", "JP", "CH"],
+      "summary": "A presidential proclamation adjusting imports of robotics, industrial machinery and their parts into the United States was published in the Federal Register. It was signed on 28 October.",
+      "certainty": "confirmed",
+      "novelty": 0.6,
+      "severity": 0.5,
+      "duration": "years",
+      "sources": ["S030"],
+      "impacts": [
+        {
+          "target": "ticker:ABBN.SW",
+          "direction": -1,
+          "magnitude": 0.25,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Import adjustments on robots and machinery -> ABB's robotics and automation exports to the US face added cost. This reverses the 29 October call, which read Trump's remarks as 'no tariffs'; the official proclamation takes precedence."
+        },
+        {
+          "target": "ticker:SIE.DE",
+          "direction": -1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Siemens ships factory automation and machinery parts into the US -> some tariff cost, cushioned by large US manufacturing."
+        },
+        {
+          "target": "ticker:ROK",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Rockwell is the main US-based automation supplier -> gains share against tariffed imports."
+        }
+      ]
+    },
+    {
+      "id": "2026-11-02-04",
+      "title": "US-Canada trade talks progress; Trump floats a deal with a pipeline",
+      "category": "trade",
+      "regions": ["US", "CA", "EU"],
+      "summary": "Trump floated the 'concept' of a US-Canada deal that includes a pipeline, and Carney says teams will work on a deal in the coming weeks after a good conversation, though Canada can wait for better terms. A Federal Register notice modifies the scope of Canadian products subject to the extra duties on motor vehicles. Separately, the EU and Canada agreed to cooperate on critical minerals and LNG at their summit.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.4,
+      "duration": "weeks",
+      "sources": ["S001", "S005", "S010", "S018", "S064", "S082", "S083", "S054", "S013", "S045"],
+      "impacts": [
+        {
+          "target": "ticker:STLAM.MI",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Progress toward a deal lowers the risk of 50% tariffs on Canadian-built cars -> eases the cost threat to Stellantis' Ontario plants. This partly offsets the 28 October negative call; Carney says there's no hurry, so the size is small."
+        },
+        {
+          "target": "ticker:GM",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Same channel: GM's Ontario truck output for the US faces less tariff risk if a deal comes together."
+        }
+      ]
+    },
+    {
+      "id": "2026-11-02-05",
+      "title": "Trump voices uncertainty about Nvidia's Huang after China spy-plot report; chip stocks slide",
+      "category": "technology",
+      "regions": ["US", "CN"],
+      "summary": "Trump said the US is looking 'closely' at the report that Nvidia CEO Jensen Huang was the target of a Chinese spy plot; he called Huang 'very aboveboard' but said it is a 'very complex issue'. The Washington Post reports Trump voiced uncertainty about Huang, a close tech adviser. Semiconductor stocks fell 7% on Friday.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.4,
+      "duration": "weeks",
+      "sources": ["S008", "S109", "S138"],
+      "impacts": [
+        {
+          "target": "ticker:NVDA",
+          "direction": -1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 5,
+          "rationale": "The president publicly questioning Nvidia's CEO -> risk to Nvidia's access to policy-makers and export licences. Chips already fell 7% on Friday (SMH -17% in 20 days), so much is priced and the call is small."
+        }
+      ]
+    },
+    {
+      "id": "2026-11-02-06",
+      "title": "Kherson truce ends; Russian strikes resume; US approves Patriot sale to Ukraine",
+      "category": "conflict",
+      "regions": ["RU", "UA", "US"],
+      "summary": "The localised Russia-Ukraine truce in Kherson ended after civilians were evacuated from Oleshky, and Russian strikes cut power to thousands. The US approved a Patriot missile sale to Ukraine, and NATO's military chief sees no delays to Patriot deliveries.",
+      "certainty": "confirmed",
+      "novelty": 0.6,
+      "severity": 0.4,
+      "duration": "weeks",
+      "sources": ["S007", "S024", "S069", "S108", "S022", "S088", "S011"],
+      "impacts": [
+        {
+          "target": "theme:ukraine_peace_reconstruction",
+          "direction": -1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "The end of the only working truce removes the main sign of de-escalation behind the 28-29 October calls -> lower odds of a broader deal -> Polish assets and reconstruction names lose support. EPOL fell 3% on Friday."
+        },
+        {
+          "target": "ticker:RTX",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Raytheon makes the Patriot -> a new approved sale plus steady deliveries add to its backlog."
+        }
+      ]
+    },
+    {
+      "id": "2026-11-02-07",
+      "title": "Fed's Logan says at least two more hikes are needed; Bank of England expected to hike to 4%",
+      "category": "central_bank",
+      "regions": ["US", "GB"],
+      "summary": "Dallas Fed President Logan said the Fed needs at least two more rate hikes, and other Fed officials made the case for hikes. The Bank of England is expected to raise rates to 4% to curb inflation.",
+      "certainty": "reported",
+      "novelty": 0.4,
+      "severity": 0.4,
+      "duration": "weeks",
+      "sources": ["S086", "S087", "S031", "S062"],
+      "impacts": [
+        {
+          "target": "theme:us_rates_up",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Hawkish Fed speakers -> more hikes priced -> banks over homebuilders and REITs. The 10-year yield actually fell 6.6% in 20 days and December hike odds slipped, so the money is not following yet; low confidence."
+        },
+        {
+          "target": "ticker:NWG.L",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "A BoE hike lifts net interest margins at rate-sensitive UK retail banks like NatWest."
+        }
+      ]
+    },
+    {
+      "id": "2026-11-02-08",
+      "title": "Japan weighs a $500bn defence spending plan",
+      "category": "defense",
+      "regions": ["JP", "US", "CN"],
+      "summary": "Japan is weighing a $500 billion defence spending plan, sources say.",
+      "certainty": "reported",
+      "novelty": 0.7,
+      "severity": 0.3,
+      "duration": "years",
+      "sources": ["S076"],
+      "impacts": [
+        {
+          "target": "theme:defense_us",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "A large Japanese buildup -> more foreign military sales of US missiles and aircraft, and it adds to last week's US-Japan missile co-production deal. ITA is only +1% in 20 days."
+        }
+      ]
+    },
+    {
+      "id": "2026-11-02-09",
+      "title": "Tesla and Samsung oppose new US tariffs on Vietnam as probe deadline nears",
+      "category": "trade",
+      "regions": ["US", "VN"],
+      "summary": "Tesla and Samsung filed opposition to possible new US tariffs on Vietnam as the deadline in a US trade probe approaches.",
+      "certainty": "reported",
+      "novelty": 0.6,
+      "severity": 0.3,
+      "duration": "weeks",
+      "sources": ["S017"],
+      "impacts": [
+        {
+          "target": "ticker:NKE",
+          "direction": -1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Vietnam is Nike's largest footwear source -> new tariffs from the probe would raise its US costs. The outcome is unknown, so the size is small."
+        }
+      ]
+    }
+  ],
+  "trump_calls": []
+}
