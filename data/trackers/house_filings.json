@@ -8364,6 +8364,13 @@
 "trades": 2,
 "year": "2026"
 },
+"20035484": {
+"filed": "2026-11-01",
+"member": "John J Mr McGuire",
+"status": "parsed",
+"trades": 4,
+"year": "2026"
+},
 "20035487": {
 "filed": "2026-10-14",
 "member": "Daniel Meuser",
@@ -8511,6 +8518,13 @@
 "trades": 2,
 "year": "2026"
 },
+"20035591": {
+"filed": "2026-10-30",
+"member": "Thomas H. Kean",
+"status": "parsed",
+"trades": 6,
+"year": "2026"
+},
 "20035622": {
 "filed": "2026-10-12",
 "member": "Gilbert Cisneros",
@@ -8635,6 +8649,20 @@
 "member": "David J. Taylor",
 "status": "parsed",
 "trades": 8,
+"year": "2026"
+},
+"20035734": {
+"filed": "2026-10-30",
+"member": "Carol Devine Miller",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
+"20035743": {
+"filed": "2026-11-01",
+"member": "Donald Sternoff Beyer",
+"status": "no_stock_trades",
+"trades": 0,
 "year": "2026"
 },
 "8220118": {

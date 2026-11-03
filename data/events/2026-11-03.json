@@ -1,0 +1,111 @@
+{
+  "date": "2026-11-03",
+  "market_view": "Oil collapsed on Monday: Brent fell 10.9% to $105 and Dutch gas 8.7% after Trump said an Iran deal 'could happen' and Iran offered to reopen Hormuz within two days, conditional on sanctions relief. Overnight the US carried out 'defensive' strikes on Iran's Qeshm Island, and Polymarket now prices the US-Iran ceasefire as broken. Tech kept falling (Nasdaq-100 -4.4% in 5 days, semis -20% in 20 days, VIX 21) while airlines rallied. US midterms are today, with Polymarket at 76% for Democrats taking both chambers.",
+  "events": [
+    {
+      "id": "2026-11-03-01",
+      "title": "Oil plunges as Trump says an Iran deal 'could happen'; Iran offers a 48-hour Hormuz reopening for sanctions relief",
+      "category": "diplomacy",
+      "regions": ["IR", "US", "QA"],
+      "summary": "Trump said a deal with Tehran 'could happen' amid 'intensive' talks, that oil prices are 'dropping like a rock', and signalled no resumption of strikes. Iran offered to reopen the Strait of Hormuz within two days as part of a deal, conditional on removal of US sanctions. Brent fell about 11% and European bond yields fell with it.",
+      "certainty": "reported",
+      "novelty": 0.7,
+      "severity": 0.7,
+      "duration": "weeks",
+      "sources": ["S013", "S048", "S083", "S084", "S089", "S102", "S146", "S009", "S025", "S026", "S029", "S047", "S069", "S072", "S059", "S140"],
+      "impacts": [
+        {
+          "target": "theme:oil_supply_shock",
+          "direction": -1,
+          "magnitude": 0.25,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "A deal that reopens Hormuz would remove most of the remaining war premium (Brent is still +4% in 20 days) -> producers lag, airlines gain. Monday's 11% drop already priced a lot, and the overnight US strikes show the talks can still fail, so confidence is low."
+        },
+        {
+          "target": "theme:eu_gas_shock",
+          "direction": -1,
+          "magnitude": 0.2,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "A reopened strait restores Qatari LNG flows, and Germany says it has enough gas for winter -> TTF eases -> European chemicals recover. This reverses yesterday's LNG-carrier call; TTF is still +29% in 20 days, so there is room to fall if a deal holds."
+        }
+      ]
+    },
+    {
+      "id": "2026-11-03-02",
+      "title": "US carries out 'defensive' strikes on Iran's Qeshm Island near Hormuz",
+      "category": "conflict",
+      "regions": ["US", "IR"],
+      "summary": "US officials say the US carried out limited 'defensive' strikes on Iranian targets on Qeshm Island in the Strait of Hormuz on the eve of the midterms, and explosions were reported there. The IRGC says it downed two US drones, and a Pakistan-bound LNG tanker was attacked near the strait. Vance says he hopes for a negotiated settlement, and Polymarket's US-Iran ceasefire markets now price the truce as broken.",
+      "certainty": "confirmed",
+      "novelty": 0.7,
+      "severity": 0.6,
+      "duration": "days",
+      "sources": ["S001", "S006", "S007", "S012", "S017", "S035", "S036", "S037", "S044", "S046", "S057", "S073", "S053", "S030", "S068", "S147"],
+      "impacts": [
+        {
+          "target": "theme:shipping_disruption",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.4,
+          "horizon_days": 5,
+          "rationale": "Strikes on Iranian positions beside the strait and continued attacks on tankers -> war-risk premiums stay high in the short run even as talks progress. BOAT fell 3.3% on Monday, so it has room to rebound if the strikes escalate; both sides call the action limited, so confidence is low."
+        }
+      ]
+    },
+    {
+      "id": "2026-11-03-03",
+      "title": "US to mediate Ukraine-Russia talks in Abu Dhabi; European troops rehearse postwar deployment",
+      "category": "diplomacy",
+      "regions": ["US", "UA", "RU", "EU"],
+      "summary": "A US envoy said the US will mediate trilateral talks with Ukraine and Russia in Abu Dhabi next week. Thousands of European troops will rehearse a deployment to Ukraine in the event of peace. Fighting continues: a Russian bombing killed 26 people at a Ukrainian aid centre, and Russian strikes have shut steel plants and stalled grain exports.",
+      "certainty": "reported",
+      "novelty": 0.6,
+      "severity": 0.4,
+      "duration": "weeks",
+      "sources": ["S058", "S028", "S018", "S088", "S008", "S131"],
+      "impacts": [
+        {
+          "target": "theme:ukraine_peace_reconstruction",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Scheduled three-way talks plus visible postwar planning -> higher odds of a ceasefire -> reconstruction and Polish assets gain. This partly offsets yesterday's call on the end of the Kherson truce; the violence continues, so the size is small."
+        }
+      ]
+    },
+    {
+      "id": "2026-11-03-04",
+      "title": "India moves to resolve the Scotch whisky tariff dispute under the UK trade pact",
+      "category": "trade",
+      "regions": ["IN", "GB"],
+      "summary": "Reuters reports, citing sources, that India is moving to resolve a dispute over Scotch whisky tariffs under its trade pact with the UK.",
+      "certainty": "reported",
+      "novelty": 0.7,
+      "severity": 0.2,
+      "duration": "months",
+      "sources": ["S010"],
+      "impacts": [
+        {
+          "target": "ticker:DGE.L",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Lower Indian tariffs on Scotch -> better access to the world's largest whisky market by volume -> Diageo, the biggest Scotch exporter, gains."
+        },
+        {
+          "target": "ticker:RI.PA",
+          "direction": 1,
+          "magnitude": 0.1,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Pernod Ricard's Chivas and Ballantine's are large Scotch brands in India -> smaller benefit than Diageo's."
+        }
+      ]
+    }
+  ],
+  "trump_calls": []
+}
