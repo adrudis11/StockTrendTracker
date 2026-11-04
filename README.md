@@ -27,11 +27,12 @@ ones only refresh the dashboard. A late day is still scored honestly: picks ente
 the first market open after they are logged. To run the day at once, start the
 workflow by hand (Actions → Daily run → Run workflow, "test" unticked).
 
-The GitHub runs start on 2026-11-04. Until 2026-11-03 the daily run happens in a
-Claude Code cloud session ([prompts/daily_run.md](prompts/daily_run.md),
-[prompts/weekly_review.md](prompts/weekly_review.md)), which also refreshes a private
-claude.ai dashboard; its credits end on 2026-11-05. If both ever run on the same day,
-the first records it and the second does nothing.
+GitHub has run everything since 2026-11-04. Until 2026-11-03 the runs happened in a
+Claude Code cloud session, which also kept a private claude.ai dashboard (no longer
+updated). Its runbooks, [prompts/daily_run.md](prompts/daily_run.md) and
+[prompts/weekly_review.md](prompts/weekly_review.md), still work for doing a day or a
+review by hand in a Claude session; if two runs meet on one day, the first records it
+and the second does nothing.
 
 ### Setting up the GitHub runs
 

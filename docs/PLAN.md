@@ -761,3 +761,21 @@ fix round fixed it ($0.41 + $0.23); the run now prints the errors of each fix ro
 so repeated mistakes can be fixed in the prompt. Expected: about $9–14 a month with
 the reviews, measured from `data/usage/api.jsonl` after the first weeks.
 
+Handover done (2026-11-04):
+
+- The last cloud runs were 11-02 and 11-03; the first GitHub day was 11-04 (10 events,
+  2 Trump calls, 27 picks, 131 ledger entries, $0.45 for the analysis with no fix
+  round, about 5 minutes end to end). Its commit had to rebase over a code push made
+  during the run, which the retry loop handled. The first matured picks were scored
+  in the same run (48 picks, 3 analysis calls).
+- **GitHub's schedule runs late.** The 05:23 UTC runs started at 13:38 (11-02) and
+  12:52 (11-03), and the Saturday 08:41 run at 14:44: 6-8 hours late, which would put
+  the picks after the European open. The 11-04 day was started by hand at 06:15. The
+  daily workflow now has four schedules (23:17, 01:17, 03:17, 05:23 UTC) and the gate
+  lets the first one that starts between 04:30 and 20:00 UTC do the day; later ones
+  find it recorded and only refresh the dashboard. If GitHub's delays change, the
+  first weeks of commit times will show it; an external trigger (a free cron service
+  calling the workflow's dispatch API with a token) would give exact timing.
+- Both cloud scheduled tasks were paused once the run checked out. The claude.ai
+  dashboard stays at 11-03; the GitHub Pages one is live.
+
