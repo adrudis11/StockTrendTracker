@@ -1,8 +1,102 @@
 {
- "matured": 0,
- "open": 627,
- "rows": [],
- "calibration": [],
- "brier": null,
+ "matured": 48,
+ "open": 710,
+ "rows": [
+  {
+   "strategy": "congress",
+   "horizon": 5,
+   "side": "long",
+   "n": 10,
+   "hit_rate": 0.7,
+   "mean_excess": 0.0061,
+   "median_excess": 0.01432,
+   "t_stat": 0.23
+  },
+  {
+   "strategy": "geo",
+   "horizon": 5,
+   "side": "avoid",
+   "n": 2,
+   "hit_rate": 0.5,
+   "mean_excess": -0.01536,
+   "median_excess": -0.01536,
+   "t_stat": -0.52
+  },
+  {
+   "strategy": "geo",
+   "horizon": 5,
+   "side": "long",
+   "n": 4,
+   "hit_rate": 0.0,
+   "mean_excess": -0.02087,
+   "median_excess": -0.01234,
+   "t_stat": -1.78
+  },
+  {
+   "strategy": "insiders",
+   "horizon": 5,
+   "side": "long",
+   "n": 10,
+   "hit_rate": 0.9,
+   "mean_excess": 0.05531,
+   "median_excess": 0.0533,
+   "t_stat": 5.08
+  },
+  {
+   "strategy": "momentum",
+   "horizon": 5,
+   "side": "avoid",
+   "n": 3,
+   "hit_rate": 0.333,
+   "mean_excess": 0.01606,
+   "median_excess": -0.07683,
+   "t_stat": 0.13
+  },
+  {
+   "strategy": "momentum",
+   "horizon": 5,
+   "side": "long",
+   "n": 7,
+   "hit_rate": 0.571,
+   "mean_excess": 0.01453,
+   "median_excess": 0.01805,
+   "t_stat": 0.46
+  },
+  {
+   "strategy": "random",
+   "horizon": 5,
+   "side": "avoid",
+   "n": 2,
+   "hit_rate": 0.0,
+   "mean_excess": -0.05378,
+   "median_excess": -0.05378,
+   "t_stat": -6.45
+  },
+  {
+   "strategy": "random",
+   "horizon": 5,
+   "side": "long",
+   "n": 10,
+   "hit_rate": 0.1,
+   "mean_excess": -0.01793,
+   "median_excess": -0.01435,
+   "t_stat": -3.18
+  }
+ ],
+ "calibration": [
+  {
+   "bucket": "(0.55, 0.6]",
+   "n": 1,
+   "predicted": 0.557,
+   "observed": 1.0
+  },
+  {
+   "bucket": "(0.6, 0.65]",
+   "n": 5,
+   "predicted": 0.633,
+   "observed": 0.0
+  }
+ ],
+ "brier": 0.3665,
  "enough_data": false
 }

@@ -1,0 +1,427 @@
+{
+  "date": "2026-11-04",
+  "market_view": "Democrats swept the US midterms, flipping Senate seats in Texas, Kansas and Mississippi. Trump says he accepts the result, and investors are positioning for gridlock; Asian stocks slid on the rout. Iran remains unresolved: the US confirmed strikes on Qeshm Island, Iran called the US reply to its Hormuz plan 'unconvincing', and more tankers were hit. Brent is near $104 after a 9% weekly drop, and odds of normal Hormuz traffic by year-end are only 10%. Trump also said he will end $4bn a year of military aid to Israel, is considering F-35s and sanctions relief for Turkey, and is weighing a diesel export ban. Markets price a 76% chance of a December Fed hike, and ECB hawks keep backing a December move.",
+  "events": [
+    {
+      "id": "2026-11-04-01",
+      "title": "Democrats sweep both chambers of Congress in the US midterms",
+      "category": "election",
+      "regions": [
+        "US"
+      ],
+      "summary": "Democrats are projected to win both the House and the Senate, including historic Senate flips in Texas (Talarico), Kansas and Mississippi, and Ossoff held Georgia. Trump says he accepts the results and blamed the losses partly on the Iran war and on not being on the ballot. Reuters says investors are poised for gridlock.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.5,
+      "duration": "months",
+      "sources": [
+        "S023",
+        "S057",
+        "S061",
+        "S105",
+        "S106",
+        "S107",
+        "S140",
+        "S143",
+        "S053",
+        "S097",
+        "S125",
+        "S037",
+        "S073",
+        "S059",
+        "S049",
+        "S016",
+        "S048",
+        "S058",
+        "S007"
+      ],
+      "impacts": [
+        {
+          "target": "theme:clean_energy_policy",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "A Democratic Congress can block further rollbacks of clean-energy credits and use appropriations leverage -> less policy downside for renewables -> solar and clean-energy names gain on relief. Polymarket already had the House at 94%, but the size of the Senate sweep was less expected.",
+          "against_coverage": false
+        },
+        {
+          "target": "theme:defense_us",
+          "direction": -1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Divided government ends party-line reconciliation top-ups for defence, and Democrats may constrain Iran war funding -> slower budget growth. ITA is +4.8% in 5 days, so there is room to give back; core budgets are bipartisan, so confidence is low.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-04-02",
+      "title": "Trump says US will end $4bn annual military aid to Israel at end of 2026",
+      "category": "defense",
+      "regions": [
+        "US",
+        "IL"
+      ],
+      "summary": "Trump said Israel will stop receiving about $4 billion a year in US military aid by year-end, though it can still buy US weapons. Coverage frames this as Israel weaning itself off US dependence, and stocks wobbled on the news.",
+      "certainty": "confirmed",
+      "novelty": 0.9,
+      "severity": 0.4,
+      "duration": "years",
+      "sources": [
+        "S001",
+        "S002",
+        "S005",
+        "S006",
+        "S017",
+        "S029",
+        "S068",
+        "S051",
+        "S088"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:EIS",
+          "direction": -1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Loss of foreign military financing -> Israel must fund arms purchases from its own budget amid a war -> wider deficit and a weaker sovereign and shekel outlook -> Israeli equities lag. EIS is already -8.6% in 5 days, so some of this is priced.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-04-03",
+      "title": "Trump says he will consider giving Turkey F-35 jets and lifting sanctions",
+      "category": "diplomacy",
+      "regions": [
+        "US",
+        "TR"
+      ],
+      "summary": "ABC News reports Trump said he'll consider giving Turkey F-35 fighter jets and that the US will lift sanctions, which would reverse Turkey's exclusion from the F-35 programme.",
+      "certainty": "reported",
+      "novelty": 0.7,
+      "severity": 0.3,
+      "duration": "months",
+      "sources": [
+        "S149"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:TUR",
+          "direction": 1,
+          "magnitude": 0.25,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Lifting US sanctions on Turkey's defence sector -> lower country risk premium and a better lira outlook -> Turkish equities gain. Single-outlet report and Congress may object, so confidence is moderate.",
+          "against_coverage": false
+        },
+        {
+          "target": "ticker:LMT",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Turkey's return to the F-35 would add dozens of jets to Lockheed's order book. It is only 'considering' it, so the size is small.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-04-04",
+      "title": "Trump says US is 'very seriously' considering a diesel export ban",
+      "category": "energy",
+      "regions": [
+        "US",
+        "EU"
+      ],
+      "summary": "Trump said the US is very seriously considering banning diesel exports. Refiner stocks and diesel futures rose overnight. Polymarket odds of US imports of Russian diesel fell about 36 points.",
+      "certainty": "rumor",
+      "novelty": 0.8,
+      "severity": 0.4,
+      "duration": "weeks",
+      "sources": [
+        "S150"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:VLO",
+          "direction": -1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "An export ban traps Gulf Coast diesel at home -> domestic cracks compress and export margins vanish -> Valero, a top exporter, loses. The overnight rally reads the headline as bullish, but a ban would cap US diesel prices, so this bets against the framing.",
+          "against_coverage": true
+        },
+        {
+          "target": "ticker:MPC",
+          "direction": -1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Marathon also exports large volumes of distillate from the Gulf Coast -> same margin hit if a ban comes in.",
+          "against_coverage": true
+        },
+        {
+          "target": "ticker:REP.MC",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Europe imports US diesel -> a US ban tightens the European distillate supply -> European diesel cracks rise -> Repsol's refining margins gain.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-04-05",
+      "title": "Iran calls US reply to Hormuz plan 'unconvincing' as tankers burn and Trump confirms strikes",
+      "category": "conflict",
+      "regions": [
+        "IR",
+        "US"
+      ],
+      "summary": "Iran said the US reply to its plan to reopen Hormuz was 'unconvincing', and Trump confirmed the strikes on Qeshm Island while telling the FT there is no immediate plan for more. The IRGC says four tankers are ablaze after hitting mines, and the WSJ reports Iran is turning to guerrilla tactics in the strait. Odds of an end to the US blockade by 15 November fell 5 points to 10%.",
+      "certainty": "confirmed",
+      "novelty": 0.4,
+      "severity": 0.6,
+      "duration": "weeks",
+      "sources": [
+        "S020",
+        "S054",
+        "S008",
+        "S095",
+        "S062",
+        "S022",
+        "S129",
+        "S148",
+        "S135",
+        "S145",
+        "S130",
+        "S089",
+        "S067",
+        "S076",
+        "S003",
+        "S004",
+        "S034",
+        "S055",
+        "S079",
+        "S086",
+        "S099",
+        "S100",
+        "S074"
+      ],
+      "impacts": [
+        {
+          "target": "theme:shipping_disruption",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 5,
+          "rationale": "Mines and guerrilla attacks keep hitting tankers while talks stall -> war-risk premiums and freight rates stay elevated. BOAT is -1.8% in 5 days on deal hopes, which leaves room to rebound; Trump's no-strike stance limits the upside.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-04-06",
+      "title": "Russia hits Ukraine's energy grid and Black Sea war widens; NATO plan envisages deep strikes",
+      "category": "conflict",
+      "regions": [
+        "RU",
+        "UA",
+        "EU"
+      ],
+      "summary": "Russia launched a massive attack on Ukraine's energy infrastructure, and an airstrike killed 31 at an aid centre. Reuters reports the war is widening in the Black Sea in a test of NATO red lines, and the WSJ says NATO's new defence plan would involve strikes deep inside Russia. US-mediated talks in Abu Dhabi are still planned for next week.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.5,
+      "duration": "weeks",
+      "sources": [
+        "S065",
+        "S078",
+        "S046",
+        "S064",
+        "S070",
+        "S069",
+        "S102",
+        "S011",
+        "S052",
+        "S047",
+        "S038"
+      ],
+      "impacts": [
+        {
+          "target": "theme:russia_ukraine_escalation",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Energy-grid strikes and Black Sea spillover -> higher risk premium on European cyclicals and Poland, and support for defence names. The upcoming talks are an offset, so the size is small.",
+          "against_coverage": false
+        },
+        {
+          "target": "theme:defense_europe",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "NATO's deep-strike planning and tests of its red lines -> more pressure for long-range strike and air-defence procurement. WDEF.MI is only +3.3% in 20 days.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-04-07",
+      "title": "US removes South Africa and Rwanda from a US trade deal",
+      "category": "trade",
+      "regions": [
+        "US",
+        "ZA",
+        "RW"
+      ],
+      "summary": "The BBC and Bloomberg report that Trump will remove Rwanda and South Africa from a US trade deal, a week after the US Treasury sanctioned Rwanda's defence ministry.",
+      "certainty": "confirmed",
+      "novelty": 0.8,
+      "severity": 0.3,
+      "duration": "months",
+      "sources": [
+        "S077"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:EZA",
+          "direction": -1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Loss of preferential US access -> tariffs on South African autos, agricultural and metals exports -> weaker earnings and a weaker rand -> South African equities lag.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-04-08",
+      "title": "Trump says US is close to a Canada trade deal; Carney says work remains",
+      "category": "trade",
+      "regions": [
+        "US",
+        "CA"
+      ],
+      "summary": "Trump said the US is close to a trade deal with Canada. Carney said progress has been made but work remains.",
+      "certainty": "confirmed",
+      "novelty": 0.4,
+      "severity": 0.3,
+      "duration": "weeks",
+      "sources": [
+        "S013",
+        "S035",
+        "S096",
+        "S122"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:STLAM.MI",
+          "direction": 1,
+          "magnitude": 0.1,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "A nearer deal further lowers the tariff risk on Canadian-built vehicles -> eases cost pressure on Stellantis' Ontario plants. Builds on the 2 November call, so it is small.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-04-09",
+      "title": "Bundesbank's Nagel backs a December ECB hike; BoE expected to hike, RBA hikes again",
+      "category": "central_bank",
+      "regions": [
+        "EU",
+        "DE",
+        "GB",
+        "AU"
+      ],
+      "summary": "Bundesbank President Nagel joined other ECB policymakers in backing a December rate hike. The Bank of England is expected to raise rates for the first time since 2023, and the RBA delivered its fifth hike to an 18-year high.",
+      "certainty": "reported",
+      "novelty": 0.3,
+      "severity": 0.3,
+      "duration": "weeks",
+      "sources": [
+        "S018",
+        "S091",
+        "S030",
+        "S104"
+      ],
+      "impacts": [
+        {
+          "target": "theme:eu_rates_up",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "A broadening hawkish chorus locks in the December hike -> euro yields supported -> banks over real estate. Falling oil weakens the inflation case, so the size is small.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-04-10",
+      "title": "Commerce keeps countervailing duties on Moroccan phosphate fertilizers",
+      "category": "trade",
+      "regions": [
+        "US",
+        "MA"
+      ],
+      "summary": "In a sunset review, the US Commerce Department found that revoking the countervailing duty order on Moroccan phosphate fertilizers would likely lead to continued subsidisation, supporting the order's continuation.",
+      "certainty": "confirmed",
+      "novelty": 0.4,
+      "severity": 0.2,
+      "duration": "years",
+      "sources": [
+        "S121"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:MOS",
+          "direction": 1,
+          "magnitude": 0.1,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Continued duties keep OCP's phosphate out of the US -> Mosaic retains its pricing power as the main domestic producer. The outcome was largely expected, so the size is small.",
+          "against_coverage": false
+        }
+      ]
+    }
+  ],
+  "trump_calls": [
+    {
+      "ticker": "LMT",
+      "company": "Lockheed Martin",
+      "stance": "positive",
+      "explicit": false,
+      "said_on": "2026-11-03",
+      "quote": "Says he'll consider giving Turkey F-35 jets, adds that US will lift sanctions",
+      "sources": [
+        "S149"
+      ]
+    },
+    {
+      "ticker": "FOXA",
+      "company": "Fox Corporation",
+      "stance": "negative",
+      "explicit": false,
+      "said_on": "2026-11-03",
+      "quote": "Rages at Fox News over a 'dumb as a rock' commentator on election night and turns to CNN instead",
+      "sources": [
+        "S019",
+        "S024",
+        "S025",
+        "S120",
+        "S126",
+        "S142"
+      ]
+    }
+  ]
+}
