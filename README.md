@@ -12,13 +12,20 @@ phases and progress log.
 
 ## How it runs
 
-Every weekday at 05:23 UTC, before the European open, GitHub Actions runs
+Every weekday morning, ideally before the European open, GitHub Actions runs
 [.github/workflows/daily.yml](.github/workflows/daily.yml): `stt daily prepare` (prices,
 news, trackers, scoring of matured picks, digest), `stt analyze` (the analysis, by
 Claude through the API), `stt daily finish` (picks, ledger, report), a commit of
 `data/`, and the dashboard on GitHub Pages. On Saturdays
 [weekly.yml](.github/workflows/weekly.yml) scores the week and writes a review to
 `data/reviews/`.
+
+GitHub starts scheduled runs late, by 6–8 hours in the first week, so the daily
+workflow has several schedules through the night (23:17, 01:17, 03:17 and 05:23
+UTC): the first one that starts between 04:30 and 20:00 UTC does the day, and later
+ones only refresh the dashboard. A late day is still scored honestly: picks enter at
+the first market open after they are logged. To run the day at once, start the
+workflow by hand (Actions → Daily run → Run workflow, "test" unticked).
 
 The GitHub runs start on 2026-11-04. Until 2026-11-03 the daily run happens in a
 Claude Code cloud session ([prompts/daily_run.md](prompts/daily_run.md),

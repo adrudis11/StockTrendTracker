@@ -37,10 +37,12 @@ days, keeping an honest track record. Full plan and progress log: `docs/PLAN.md`
 - **GitHub Actions**, in `.github/workflows/`, scheduled from 2026-11-04 (`START` in
   each workflow; the repository variable `STT_RUNNER` overrides it: `github` on, `off`
   paused):
-  - `daily.yml`, weekdays 05:23 UTC: `stt daily prepare`, `stt analyze` (Claude API),
+  - `daily.yml`, weekday mornings: `stt daily prepare`, `stt analyze` (Claude API),
     `stt daily finish`, commit `data/` as github-actions[bot], publish the dashboard to
-    GitHub Pages (`stt site`). Run by hand with "test" ticked to try it without
-    recording anything.
+    GitHub Pages (`stt site`). GitHub starts scheduled runs 6-8 hours late, so it has
+    four schedules (23:17, 01:17, 03:17, 05:23 UTC) and the gate job lets the first
+    one that starts between 04:30 and 20:00 UTC do the day. Run by hand with "test"
+    ticked to try it without recording anything, or unticked to run the day now.
   - `weekly.yml`, Saturdays 08:41 UTC: score the week, `stt review` writes
     `data/reviews/`. Unattended it only *proposes* edits to `config/exposures.yaml` and
     the analysis prompt; apply them in a session if they hold up.

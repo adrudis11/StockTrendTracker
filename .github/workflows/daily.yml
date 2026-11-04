@@ -7,6 +7,11 @@
 # Actions > Variables) overrides the date: `github` runs them now, `off` pauses them.
 # A second run on a recorded day does nothing: `stt daily prepare` stops.
 #
+# GitHub starts scheduled runs late: by 6-8 hours in this repository's first week
+# (2026-11-02 to 11-04). So there are several schedules through the night, and the
+# first run that starts between 04:30 and 20:00 UTC on a weekday does the day; earlier
+# ones stop at the gate, later ones find the day recorded and refresh the dashboard.
+#
 # Run it by hand from the Actions tab: with "test" ticked (the default) it fetches
 # the news and runs the analysis into a downloadable file, and records, commits and
 # publishes nothing. Unticked on a day that is already recorded, it only refreshes the
@@ -16,7 +21,10 @@ name: Daily run
 
 on:
   schedule:
-    - cron: "23 5 * * 1-5" # 05:23 UTC: well before the European open all year
+    - cron: "17 23 * * 0-4" # the evening before: with the usual delay, about 05:00-07:00
+    - cron: "17 1 * * 1-5"
+    - cron: "17 3 * * 1-5"
+    - cron: "23 5 * * 1-5" # 05:23 UTC: the intended time, well before the European open
   workflow_dispatch:
     inputs:
       test:
@@ -50,11 +58,16 @@ jobs:
         env:
           STT_RUNNER: ${{ vars.STT_RUNNER }}
         run: |
-          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ] || [ "$STT_RUNNER" = github ]; then
+          now=$(date -u +%H%M)
+          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
             go=true
-          elif [ "$STT_RUNNER" = off ] || [[ "$(date -u +%F)" < "$START" ]]; then
+          elif [ "$STT_RUNNER" = off ] ||
+            { [ "$STT_RUNNER" != github ] && [[ "$(date -u +%F)" < "$START" ]]; }; then
             go=false
             echo "Scheduled runs are off (start $START, STT_RUNNER=${STT_RUNNER:-unset})."
+          elif [[ "$now" < 0430 || ! "$now" < 2000 ]]; then
+            go=false
+            echo "Started at $now UTC, outside 04:30-20:00: another scheduled run does the day."
           else
             go=true
           fi
