@@ -788,3 +788,11 @@ does the day at about 04:30 (a wait of at most 313 minutes, within the 6-hour jo
 limit). The pipeline lock moved from the whole workflow to the `run` job, so a
 waiting gate doesn't block a manual run.
 
+2026-11-05, exact timing: the owner chose an outside trigger. A cron-job.org job (the
+owner's account, with a fine-grained token limited to Actions on this repository)
+calls the daily workflow's dispatch API at 06:00 Europe/Paris on weekdays, with
+`trigger: cron` (it obeys `STT_RUNNER`, never waits and always records). GitHub's own
+schedules became a backup that waits until 05:30 UTC, after the outside call in both
+summer (04:00 UTC) and winter (05:00 UTC), and well before the European open. Setup
+steps are in the README ("Exact timing").
+

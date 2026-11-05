@@ -39,12 +39,14 @@ days, keeping an honest track record. Full plan and progress log: `docs/PLAN.md`
   paused):
   - `daily.yml`, weekday mornings: `stt daily prepare`, `stt analyze` (Claude API),
     `stt daily finish`, commit `data/` as github-actions[bot], publish the dashboard to
-    GitHub Pages (`stt site`). GitHub starts scheduled runs hours late or drops
-    them, so it has four schedules (23:17, 01:17, 03:17, 05:23 UTC); the gate job
-    makes a run that starts between 23:00 and 04:30 UTC wait until 04:30, runs one
-    that starts by 20:00 at once, and the first does the day (later ones only refresh
-    the dashboard). Only the `run` job holds the pipeline lock. Run by hand with
-    "test" ticked to try it without recording anything, or unticked to run the day now.
+    GitHub Pages (`stt site`). It is started at 06:00 Paris time on weekdays by an
+    outside cron service (cron-job.org, the owner's account and token; it sends
+    `trigger: cron`, which obeys `STT_RUNNER` and always records). GitHub's own
+    schedules (00:47, 02:47, 04:47, 09:17 UTC) are a backup, because GitHub starts
+    them hours late or drops them: the gate makes one that starts before 05:30 UTC
+    wait until then, and the day is done only if it isn't recorded yet. Only the `run`
+    job holds the pipeline lock. Run by hand with "test" ticked to try it without
+    recording anything, or unticked to run the day now.
   - `weekly.yml`, Saturdays 08:41 UTC: score the week, `stt review` writes
     `data/reviews/`. Unattended it only *proposes* edits to `config/exposures.yaml` and
     the analysis prompt; apply them in a session if they hold up.

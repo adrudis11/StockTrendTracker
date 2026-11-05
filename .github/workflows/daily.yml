@@ -7,13 +7,15 @@
 # Actions > Variables) overrides the date: `github` runs them now, `off` pauses them.
 # A second run on a recorded day does nothing: `stt daily prepare` stops.
 #
-# GitHub starts scheduled runs late or drops them: 6-8 hours late on 2026-11-02 to
-# 11-04, and on 11-05 only the 03:17 schedule fired (at 03:28). So there are several
-# schedules through the night, and the gate makes a run that starts between 23:00 and
-# 04:30 UTC wait until 04:30 before going on. Whichever fires first does the day at
-# about 04:30; one that starts later in the day (until 20:00 UTC) runs at once; the
-# rest find the day recorded and only refresh the dashboard. Only the `run` job holds
-# the pipeline lock, so a waiting gate blocks nothing.
+# The day normally starts at an exact time from outside: a cron service (cron-job.org)
+# calls this workflow's dispatch API at 06:00 Paris time on weekdays, with
+# test=false (README, "Exact timing"). GitHub's own schedules are only a backup,
+# because GitHub starts them hours late or drops them (6-8 hours late on 2026-11-02 to
+# 11-04; on 11-05 only one of four fired). A scheduled run that starts before 05:30
+# UTC waits in the gate until 05:30, after the outside call in summer and winter, and
+# then goes on; one that starts later (until 20:00 UTC) runs at once. If the day is
+# already recorded they only refresh the dashboard. Only the `run` job holds the
+# pipeline lock, so a waiting gate blocks nothing.
 #
 # Run it by hand from the Actions tab: with "test" ticked (the default) it fetches
 # the news and runs the analysis into a downloadable file, and records, commits and
@@ -24,17 +26,22 @@ name: Daily run
 
 on:
   schedule:
-    - cron: "17 23 * * 0-4" # the evening before: with the usual delay, about 05:00-07:00
-    - cron: "17 1 * * 1-5"
-    - cron: "17 3 * * 1-5"
-    - cron: "23 5 * * 1-5" # 05:23 UTC: the intended time, well before the European open
-    - cron: "17 9 * * 1-5" # a late fallback: runs at once if the day isn't recorded yet
+    # Backups for the outside trigger (see above); each waits until 05:30 UTC.
+    - cron: "47 0 * * 1-5"
+    - cron: "47 2 * * 1-5"
+    - cron: "47 4 * * 1-5"
+    - cron: "17 9 * * 1-5" # late: runs at once if the day isn't recorded yet
   workflow_dispatch:
     inputs:
       test:
         description: "Test only: run the analysis, record and publish nothing"
         type: boolean
         default: true
+      trigger:
+        description: "Who starts it: the outside cron service sends 'cron'"
+        type: choice
+        options: [manual, cron]
+        default: manual
 
 permissions:
   contents: write
@@ -51,30 +58,33 @@ defaults:
 jobs:
   gate:
     runs-on: ubuntu-latest
-    timeout-minutes: 350 # a wait from 23:17 to 04:30 is 313 minutes
+    timeout-minutes: 350 # a wait from 00:47 to 05:30 is 283 minutes
     outputs:
       go: ${{ steps.check.outputs.go }}
     steps:
       - id: check
         env:
           STT_RUNNER: ${{ vars.STT_RUNNER }}
+          TRIGGER: ${{ inputs.trigger }}
         run: |
           now=$(date -u +%s)
           midnight=$((now - now % 86400))
-          start=$((midnight + 270 * 60)) # 04:30 UTC
+          start=$((midnight + 330 * 60)) # 05:30 UTC
           if [ "$now" -ge $((midnight + 20 * 3600)) ]; then
-            start=$((start + 86400)) # evening: tomorrow's 04:30
+            start=$((start + 86400)) # evening: tomorrow's 05:30
           fi
           wait=$((start - now))
-          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
-            go=true
+          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ] && [ "$TRIGGER" != cron ]; then
+            go=true # started by hand
           elif [ "$STT_RUNNER" = off ] ||
             { [ "$STT_RUNNER" != github ] && [[ "$(date -u +%F)" < "$START" ]]; }; then
             go=false
             echo "Scheduled runs are off (start $START, STT_RUNNER=${STT_RUNNER:-unset})."
+          elif [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
+            go=true # the outside cron trigger: on time, no wait
           elif [ "$wait" -gt $((330 * 60)) ]; then
             go=false
-            echo "Started at $(date -u -d "@$now" +%H:%M) UTC, too early to wait for 04:30."
+            echo "Started at $(date -u -d "@$now" +%H:%M) UTC, too early to wait for 05:30."
           else
             if [ "$wait" -gt 0 ]; then
               echo "Started at $(date -u -d "@$now" +%H:%M) UTC: waiting $((wait / 60)) minutes."
@@ -95,7 +105,8 @@ jobs:
     env:
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY_STOCKTRACKER }}
       STT_SEC_CONTACT: ${{ secrets.STT_SEC_CONTACT }}
-      TEST: ${{ github.event_name == 'workflow_dispatch' && inputs.test }}
+      # the outside cron trigger always records the day, whatever it sends as `test`
+      TEST: ${{ github.event_name == 'workflow_dispatch' && inputs.test && inputs.trigger != 'cron' }}
     outputs:
       publish: ${{ steps.site.outputs.publish }}
     steps:
