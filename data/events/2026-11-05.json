@@ -1,0 +1,412 @@
+{
+  "date": "2026-11-05",
+  "market_view": "Markets staged a relief rally after the Democratic midterm sweep. The S&P 500 rose 1.7%, the VIX fell 20% to 16.6, and the Dow gained 1,500 points. Brent fell another 8.7% to $94.6 (-18% in 5 days) and has since slipped below $90, as Vance and Trump tied the defeat to the Iran war and traders bet on de-escalation. Polymarket still prices only 10% odds of normal Hormuz traffic by year-end, mines are still hitting tankers, and gold jumped 3.4%. Semis keep sliding (SMH -19% in 20 days). The Bank of England is expected to hike to 4% (96% priced) and a December Fed hike is 78% priced.",
+  "events": [
+    {
+      "id": "2026-11-05-01",
+      "title": "Oil falls below $90 as Vance and Trump blame the Iran war for midterm losses; Hormuz incidents continue",
+      "category": "conflict",
+      "regions": [
+        "US",
+        "IR",
+        "IL"
+      ],
+      "summary": "Vance said the Iran war was the 'real reason' Republicans lost and that voters want to end it, and Trump acknowledged the war was a major factor while still calling it justified. Oil fell for a fourth day, below $90, on expectations of lower escalation risk. Iran exempted ships of four countries, including India, from Hormuz transit restrictions, but the IRGC said more tankers caught fire after hitting mines.",
+      "certainty": "confirmed",
+      "novelty": 0.6,
+      "severity": 0.6,
+      "duration": "weeks",
+      "sources": [
+        "S007",
+        "S011",
+        "S013",
+        "S069",
+        "S070",
+        "S114",
+        "S001",
+        "S003",
+        "S014",
+        "S044",
+        "S056",
+        "S058",
+        "S068",
+        "S078",
+        "S091",
+        "S092",
+        "S113",
+        "S042",
+        "S043",
+        "S127",
+        "S039",
+        "S149",
+        "S017",
+        "S027",
+        "S002",
+        "S024",
+        "S004",
+        "S008",
+        "S093"
+      ],
+      "impacts": [
+        {
+          "target": "theme:middle_east_escalation",
+          "direction": -1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "The election defeat is now openly blamed on the war by the VP and the president -> strong political pressure to wind down operations against Iran -> lower escalation premium in energy and higher airline earnings. Israel-Iran ceasefire odds rose 8 points. Mines and the 10% normal-traffic odds limit confidence.",
+          "against_coverage": false
+        },
+        {
+          "target": "theme:oil_supply_shock",
+          "direction": -1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "De-escalation expectations and partial Hormuz exemptions -> less supply premium -> producers lag and airlines gain. Brent is already -18% in 5 days and JETS +9%, so much is priced. Physical flows remain disrupted, so the size is small.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-05-02",
+      "title": "US sanctions Indian and Turkish firms for helping Iran evade the oil embargo",
+      "category": "sanctions",
+      "regions": [
+        "US",
+        "IN",
+        "TR",
+        "IR"
+      ],
+      "summary": "The US Treasury sanctioned Indian and Turkish companies and individuals, including an India-based couple, for helping Iran evade the oil blockade through shadow-fleet and maritime-fraud schemes. Separately, the national emergency with respect to Iran was formally continued.",
+      "certainty": "confirmed",
+      "novelty": 0.6,
+      "severity": 0.25,
+      "duration": "weeks",
+      "sources": [
+        "S006",
+        "S009",
+        "S016",
+        "S026",
+        "S066",
+        "S022"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:TUR",
+          "direction": -1,
+          "magnitude": 0.1,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "New secondary sanctions on Turkish firms -> a reminder of Turkey's Iran-trade exposure -> slightly tempers the sanctions-relief optimism of the F-35 remarks. The targets are small firms, so the effect is minor.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-05-03",
+      "title": "Incoming Democratic Congress pledges to restore ACA subsidies and reverse Medicaid cuts; tariff repeals face a veto",
+      "category": "politics",
+      "regions": [
+        "US"
+      ],
+      "summary": "Democrats pledged to move quickly to reverse Medicaid changes and restore enhanced ACA subsidies after winning both chambers. Reuters reports Democrats gain influence over the trade agenda, but tariff repeals would hit a Trump veto. Executives say the result is unlikely to ease tariff costs in the near term.",
+      "certainty": "reported",
+      "novelty": 0.6,
+      "severity": 0.4,
+      "duration": "months",
+      "sources": [
+        "S047",
+        "S136",
+        "S053",
+        "S054",
+        "S055"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:CNC",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Restored ACA subsidies and Medicaid funding -> higher enrolment and better risk pools on exchanges -> Centene, the largest ACA and Medicaid insurer, gains. A Trump veto risk means it depends on spending-bill leverage, so confidence is moderate.",
+          "against_coverage": false
+        },
+        {
+          "target": "ticker:HCA",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "More insured patients and less Medicaid cutback risk -> lower uncompensated care -> hospital operators like HCA benefit.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-05-04",
+      "title": "Bank of England expected to raise rates to 4%, its first hike since 2023",
+      "category": "central_bank",
+      "regions": [
+        "GB"
+      ],
+      "summary": "The Bank of England is widely expected to raise Bank Rate from 3.75% to 4% at Thursday's meeting to tackle rising inflation. Polymarket prices a 96% chance. The pound hit its highest level against a basket of currencies since the Brexit referendum.",
+      "certainty": "scheduled",
+      "novelty": 0.3,
+      "severity": 0.3,
+      "duration": "weeks",
+      "sources": [
+        "S010",
+        "S025",
+        "S061",
+        "S062",
+        "S095",
+        "S102",
+        "S115",
+        "S097"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:LLOY.L",
+          "direction": 1,
+          "magnitude": 0.1,
+          "confidence": 0.45,
+          "horizon_days": 5,
+          "rationale": "A rate hike lifts deposit margins at UK retail banks, and Lloyds is the most rate-sensitive. The hike is 96% priced, so only guidance for further hikes would add upside; the size is small.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-05-05",
+      "title": "European Commission hosts Ukraine 'prosperity talks' ahead of US-mediated Abu Dhabi talks",
+      "category": "diplomacy",
+      "regions": [
+        "EU",
+        "UA",
+        "DE",
+        "FR"
+      ],
+      "summary": "The European Commission hosted talks with delegations from the EU, Ukraine, Germany, France and others on economic prosperity as part of efforts to secure a sustainable peace for Ukraine. US-mediated trilateral talks in Abu Dhabi are still planned for next week.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.3,
+      "duration": "weeks",
+      "sources": [
+        "S030"
+      ],
+      "impacts": [
+        {
+          "target": "theme:ukraine_peace_reconstruction",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Official EU-level postwar economic planning -> reconstruction is becoming more concrete -> building materials and Polish assets gain (EPOL +3.2% on Wednesday). Russian strikes on the grid continue, so confidence is low.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-05-06",
+      "title": "EU launches €525m European Chip Design Platform",
+      "category": "industrial_policy",
+      "regions": [
+        "EU"
+      ],
+      "summary": "The European Commission launched the European Chip Design Platform, which will mobilise €525 million to stimulate a new generation of European chip design companies.",
+      "certainty": "confirmed",
+      "novelty": 0.7,
+      "severity": 0.15,
+      "duration": "years",
+      "sources": [
+        "S032"
+      ],
+      "impacts": [
+        {
+          "target": "theme:semis_industrial_policy",
+          "direction": 1,
+          "magnitude": 0.1,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "More EU funding for the chip ecosystem -> marginal demand support for European chipmakers like Infineon and STMicro. The sum is small and the sector sell-off (SMH -19% in 20 days) dominates, so the size is small.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-05-07",
+      "title": "Commerce finds dumping of oil country tubular goods from UAE, Taiwan, Austria and Mexico",
+      "category": "trade",
+      "regions": [
+        "US",
+        "AE",
+        "TW",
+        "AT",
+        "MX",
+        "KR"
+      ],
+      "summary": "The Commerce Department issued preliminary affirmative dumping determinations on oil country tubular goods from the UAE, Taiwan and Austria, and final results on Mexican OCTG. It also issued further rulings on Korean steel pipe and plate.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.2,
+      "duration": "years",
+      "sources": [
+        "S117",
+        "S118",
+        "S119",
+        "S082",
+        "S080",
+        "S084"
+      ],
+      "impacts": [
+        {
+          "target": "theme:steel_protection",
+          "direction": 1,
+          "magnitude": 0.1,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "New provisional duties on imported steel pipe -> less import competition in US tubular and plate markets -> US mills like Nucor and Steel Dynamics hold pricing. These are routine trade-remedy steps, so the size is small.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-05-08",
+      "title": "Spain's antitrust watchdog probes possible competition breaches in energy markets",
+      "category": "regulation",
+      "regions": [
+        "ES"
+      ],
+      "summary": "Spain's competition authority opened an investigation into potential competition breaches in energy markets.",
+      "certainty": "reported",
+      "novelty": 0.7,
+      "severity": 0.2,
+      "duration": "months",
+      "sources": [
+        "S137"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:ELE.MC",
+          "direction": -1,
+          "magnitude": 0.1,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "An antitrust probe of Spanish energy markets -> fine and pricing-conduct risk for the incumbent integrated utilities -> Endesa, heavily exposed to Spanish retail power, lags.",
+          "against_coverage": false
+        },
+        {
+          "target": "ticker:IBE.MC",
+          "direction": -1,
+          "magnitude": 0.1,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Iberdrola is the largest Spanish power incumbent -> same regulatory overhang, diluted by its international business.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-05-09",
+      "title": "TotalEnergies signs 15-year LNG supply deal with China",
+      "category": "energy",
+      "regions": [
+        "FR",
+        "CN"
+      ],
+      "summary": "TotalEnergies agreed to supply LNG to China for 15 years.",
+      "certainty": "reported",
+      "novelty": 0.6,
+      "severity": 0.15,
+      "duration": "years",
+      "sources": [
+        "S112"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:TTE.PA",
+          "direction": 1,
+          "magnitude": 0.1,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Long-term contracted LNG volumes -> secured offtake for its portfolio -> supports TotalEnergies' gas earnings visibility as spot prices fall.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-05-10",
+      "title": "China expands overseas mining stakes as UK MPs warn of critical-minerals exposure",
+      "category": "industrial_policy",
+      "regions": [
+        "CN",
+        "GB",
+        "NO"
+      ],
+      "summary": "China is expanding overseas mining stakes, tightening its grip on critical minerals, and UK MPs warn the country is 'dangerously exposed'. Norway approved a €24m pilot plant at the Fen rare earths deposit.",
+      "certainty": "reported",
+      "novelty": 0.4,
+      "severity": 0.2,
+      "duration": "months",
+      "sources": [
+        "S051",
+        "S052",
+        "S109"
+      ],
+      "impacts": [
+        {
+          "target": "theme:critical_minerals",
+          "direction": 1,
+          "magnitude": 0.1,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "China's tightening control and Western alarm -> more pressure for Western supply programmes and offtake support -> rare-earth and lithium names gain modestly.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-05-11",
+      "title": "UK details £4.7bn 'Your First Home' scheme for new-build buyers",
+      "category": "regulation",
+      "regions": [
+        "GB"
+      ],
+      "summary": "Details of the UK's £4.7bn First Home scheme emerged, including local price caps and low deposits for first-time buyers of new-build homes. Applications open in February.",
+      "certainty": "reported",
+      "novelty": 0.4,
+      "severity": 0.2,
+      "duration": "months",
+      "sources": [
+        "S144",
+        "S065"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:BTRW.L",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Government-backed low-deposit support for new builds -> more first-time buyer demand -> Barratt Redrow gains. This partly offsets Thursday's expected BoE hike, so confidence is low.",
+          "against_coverage": false
+        }
+      ]
+    }
+  ],
+  "trump_calls": [
+    {
+      "ticker": "FOXA",
+      "company": "Fox Corporation",
+      "stance": "negative",
+      "explicit": false,
+      "said_on": "2026-11-04",
+      "quote": "Hammers Fox News, blaming the network for GOP midterm losses",
+      "sources": [
+        "S132",
+        "S133"
+      ]
+    }
+  ]
+}
