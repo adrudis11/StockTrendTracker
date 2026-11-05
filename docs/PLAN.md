@@ -779,3 +779,12 @@ Handover done (2026-11-04):
 - Both cloud scheduled tasks were paused once the run checked out. The claude.ai
   dashboard stays at 11-03; the GitHub Pages one is live.
 
+2026-11-05: the window gate missed the day. Only one of the night schedules fired, the
+03:17 one at 03:28, and the gate skipped it as too early (before 04:30); the 05:23 one
+had not come by 07:40, so the day was started by hand at 07:40, just before the
+European open. Fix: a scheduled run that starts between 23:00 and 04:30 UTC now
+waits in the gate job until 04:30 and then goes on, so any night schedule that fires
+does the day at about 04:30 (a wait of at most 313 minutes, within the 6-hour job
+limit). The pipeline lock moved from the whole workflow to the `run` job, so a
+waiting gate doesn't block a manual run.
+

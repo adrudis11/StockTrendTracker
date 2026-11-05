@@ -20,10 +20,11 @@ Claude through the API), `stt daily finish` (picks, ledger, report), a commit of
 [weekly.yml](.github/workflows/weekly.yml) scores the week and writes a review to
 `data/reviews/`.
 
-GitHub starts scheduled runs late, by 6–8 hours in the first week, so the daily
-workflow has several schedules through the night (23:17, 01:17, 03:17 and 05:23
-UTC): the first one that starts between 04:30 and 20:00 UTC does the day, and later
-ones only refresh the dashboard. A late day is still scored honestly: picks enter at
+GitHub starts scheduled runs late (6–8 hours in the first week) or drops them, so
+the daily workflow has several schedules through the night (23:17, 01:17, 03:17 and
+05:23 UTC). A run that starts between 23:00 and 04:30 UTC waits until 04:30, one that
+starts later runs at once, and whichever comes first does the day; later ones only
+refresh the dashboard. A late day is still scored honestly: picks enter at
 the first market open after they are logged. To run the day at once, start the
 workflow by hand (Actions → Daily run → Run workflow, "test" unticked).
 

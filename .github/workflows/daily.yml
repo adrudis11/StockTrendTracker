@@ -7,10 +7,13 @@
 # Actions > Variables) overrides the date: `github` runs them now, `off` pauses them.
 # A second run on a recorded day does nothing: `stt daily prepare` stops.
 #
-# GitHub starts scheduled runs late: by 6-8 hours in this repository's first week
-# (2026-11-02 to 11-04). So there are several schedules through the night, and the
-# first run that starts between 04:30 and 20:00 UTC on a weekday does the day; earlier
-# ones stop at the gate, later ones find the day recorded and refresh the dashboard.
+# GitHub starts scheduled runs late or drops them: 6-8 hours late on 2026-11-02 to
+# 11-04, and on 11-05 only the 03:17 schedule fired (at 03:28). So there are several
+# schedules through the night, and the gate makes a run that starts between 23:00 and
+# 04:30 UTC wait until 04:30 before going on. Whichever fires first does the day at
+# about 04:30; one that starts later in the day (until 20:00 UTC) runs at once; the
+# rest find the day recorded and only refresh the dashboard. Only the `run` job holds
+# the pipeline lock, so a waiting gate blocks nothing.
 #
 # Run it by hand from the Actions tab: with "test" ticked (the default) it fetches
 # the news and runs the analysis into a downloadable file, and records, commits and
@@ -40,10 +43,6 @@ permissions:
 env:
   START: "2026-11-04" # first scheduled run
 
-concurrency:
-  group: pipeline
-  cancel-in-progress: false
-
 defaults:
   run:
     shell: bash # -eo pipefail
@@ -51,6 +50,7 @@ defaults:
 jobs:
   gate:
     runs-on: ubuntu-latest
+    timeout-minutes: 350 # a wait from 23:17 to 04:30 is 313 minutes
     outputs:
       go: ${{ steps.check.outputs.go }}
     steps:
@@ -58,17 +58,27 @@ jobs:
         env:
           STT_RUNNER: ${{ vars.STT_RUNNER }}
         run: |
-          now=$(date -u +%H%M)
+          now=$(date -u +%s)
+          midnight=$((now - now % 86400))
+          start=$((midnight + 270 * 60)) # 04:30 UTC
+          if [ "$now" -ge $((midnight + 20 * 3600)) ]; then
+            start=$((start + 86400)) # evening: tomorrow's 04:30
+          fi
+          wait=$((start - now))
           if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
             go=true
           elif [ "$STT_RUNNER" = off ] ||
             { [ "$STT_RUNNER" != github ] && [[ "$(date -u +%F)" < "$START" ]]; }; then
             go=false
             echo "Scheduled runs are off (start $START, STT_RUNNER=${STT_RUNNER:-unset})."
-          elif [[ "$now" < 0430 || ! "$now" < 2000 ]]; then
+          elif [ "$wait" -gt $((330 * 60)) ]; then
             go=false
-            echo "Started at $now UTC, outside 04:30-20:00: another scheduled run does the day."
+            echo "Started at $(date -u -d "@$now" +%H:%M) UTC, too early to wait for 04:30."
           else
+            if [ "$wait" -gt 0 ]; then
+              echo "Started at $(date -u -d "@$now" +%H:%M) UTC: waiting $((wait / 60)) minutes."
+              sleep "$wait"
+            fi
             go=true
           fi
           echo "go=$go" >> "$GITHUB_OUTPUT"
@@ -78,6 +88,9 @@ jobs:
     if: needs.gate.outputs.go == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 90
+    concurrency:
+      group: pipeline
+      cancel-in-progress: false
     env:
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY_STOCKTRACKER }}
       STT_SEC_CONTACT: ${{ secrets.STT_SEC_CONTACT }}
