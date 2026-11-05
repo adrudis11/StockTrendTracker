@@ -367,14 +367,19 @@ def analyze(
 
 
 @app.command()
-def review(day: DayOption = None) -> None:
+def review(
+    day: DayOption = None,
+    out: Annotated[
+        Path | None, typer.Option(help="Write here instead of data/reviews/ (a test run)")
+    ] = None,
+) -> None:
     """Write the weekly review with the Claude API (it proposes changes, makes none)."""
     from stocktrend.analysis import api
     from stocktrend.analysis import review as weekly
 
     d = _day(day)
     try:
-        path = weekly.run(d)
+        path = weekly.run(d, out=out)
     except RuntimeError as e:
         typer.secho(f"Review failed: {e}", fg="red", err=True)
         raise typer.Exit(1) from e
@@ -663,18 +668,18 @@ def daily_prepare() -> None:
 @daily_app.command("finish")
 def daily_finish() -> None:
     """Step 2: validate the analysis, score, log to the ledger, report, dashboard data."""
-    from stocktrend.scoring.run import PRIORS_PATH
+    from stocktrend.scoring.run import priors_stale
 
     d = _day(None)
     validate(day=d)
-    if PRIORS_PATH.exists():
-        age = datetime.now(UTC).timestamp() - PRIORS_PATH.stat().st_mtime
-        stale = age > STALE_PRIORS_DAYS * 86400
-    else:
-        stale = True
-    if stale:
+    if priors_stale(STALE_PRIORS_DAYS):
         typer.echo("Theme priors are missing or over a month old: refreshing (about 2 minutes).")
-        backtest(years=5)
+        try:
+            backtest(years=5)
+        except Exception as e:  # keep the old priors; never lose the day over them
+            typer.secho(
+                f"warning: the priors refresh failed, keeping the old ones: {e}", fg="yellow"
+            )
     if _already_recorded(d):
         typer.echo(f"Picks for {d} are already in the ledger: not re-scoring.")
     else:

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
-from datetime import date
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 
 import pandas as pd
@@ -60,6 +60,16 @@ def sector_etf_map(cfg: InstrumentsConfig) -> dict[tuple[str, str], str]:
         for i in cfg.instruments
         if i.kind == "sector_etf" and i.sector
     }
+
+
+def priors_stale(max_age_days: int, path: Path = PRIORS_PATH, now: datetime | None = None) -> bool:
+    """Whether the theme priors are missing or older than ``max_age_days``, by their own
+    ``generated_at``: a fresh clone (every GitHub run) gives every file a new mtime."""
+    if not path.exists():
+        return True
+    raw = json.loads(path.read_text(encoding="utf-8"))
+    generated = datetime.fromisoformat(raw["generated_at"])
+    return (now or datetime.now(UTC)) - generated > timedelta(days=max_age_days)
 
 
 def load_priors() -> dict[str, dict[int, float]]:

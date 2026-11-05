@@ -28,6 +28,7 @@ on:
     - cron: "17 1 * * 1-5"
     - cron: "17 3 * * 1-5"
     - cron: "23 5 * * 1-5" # 05:23 UTC: the intended time, well before the European open
+    - cron: "17 9 * * 1-5" # a late fallback: runs at once if the day isn't recorded yet
   workflow_dispatch:
     inputs:
       test:
@@ -137,7 +138,8 @@ jobs:
           if grep -q "already in the ledger" "$log"; then echo "recorded=true" >> "$GITHUB_OUTPUT"; fi
       - name: Analyse (Claude API)
         if: env.TEST != 'true' && steps.prepare.outputs.skip != 'true'
-        run: uv run stt analyze
+        run: |
+          uv run stt analyze || { echo "Retrying in a minute."; sleep 60; uv run stt analyze; }
       - name: Finish (picks, ledger, report, dashboard data)
         if: env.TEST != 'true' && steps.prepare.outputs.skip != 'true'
         run: uv run stt daily finish

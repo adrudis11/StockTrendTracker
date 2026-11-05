@@ -62,6 +62,25 @@ $0.41 for the request and $0.23 for one fix round, at the prices in
 review. Every call's actual cost is logged in
 `data/usage/api.jsonl`. GitHub Actions and Pages are free for a public repository.
 
+### If something goes wrong
+
+Everything below is in the repository's **Actions** tab or **Settings**; no Claude
+session is needed.
+
+| What you see | What to do |
+|---|---|
+| An email from GitHub that "Daily run" failed | Open the run, look at the red step. A data source down: Actions → Daily run → Run workflow ("test" unticked) runs the day again. A day that is already recorded only refreshes the dashboard. |
+| No "Daily run … (GitHub Actions)" commit by about 07:30 UTC on a weekday | GitHub dropped the schedules (it doesn't email for runs that never start). Run the day by hand as above. |
+| "ANTHROPIC_API_KEY is not set" or an authentication error | The `ANTHROPIC_API_KEY_STOCKTRACKER` secret is missing, wrong or the key was revoked: create a new key in the Anthropic Console and update the secret. |
+| A billing or credit error from the API | Add credit or raise the spend limit in the Anthropic Console. |
+| "model not found" or a deprecation error | Claude models are retired after some time: put a current model in `config/analysis.yaml` (`model:`). |
+| Want to pause everything | Settings → Secrets and variables → Actions → Variables: `STT_RUNNER` = `off` (delete it to resume). |
+| The weekly review proposes changes | It can't make them itself: apply them to `config/exposures.yaml` or `prompts/daily_analysis.md`, or ask a Claude session to. |
+
+Now and then (every few months) the stock universe should be rebuilt to follow index
+changes: `uv run stt universe build`, then review `git diff data/universe/` (in a
+Claude session or locally). The theme priors refresh themselves monthly.
+
 ## Setup
 
 Requires Python 3.13 and [uv](https://docs.astral.sh/uv/).

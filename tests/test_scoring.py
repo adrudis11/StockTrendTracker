@@ -1,5 +1,6 @@
 import math
 from datetime import date
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -204,3 +205,15 @@ def test_report_renders() -> None:
     md = render(pf, events("2026-10-28", [impact("theme:oil")]), None)
     assert "Picks: next ~1 week" in md and "XOM" in md and "Avoid" in md
     assert "Uncalibrated" in md or "uncalibrated" in md
+
+
+def test_priors_stale_reads_generated_at_not_the_file_time(tmp_path: Path) -> None:
+    from datetime import UTC, datetime
+
+    from stocktrend.scoring.run import priors_stale
+
+    path = tmp_path / "theme_priors.json"
+    assert priors_stale(30, path)  # missing
+    path.write_text('{"generated_at": "2026-10-28T10:25:48+00:00", "themes": {}}')
+    assert not priors_stale(30, path, now=datetime(2026, 11, 26, tzinfo=UTC))
+    assert priors_stale(30, path, now=datetime(2026, 11, 28, tzinfo=UTC))

@@ -5,26 +5,33 @@
 #
 # Like the daily run, scheduled runs start on START (the first is 2026-11-07), and
 # the repository variable STT_RUNNER overrides that (`github` now, `off` paused).
+# GitHub starts scheduled runs late or drops them, so Sunday is a fallback: a
+# scheduled run does nothing when a review from the last four days exists.
 # The monthly upkeep needs no step here: `stt daily finish` refreshes the theme
 # priors when they are a month old. Rebuild the universe (`stt universe build`) by
 # hand now and then and review its diff.
+#
+# Run it by hand from the Actions tab: with "test" ticked (the default) the review
+# goes to a downloadable file and nothing is committed.
 
 name: Weekly review
 
 on:
   schedule:
     - cron: "41 8 * * 6" # Saturdays 08:41 UTC
+    - cron: "41 8 * * 0" # Sunday fallback
   workflow_dispatch:
+    inputs:
+      test:
+        description: "Test only: write the review to a downloadable file, commit nothing"
+        type: boolean
+        default: true
 
 permissions:
   contents: write
 
 env:
   START: "2026-11-04"
-
-concurrency:
-  group: pipeline
-  cancel-in-progress: false
 
 defaults:
   run:
@@ -36,15 +43,22 @@ jobs:
     outputs:
       go: ${{ steps.check.outputs.go }}
     steps:
+      - uses: actions/checkout@v4
       - id: check
         env:
           STT_RUNNER: ${{ vars.STT_RUNNER }}
         run: |
-          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ] || [ "$STT_RUNNER" = github ]; then
+          last=$(find data/reviews -name '*.md' -printf '%f\n' 2>/dev/null | sort | tail -1)
+          last=${last%.md}
+          if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
             go=true
-          elif [ "$STT_RUNNER" = off ] || [[ "$(date -u +%F)" < "$START" ]]; then
+          elif [ "$STT_RUNNER" = off ] ||
+            { [ "$STT_RUNNER" != github ] && [[ "$(date -u +%F)" < "$START" ]]; }; then
             go=false
             echo "Scheduled runs are off (start $START, STT_RUNNER=${STT_RUNNER:-unset})."
+          elif [[ -n "$last" && ! "$last" < "$(date -u -d '4 days ago' +%F)" ]]; then
+            go=false
+            echo "This week's review is already written ($last)."
           else
             go=true
           fi
@@ -55,8 +69,12 @@ jobs:
     if: needs.gate.outputs.go == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    concurrency:
+      group: pipeline
+      cancel-in-progress: false
     env:
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY_STOCKTRACKER }}
+      TEST: ${{ github.event_name == 'workflow_dispatch' && inputs.test }}
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
@@ -71,8 +89,24 @@ jobs:
           uv run stt scoreboard
           uv run stt feedback
       - name: Write the review (Claude API)
-        run: uv run stt review
+        run: |
+          if [ "$TEST" = true ]; then
+            mkdir -p "$RUNNER_TEMP/test"
+            uv run stt review --out "$RUNNER_TEMP/test/review.md"
+          else
+            uv run stt review || { echo "Retrying in a minute."; sleep 60; uv run stt review; }
+          fi
+      - name: Keep the test review
+        if: env.TEST == 'true' && always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-review
+          path: |
+            ${{ runner.temp }}/test/
+            data/usage/api.jsonl
+          if-no-files-found: ignore
       - name: Commit and push data/
+        if: env.TEST != 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
