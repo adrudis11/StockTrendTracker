@@ -1,0 +1,420 @@
+{
+  "date": "2026-11-06",
+  "market_view": "Wall Street had its worst day since the 2025 'Liberation Day' tariffs. The S&P 500 fell 4.4%, the Nasdaq-100 6.5% and semis 11%, with Taiwan down 11.5%, as investors priced tighter AI rules and an AI slowdown under a Democratic Congress. The VIX jumped to 28, while European stocks held up. Odds of a December Fed hike fell 11 points to 66% and the 10-year yield eased to 4.84%. Brent rebounded about 4% to $98 as Iran hit more tankers in Hormuz, even though Iran sent a nuclear proposal via Qatar. The Bank of England hiked to 4% with hawkish forecasts. On Ukraine, Trump says a deal is near after Melania Trump hosted a Russia-Ukraine meeting, but Polymarket ceasefire odds did not confirm it.",
+  "events": [
+    {
+      "id": "2026-11-06-01",
+      "title": "AI and tech stocks crash after Democratic sweep on fears of tighter AI rules; Trump blames voters",
+      "category": "politics",
+      "regions": [
+        "US",
+        "TW"
+      ],
+      "summary": "The S&P 500 fell 4.4% and the Nasdaq-100 6.5%, the Nasdaq's worst day in 18 months, as investors bet a Democratic Congress means tighter AI rules and an AI slowdown. Semis fell 11% and Taiwan 11.5%. Trump blamed the decline on the Democrats' election wins and told voters they 'only have themselves to blame'.",
+      "certainty": "confirmed",
+      "novelty": 0.8,
+      "severity": 0.7,
+      "duration": "weeks",
+      "sources": [
+        "S022",
+        "S087",
+        "S124",
+        "S147",
+        "S123",
+        "S131",
+        "S002",
+        "S012",
+        "S095",
+        "S109",
+        "S134",
+        "S136",
+        "S139"
+      ],
+      "impacts": [
+        {
+          "target": "theme:big_tech_regulation",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Democratic control of both chambers -> committee oversight, hearings and AI/antitrust bills aimed at platforms -> regulatory overhang on Alphabet, Meta and Apple. Any law would face a Trump veto, so the effect is mostly sentiment and the size is small.",
+          "against_coverage": false
+        },
+        {
+          "target": "ticker:SMH",
+          "direction": 1,
+          "magnitude": 0.3,
+          "confidence": 0.4,
+          "horizon_days": 5,
+          "rationale": "Coverage frames this as the start of an AI-rules crackdown, but bills face a Trump veto, Fed hike odds fell 11 points and yields dropped -> a capitulation-style -11% day after -26% in 20 days invites a technical rebound. This bets against the panic framing, so confidence is low.",
+          "against_coverage": true
+        },
+        {
+          "target": "theme:safe_haven_risk_off",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 5,
+          "rationale": "The VIX spiked 70% to 28 and gold rose 1% -> de-risking favours gold miners, utilities and staples over small caps and discretionary in the near term.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-06-02",
+      "title": "December Fed hike odds drop 11 points as Fed officials favour a gradual path",
+      "category": "central_bank",
+      "regions": [
+        "US"
+      ],
+      "summary": "Polymarket odds of a 25bp December Fed hike fell from 77% to 66% after the equity rout. Cleveland Fed's Hammack and Richmond Fed's Barkin said they favour a gradual rate-hike path. The 10-year Treasury yield fell to 4.84%.",
+      "certainty": "reported",
+      "novelty": 0.6,
+      "severity": 0.4,
+      "duration": "weeks",
+      "sources": [
+        "S031"
+      ],
+      "impacts": [
+        {
+          "target": "theme:us_rates_up",
+          "direction": -1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Tighter financial conditions after the sell-off and talk of a 'gradual' pace -> lower odds of a December hike and lower yields -> rate-sensitive real estate and homebuilders gain on banks.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-06-03",
+      "title": "Bank of England hikes to 4% and warns inflation will near 5%",
+      "category": "central_bank",
+      "regions": [
+        "GB"
+      ],
+      "summary": "The Bank of England raised Bank Rate from 3.75% to 4%, its first increase in over three years, and published hawkish forecasts showing inflation nearing 5%. Gilt yields rose.",
+      "certainty": "confirmed",
+      "novelty": 0.4,
+      "severity": 0.3,
+      "duration": "weeks",
+      "sources": [
+        "S001",
+        "S003",
+        "S018",
+        "S019",
+        "S028",
+        "S036",
+        "S060"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:LLOY.L",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Hawkish forecasts imply rates stay higher for longer -> wider deposit margins at rate-sensitive UK retail banks -> Lloyds gains. The hike itself was priced, so the effect comes from the guidance.",
+          "against_coverage": false
+        },
+        {
+          "target": "ticker:NWG.L",
+          "direction": 1,
+          "magnitude": 0.1,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "NatWest's large deposit base benefits from a higher-for-longer Bank Rate.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-06-04",
+      "title": "Iran strikes more tankers in Hormuz; oil rebounds toward $100",
+      "category": "conflict",
+      "regions": [
+        "IR",
+        "US"
+      ],
+      "summary": "The IRGC says more tankers and a tugboat caught fire in the Strait of Hormuz, and Iran says five tankers have hit mines. Brent rebounded 3.9% to about $98 from a two-month low, with Rapidan warning renewed US-Iran tension could push it past $100. Trump's next move in the war remains unclear after the midterm loss.",
+      "certainty": "confirmed",
+      "novelty": 0.4,
+      "severity": 0.5,
+      "duration": "days",
+      "sources": [
+        "S011",
+        "S039",
+        "S081",
+        "S107",
+        "S108",
+        "S033",
+        "S044",
+        "S098",
+        "S038",
+        "S097",
+        "S035",
+        "S043",
+        "S086",
+        "S089"
+      ],
+      "impacts": [
+        {
+          "target": "theme:oil_supply_shock",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 5,
+          "rationale": "Mines and strikes keep physical Hormuz flows impaired while odds of the blockade ending by 15 November are only 8% -> after a 14% five-day drop, crude has room to rebound -> producers gain short term, airlines lag. Political pressure to end the war caps the upside.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-06-05",
+      "title": "Iran sends nuclear proposal to US via Qatar; Russia to supply Iran with missile launchers",
+      "category": "diplomacy",
+      "regions": [
+        "IR",
+        "US",
+        "QA",
+        "RU"
+      ],
+      "summary": "A senior Iranian official says Iran sent a nuclear proposal to the US via Qatar. Separately, Russia agreed to supply Iran with 90 helicopter missile launchers, and Iran's security chief met Putin to deliver a message from Khamenei. Polymarket odds of a final US-Iran nuclear deal by year-end rose 3 points to 10%.",
+      "certainty": "reported",
+      "novelty": 0.7,
+      "severity": 0.4,
+      "duration": "weeks",
+      "sources": [
+        "S007",
+        "S015",
+        "S063"
+      ],
+      "impacts": [
+        {
+          "target": "theme:middle_east_escalation",
+          "direction": -1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "A formal nuclear proposal plus US political pressure to end the war -> a diplomatic track that lowers the escalation premium over weeks. Deal odds are still only 10% and Russian arms flows are an offset, so confidence is low.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-06-06",
+      "title": "Trump sees Ukraine deal soon after Melania Trump hosts Russia-Ukraine meeting",
+      "category": "diplomacy",
+      "regions": [
+        "US",
+        "RU",
+        "UA"
+      ],
+      "summary": "Melania Trump hosted a Russia-Ukraine meeting after a local ceasefire at Oleshky, and Trump met a Putin envoy and said he sees a deal soon that will 'involve more than Ukraine'. The US called NATO talks productive ahead of the Abu Dhabi meeting. Polymarket odds of a ceasefire by end-2027 fell 12 points to 42%, while end-2026 odds rose 2 points to 12%.",
+      "certainty": "reported",
+      "novelty": 0.5,
+      "severity": 0.4,
+      "duration": "weeks",
+      "sources": [
+        "S005",
+        "S006",
+        "S120",
+        "S041",
+        "S004",
+        "S065",
+        "S099",
+        "S083"
+      ],
+      "impacts": [
+        {
+          "target": "theme:ukraine_peace_reconstruction",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "A direct White House channel with Putin's envoy and a local ceasefire -> somewhat higher near-term deal odds -> reconstruction and Polish assets gain. The longer-dated odds fell sharply and EPOL fell 1.5%, so the money is sceptical and the call stays small.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-06-07",
+      "title": "Spain and Italy add Ukraine military aid; EU disburses €4.36bn; NATO speeds counter-drone procurement",
+      "category": "defense",
+      "regions": [
+        "ES",
+        "IT",
+        "EU",
+        "UA"
+      ],
+      "summary": "Spain will deliver a €430m military aid package to Ukraine and Italy is finalising a new package. The Commission disbursed €4.36bn under the €90bn Ukraine Support Loan. NATO is accelerating procurement of counter-drone technologies.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.3,
+      "duration": "months",
+      "sources": [
+        "S009",
+        "S088",
+        "S053",
+        "S100",
+        "S052"
+      ],
+      "impacts": [
+        {
+          "target": "theme:defense_europe",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Steady European aid packages and fast-tracked NATO counter-drone buying -> order flow for air-defence and electronics names like Thales, Leonardo and Rheinmetall. WDEF is +6.8% in 20 days, so the size is small.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-06-08",
+      "title": "Hoax bomb threats disrupt dozens of flights across Europe",
+      "category": "other",
+      "regions": [
+        "EU",
+        "GB"
+      ],
+      "summary": "Hoax bomb threats disrupted and diverted dozens of passenger flights across Europe, raising fears of hybrid warfare. The BBC notes there is no hard evidence linking them to Russia, Iran or proxies.",
+      "certainty": "confirmed",
+      "novelty": 0.8,
+      "severity": 0.2,
+      "duration": "days",
+      "sources": [
+        "S008",
+        "S010",
+        "S016",
+        "S027",
+        "S080",
+        "S082"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:EZJ.L",
+          "direction": -1,
+          "magnitude": 0.1,
+          "confidence": 0.4,
+          "horizon_days": 5,
+          "rationale": "Diversions and cancellations add costs and could dent short-haul booking sentiment -> easyJet, a pure-play European short-haul carrier, lags. This is likely transient, so the size is small.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-06-09",
+      "title": "Packaging Corp of America discloses DOJ antitrust subpoena",
+      "category": "regulation",
+      "regions": [
+        "US"
+      ],
+      "summary": "Packaging Corporation of America disclosed that it received an antitrust subpoena from the Department of Justice.",
+      "certainty": "confirmed",
+      "novelty": 0.9,
+      "severity": 0.25,
+      "duration": "months",
+      "sources": [
+        "S085"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:PKG",
+          "direction": -1,
+          "magnitude": 0.25,
+          "confidence": 0.5,
+          "horizon_days": 20,
+          "rationale": "A DOJ antitrust probe into a concentrated containerboard market -> legal and pricing-conduct overhang -> PKG lags.",
+          "against_coverage": false
+        },
+        {
+          "target": "ticker:SW",
+          "direction": -1,
+          "magnitude": 0.1,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Smurfit Westrock is the other major US containerboard producer -> a risk that the probe widens to industry pricing.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-06-10",
+      "title": "Nutrien sees strong potash demand but weakness in pricey nitrogen",
+      "category": "other",
+      "regions": [
+        "CA",
+        "US"
+      ],
+      "summary": "Nutrien said it sees strong potash demand but weakness in nitrogen fertilizer, where high prices are hurting demand.",
+      "certainty": "reported",
+      "novelty": 0.6,
+      "severity": 0.2,
+      "duration": "weeks",
+      "sources": [
+        "S119"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:CF",
+          "direction": -1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Demand destruction in nitrogen flagged by the largest producer -> softer nitrogen pricing -> CF Industries, a pure-play nitrogen producer, lags.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-06-11",
+      "title": "Odds of Netanyahu leaving office jump as Democrats' sweep strains US-Israel ties",
+      "category": "election",
+      "regions": [
+        "IL",
+        "US"
+      ],
+      "summary": "Polymarket odds of Netanyahu being out by end-2026 rose 14 points to 38%, and Gadi Eizenkot is now 64% to be the next prime minister. Coverage says the Democratic sweep starts a countdown to end the Iran war and dooms US-Israel ties under Netanyahu.",
+      "certainty": "rumor",
+      "novelty": 0.7,
+      "severity": 0.3,
+      "duration": "months",
+      "sources": [
+        "S086"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:EIS",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "A likely leadership change toward a government better placed to repair US ties and end the war -> lower political and war risk premium -> Israeli equities rebound after -9.9% in 5 days. Coverage frames the news as negative for US-Israel ties, so this bets against that framing.",
+          "against_coverage": true
+        }
+      ]
+    }
+  ],
+  "trump_calls": [
+    {
+      "ticker": "SPY",
+      "company": "S&P 500 (the market)",
+      "stance": "negative",
+      "explicit": false,
+      "said_on": "2026-11-05",
+      "quote": "Blames the stock market decline on Democrats' election wins: 'Such a sad thing to watch!'; voters 'only have yourselves to blame'",
+      "sources": [
+        "S002",
+        "S012",
+        "S095",
+        "S109",
+        "S134",
+        "S136",
+        "S139"
+      ]
+    }
+  ]
+}
