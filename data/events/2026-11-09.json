@@ -1,0 +1,346 @@
+{
+  "date": "2026-11-09",
+  "market_view": "Markets steadied after last week's AI and semis crash. SMH rebounded 3.6% and the VIX eased to 25.6, though the Nasdaq-100 is still -12.7% in 20 days. Iran risk is fading at the margin: Trump says renewed strikes are 'highly unlikely' if talks progress, a Qatari plan links a Hormuz reopening to nuclear inspections, and odds of a US-Iran ceasefire by 15 November rose 8 points to 43%. Against that, tankers keep hitting mines and Hormuz normal-traffic odds are only 6%. Brent sits near $98 after a 16% five-day drop. A strong October jobs report and Daly's hawkish comments put December Fed hike odds back near 76%. China extended its tariff truce ahead of Trump-Xi meetings, Nvidia faces a CEO security probe, and Russia-Ukraine trilateral talks with Europeans in the UAE are this week's swing factor for European defence.",
+  "events": [
+    {
+      "id": "2026-11-09-01",
+      "title": "Trump says new Iran strikes 'highly unlikely' if talks progress; Qatari plan links Hormuz reopening to inspections",
+      "category": "conflict",
+      "regions": [
+        "US",
+        "IR",
+        "QA",
+        "SA"
+      ],
+      "summary": "Trump said a return to war with Iran is 'highly unlikely' as long as negotiations continue, though he warned he could still strike, and oil dipped on the remarks. A Qatari plan reportedly envisages reopening Hormuz as part of nuclear inspections. More tankers hit mines or caught fire in the strait, the US confirmed new strikes on Qeshm, and a Houthi attack damaged an Aramco building in Riyadh.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.5,
+      "duration": "weeks",
+      "sources": [
+        "S012",
+        "S014",
+        "S019",
+        "S030",
+        "S116",
+        "S147",
+        "S090",
+        "S009",
+        "S069",
+        "S094",
+        "S005",
+        "S016",
+        "S021",
+        "S036",
+        "S013",
+        "S053",
+        "S020",
+        "S079"
+      ],
+      "impacts": [
+        {
+          "target": "theme:middle_east_escalation",
+          "direction": -1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Trump publicly rules out new strikes while talks run, and Qatar's plan offers a path to reopen Hormuz -> lower escalation premium -> energy majors lag and airlines gain. US-Iran ceasefire odds rose 8 points to 43%. Brent is already -16% in 5 days and JETS +6.6%, mines still hit tankers and normal-traffic odds are 6%, so the size is small.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-02",
+      "title": "China extends suspension of 24% US tariffs and port fees for two months ahead of Trump-Xi meetings; BIS extends affiliates-rule suspension",
+      "category": "trade",
+      "regions": [
+        "CN",
+        "US"
+      ],
+      "summary": "China will extend the suspension of its 24% tariffs on US goods and of port fees on US ships for two months from 10 November, keeping a 10% levy, ahead of Trump-Xi meetings at APEC. The US urged China to honour its Busan rare-earth and agriculture commitments. The US Commerce Department's export-control bureau (BIS) extended the suspension of its rule expanding end-user controls to affiliates of listed entities, and Trump says he will bring Nvidia's Huang on his China trip.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.4,
+      "duration": "months",
+      "sources": [
+        "S008",
+        "S017",
+        "S028",
+        "S084",
+        "S085",
+        "S103",
+        "S148"
+      ],
+      "impacts": [
+        {
+          "target": "theme:us_china_trade_escalation",
+          "direction": -1,
+          "magnitude": 0.2,
+          "confidence": 0.5,
+          "horizon_days": 20,
+          "rationale": "The truce is extended and a leaders' meeting is coming -> lower odds of new tariffs or retaliation -> China ETFs, Apple and Nike gain against US steelmakers. FXI is already +5.7% in 5 days, so it is partly priced.",
+          "against_coverage": false
+        },
+        {
+          "target": "theme:chip_export_controls",
+          "direction": -1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "BIS keeps the affiliates rule on hold and Huang joins the China trip -> lower risk of tighter China chip restrictions before the summit -> relief for Nvidia and chip-tool makers after the semis rout.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-03",
+      "title": "Nvidia opens probe into CEO Jensen Huang over affair with suspected Chinese spy",
+      "category": "technology",
+      "regions": [
+        "US",
+        "CN"
+      ],
+      "summary": "Nvidia launched an investigation into CEO Jensen Huang's affair with a suspected Chinese spy. Huang admitted being unfaithful and said he will cooperate with a security investigation. Nvidia shares fell out of hours. Trump called Huang a 'fine person' and 'honorable' and said he will still bring him on his China trip.",
+      "certainty": "confirmed",
+      "novelty": 1.0,
+      "severity": 0.4,
+      "duration": "weeks",
+      "sources": [
+        "S004",
+        "S006",
+        "S029",
+        "S127",
+        "S148"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:NVDA",
+          "direction": -1,
+          "magnitude": 0.3,
+          "confidence": 0.5,
+          "horizon_days": 5,
+          "rationale": "A security probe of the founder-CEO -> key-man and governance risk, plus possible scrutiny of China contacts -> NVDA lags near term. Trump's public backing and the China-trip invitation limit the damage, so confidence is moderate.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-04",
+      "title": "Strong October jobs report revives the case for a December Fed hike; Daly says hike likely",
+      "category": "central_bank",
+      "regions": [
+        "US"
+      ],
+      "summary": "A strong October jobs report strengthened the case for a December rate hike, and Fed policymakers are considering one. San Francisco Fed President Daly said a hike is likely despite the 'painful' tech-stock dive. Polymarket prices a 76% chance of a 25bp December hike, back up from 66% after last week's rout.",
+      "certainty": "reported",
+      "novelty": 0.6,
+      "severity": 0.4,
+      "duration": "weeks",
+      "sources": [
+        "S010",
+        "S033",
+        "S081"
+      ],
+      "impacts": [
+        {
+          "target": "theme:us_rates_up",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Strong payrolls and Fed officials looking past the equity sell-off -> December hike odds rebound toward 76% -> yields supported -> banks outperform real estate and homebuilders. This reverses part of last week's dovish move, so the size is modest.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-05",
+      "title": "Russia steps up attacks ahead of Russia-Ukraine-US talks in the UAE with Europeans; NATO launches counter-drone marketplace",
+      "category": "defense",
+      "regions": [
+        "RU",
+        "UA",
+        "EU",
+        "US",
+        "AE"
+      ],
+      "summary": "Zelenskyy says Russia is ramping up attacks to pressure Kyiv ahead of the Russia-Ukraine-US talks in the UAE, which European ministers will join. Kushner proposed a Russia-NATO Council model, and Trump said Ukraine will likely 'end up with a little bit different shape'. Ukraine continues strikes on Russian refineries, and NATO launched a counter-drone marketplace to speed allied procurement.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.4,
+      "duration": "weeks",
+      "sources": [
+        "S024",
+        "S093",
+        "S064",
+        "S068",
+        "S062",
+        "S111",
+        "S070"
+      ],
+      "impacts": [
+        {
+          "target": "theme:defense_europe",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Escalating Russian strikes and a new NATO procurement channel for counter-drone systems -> continued order flow for European defence. WDEF.MI is already -7.2% in 5 days on peace hopes, and even a deal would leave rearmament budgets in place, so downside looks limited. Talks are binary, so confidence is low.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-06",
+      "title": "US issues AD/CVD orders on solar cells from India, Indonesia and Laos; opens seamless pipe probes on India and Georgia",
+      "category": "trade",
+      "regions": [
+        "US",
+        "IN",
+        "ID",
+        "LA",
+        "GE"
+      ],
+      "summary": "Commerce issued final antidumping and countervailing duty orders on crystalline silicon photovoltaic cells and modules from India, Indonesia and Laos. It also initiated antidumping and countervailing duty investigations into seamless carbon and alloy steel pipe from India and Georgia.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.25,
+      "duration": "years",
+      "sources": [
+        "S099",
+        "S100",
+        "S096",
+        "S097"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:FSLR",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "The orders close the latest low-cost module import routes from South and Southeast Asia -> firmer US module pricing -> First Solar, the largest US-made producer, benefits. The stock is already +18% in 5 days and the orders were expected after final determinations, so the size is small.",
+          "against_coverage": false
+        },
+        {
+          "target": "ticker:TEN.MI",
+          "direction": 1,
+          "magnitude": 0.1,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Duties on Indian and Georgian seamless pipe -> less import competition in US seamless and line pipe -> Tenaris, with large US seamless mills, holds pricing.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-07",
+      "title": "DOJ closes antitrust probe into Fox's $22bn acquisition of Roku",
+      "category": "regulation",
+      "regions": [
+        "US"
+      ],
+      "summary": "The Justice Department closed its antitrust probe of Fox Corporation's $22 billion acquisition of Roku, clearing a regulatory hurdle for the deal.",
+      "certainty": "confirmed",
+      "novelty": 0.9,
+      "severity": 0.25,
+      "duration": "weeks",
+      "sources": [
+        "S059"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:FOXA",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 5,
+          "rationale": "Regulatory clearance removes the risk of a blocked deal or remedies -> Fox gains a scale streaming distribution platform with certainty. The market's view of the deal's price is uncertain, so confidence is moderate.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-08",
+      "title": "AkzoNobel and Axalta win conditional EU antitrust approval for $25bn merger",
+      "category": "regulation",
+      "regions": [
+        "EU",
+        "NL",
+        "US"
+      ],
+      "summary": "The European Commission conditionally approved the $25 billion merger of AkzoNobel and Axalta.",
+      "certainty": "confirmed",
+      "novelty": 0.7,
+      "severity": 0.2,
+      "duration": "months",
+      "sources": [
+        "S082"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:AKZA.AS",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.5,
+          "horizon_days": 20,
+          "rationale": "EU clearance removes a key regulatory hurdle -> deal completion and synergy case more likely -> AkzoNobel re-rates modestly. The conditions appear manageable, though the details are not given.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-09-09",
+      "title": "South Africa's ANC posts worst election results",
+      "category": "election",
+      "regions": [
+        "ZA"
+      ],
+      "summary": "South Africa's ANC was humbled by its worst-ever election results, AP and Politico report.",
+      "certainty": "confirmed",
+      "novelty": 0.7,
+      "severity": 0.2,
+      "duration": "months",
+      "sources": [
+        "S088"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:EZA",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "A weaker ANC -> more weight for reform-minded coalition partners -> investors have historically welcomed ANC decline -> South African equities gain modestly. The recent loss of US trade preferences is an offset, so confidence is low.",
+          "against_coverage": false
+        }
+      ]
+    }
+  ],
+  "trump_calls": [
+    {
+      "ticker": "NVDA",
+      "company": "Nvidia",
+      "stance": "positive",
+      "explicit": false,
+      "said_on": "2026-11-08",
+      "quote": "Calls Jensen Huang a 'fine person' and 'honorable' amid the spy probe; says he will bring Huang on his China trip",
+      "sources": [
+        "S006",
+        "S029",
+        "S148"
+      ]
+    },
+    {
+      "ticker": "SPY",
+      "company": "S&P 500 (the market)",
+      "stance": "negative",
+      "explicit": false,
+      "said_on": "2026-11-08",
+      "quote": "Says Democrats wiped $3 trillion off the stock market after their midterm win: 'the markets consider the Democrats to be a disaster'",
+      "sources": [
+        "S149"
+      ]
+    }
+  ]
+}
