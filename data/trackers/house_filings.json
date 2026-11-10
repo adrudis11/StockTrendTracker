@@ -8700,11 +8700,25 @@
 "trades": 3,
 "year": "2026"
 },
+"20035775": {
+"filed": "2026-11-06",
+"member": "John J Mr McGuire",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
 "20035778": {
 "filed": "2026-11-05",
 "member": "Maria Elvira Salazar",
 "status": "parsed",
 "trades": 5,
+"year": "2026"
+},
+"20035780": {
+"filed": "2026-11-06",
+"member": "Nancy Pelosi",
+"status": "parsed",
+"trades": 1,
 "year": "2026"
 },
 "8220118": {
@@ -9956,6 +9970,13 @@
 "9116391": {
 "filed": "2026-10-27",
 "member": "Diana Harshbarger",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116399": {
+"filed": "2026-11-05",
+"member": "Rohit Khanna",
 "status": "unreadable",
 "trades": 0,
 "year": "2026"

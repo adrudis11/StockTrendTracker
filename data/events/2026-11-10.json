@@ -1,0 +1,274 @@
+{
+  "date": "2026-11-10",
+  "market_view": "Risk appetite returned on Monday. The S&P 500 rose 2.4%, the Nasdaq-100 3.5% and semis 5.1%, while the VIX fell 22% to 19.9. Trump said the Iran war is 'effectively over' and new strikes 'quite unlikely', which pushed Brent down 5.8% to a 10-week low of $92.6 (-11.6% in 5 days); airlines (JETS +7.7% in 5 days) have already priced much of this. The money backs de-escalation: US-Iran ceasefire odds by 22 November rose 12 points to 60%. Physical risk has not gone away: Hormuz normal-traffic odds are 10%, tankers are still being hit and a Saudi pipeline was struck. The Fed is still priced for a December hike (80%). Russia-Ukraine talks begin in Abu Dhabi after a sharp de-rating of European defence (RHM.DE -22% in 5 days), and the Nvidia CEO scandal escalated to an FBI inquiry.",
+  "events": [
+    {
+      "id": "2026-11-10-01",
+      "title": "Trump says Iran war 'effectively over' after meeting Qatari PM; oil hits 10-week low",
+      "category": "conflict",
+      "regions": [
+        "US",
+        "IR",
+        "QA",
+        "SA"
+      ],
+      "summary": "After meeting Qatar's prime minister, Trump said the war with Iran is militarily 'effectively over' and will end 'fairly soon', and called new strikes 'quite unlikely'. Brent fell 5.8% to about $92.6. Hormuz LNG traffic in October was the highest since the war began. Incidents continue: Saudi Arabia's East-West pipeline was targeted near Medina with operations unaffected, the US disabled a bulk carrier near Hormuz, and Iran denied an $8bn deal to reopen the strait.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.5,
+      "duration": "weeks",
+      "sources": [
+        "S002",
+        "S009",
+        "S047",
+        "S052",
+        "S068",
+        "S046",
+        "S070",
+        "S087",
+        "S088",
+        "S045",
+        "S054",
+        "S089",
+        "S029",
+        "S021",
+        "S033",
+        "S034",
+        "S113",
+        "S051",
+        "S086"
+      ],
+      "impacts": [
+        {
+          "target": "theme:middle_east_escalation",
+          "direction": -1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "The president declares the war effectively over and ceasefire odds jump (US-Iran by 22 Nov 60%, +12) -> lower escalation premium -> energy majors lag and airlines gain. Brent is already -11.6% in 5 days and JETS +7.7%, and Hormuz normal-traffic odds are only 10%, so the size is small.",
+          "against_coverage": false
+        },
+        {
+          "target": "theme:eu_gas_shock",
+          "direction": -1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Hormuz LNG transits are recovering to their wartime high and peace odds are rising -> more Qatari LNG reaches the market -> TTF keeps easing from €82 -> European chemicals gain against gas producers. TTF is already -13% in 5 days, so the size is modest.",
+          "against_coverage": false
+        },
+        {
+          "target": "ticker:CCL",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Lower bunker fuel costs and fading Middle East travel risk -> margin and booking relief for cruise lines. This is a second-order beneficiary that has moved less than airlines.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-02",
+      "title": "US-brokered Russia-Ukraine talks begin in Abu Dhabi; Trump sees 'strong inclination' to end the war",
+      "category": "diplomacy",
+      "regions": [
+        "US",
+        "RU",
+        "UA",
+        "AE",
+        "EU",
+        "IN",
+        "CA"
+      ],
+      "summary": "US-brokered Russia-Ukraine talks started in Abu Dhabi, with US officials seeking a 'final end' to the war, and Trump said he sees a 'strong inclination' to end it. India offered to help restore Black Sea grain exports. Von der Leyen began a Black Sea visit warning that security threats are escalating, and Canada announced new Russia sanctions.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.5,
+      "duration": "weeks",
+      "sources": [
+        "S008",
+        "S015",
+        "S066",
+        "S016",
+        "S111",
+        "S065",
+        "S061",
+        "S019",
+        "S027",
+        "S090"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:EPOL",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 5,
+          "rationale": "Formal talks are under way with heavy US pressure -> lower regional risk premium -> Polish equities, the most direct frontline and reconstruction proxy, gain. The defence de-rating (RHM.DE -22% in 5 days) is already large, so this calls the less-priced beneficiary instead.",
+          "against_coverage": false
+        },
+        {
+          "target": "theme:food_supply_shock",
+          "direction": -1,
+          "magnitude": 0.1,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Peace talks plus India's offer to restore Black Sea grain flows -> lower grain risk premium -> food producers gain against ag-input names. Wheat is already -12.5% in 20 days and Sovecon cut Russian export forecasts, so the size is small.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-03",
+      "title": "Trump says FBI is looking into Nvidia CEO's affair with alleged Chinese spy; Democrats demand answers on AI policy",
+      "category": "technology",
+      "regions": [
+        "US",
+        "CN"
+      ],
+      "summary": "Trump said the FBI is investigating Jensen Huang's relationship with an alleged Chinese agent and that Xi may raise the case, while saying Huang should stay on as CEO. Democrats are demanding answers on Trump's AI and chip policy toward China in light of the affair.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.4,
+      "duration": "weeks",
+      "sources": [
+        "S012",
+        "S017",
+        "S035",
+        "S036",
+        "S040",
+        "S050",
+        "S004",
+        "S005",
+        "S024",
+        "S083",
+        "S067",
+        "S095",
+        "S098",
+        "S099",
+        "S072",
+        "S073",
+        "S081",
+        "S006",
+        "S057"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:NVDA",
+          "direction": -1,
+          "magnitude": 0.2,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "An FBI inquiry plus congressional scrutiny of Nvidia's China policy access -> lasting governance and political overhang, and risk of tougher China sales scrutiny. The money disagrees: semis bounced 5% and Polymarket odds of Nvidia being largest by market cap rose 10 points, so confidence is low.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-04",
+      "title": "France blames Iran's Revolutionary Guards for supermarket fridge cyberattack, vows EU sanctions",
+      "category": "sanctions",
+      "regions": [
+        "FR",
+        "IR",
+        "EU"
+      ],
+      "summary": "France attributed last month's cyberattack, which disabled refrigeration in hundreds of supermarkets and spoiled tons of food, to Iran's Revolutionary Guards and said it will push for EU sanctions.",
+      "certainty": "confirmed",
+      "novelty": 0.9,
+      "severity": 0.3,
+      "duration": "weeks",
+      "sources": [
+        "S003",
+        "S010",
+        "S011",
+        "S037",
+        "S042"
+      ],
+      "impacts": [
+        {
+          "target": "theme:cyber_threat",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "A state-attributed attack on retail operational technology in an EU country -> higher urgency for OT and endpoint security spending -> cybersecurity vendors gain.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-05",
+      "title": "Thames Water creditors prepare 'final' offer as Burnham faces nationalisation decision",
+      "category": "regulation",
+      "regions": [
+        "GB"
+      ],
+      "summary": "Thames Water's creditors are preparing a 'final' recapitalisation offer as Andy Burnham faces a decision on whether to nationalise the utility.",
+      "certainty": "reported",
+      "novelty": 0.5,
+      "severity": 0.25,
+      "duration": "weeks",
+      "sources": [
+        "S132"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:UU.L",
+          "direction": -1,
+          "magnitude": 0.1,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "A government receptive to public ownership weighing nationalisation of Thames -> read-across risk to the regulatory model and equity value of listed UK water companies -> United Utilities lags. A creditor deal would remove this, so confidence is low.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-10-06",
+      "title": "Fed launches private credit lending survey",
+      "category": "regulation",
+      "regions": [
+        "US"
+      ],
+      "summary": "The Federal Reserve launched a survey of private credit lending, signalling closer supervisory attention to the sector.",
+      "certainty": "reported",
+      "novelty": 0.7,
+      "severity": 0.2,
+      "duration": "months",
+      "sources": [
+        "S103"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:ARES",
+          "direction": -1,
+          "magnitude": 0.1,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "More Fed data-gathering on private credit -> a step toward tighter oversight of bank lending to private credit funds -> sentiment overhang on direct-lending-heavy managers like Ares. It is only a survey, so the size is small.",
+          "against_coverage": false
+        }
+      ]
+    }
+  ],
+  "trump_calls": [
+    {
+      "ticker": "NVDA",
+      "company": "Nvidia",
+      "stance": "positive",
+      "explicit": false,
+      "said_on": "2026-11-09",
+      "quote": "Says Jensen Huang should stay on as Nvidia CEO, is an 'honorable guy' who had 'no idea' she was a spy and will be 'in good shape'",
+      "sources": [
+        "S040",
+        "S073",
+        "S081",
+        "S036",
+        "S072",
+        "S143"
+      ]
+    }
+  ]
+}
