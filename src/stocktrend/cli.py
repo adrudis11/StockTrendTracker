@@ -491,7 +491,8 @@ def calendar(
 @app.command()
 def ingest(
     lookback_hours: Annotated[
-        int | None, typer.Option(help="News window; default 24h, 72h on Mondays")
+        int | None,
+        typer.Option(help="News window; default since the last digest, 24 to 96 hours"),
     ] = None,
     skip: Annotated[
         list[str] | None,
@@ -621,6 +622,45 @@ def trackers_show(
     typer.echo(ins.head(top).to_string() if not ins.empty else "No purchases filed in the window.")
 
 
+# --- the weekday collection -----------------------------------------------------
+
+
+@app.command()
+def collect() -> None:
+    """The weekday run: prices, news, filings, matured picks, the day's digest, dashboard.
+
+    It calls no API and makes no picks. Prints NOTHING TO DO when neither the NYSE nor
+    Xetra trades today. A second run on the same day only refreshes prices, scores and
+    the dashboard, so the day's digest keeps the news since the last collection.
+    """
+    from stocktrend.events.digest import digest_path
+    from stocktrend.ingest.run import NEWS_SOURCES
+
+    d = _day(None)
+    today = date.fromisoformat(d)
+    if not (markets.is_trading_day("XNYS", today) or markets.is_trading_day("XETR", today)):
+        typer.echo(f"NOTHING TO DO: neither the NYSE nor Xetra trades on {d}.")
+        return
+    if digest_path(d).exists():
+        typer.echo(f"Already collected {d}: refreshing prices, scores and the dashboard.")
+        _run_ingest(None, NEWS_SOURCES, strict=False)
+    else:
+        _run_ingest(None, frozenset(), strict=False)
+        _update_trackers()
+        digest(day=d, show=False)
+    evaluate()
+    scoreboard()
+    dashboard(day=d)
+
+
+def _update_trackers() -> None:
+    for name, sec in (("House filings", False), ("SEC insider filings", True)):
+        try:
+            trackers_insiders() if sec else trackers_update(years=None, sec=False)
+        except Exception as e:  # the trackers are optional; never block the run on them
+            typer.secho(f"warning: {name} update failed: {e}", fg="yellow")
+
+
 # --- the scheduled daily run ----------------------------------------------------
 
 STALE_PRIORS_DAYS = 30
@@ -650,11 +690,7 @@ def daily_prepare() -> None:
         typer.echo(f"NOTHING TO DO: picks for {d} are already in the ledger.")
         return
     _run_ingest(None, frozenset(), strict=False)
-    for name, sec in (("House filings", False), ("SEC insider filings", True)):
-        try:
-            trackers_insiders() if sec else trackers_update(years=None, sec=False)
-        except Exception as e:  # the trackers are optional; never block the run on them
-            typer.secho(f"warning: {name} update failed: {e}", fg="yellow")
+    _update_trackers()
     evaluate()
     feedback(day=d)
     digest(day=d, show=False)

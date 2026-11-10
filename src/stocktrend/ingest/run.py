@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import logging
+import math
 from collections import Counter
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timedelta
@@ -12,7 +13,7 @@ from typing import Any
 
 import pandas as pd
 
-from stocktrend.config import load_yaml, raw_dir
+from stocktrend.config import DATA_DIR, load_yaml, raw_dir
 from stocktrend.http import session
 from stocktrend.ingest import federal_register, gdelt, polymarket, prices, rss
 from stocktrend.ingest.models import NewsItem, SourceResult, dedupe
@@ -22,11 +23,32 @@ from stocktrend.universe.instruments import load_instruments
 log = logging.getLogger(__name__)
 
 SOURCES = ("prices", "rss", "federal_register", "gdelt_events", "gdelt_doc", "polymarket")
+NEWS_SOURCES = frozenset(SOURCES) - {"prices"}
+DIGESTS_DIR = DATA_DIR / "digests"  # as in events.digest, which imports from ingest
 
 
-def default_lookback_hours(as_of: datetime) -> int:
-    """24h, or 72h on Mondays so Friday evening and the weekend are covered."""
-    return 72 if as_of.weekday() == 0 else 24
+MIN_LOOKBACK_HOURS, MAX_LOOKBACK_HOURS = 24, 96
+
+
+def default_lookback_hours(as_of: datetime, digests_dir: Path = DIGESTS_DIR) -> int:
+    """The hours since the last saved digest, so a late or missed run leaves no gap in
+    the news: at least 24, at most 96 (a long weekend). Without an earlier digest, 24h,
+    or 72h on Mondays so Friday evening and the weekend are covered."""
+    last = last_collected(as_of, digests_dir)
+    if last is None:
+        return 72 if as_of.weekday() == 0 else 24
+    hours = math.ceil((as_of - last).total_seconds() / 3600)
+    return min(MAX_LOOKBACK_HOURS, max(MIN_LOOKBACK_HOURS, hours))
+
+
+def last_collected(as_of: datetime, digests_dir: Path = DIGESTS_DIR) -> datetime | None:
+    """When the latest digest before ``as_of``'s day was made."""
+    day = as_of.date().isoformat()
+    earlier = sorted(p for p in digests_dir.glob("*.json") if p.stem < day)
+    if not earlier:
+        return None
+    made = json.loads(earlier[-1].read_text(encoding="utf-8")).get("generated_at")
+    return datetime.fromisoformat(made) if made else None
 
 
 @dataclass

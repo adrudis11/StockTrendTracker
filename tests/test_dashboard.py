@@ -34,6 +34,14 @@ def test_dashboard_datasets_from_committed_day() -> None:
     assert all(p["last_close"] > 0 for p in data["picks"])  # the price each pick was made at
 
 
+def test_dashboard_shows_the_latest_picks_on_days_without_any() -> None:
+    days = sorted(p.stem for p in (DATA_DIR / "picks").glob("*.json"))
+    assert dashboard.latest_picks_day(days[0]) == days[0]
+    assert dashboard.latest_picks_day("2099-01-01") == days[-1]
+    with pytest.raises(FileNotFoundError):
+        dashboard.latest_picks_day("2000-01-01")
+
+
 def test_pick_reasons_back_the_pick_first() -> None:
     day = sorted(p.stem for p in (DATA_DIR / "picks").glob("*.json"))[-1]
     f = load_picks(day)

@@ -816,3 +816,17 @@ pulling the other way, with the analysis's reasoning and how the score was built
 new Learning progress card shows the count towards 100 scored picks (and when the
 100th is due), each strategy's record so far, the daily analysis's scored calls, and
 the latest weekly review's proposals.
+
+2026-11-10, weekly picks: the owner found the daily picks repetitive (143 one-month
+picks in 10 days covered only 48 stocks) and chose to switch to one list a week of
+one-month picks (10 buys and 5 avoids, 20 trading days, no more 5-day horizon), made on
+Saturday mornings from the whole week's news together with the weekly review. The
+Claude API runs only on Saturdays; weekdays do free work only. Plan, in three phases:
+1. From 2026-11-11 the weekday run only collects (`stt collect`: prices, news since the
+   last digest, filings, scoring of matured picks, the day's digest, the dashboard with
+   the latest picks). No analysis, no picks, no API cost.
+2. By 2026-11-14 the Saturday run: the week's digest merged from the weekday ones, the
+   analysis with one-month impacts only, picks, ledger, report, dashboard.
+3. Free weekday extras: a watch on open picks (case now, earnings, new filings, news),
+   the week's news so far, prediction-market moves, data health.
+The 1-week picks already logged are scored as they mature (the last on 2026-11-16).

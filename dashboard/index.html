@@ -59,8 +59,9 @@
   <header class="stt-head" id="top">
     <h1>StockTrendTracker</h1>
     <p class="stt-take">
-      Picks for <b data-draw="s-date" data-source="summary" data-field="date" data-row="0">—</b>, made at
+      Latest picks: <b data-draw="s-date" data-source="summary" data-field="date" data-row="0">—</b>, made at
       <b data-draw="s-made" data-source="summary" data-field="made_at" data-row="0">—</b> Paris time, before the European open.
+      Prices, filings and results as of <b data-draw="s-asof" data-source="summary" data-field="as_of" data-row="0">—</b>.
       Market regime: <b data-draw="s-regime" data-source="summary" data-field="regime" data-row="0">—</b>.
       <b data-draw="s-p5" data-source="summary" data-field="picks_5d" data-row="0">—</b> picks for the next week and
       <b data-draw="s-p20" data-source="summary" data-field="picks_20d" data-row="0">—</b> for the next month, from
@@ -326,6 +327,7 @@
   });
   const date = (v) => d3.utcFormat('%-d %b %Y')(new Date(v));
   value('s-date', 'date', date);
+  value('s-asof', 'as_of', date);
   value('s-regime', 'regime', String);
   value('s-p5', 'picks_5d', String);
   value('s-p20', 'picks_20d', String);

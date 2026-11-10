@@ -39,16 +39,14 @@ first in a new session).
 - **GitHub Actions**, in `.github/workflows/`, scheduled from 2026-11-04 (`START` in
   each workflow; the repository variable `STT_RUNNER` overrides it: `github` on, `off`
   paused):
-  - `daily.yml`, weekday mornings: `stt daily prepare`, `stt analyze` (Claude API),
-    `stt daily finish`, commit `data/` as github-actions[bot], publish the dashboard to
-    GitHub Pages (`stt site`). It is started at 06:00 Paris time on weekdays by an
-    outside cron service (cron-job.org, the owner's account and token; it sends
-    `trigger: cron`, which obeys `STT_RUNNER` and always records). GitHub's own
-    schedules (00:47, 02:47, 04:47, 09:17 UTC) are a backup, because GitHub starts
-    them hours late or drops them: the gate makes one that starts before 05:30 UTC
-    wait until then, and the day is done only if it isn't recorded yet. Only the `run`
-    job holds the pipeline lock. Run by hand with "test" ticked to try it without
-    recording anything, or unticked to run the day now.
+  - `daily.yml`, weekday mornings (04:47 and 09:17 UTC): `stt collect` (prices, news
+    since the last digest, House and SEC filings, scoring of matured picks, the day's
+    digest, dashboard data), commit `data/` as github-actions[bot], publish the
+    dashboard to GitHub Pages (`stt site`). **No Claude API and no picks**: since
+    2026-11-11 picks are made once a week on Saturdays (the owner's choice on
+    2026-11-10; see `docs/PLAN.md`). The time doesn't matter; a second run that day only
+    refreshes. The outside cron service (cron-job.org, `trigger: cron`), if set up, just
+    starts the collection. Run by hand with "test" ticked to try it without committing.
   - `weekly.yml`, Saturdays 08:41 UTC: score the week, `stt review` writes
     `data/reviews/`. Unattended it only *proposes* edits to `config/exposures.yaml` and
     the analysis prompt; apply them in a session if they hold up.

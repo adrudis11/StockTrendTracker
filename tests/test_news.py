@@ -2,8 +2,12 @@ import io
 import json
 import zipfile
 from datetime import UTC, datetime
+from pathlib import Path
+
+import pytest
 
 from stocktrend.ingest import federal_register, gdelt, rss
+from stocktrend.ingest import run as ingest_run
 from stocktrend.ingest.models import NewsItem, canonical_url, clean_text, dedupe
 
 START = datetime(2026, 10, 27, 9, 0, tzinfo=UTC)
@@ -204,3 +208,28 @@ def test_gdelt_doc_parsing() -> None:
     (n,) = gdelt.parse_doc(data, "trade")
     assert n.title == "Tariffs rise" and n.feed == "gdelt_doc:trade"
     assert n.published_at == datetime(2026, 10, 28, 8, 15, tzinfo=UTC)
+
+
+# --- the news window --------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    ("last_made", "as_of", "hours"),
+    [
+        (None, datetime(2026, 11, 11, 5, 0, tzinfo=UTC), 24),  # no digest yet: a day
+        (None, datetime(2026, 11, 16, 5, 0, tzinfo=UTC), 72),  # ... or the weekend
+        ("2026-11-10T06:10:00+00:00", datetime(2026, 11, 11, 5, 0, tzinfo=UTC), 24),  # at least
+        ("2026-11-10T06:10:00+00:00", datetime(2026, 11, 11, 9, 30, tzinfo=UTC), 28),  # a late run
+        ("2026-11-14T07:00:00+00:00", datetime(2026, 11, 16, 5, 0, tzinfo=UTC), 46),  # since Sat
+        ("2026-11-05T06:00:00+00:00", datetime(2026, 11, 11, 5, 0, tzinfo=UTC), 96),  # at most
+    ],
+)
+def test_news_window_runs_from_the_last_digest(
+    last_made: str | None, as_of: datetime, hours: int, tmp_path: Path
+) -> None:
+    if last_made:
+        day = last_made[:10]
+        (tmp_path / f"{day}.json").write_text(json.dumps({"generated_at": last_made}))
+    # a digest from the same day (an earlier run) doesn't count
+    (tmp_path / f"{as_of.date()}.json").write_text(json.dumps({"generated_at": as_of.isoformat()}))
+    assert ingest_run.default_lookback_hours(as_of, tmp_path) == hours

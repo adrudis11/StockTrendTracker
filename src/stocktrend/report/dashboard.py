@@ -20,7 +20,7 @@ from stocktrend.events.schema import EventsFile
 from stocktrend.events.validate import events_path
 from stocktrend.markets import exchange_for
 from stocktrend.scoring.model import Pick, PicksFile
-from stocktrend.scoring.run import TRACKERS_PATH
+from stocktrend.scoring.run import TRACKERS_PATH, picks_path
 from stocktrend.scoring.run import load as load_picks
 from stocktrend.tracking import scoreboard
 from stocktrend.tracking.evaluate import entry_session, exit_session, first_matures, read_outcomes
@@ -61,9 +61,19 @@ def _theme(name: str | None) -> str:
     )
 
 
+def latest_picks_day(day: str) -> str:
+    """The last day up to ``day`` with a picks file: on days without picks (weekdays
+    since 2026-11-11), the dashboard shows the latest ones with today's prices."""
+    days = [p.stem for p in picks_path(day).parent.glob("*.json") if p.stem <= day]
+    if not days:
+        raise FileNotFoundError(f"no picks file up to {day}")
+    return max(days)
+
+
 def build(day: str) -> dict[str, list[dict[str, Any]]]:
-    picks = load_picks(day)
-    path = events_path(day)
+    picks_day = latest_picks_day(day)
+    picks = load_picks(picks_day)
+    path = events_path(picks_day)
     events = (
         EventsFile.model_validate_json(path.read_text(encoding="utf-8")) if path.exists() else None
     )
@@ -83,7 +93,7 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
     results = result_rows(day)
     loop = feedback_data(day)
     review_day, proposals = review_proposals(day)
-    made = [e.logged_at for e in entries if e.strategy == "geo" and e.date == day]
+    made = [e.logged_at for e in entries if e.strategy == "geo" and e.date == picks_day]
     picked = {p.ticker: p for p in sorted(picks.picks, key=lambda p: (p.horizon, p.rank))}
     in_picks = [f"{row['ticker']} ({_label(picked[row['ticker']])})" for row in insider
                 if row["ticker"] in picked]  # fmt: skip
@@ -104,6 +114,7 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
         "has_review": int(review_day is not None),  # the page shows parts by counts
         "n_proposals": len(proposals),
         "date": picks.date,
+        "as_of": day,  # prices, filings and results; the picks may be older
         "regime": REGIME_NAMES.get(r.get("label", ""), r.get("label", "")),
         "vix": r.get("vix"),
         "spy_r20d": _pct(r.get("spy_r20d")),

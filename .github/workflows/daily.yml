@@ -1,40 +1,32 @@
-# The weekday run, outside Claude sessions: data, the analysis through the Claude API
-# (`stt analyze`), picks, report, commit of data/ and the dashboard on GitHub Pages.
+# The weekday collection, outside Claude sessions: prices, news, House and SEC filings,
+# scoring of matured picks, the day's news digest, a commit of data/ and the dashboard
+# on GitHub Pages. It calls no API and makes no picks: since 2026-11-11 the picks are
+# made once a week, on Saturdays (weekly.yml), from the week's digests.
 #
-# Scheduled runs start on START (below), 2026-11-04: the handover from the Claude
-# Code cloud sessions, whose credits end on 2026-11-05 (their daily run stops after
-# 2026-11-03). The repository variable STT_RUNNER (Settings > Secrets and variables >
-# Actions > Variables) overrides the date: `github` runs them now, `off` pauses them.
-# A second run on a recorded day does nothing: `stt daily prepare` stops.
+# Scheduled runs start on START (below). The repository variable STT_RUNNER (Settings >
+# Secrets and variables > Actions > Variables) overrides the date: `github` runs them
+# now, `off` pauses them (and the weekly run).
 #
-# The day normally starts at an exact time from outside: a cron service (cron-job.org)
-# calls this workflow's dispatch API at 06:00 Paris time on weekdays, with
-# test=false (README, "Exact timing"). GitHub's own schedules are only a backup,
-# because GitHub starts them hours late or drops them (6-8 hours late on 2026-11-02 to
-# 11-04; on 11-05 only one of four fired). A scheduled run that starts before 05:30
-# UTC waits in the gate until 05:30, after the outside call in summer and winter, and
-# then goes on; one that starts later (until 20:00 UTC) runs at once. If the day is
-# already recorded they only refresh the dashboard. Only the `run` job holds the
-# pipeline lock, so a waiting gate blocks nothing.
+# The exact time no longer matters: each run reads the news since the last digest (24
+# to 96 hours), so a late or dropped run leaves no gap. GitHub often starts the
+# schedules below hours late. The outside cron service (cron-job.org, README "Exact
+# timing"), if it is set up, starts it at 06:00 Paris time with trigger=cron. A second
+# run on the same day only refreshes prices, scores and the dashboard.
 #
-# Run it by hand from the Actions tab: with "test" ticked (the default) it fetches
-# the news and runs the analysis into a downloadable file, and records, commits and
-# publishes nothing. Unticked on a day that is already recorded, it only refreshes the
-# dashboard on GitHub Pages (prices and outcomes as of now).
+# Run it by hand from the Actions tab: with "test" ticked (the default) it collects on
+# the runner, keeps the digest as a downloadable file and commits and publishes
+# nothing. Unticked, it does the day now.
 
-name: Daily run
+name: Daily collection
 
 on:
   schedule:
-    # Backups for the outside trigger (see above); each waits until 05:30 UTC.
-    - cron: "47 0 * * 1-5"
-    - cron: "47 2 * * 1-5"
     - cron: "47 4 * * 1-5"
-    - cron: "17 9 * * 1-5" # late: runs at once if the day isn't recorded yet
+    - cron: "17 9 * * 1-5" # collects if the first was dropped, else refreshes the dashboard
   workflow_dispatch:
     inputs:
       test:
-        description: "Test only: run the analysis, record and publish nothing"
+        description: "Test only: collect, but commit and publish nothing"
         type: boolean
         default: true
       trigger:
@@ -58,7 +50,6 @@ defaults:
 jobs:
   gate:
     runs-on: ubuntu-latest
-    timeout-minutes: 350 # a wait from 00:47 to 05:30 is 283 minutes
     outputs:
       go: ${{ steps.check.outputs.go }}
     steps:
@@ -67,29 +58,13 @@ jobs:
           STT_RUNNER: ${{ vars.STT_RUNNER }}
           TRIGGER: ${{ inputs.trigger }}
         run: |
-          now=$(date -u +%s)
-          midnight=$((now - now % 86400))
-          start=$((midnight + 330 * 60)) # 05:30 UTC
-          if [ "$now" -ge $((midnight + 20 * 3600)) ]; then
-            start=$((start + 86400)) # evening: tomorrow's 05:30
-          fi
-          wait=$((start - now))
           if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ] && [ "$TRIGGER" != cron ]; then
             go=true # started by hand
           elif [ "$STT_RUNNER" = off ] ||
             { [ "$STT_RUNNER" != github ] && [[ "$(date -u +%F)" < "$START" ]]; }; then
             go=false
             echo "Scheduled runs are off (start $START, STT_RUNNER=${STT_RUNNER:-unset})."
-          elif [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
-            go=true # the outside cron trigger: on time, no wait
-          elif [ "$wait" -gt $((330 * 60)) ]; then
-            go=false
-            echo "Started at $(date -u -d "@$now" +%H:%M) UTC, too early to wait for 05:30."
           else
-            if [ "$wait" -gt 0 ]; then
-              echo "Started at $(date -u -d "@$now" +%H:%M) UTC: waiting $((wait / 60)) minutes."
-              sleep "$wait"
-            fi
             go=true
           fi
           echo "go=$go" >> "$GITHUB_OUTPUT"
@@ -98,14 +73,13 @@ jobs:
     needs: gate
     if: needs.gate.outputs.go == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 60
     concurrency:
       group: pipeline
       cancel-in-progress: false
     env:
-      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY_STOCKTRACKER }}
       STT_SEC_CONTACT: ${{ secrets.STT_SEC_CONTACT }}
-      # the outside cron trigger always records the day, whatever it sends as `test`
+      # the outside cron trigger always does the day, whatever it sends as `test`
       TEST: ${{ github.event_name == 'workflow_dispatch' && inputs.test && inputs.trigger != 'cron' }}
     outputs:
       publish: ${{ steps.site.outputs.publish }}
@@ -113,80 +87,54 @@ jobs:
       - uses: actions/checkout@v4
         with:
           # The branch as it is now, not the commit the run was triggered on: a run
-          # that waited for the pipeline lock must see a day recorded meanwhile, or it
-          # redoes the day and fails to push (2026-11-10).
+          # that waited for the pipeline lock must see what was committed meanwhile
+          # (2026-11-10).
           ref: ${{ github.ref }}
       - uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
       - run: uv sync --locked
 
-      - name: Test run (records, commits and publishes nothing)
-        if: env.TEST == 'true'
+      - name: Collect (prices, news, filings, matured picks, digest, dashboard data)
+        id: collect
         run: |
-          uv run stt ingest
-          uv run stt trackers insiders || echo "::warning::SEC insider filings failed"
-          uv run stt digest
-          uv run stt feedback
-          mkdir -p "$RUNNER_TEMP/test"
-          uv run stt analyze --out "$RUNNER_TEMP/test/events.json"
-      - name: Keep the test analysis
+          log="$RUNNER_TEMP/collect.log"
+          if ! uv run stt collect | tee "$log"; then
+            echo "A data source failed; trying once more in a minute."
+            sleep 60
+            uv run stt collect | tee "$log"
+          fi
+          if grep -q "NOTHING TO DO" "$log"; then echo "skip=true" >> "$GITHUB_OUTPUT"; fi
+      - name: Keep the test collection
         if: env.TEST == 'true' && always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-analysis
+          name: test-collection
           path: |
-            ${{ runner.temp }}/test/
-            data/usage/api.jsonl
+            data/digests/
+            cache/raw/*/digest.md
+            cache/raw/*/ingest_report.json
           if-no-files-found: ignore
 
-      - name: Prepare (prices, news, trackers, scoring of matured picks, digest)
-        id: prepare
-        if: env.TEST != 'true'
-        run: |
-          log="$RUNNER_TEMP/prepare.log"
-          if ! uv run stt daily prepare | tee "$log"; then
-            echo "A data source failed; trying once more in a minute."
-            sleep 60
-            uv run stt daily prepare | tee "$log"
-          fi
-          if grep -q "NOTHING TO DO" "$log"; then echo "skip=true" >> "$GITHUB_OUTPUT"; fi
-          if grep -q "already in the ledger" "$log"; then echo "recorded=true" >> "$GITHUB_OUTPUT"; fi
-      - name: Analyse (Claude API)
-        if: env.TEST != 'true' && steps.prepare.outputs.skip != 'true'
-        run: |
-          uv run stt analyze || { echo "Retrying in a minute."; sleep 60; uv run stt analyze; }
-      - name: Finish (picks, ledger, report, dashboard data)
-        if: env.TEST != 'true' && steps.prepare.outputs.skip != 'true'
-        run: uv run stt daily finish
       - name: Commit and push data/
-        if: env.TEST != 'true' && steps.prepare.outputs.skip != 'true'
+        if: env.TEST != 'true' && steps.collect.outputs.skip != 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/
           if git diff --cached --quiet; then echo "Nothing to commit."; exit 0; fi
           day=$(date -u +%F)
-          events=$(jq '.events | length' "data/events/$day.json")
-          picks=$(jq '.picks | length' "data/picks/$day.json")
-          git commit -q -m "Daily run $day: $events events, $picks picks (GitHub Actions)"
+          stories=$(jq '.stories | length' "data/digests/$day.json")
+          git commit -q -m "Collect $day: $stories stories (GitHub Actions)"
           for wait in 2 4 8 16; do
             git push origin "HEAD:$GITHUB_REF_NAME" && exit 0
             sleep "$wait"
             git pull --rebase origin "$GITHUB_REF_NAME"
           done
           git push origin "HEAD:$GITHUB_REF_NAME"
-      - name: Refresh the dashboard data (the day is already recorded)
-        if: steps.prepare.outputs.recorded == 'true'
-        run: |
-          uv run stt ingest --skip rss --skip federal_register --skip gdelt_events \
-            --skip gdelt_doc --skip polymarket
-          uv run stt dashboard
       - name: Build the dashboard site
         id: site
-        if: >-
-          env.TEST != 'true' &&
-          (steps.prepare.outputs.skip != 'true' || steps.prepare.outputs.recorded == 'true')
+        if: env.TEST != 'true' && steps.collect.outputs.skip != 'true'
         run: |
           uv run stt site
           echo "publish=true" >> "$GITHUB_OUTPUT"
