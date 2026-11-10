@@ -75,7 +75,8 @@ first in a new session).
 
 | Step | Command | Output |
 |---|---|---|
-| Weekday run (no API) | `stt collect` | ingest, trackers, evaluate, digest, dashboard |
+| Weekday run (no API) | `stt collect` | ingest, trackers, evaluate, digest, watch, dashboard |
+| Watch on open picks | part of `collect` and `weekly finish` | `data/watch/<date>.json` (overwritten the same day) |
 | Ingest prices and news | `stt ingest` | `cache/prices/daily.parquet`, `cache/raw/<date>/news.jsonl` |
 | Rank news into stories | `stt digest` | `data/digests/<date>.json`, `cache/raw/<date>/digest.md` |
 | Saturday, step 1 | `stt weekly prepare` | the data, feedback note, the week's digest in `data/digests/<saturday>.json` |
@@ -94,6 +95,16 @@ from `events.validate.WEEKLY_FROM` (2026-11-11) may only have 20-day impacts; ol
 ones keep their 5-day impacts, which still spill into the 20-day signal until they
 fade. The verdict (100 matured picks) and the calibration count one-month picks only;
 the 1-week picks logged until 2026-11-10 stay in the track record as history.
+
+The weekday extras are free (no API; the owner wants weekdays to stay so): the watch
+(`tracking/watch.py`) re-scores the open one-month picks' stocks with the events already
+logged (`scoring.run.score_day(..., only=...)`) and compares the non-news part of the
+score with the pick's: stronger, holding, weaker, reversed, or spent; plus flags for
+earnings before the exit, insider or House trades filed since the pick, and stories
+naming the company. The dashboard shows a Today card (what changed, data health), a
+Case column in Open picks, News this week (`digest.week_so_far`), prediction-market
+moves and "new" marks on filings. The weekly review reads the latest watch. None of it
+changes a pick or the ledger.
 
 Trackers: `stt trackers update` (new House STOCK Act filings and SEC Form 4 insider
 trades → `data/trackers/`, run by `collect` and `weekly prepare`; `stt trackers insiders` for the SEC

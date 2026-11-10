@@ -45,6 +45,13 @@
   .stt-why .r, .stt-why .how { margin: 0 0 var(--cds-gap-sm); max-width: 60ch; line-height: 1.45; }
   .stt-why .r b { font-weight: var(--cds-font-weight-medium); }
   .stt-why .against, .stt-why .how { color: var(--color-fg-muted); }
+  .stt-new { display: inline-block; margin-left: .35em; padding: 0 .4em; border-radius: .7em; font-size: .75em; font-weight: var(--cds-font-weight-medium); color: var(--color-panel); background: var(--color-ok); vertical-align: .1em; }
+  .stt-case { white-space: nowrap; font-weight: var(--cds-font-weight-medium); }
+  .stt-case.stronger { color: var(--color-ok); }
+  .stt-case.weaker, .stt-case.reversed { color: var(--color-bad); }
+  .stt-case.spent { color: var(--color-fg-muted); }
+  .stt-flags { display: block; font-size: .9em; color: var(--color-fg-muted); font-weight: 400; white-space: normal; min-width: 12rem; }
+  .stt-t a { color: inherit; }
   .stt-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: var(--cds-gap-md); }
   .stt-step { border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md); display: grid; gap: var(--cds-gap-sm); align-content: start; }
   .stt-bar { height: 0.5rem; border-radius: var(--cds-radius); background: var(--color-border-line); overflow: hidden; }
@@ -70,7 +77,7 @@
       <b data-draw="s-events" data-source="summary" data-field="events" data-row="0">—</b> political and geopolitical events.
     </p>
     <nav class="stt-nav" aria-label="Sections">
-      <a href="#picks">This week's picks</a><a href="#insiders">Insider buying</a><a href="#open-picks">Open picks</a><a href="#progress">Learning progress</a><a href="#trump">Trump tracker</a><a href="#track-record">Track record</a><a href="#learning">How the analysis is doing</a><a href="#congress">Congress trades</a><a href="#events">This week's events</a>
+      <a href="#today">Today</a><a href="#picks">This week's picks</a><a href="#insiders">Insider buying</a><a href="#open-picks">Open picks</a><a href="#progress">Learning progress</a><a href="#week-news">News this week</a><a href="#odds">Prediction markets</a><a href="#trump">Trump tracker</a><a href="#track-record">Track record</a><a href="#learning">How the analysis is doing</a><a href="#congress">Congress trades</a><a href="#events">This week's events</a>
     </nav>
   </header>
 
@@ -86,6 +93,14 @@
   <section class="stt-card" id="backdrop">
     <h2>Backdrop</h2>
     <p class="stt-view" data-draw="s-view" data-source="summary" data-field="market_view" data-row="0">—</p>
+  </section>
+
+  <section class="stt-card" id="today">
+    <h2>Today</h2>
+    <p class="stt-note">The picks stay the same all week, but every weekday a free data run (no new analysis) checks how their cases have moved: prices, moves already made, earnings dates, new insider and House filings, and the news. <span data-if="n_watched" hidden>Of the <b data-draw="s-watched" data-source="summary" data-field="n_watched" data-row="0">—</b> open one-month picks, <b data-draw="s-weaker" data-source="summary" data-field="watch_weaker" data-row="0">—</b> look weaker than when they were made and <b data-draw="s-stronger" data-source="summary" data-field="watch_stronger" data-row="0">—</b> stronger (the Case column in Open picks).</span></p>
+    <ul class="stt-list" data-draw="changes" data-source="changes" data-if="n_changes" hidden></ul>
+    <p data-unless="n_changes" hidden>Nothing has changed for the open picks since the last update.</p>
+    <p class="stt-note" data-if="has_health" hidden>Data today: sources that failed: <b data-draw="s-hfailed" data-source="summary" data-field="health_failed" data-row="0">—</b>. Stocks missing the latest session's price: <b data-draw="s-hstale" data-source="summary" data-field="health_stale" data-row="0">—</b>. Latest close: <b data-draw="s-hlast" data-source="summary" data-field="health_last" data-row="0">—</b>.</p>
   </section>
 
   <section class="stt-section" id="picks">
@@ -134,10 +149,11 @@
   <section class="stt-card" id="open-picks">
     <h2>Open picks</h2>
     <p class="stt-note">Picks from earlier days still inside their horizon. Picked is when the pick was logged, in Paris time. Entry is the open of the first session after it, which is what the track record scores from; Now is the latest close and Since the move between them, in the listing's currency. vs benchmark is the excess return so far, as the track record will score it: positive means the call is working, for avoids too.</p>
+    <p class="stt-note" data-if="n_watched" hidden>Case is today's check on a one-month pick: its price trend, any move already made and risks such as earnings, now against when it was made (stronger, holding or weaker). Reversed means the news now points the other way; spent, that no event behind it is still live, which is normal near the end of the month. The news itself fades over the month by design, so it isn't part of the comparison. Below it: earnings before the pick ends, insider and House trades filed since the pick, and stories this week that name the company.</p>
     <p class="stt-note" data-if="open_entered" hidden><b data-draw="s-ontrack" data-source="summary" data-field="open_on_track" data-row="0">—</b> of the <b data-draw="s-entered" data-source="summary" data-field="open_entered" data-row="0">—</b> open picks that have traded are on track. <b data-draw="s-nopen" data-source="summary" data-field="n_open" data-row="0">—</b> in all, newest first: the list scrolls.</p>
     <div class="stt-scroll" data-if="n_open" hidden>
       <table class="stt-t" data-source="open_picks" data-row-key="key">
-        <thead><tr><th data-field="made_at">Picked</th><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="horizon">Horizon</th><th data-field="side">Side</th><th data-field="entry" class="num">Entry</th><th data-field="now" class="num">Now</th><th data-field="since" class="num">Since</th><th data-field="vs_benchmark" class="num">vs benchmark</th><th data-field="ends" class="opt">Ends</th><th data-field="driver">Why</th></tr></thead>
+        <thead><tr><th data-field="made_at">Picked</th><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="horizon">Horizon</th><th data-field="side">Side</th><th data-field="entry" class="num">Entry</th><th data-field="now" class="num">Now</th><th data-field="since" class="num">Since</th><th data-field="vs_benchmark" class="num">vs benchmark</th><th data-field="case">Case</th><th data-field="ends" class="opt">Ends</th><th data-field="driver">Why</th></tr></thead>
         <tbody data-draw="open-picks"></tbody>
       </table>
     </div>
@@ -176,6 +192,30 @@
         <p data-unless="has_review" hidden>No weekly review yet.</p>
       </div>
     </div>
+  </section>
+
+  <section class="stt-card" id="week-news">
+    <h2>News this week</h2>
+    <p class="stt-note">The week's top stories so far, joined from each weekday's news digest and ranked by how widely they were reported: what Saturday's analysis will read. Days is how long a story has stayed in the news; Picks lists open picks the headline names.</p>
+    <div class="stt-wrap" data-if="n_week_news" hidden>
+      <table class="stt-t" data-source="week_news" data-row-key="key">
+        <thead><tr><th data-field="title">Story</th><th data-field="first_seen">First seen</th><th data-field="days" class="num">Days</th><th data-field="pubs" class="num opt">Outlets</th><th data-field="picks">Picks</th></tr></thead>
+        <tbody data-draw="week-news"></tbody>
+      </table>
+    </div>
+    <p data-unless="n_week_news" hidden>No stories collected yet this week.</p>
+  </section>
+
+  <section class="stt-card" id="odds">
+    <h2>Prediction markets</h2>
+    <p class="stt-note">Polymarket's biggest moves among the political, geopolitical and economic questions it trades most: the odds now and their change over the last day and the last week, in percentage points. A big move is news in itself, often before the headlines.</p>
+    <div class="stt-wrap" data-if="n_odds" hidden>
+      <table class="stt-t" data-source="odds" data-row-key="key">
+        <thead><tr><th data-field="question">Question</th><th data-field="now" class="num">Odds</th><th data-field="d1" class="num">1 day</th><th data-field="d7" class="num">1 week</th></tr></thead>
+        <tbody data-draw="odds"></tbody>
+      </table>
+    </div>
+    <p data-unless="n_odds" hidden>No prediction-market odds collected yet.</p>
   </section>
 
   <section class="stt-card" id="trump">
@@ -353,6 +393,12 @@
   value('s-span1', 'record_span', String);
   value('s-span2', 'record_span', String);
   value('s-first-month', 'first_month', date);
+  value('s-watched', 'n_watched', String);
+  value('s-weaker', 'watch_weaker', String);
+  value('s-stronger', 'watch_stronger', String);
+  value('s-hfailed', 'health_failed', String);
+  value('s-hstale', 'health_stale', String);
+  value('s-hlast', 'health_last', date);
   value('s-nopen', 'n_open', String);
   value('s-ins-hit', 'insiders_hit', share);
   value('s-ins-mean', 'insiders_mean', excess);
@@ -397,6 +443,61 @@
         ol.append(li);
       });
   });
+
+  dash.draw('changes', (ul) => {
+    ul.replaceChildren();
+    rows('changes').forEach((r) => {
+      const li = document.createElement('li');
+      li.textContent = r.text;
+      ul.append(li);
+    });
+  });
+
+  const pts = (v) => (blank(v) ? '—' : d3.format('+.0f')(v) + ' pts');
+  dash.draw('odds', (tbody) => {
+    tbody.replaceChildren();
+    rows('odds').forEach((r) => {
+      const tr = tbody.insertRow();
+      tr.dataset.key = r.key;
+      cell(tr, r.question + (r.outcome && r.outcome !== 'Yes' ? ` (${r.outcome})` : ''), 'why');
+      cell(tr, r.now + '%', 'num');
+      cell(tr, pts(r.d1), 'num');
+      cell(tr, pts(r.d7), 'num');
+    });
+  });
+
+  dash.draw('week-news', (tbody) => {
+    tbody.replaceChildren();
+    rows('week_news').forEach((r) => {
+      const tr = tbody.insertRow();
+      tr.dataset.key = r.key;
+      const td = tr.insertCell();
+      td.className = 'why';
+      if (r.url) {
+        const a = document.createElement('a');
+        a.href = r.url;
+        a.rel = 'noopener';
+        a.target = '_blank';
+        a.textContent = r.title;
+        td.append(a);
+      } else {
+        td.textContent = r.title;
+      }
+      cell(tr, r.first_seen ? paris({ weekday: 'short', day: 'numeric', month: 'short' }).format(new Date(r.first_seen)) : '').style.whiteSpace = 'nowrap';
+      cell(tr, String(r.days), 'num');
+      cell(tr, String(r.pubs), 'num opt');
+      cell(tr, r.picks || '', 'tick');
+    });
+  });
+
+  // A "new" mark on filings since the last update.
+  const newMark = (td, r) => {
+    if (!Number(r.new)) return;
+    const b = document.createElement('span');
+    b.className = 'stt-new';
+    b.textContent = 'new';
+    td.append(b);
+  };
 
   dash.draw('proposals', (ol) => {
     ol.replaceChildren();
@@ -522,7 +623,7 @@
     rows('congress').forEach((r) => {
       const tr = tbody.insertRow();
       tr.dataset.key = r.ticker;
-      cell(tr, r.ticker, 'tick');
+      newMark(cell(tr, r.ticker, 'tick'), r);
       cell(tr, r.name, 'opt');
       cell(tr, d3.format('+.2f')(r.score), 'num');
       cell(tr, String(r.buyers), 'num');
@@ -541,7 +642,7 @@
     rows('insiders').forEach((r) => {
       const tr = tbody.insertRow();
       tr.dataset.key = r.ticker;
-      cell(tr, r.ticker, 'tick');
+      newMark(cell(tr, r.ticker, 'tick'), r);
       cell(tr, r.name, 'opt');
       cell(tr, d3.format('.1f')(r.score), 'num');
       cell(tr, String(r.buyers), 'num');
@@ -687,6 +788,14 @@
       cell(tr, price(r.now, r.currency), 'num');
       cell(tr, signed(r.since), 'num');
       cell(tr, signed(r.vs_benchmark), 'num');
+      const c = cell(tr, r.case || '');
+      if (r.case) c.className = 'stt-case ' + r.case;
+      if (r.flags) {
+        const f = document.createElement('span');
+        f.className = 'stt-flags';
+        f.textContent = r.flags;
+        c.append(f);
+      }
       cell(tr, r.ends, 'opt');
       whyCell(tr, r);
     });

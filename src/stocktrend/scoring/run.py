@@ -146,6 +146,20 @@ def context() -> Context:
 
 
 def run(day: str, ctx: Context | None = None) -> model.PicksFile:
+    """Score ``day`` and write its picks file."""
+    result = score_day(day, ctx)
+    path = picks_path(day)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(result.model_dump_json(indent=1), encoding="utf-8")
+    return result
+
+
+def score_day(
+    day: str, ctx: Context | None = None, select: bool = True, only: set[str] | None = None
+) -> model.PicksFile:
+    """The picks ``day``'s data and the events up to it give, written nowhere. With
+    ``select`` False, every scored candidate; with ``only``, just those tickers, however
+    weak their news (see ``model.score``)."""
     as_of = date.fromisoformat(day)
     ctx = ctx or context()
     meta, sector_etfs, feats = ctx.meta, ctx.sector_etfs, ctx.features
@@ -153,8 +167,9 @@ def run(day: str, ctx: Context | None = None) -> model.PicksFile:
     events = model.load_events(DATA_DIR / "events", as_of)
     exposures = load_exposures()
     contribs = model.expand(events, as_of, exposures, meta, sector_etfs)
+    wanted = model.candidates(contribs) if only is None else only
     stock_candidates = sorted(
-        t for t in model.candidates(contribs) if t in meta.index and meta.at[t, "kind"] == "stock"
+        t for t in wanted if t in meta.index and meta.at[t, "kind"] == "stock"
     )
     earn = earnings.next_earnings(stock_candidates, as_of)
     priors = active_priors(load_priors(), exposures, ctx.prices)
@@ -163,10 +178,8 @@ def run(day: str, ctx: Context | None = None) -> model.PicksFile:
         tracker=tracker_signal(day, meta), tracker_weight=tracker_weight(),
         trump_notes=trump.recent_notes(trump.load_calls(), as_of),
         insiders=insider_signal(day, meta), insider_weight=tracker_weight("insider_weight"),
+        select=select, only=only,
     )  # fmt: skip
-    path = picks_path(day)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(result.model_dump_json(indent=1), encoding="utf-8")
     return result
 
 

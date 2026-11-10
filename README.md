@@ -19,8 +19,10 @@ Two GitHub Actions workflows run everything:
 - **Weekdays**, [.github/workflows/daily.yml](.github/workflows/daily.yml): `stt collect`
   gathers prices, the news since the last collection, prediction-market odds and new
   House and SEC insider filings, scores the picks whose month has ended, saves the day's
-  news digest (`data/digests/`), commits `data/` and refreshes the dashboard on GitHub
-  Pages. It is free: no Claude API call and no new picks.
+  news digest (`data/digests/`), checks every open pick's case (the watch,
+  `data/watch/`), commits `data/` and refreshes the dashboard on GitHub Pages: what
+  changed today, each pick's case, the week's news so far, prediction-market moves and
+  new filings. It is free: no Claude API call and no new picks.
 - **Saturdays**, [.github/workflows/weekly.yml](.github/workflows/weekly.yml): `stt weekly
   prepare` (the same data, plus the week's digest joined from the weekday ones), `stt
   review` (Claude looks back at the week and proposes changes), `stt analyze` (Claude
@@ -174,6 +176,7 @@ data/ledger/       every pick ever made and its outcome (append-only, committed)
 data/backtests/    momentum baseline results; data/priors/ theme priors and tracker weight
 data/trackers/     House members' and company insiders' disclosed trades (append-only, committed)
 data/usage/        tokens and cost of every Claude API call
+data/watch/        the weekday watch on open picks: each one's case and flags, by day
 dashboard/         the dashboard page; standalone/ turns it into the GitHub Pages site
 .github/workflows/ the weekday collection and the Saturday run
 prompts/           instructions for the Claude steps

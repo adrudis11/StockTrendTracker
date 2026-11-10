@@ -362,6 +362,33 @@ def merge_week(
         dailies.append(fresh)
     if not dailies:
         raise FileNotFoundError(f"no daily digests for the week to {day}")
+    return _join_days(day, dailies, now, market)
+
+
+def last_saturday(d: date) -> date:
+    """The Saturday on or before ``d``: the week a weekly run belongs to."""
+    return d - timedelta(days=(d.weekday() + 2) % 7)
+
+
+def week_so_far(day: str, now: datetime, digests_dir: Path | None = None) -> Digest | None:
+    """The news since the last Saturday, joined as in `merge_week`: on weekdays the
+    digests so far, on Saturday the week's digest itself."""
+    folder = digests_dir or DIGESTS_DIR
+    start = last_saturday(date.fromisoformat(day)).isoformat()
+    if day == start:
+        path = folder / f"{day}.json"
+        return Digest.model_validate_json(path.read_text("utf-8")) if path.exists() else None
+    dailies = [
+        Digest.model_validate_json(p.read_text(encoding="utf-8"))
+        for p in sorted(folder.glob("*.json"))
+        if start < p.stem <= day
+    ]
+    return _join_days(day, dailies, now, None) if dailies else None
+
+
+def _join_days(
+    day: str, dailies: list[Digest], now: datetime, market: dict[str, Any] | None
+) -> Digest:
     pairs = [(d.date, s) for d in dailies for s in d.stories]
     pairs.sort(key=lambda ds: ds[1].score, reverse=True)  # the strongest leads its group
     stories = [_joined(g) for g in _join(pairs)]

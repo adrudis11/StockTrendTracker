@@ -25,6 +25,7 @@ from stocktrend.scoring.model import HORIZONS, Pick, PicksFile
 from stocktrend.scoring.run import TRACKERS_PATH, picks_path
 from stocktrend.scoring.run import load as load_picks
 from stocktrend.tracking import scoreboard
+from stocktrend.tracking import watch as watch_mod
 from stocktrend.tracking.evaluate import entry_session, exit_session, first_matures, read_outcomes
 from stocktrend.tracking.ledger import LedgerEntry
 from stocktrend.tracking.ledger import read as read_ledger
@@ -33,8 +34,11 @@ OUT_DIR = CACHE_DIR / "dashboard"
 REVIEWS_DIR = DATA_DIR / "reviews"
 DATASETS = (
     "summary", "picks", "open_picks", "results", "events", "scoreboard", "congress", "insiders",
-    "trump", "call_kinds", "calibration", "adjustments", "proposals",
+    "trump", "call_kinds", "calibration", "adjustments", "proposals", "changes", "week_news",
+    "odds",
 )  # fmt: skip
+CHANGE_ROWS, MOVERS, WEEK_NEWS_ROWS, ODDS_ROWS = 15, 3, 12, 10
+ODDS_NOISE = re.compile(r"\btweets?\b", re.IGNORECASE)  # Polymarket files these under politics
 HOLD = HORIZONS[-1]  # trading days a pick is held: 20 since 2026-11-11
 PROPOSAL_CHARS = 220  # the page shows the start of each proposal and links the review
 RESULT_ROWS = 60
@@ -94,9 +98,18 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
     r = picks.regime
     trump = trump_rows(day)
     scored = [t for t in trump if t["came_true"]]
+    since = previous_collection(day)
     congress = congress_rows(day)
     insider = insider_rows(day)
-    open_picks = open_pick_rows(day)
+    for row in congress + insider:  # filed since the last collection: new on the page today
+        row["new"] = int(bool(since) and row["last_filed"] >= str(since))
+    watch_day, watched = watch_mod.load(day)
+    if watch_day != day:
+        watched = []
+    open_picks = open_pick_rows(day, {w["pick_id"]: w for w in watched})
+    changes = change_rows(day, watched, open_picks)
+    week_news = week_news_rows(day, open_picks)
+    odds = odds_rows(day)
     results = result_rows(day)
     loop = feedback_data(day)
     review_day, proposals = review_proposals(day)
@@ -148,6 +161,13 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
         "open_entered": sum(bool(r["on_track"]) for r in open_picks),
         "n_congress": len(congress),
         "n_insiders": len(insider),
+        "n_changes": len(changes),
+        "n_week_news": len(week_news),
+        "n_odds": len(odds),
+        "n_watched": len(watched),
+        "watch_weaker": sum(w["case"] in ("weaker", "reversed") for w in watched),
+        "watch_stronger": sum(w["case"] == "stronger" for w in watched),
+        **health(day),
         "prices_as_of": max(
             (r["price_date"] for r in congress + insider + trump if r["price_date"]),
             default=None,
@@ -223,6 +243,9 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
         "calibration": loop["calibration"],
         "adjustments": loop["adjustments"],
         "proposals": proposals,
+        "changes": changes,
+        "week_news": week_news,
+        "odds": odds,
         "events": event_rows,
         "scoreboard": board_rows,
         "congress": congress,
@@ -358,8 +381,13 @@ def review_proposals(day: str) -> tuple[str | None, list[dict[str, Any]]]:
     return paths[-1].stem, rows
 
 
-def open_pick_rows(day: str) -> list[dict[str, Any]]:
+def open_pick_rows(
+    day: str, watched: dict[str, dict[str, Any]] | None = None
+) -> list[dict[str, Any]]:
     """Picks from earlier days still inside their horizon, at the latest close.
+
+    ``watched`` is the day's watch (`tracking/watch.py`) by pick id: its ``case`` and
+    ``flags`` go in each row.
 
     ``entry`` is the open the pick is scored from (the first session after it was made),
     ``now`` the latest close and ``since`` the move between them, unadjusted and in the
@@ -417,6 +445,8 @@ def open_pick_rows(day: str) -> list[dict[str, Any]]:
                 "on_track": "" if m.excess is None else ("Yes" if m.excess > 0 else "No"),
                 "ends": m.exit_date.isoformat(),
                 "price_date": m.last_date.isoformat() if m.last_date else None,
+                "case": (watched or {}).get(e.pick_id, {}).get("case", ""),
+                "flags": "; ".join((watched or {}).get(e.pick_id, {}).get("flags", [])),
             }
         )
     return rows
@@ -737,3 +767,120 @@ def write(day: str, out_dir: Path = OUT_DIR) -> dict[str, Path]:
         path.write_text(json.dumps(rows, ensure_ascii=False, indent=1), encoding="utf-8")
         paths[name] = path
     return paths
+
+
+def previous_collection(day: str) -> str | None:
+    """The last day before ``day`` with a digest: what the page showed last."""
+    from stocktrend.events.digest import DIGESTS_DIR
+
+    days = [p.stem for p in DIGESTS_DIR.glob("*.json") if p.stem < day]
+    return max(days) if days else None
+
+
+def change_rows(
+    day: str, watched: list[dict[str, Any]], open_picks: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
+    """What changed today: open picks whose case moved or that gained a flag since the
+    previous watch, then the biggest moves since entry."""
+    days = sorted(p.stem for p in watch_mod.WATCH_DIR.glob("*.json") if p.stem < day)
+    before = watch_mod.load(days[-1])[1] if days else []
+    rows = watch_mod.changes(watched, before) if before else []
+    rows = rows[: CHANGE_ROWS - MOVERS]
+    moved = sorted(
+        (r for r in open_picks if r["vs_benchmark"] is not None),
+        key=lambda r: -abs(r["vs_benchmark"]),
+    )[:MOVERS]
+    for r in moved:
+        what = f"{r['ticker']} ({'buy' if r['side'] == 'long' else 'avoid'}, picked {r['date']})"
+        rows.append({
+            "key": f"move:{r['key']}", "kind": "move",
+            "text": f"{what}: {r['vs_benchmark']:+.1f}% against its benchmark since entry",
+        })  # fmt: skip
+    return rows
+
+
+def week_news_rows(day: str, open_picks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """The week's top stories so far, with the open picks each one names."""
+    from datetime import UTC
+
+    from stocktrend.events.digest import week_so_far
+
+    week = week_so_far(day, datetime.now(UTC))
+    if week is None:
+        return []
+    names = {r["ticker"]: watch_mod.short_name(r["name"]) for r in open_picks if r["name"]}
+    rows = []
+    for st in week.stories[:WEEK_NEWS_ROWS]:
+        named = sorted(t for t, short in names.items() if watch_mod.mentions(st.title, short))
+        rows.append({
+            "key": st.id,
+            "title": st.title,
+            "first_seen": st.first_seen.isoformat(),
+            "days": len(st.days) if st.days else 1,
+            "pubs": st.n_publishers,
+            "topics": ", ".join(st.topics),
+            "url": st.urls[0] if st.urls else "",
+            "picks": ", ".join(named),
+        })  # fmt: skip
+    return rows
+
+
+def odds_rows(day: str) -> list[dict[str, Any]]:
+    """Polymarket's biggest moves: over the last day, and since the oldest digest of the
+    last week."""
+    from datetime import date, timedelta
+
+    from stocktrend.events.digest import DIGESTS_DIR, Digest
+
+    start = (date.fromisoformat(day) - timedelta(days=7)).isoformat()
+    paths = sorted(p for p in DIGESTS_DIR.glob("*.json") if start <= p.stem <= day)
+    markets = [
+        Digest.model_validate_json(p.read_text("utf-8")).market.get("prediction_markets") or []
+        for p in paths
+    ]
+    markets = [m for m in markets if m]
+    if not markets:
+        return []
+
+    def flat(events: list[dict[str, Any]]) -> dict[tuple[str, str], dict[str, Any]]:
+        return {(mk["question"], mk["outcome"]): mk for e in events for mk in e["markets"]}
+
+    now, then = flat(markets[-1]), flat(markets[0])
+    rows = []
+    for (question, outcome), mk in now.items():
+        prob = mk.get("probability")
+        if prob is None or ODDS_NOISE.search(question):
+            continue
+        old = then.get((question, outcome), {}).get("probability")
+        d1 = mk.get("change_1d")
+        d7 = prob - old if old is not None and len(markets) > 1 else None
+        rows.append({
+            "key": f"{question}|{outcome}",
+            "question": question,
+            "outcome": outcome,
+            "now": round(100 * prob),
+            "d1": round(100 * d1, 1) if isinstance(d1, int | float) else None,
+            "d7": round(100 * d7, 1) if d7 is not None else None,
+        })  # fmt: skip
+    rows.sort(key=lambda r: -max(abs(r["d1"] or 0), abs(r["d7"] or 0)))
+    return rows[:ODDS_ROWS]
+
+
+def health(day: str) -> dict[str, Any]:
+    """The day's data health, from the ingest report of this run (if there is one)."""
+    from stocktrend.config import raw_dir
+
+    path = raw_dir(day) / "ingest_report.json"
+    if not path.exists():
+        return {"has_health": 0, "health_failed": None, "n_failed": 0, "health_stale": None,
+                "health_last": None}  # fmt: skip
+    rep = json.loads(path.read_text(encoding="utf-8"))
+    failed = sorted({str(x["name"]) for x in rep.get("sources", []) if x.get("error")})
+    prices = rep.get("prices") or {}
+    return {
+        "has_health": 1,
+        "health_failed": ", ".join(failed) or "none",
+        "n_failed": len(failed),
+        "health_stale": len(prices.get("stale") or []),
+        "health_last": prices.get("last_session"),
+    }

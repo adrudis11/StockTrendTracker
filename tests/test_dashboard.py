@@ -22,7 +22,8 @@ def test_dashboard_datasets_from_committed_day() -> None:
     # can't load on the dashboard.
     counts = {"picks": "n_picks", "events": "events", "congress": "n_congress", "insiders": "n_insiders", "open_picks": "n_open", "results": "n_results", "call_kinds": "n_call_kinds",
               "calibration": "n_calibration", "adjustments": "n_adjustments",
-              "trump": "trump_calls", "scoreboard": "matured", "proposals": "n_proposals"}  # fmt: skip
+              "trump": "trump_calls", "scoreboard": "matured", "proposals": "n_proposals",
+              "changes": "n_changes", "week_news": "n_week_news", "odds": "n_odds"}  # fmt: skip
     for name, key in counts.items():
         assert (summary[key] > 0) == bool(data[name]), name
     for r in data["insiders"]:  # what insiders paid and where the stock is now

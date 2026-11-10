@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import logging
-from datetime import UTC, date, datetime, timedelta
+from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Annotated, Any
 
@@ -658,7 +658,24 @@ def collect() -> None:
         digest(day=d, show=False)
     evaluate()
     scoreboard()
+    _watch(d)
     dashboard(day=d)
+
+
+def _watch(d: str) -> None:
+    """The watch on open picks (free; see `tracking/watch.py`). Never blocks the run."""
+    from collections import Counter
+
+    from stocktrend.tracking import watch
+
+    try:
+        rows = watch.build(d)
+    except Exception as e:
+        typer.secho(f"warning: the watch on open picks failed: {e}", fg="yellow")
+        return
+    path = watch.save(d, rows)
+    cases = Counter(r["case"] for r in rows)
+    typer.echo(f"Watch on {len(rows)} open picks {dict(cases)} -> {path}")
 
 
 def _update_trackers() -> None:
@@ -683,7 +700,9 @@ def _already_recorded(day: str) -> bool:
 def week_of(today: date) -> date:
     """The Saturday a weekly run belongs to: today on Saturdays, else the latest one, so
     a Sunday fallback still makes Saturday's picks."""
-    return today - timedelta(days=(today.weekday() + 2) % 7)
+    from stocktrend.events.digest import last_saturday
+
+    return last_saturday(today)
 
 
 WeekOption = Annotated[
@@ -772,5 +791,6 @@ def weekly_finish(day: WeekOption = None) -> None:
         record(day=d)
     scoreboard()
     report(day=d)
+    _watch(d)
     dashboard(day=d)
     typer.echo("\nNEXT: commit data/ (see prompts/weekly_run.md).")

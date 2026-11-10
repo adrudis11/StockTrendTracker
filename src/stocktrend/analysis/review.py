@@ -70,8 +70,36 @@ def user_message(day: str, reports_dir: Path = DATA_DIR / "reports") -> str:
            "|---|---|---|---|---|---|---|\n" + "\n".join(week_calls) if week_calls else "None."),
         "# The reports since the last review (the picks now being held)\n\n"
         + "\n\n".join(f"## {p.name}\n\n{p.read_text(encoding='utf-8')}" for p in reports),
+        _watch_section(day),
     ]  # fmt: skip
     return "\n\n".join(parts)
+
+
+def _watch_section(day: str) -> str:
+    """The latest weekday watch on open picks (`tracking/watch.py`): how their cases
+    stand against when they were made, and their flags."""
+    from collections import Counter
+
+    from stocktrend.tracking import watch
+
+    wday, rows = watch.load(day)
+    if not rows:
+        return "# The weekday watch on open picks\n\nNo watch yet."
+    counts = ", ".join(f"{n} {case}" for case, n in Counter(r["case"] for r in rows).most_common())
+    notable = [
+        f"| {r['ticker']} | {r['side']} | {r['date']} | {r['case']} | {'; '.join(r['flags'])} |"
+        for r in rows
+        if r["case"] != "holding" or r["flags"]
+    ]
+    table = "| Ticker | Side | Picked | Case | Flags |\n|---|---|---|---|---|\n" + "\n".join(
+        notable
+    )
+    return (
+        f"# The weekday watch on open picks ({wday})\n\n"
+        "Each open one-month pick's price trend, moves already made and risks now against "
+        "when it was made (the news part, which fades by design, isn't compared). "
+        f"{len(rows)} open picks: {counts}.\n\n" + (table if notable else "All holding, no flags.")
+    )
 
 
 def run(

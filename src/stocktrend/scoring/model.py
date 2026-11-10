@@ -285,8 +285,14 @@ def score(
     trump_notes: dict[str, str] | None = None,
     insiders: pd.DataFrame | None = None,
     insider_weight: float = 0.0,
+    select: bool = True,
+    only: set[str] | None = None,
 ) -> PicksFile:
     """``meta``: index ticker, columns name, region, sector, kind ("stock" or "etf").
+
+    With ``select`` False the file keeps every scored candidate, unranked. ``only``
+    scores just those tickers, however weak their news signal: the weekday watch on
+    open picks compares them with the picks as they were made.
 
     ``tracker`` is the congressional-trades signal per ticker (``trackers.congress``).
     It can only scale an existing geopolitical signal, by up to ``tracker_weight``,
@@ -304,10 +310,13 @@ def score(
     contributions = expand(events, as_of, exposures, meta, sector_etfs)
     feature_rows: dict[Any, dict[Any, Any]] = features.to_dict("index")
     scored: list[Pick] = []
+    min_geo = MIN_GEO if only is None else 0.0
     for (ticker, h), contribs in contributions.items():
+        if only is not None and ticker not in only:
+            continue
         geo = geo_signal(contribs)
         feat = feature_rows.get(ticker)
-        if abs(geo) < MIN_GEO or feat is None or not bool(feat["liquid"]):
+        if not geo or abs(geo) < min_geo or feat is None or not bool(feat["liquid"]):
             continue
         side = 1 if geo > 0 else -1
         excess = feat["excess_5d"] if h == 5 else feat["excess_20d"]
@@ -334,7 +343,7 @@ def score(
             * (1 + insider_weight * side * insider_score)
             * risk
         )
-        if conviction < MIN_GEO / 2:
+        if conviction < min_geo / 2:
             continue
         top = sorted(contribs, key=lambda c: -abs(c.strength))[:3]
         scored.append(
@@ -383,7 +392,7 @@ def score(
                 trump_note=(trump_notes or {}).get(ticker),
             )
         )
-    picks = _select(scored)
+    picks = _select(scored) if select else scored
     return PicksFile(
         date=as_of.isoformat(),
         model_version=MODEL_VERSION,

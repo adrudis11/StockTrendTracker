@@ -91,10 +91,13 @@ the Saturday picks enter at Monday's open.
      size small until official text confirms it.
    - The 11-05 test review also suggested: cap confidence when the main proxy has
      already moved 10% or more in 20 days, and anchor rates calls to market pricing.
-3. **Weekday extras (phase 3 of the weekly plan, not built yet), all free:** a watch on
-   open picks (case now, earnings before the exit, new filings, the week's news on
-   each), the week's news so far, prediction-market moves and a data-health line on the
-   dashboard. The outside trigger (cron-job.org) is no longer needed.
+3. **Weekday extras, built 2026-11-10 and all free:** the watch on open picks
+   (`tracking/watch.py`: each case now against the pick, flags for earnings, filings
+   and news), a Today card with what changed and the data health, News this week,
+   prediction-market moves and "new" marks on filings. Check after a few days that the
+   cases look sensible (the thresholds are `STRONGER`/`WEAKER` in `watch.py`) and that
+   the news matching (`short_name`) finds the companies. The outside trigger
+   (cron-job.org) is no longer needed.
 4. **Action versions.** `actions/checkout@v4`, `actions/upload-artifact@v4` and
    `astral-sh/setup-uv@v6` target Node 20. GitHub currently runs them on Node 24 with a
    warning. Bump them to newer major versions when convenient.

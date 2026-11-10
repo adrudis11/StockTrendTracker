@@ -830,3 +830,14 @@ Claude API runs only on Saturdays; weekdays do free work only. Plan, in three ph
 3. Free weekday extras: a watch on open picks (case now, earnings, new filings, news),
    the week's news so far, prediction-market moves, data health.
 The 1-week picks already logged are scored as they mature (the last on 2026-11-16).
+
+Built the same day. Phase 1 (`stt collect`, f0ba652) and phase 2 (the weekly run,
+df8d3b7) were checked with test runs on GitHub: the weekly test joined 5 days into a
+250-story digest, and its analysis (8 events, every impact at 20 days) and review cost
+$1.69. Phase 3, the weekday extras: the watch re-scores the open picks' stocks each
+weekday with the events already logged and compares the non-news part of the score
+(trend, priced-in, risks, trackers) with the pick's, since the news part fades over the
+month by design. On 2026-11-11's data: 143 open picks, 73 holding, 31 weaker, 22
+stronger, 17 reversed (mostly energy and defence after "the Iran war is over"). The
+dashboard gained a Today card, a Case column, News this week, prediction-market moves
+(tweet-count markets left out) and "new" marks on filings.
