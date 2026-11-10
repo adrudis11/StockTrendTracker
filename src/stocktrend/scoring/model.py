@@ -1,6 +1,6 @@
 """Scoring model v1: from Claude's events to ranked picks.
 
-For each candidate and horizon (5 or 20 trading days):
+For each candidate and horizon (20 trading days; 5 as well until 2026-11-10):
 
     geo        = tanh(1.5 * sum of event contributions)       signed, in [-1, 1]
     conviction = |geo| * (1 + 0.4 trend) * (1 + 0.4 prior) * (1 - 0.5 priced_in) * risk
@@ -42,7 +42,9 @@ from stocktrend.trackers.insiders import note as insider_note
 from stocktrend.universe.exposures import Exposures
 
 MODEL_VERSION = "v1"
-HORIZONS = (5, 20)
+# Picks are one month only since 2026-11-11 (made weekly). Old 5-day impacts still
+# spill into the 20-day signal through CROSS_HORIZON until they fade.
+HORIZONS: tuple[int, ...] = (20,)
 WEIGHTS = {"trend": 0.4, "prior": 0.4, "priced_in": 0.5}
 # Risk multipliers. Results dominate a stock's next week, so earnings inside a
 # 5-day horizon cut conviction hardest.

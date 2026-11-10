@@ -1,16 +1,20 @@
-# Daily geopolitical analysis
+# Weekly geopolitical analysis
 
-You are the analyst step of StockTrendTracker. Read today's news digest and write
-`data/events/<date>.json`: the events that could move US or European stocks over the
-next 1–4 weeks, and which themes, stocks or sectors they should move. Python then
-scores and ranks stocks from your file, so be precise, calibrated and honest.
+You are the analyst step of StockTrendTracker. Once a week, on Saturday, read the
+week's news digest and write `data/events/<date>.json` (`<date>` is that Saturday):
+the events that could move US or European stocks over the next month, and which
+themes, stocks or sectors they should move. Python then scores and ranks stocks from
+your file into the week's picks, held for 20 trading days from Monday's open, so be
+precise, calibrated and honest.
 
 ## Inputs
 
-1. `cache/raw/<date>/digest.md`: market snapshot and ~150 ranked stories, each with an
-   id (`S001`…), number of publishers, topics and headline. Read all of it.
+1. `cache/raw/<date>/digest.md`: market snapshot (closes up to Friday; the 5d column
+   is the week's move) and ~250 ranked stories from Monday to Saturday morning. Each
+   has an id (`S001`…), the day it was first seen, how many days it stayed in the news,
+   number of publishers, topics and headline. Read all of it.
 2. `uv run stt themes`: the themes you can target, with their main winners and losers.
-3. The last few files in `data/events/`: what was already reported on previous days.
+3. The last few files in `data/events/`: what was already reported in earlier weeks.
 4. `uv run stt universe find <name>`: look up any company before naming a ticker.
 5. `cache/raw/<date>/feedback.md`: how your past calls turned out, by kind of call,
    and what the evidence says to adjust. Read it before making calls.
@@ -39,7 +43,7 @@ scores and ranks stocks from your file, so be precise, calibrated and honest.
           "direction": 1,
           "magnitude": 0.5,
           "confidence": 0.6,
-          "horizon_days": 5,
+          "horizon_days": 20,
           "rationale": "Attack on Ras Tanura -> Saudi export risk -> crude up -> producers gain, airlines lose.",
           "against_coverage": false
         }
@@ -64,15 +68,17 @@ Then run `uv run stt validate --day <date>` and fix every error before finishing
 
 ## How to judge
 
-**Select.** Keep 5–15 events with a plausible channel to listed companies: sanctions,
+**Select.** Keep 8–20 events with a plausible channel to listed companies: sanctions,
 tariffs, wars and ceasefires, energy supply, defence budgets, export controls,
 industrial policy, elections and government changes, central banks, regulation.
 Skip crime, human interest, sport and domestic politics without a market channel.
-Several stories about the same thing are one event: cite all their ids.
+Several stories about the same thing are one event: cite all their ids. A week has
+more noise than a day: favour what stayed in the news for several days or changed
+something lasting (a law, a deal, a ceasefire, a supply cut) over one-day spikes.
 
-**Novelty** (0–1). 1.0 = first reported in this window and not expected. 0.5 = a
+**Novelty** (0–1). 1.0 = first reported this week and not expected. 0.5 = a
 significant new development in a running story. 0.2 = a rehash. If an event in a
-previous file already covers it and nothing new happened, leave it out.
+previous file already covers it and nothing new happened this week, leave it out.
 
 **Certainty.** `confirmed`: official source or several reputable outlets. `reported`:
 one credible outlet. `rumor`: "considering", "sources say", unconfirmed claims.
@@ -95,17 +101,21 @@ notable, 0.8 large, 1.0 extreme. **Confidence** (0–1): your honest chance the
 direction is right over the horizon. Most calls belong in 0.4–0.7. Above 0.8 only
 for near-mechanical effects. Overconfidence will show up in the scoreboard.
 
-**Horizon.** 5 trading days for quick reactions; 20 for policies and conflicts that
-play out over weeks.
+**Horizon.** Always 20 trading days: the picks are held for a month from Monday's
+open (one-month picks only since 2026-11-11; `stt validate` rejects 5). Call what will
+still matter over the next month. A reaction that is already spent, such as a one-day
+spike that has reversed by Friday's close, is not worth a call.
 
 **Prediction markets.** The digest lists Polymarket odds for the biggest political,
 geopolitical and economic questions. Use them to set `certainty` and to judge what
 is priced in: an outcome at 95% is mostly in prices already, while a jump of 15+
 points in a day is news in itself, even without a headline.
 
-**Already priced in?** Check the market snapshot. If the obvious winners have
-already moved a lot (e.g. oil +11% in 20 days), lower magnitude or confidence, say
-so in the rationale, or look for the second-order effect markets haven't priced yet.
+**Already priced in?** Check the market snapshot. News from Monday has had a week to
+reach prices before the picks enter on the next Monday. If the obvious winners have
+already moved a lot (e.g. oil +11% in 20 days, or +6% this week), lower magnitude or
+confidence, say so in the rationale, or look for the second-order effect markets
+haven't priced yet.
 
 **Coverage vs what is happening.** News coverage can be one-sided, sensational, late,
 or framed to push a view, and headlines sometimes say the opposite of what the facts
@@ -132,8 +142,8 @@ lost.
 **Trump calls (the Trump tracker).** The digest's "Trump statements" section collects
 coverage of his posts, interviews and remarks. Add an entry to `trump_calls` whenever
 he says or clearly hints that a specific company, stock or the market is a good buy,
-or attacks or threatens one. One entry per ticker per day; skip it if the same
-statement was already logged on an earlier day.
+or attacks or threatens one. One entry per ticker per week (the strongest statement);
+skip it if the same statement was already logged in an earlier file.
 - `stance`: `buy` = he says to buy it ("great time to buy", "buy Tesla");
   `positive` = praise, a deal or a policy he presents as good for that company;
   `negative` = attacks, threats, tariffs or boycotts aimed at it; `sell` = he says
@@ -148,7 +158,7 @@ statement was already logged on an earlier day.
 
 **Rules.**
 - Only targets that exist: themes from `stt themes`, tickers from `stt universe find`.
-- Only sources from today's digest. Never invent facts or links.
+- Only sources from this week's digest. Never invent facts or links.
 - Stay politically neutral: what happened and how it likely affects companies, not
   whether it is good or bad.
-- An empty `events` list is fine on a genuinely quiet day.
+- An empty `events` list is fine in a genuinely quiet week.

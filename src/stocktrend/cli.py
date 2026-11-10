@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 import logging
-from datetime import UTC, date, datetime
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, Any
 
 import typer
 
@@ -16,8 +16,8 @@ from stocktrend.http import session
 app = typer.Typer(help="StockTrendTracker: geopolitical signals for US and European stocks.")
 universe_app = typer.Typer(help="The list of stocks we cover.")
 app.add_typer(universe_app, name="universe")
-daily_app = typer.Typer(help="The scheduled daily run, in two halves around Claude's analysis.")
-app.add_typer(daily_app, name="daily")
+weekly_app = typer.Typer(help="The Saturday run, in two halves around the review and analysis.")
+app.add_typer(weekly_app, name="weekly")
 trackers_app = typer.Typer(help="Disclosed trades of US House members and company insiders.")
 app.add_typer(trackers_app, name="trackers")
 
@@ -105,24 +105,11 @@ def digest(
     show: Annotated[bool, typer.Option("--print", help="Print the Markdown digest")] = False,
 ) -> None:
     """Group and rank the ingested news into data/digests/<day>.json (+ Markdown in cache/)."""
-    import json
-
     from stocktrend.config import raw_dir
     from stocktrend.events import digest as dg
-    from stocktrend.features.returns import snapshot
-    from stocktrend.ingest import prices
-    from stocktrend.universe.build import load
-    from stocktrend.universe.instruments import load_instruments
 
     d = _day(day)
-    cfg = load_instruments()
-    market = snapshot(
-        prices.load(), {i.ticker: i.name for i in cfg.instruments}, load(), cfg.benchmarks
-    )
-    odds_path = raw_dir(d) / "polymarket.json"
-    if odds_path.exists():
-        market["prediction_markets"] = json.loads(odds_path.read_text(encoding="utf-8"))
-    result = dg.build(d, datetime.now(UTC), market)
+    result = dg.build(d, datetime.now(UTC), _market_snapshot(d))
     path = dg.save(result)
     md = dg.to_markdown(result)
     md_path = raw_dir(d) / "digest.md"
@@ -135,14 +122,35 @@ def digest(
     )
 
 
+def _market_snapshot(day: str) -> dict[str, Any]:
+    """Prices and returns for the digest's market section, with the day's Polymarket odds."""
+    import json
+
+    from stocktrend.config import raw_dir
+    from stocktrend.features.returns import snapshot
+    from stocktrend.ingest import prices
+    from stocktrend.universe.build import load
+    from stocktrend.universe.instruments import load_instruments
+
+    cfg = load_instruments()
+    market = snapshot(
+        prices.load(), {i.ticker: i.name for i in cfg.instruments}, load(), cfg.benchmarks
+    )
+    odds_path = raw_dir(day) / "polymarket.json"
+    if odds_path.exists():
+        market["prediction_markets"] = json.loads(odds_path.read_text(encoding="utf-8"))
+    return market
+
+
 @app.command()
 def score(day: DayOption = None) -> None:
     """Rank picks from the last 30 days of events into data/picks/<day>.json."""
+    from stocktrend.scoring.model import HORIZONS
     from stocktrend.scoring.run import picks_path, run
 
     d = _day(day)
     result = run(d)
-    for h in (5, 20):
+    for h in HORIZONS:
         longs = result.select(h, "long")
         avoids = result.select(h, "avoid")
         typer.echo(
@@ -661,7 +669,7 @@ def _update_trackers() -> None:
             typer.secho(f"warning: {name} update failed: {e}", fg="yellow")
 
 
-# --- the scheduled daily run ----------------------------------------------------
+# --- the weekly run (Saturdays) ------------------------------------------------
 
 STALE_PRIORS_DAYS = 30
 
@@ -672,59 +680,97 @@ def _already_recorded(day: str) -> bool:
     return any(e.date == day and e.strategy == "geo" for e in read())
 
 
-@daily_app.command("prepare")
-def daily_prepare() -> None:
-    """Step 1: check markets, ingest, score matured picks, build the digest.
+def week_of(today: date) -> date:
+    """The Saturday a weekly run belongs to: today on Saturdays, else the latest one, so
+    a Sunday fallback still makes Saturday's picks."""
+    return today - timedelta(days=(today.weekday() + 2) % 7)
 
-    Prints NOTHING TO DO and exits 0 when no covered market trades today or the
-    day is already recorded; the session should then stop.
+
+WeekOption = Annotated[
+    str | None,
+    typer.Option("--day", help="The week's date, YYYY-MM-DD; default the latest Saturday"),
+]
+
+
+def _week(day: str | None) -> str:
+    if day:
+        return date.fromisoformat(day).isoformat()
+    return week_of(datetime.now(UTC).date()).isoformat()
+
+
+@weekly_app.command("prepare")
+def weekly_prepare(
+    day: WeekOption = None,
+    test: Annotated[
+        bool, typer.Option("--test", help="A test run: go on even if the day is recorded")
+    ] = False,
+) -> None:
+    """Step 1: ingest, filings, score matured picks, feedback note, the week's digest.
+
+    Prints NOTHING TO DO and exits 0 when the week is already recorded; the run should
+    then stop.
     """
     from stocktrend.config import raw_dir
 
-    d = _day(None)
-    today = date.fromisoformat(d)
-    if not (markets.is_trading_day("XNYS", today) or markets.is_trading_day("XETR", today)):
-        typer.echo(f"NOTHING TO DO: neither the NYSE nor Xetra trades on {d}.")
-        return
-    if _already_recorded(d):
-        typer.echo(f"NOTHING TO DO: picks for {d} are already in the ledger.")
+    d = _week(day)
+    if _already_recorded(d) and not test:
+        typer.echo(f"NOTHING TO DO: picks for the week of {d} are already in the ledger.")
         return
     _run_ingest(None, frozenset(), strict=False)
     _update_trackers()
     evaluate()
+    scoreboard()
     feedback(day=d)
-    digest(day=d, show=False)
+    _week_digest(d)
     typer.echo(
-        f"\nNEXT: read {raw_dir(d) / 'feedback.md'} and {raw_dir(d) / 'digest.md'}, follow "
-        f"prompts/daily_analysis.md to write data/events/{d}.json, then run "
-        "`uv run stt daily finish`."
+        f"\nNEXT: `uv run stt review --day {d}`; then read {raw_dir(d) / 'feedback.md'} and "
+        f"{raw_dir(d) / 'digest.md'}, follow prompts/weekly_analysis.md to write "
+        f"data/events/{d}.json (or `uv run stt analyze --day {d}`), then run "
+        f"`uv run stt weekly finish --day {d}`."
     )
 
 
-@daily_app.command("finish")
-def daily_finish() -> None:
+def _week_digest(d: str) -> None:
+    """The week's digest: the weekday digests plus the news since the last of them."""
+    from stocktrend.config import raw_dir
+    from stocktrend.events import digest as dg
+
+    now = datetime.now(UTC)
+    today = now.date().isoformat()
+    market = _market_snapshot(today)
+    fresh = dg.build(today, now, market) if (raw_dir(today) / "news.jsonl").exists() else None
+    week = dg.merge_week(d, fresh, now, market)
+    path = dg.save(week)
+    md_path = raw_dir(d) / "digest.md"
+    md_path.parent.mkdir(parents=True, exist_ok=True)
+    md_path.write_text(dg.to_markdown(week), encoding="utf-8")
+    typer.echo(
+        f"The week's digest: {len(week.stories)} stories (of {week.n_stories_total}, from "
+        f"{len(week.days or [])} days) -> {path}\nReadable version: {md_path}"
+    )
+
+
+@weekly_app.command("finish")
+def weekly_finish(day: WeekOption = None) -> None:
     """Step 2: validate the analysis, score, log to the ledger, report, dashboard data."""
     from stocktrend.scoring.run import priors_stale
 
-    d = _day(None)
+    d = _week(day)
     validate(day=d)
     if priors_stale(STALE_PRIORS_DAYS):
         typer.echo("Theme priors are missing or over a month old: refreshing (about 2 minutes).")
         try:
             backtest(years=5)
-        except Exception as e:  # keep the old priors; never lose the day over them
+        except Exception as e:  # keep the old priors; never lose the week over them
             typer.secho(
                 f"warning: the priors refresh failed, keeping the old ones: {e}", fg="yellow"
             )
     if _already_recorded(d):
-        typer.echo(f"Picks for {d} are already in the ledger: not re-scoring.")
+        typer.echo(f"Picks for the week of {d} are already in the ledger: not re-scoring.")
     else:
         score(day=d)
         record(day=d)
     scoreboard()
     report(day=d)
     dashboard(day=d)
-    typer.echo(
-        "\nNEXT: upload the files above to the dashboard and commit data/ "
-        "(see prompts/daily_run.md)."
-    )
+    typer.echo("\nNEXT: commit data/ (see prompts/weekly_run.md).")

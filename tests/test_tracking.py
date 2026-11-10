@@ -25,7 +25,7 @@ LOGGED = datetime(2026, 10, 28, 6, 30, tzinfo=UTC)  # before both opens
 Side = Literal["long", "avoid"]
 
 
-def _pick(ticker: str, side: Side = "long", horizon: int = 5, region: str = "US") -> Pick:
+def _pick(ticker: str, side: Side = "long", horizon: int = 20, region: str = "US") -> Pick:
     return Pick(
         ticker=ticker, name=ticker, kind="stock", region=region, sector="Energy",
         horizon=horizon, side=side, rank=1, score=0.3, conviction=0.3, prob=0.62, geo=0.3,
@@ -89,19 +89,20 @@ def test_ledger_is_append_only_and_logs_baselines(tmp_path: Path) -> None:
     entries = ledger.read(path)
     assert n == len(entries)
     by = {(e.strategy, e.horizon, e.side) for e in entries}
-    assert ("momentum", 20, "avoid") in by and ("random", 5, "long") in by
-    momentum_longs = [e for e in entries if e.strategy == "momentum" and e.horizon == 5
+    assert ("momentum", 20, "avoid") in by and ("random", 20, "long") in by
+    assert all(h == 20 for _, h, _ in by)  # one-month picks only since 2026-11-11
+    momentum_longs = [e for e in entries if e.strategy == "momentum" and e.horizon == 20
                       and e.side == "long"]  # fmt: skip
     assert len(momentum_longs) == model.MAX_PICKS
     # random picks come from the picks' sectors (Energy) and are reproducible
-    rand = [e for e in entries if e.strategy == "random" and e.horizon == 5 and e.side == "long"]
+    rand = [e for e in entries if e.strategy == "random" and e.horizon == 20 and e.side == "long"]
     assert {e.sector for e in rand} == {"Energy"}
     assert ledger.record(pf, _features(tickers), _meta(tickers), LOGGED, path) == 0
     # Tracker strategies log their strongest buys (score > 0) as longs.
     sig = pd.DataFrame({"score": [3.0, 0.0, 1.0]}, index=pd.Index(["S5", "S6", "NOPE"]))
     n = ledger.record(pf, _features(tickers), _meta(tickers), LOGGED, path, insiders=sig)
     added = [e for e in ledger.read(path) if e.strategy == "insiders"]
-    assert n == len(added) == 2 and {e.ticker for e in added} == {"S5"}
+    assert n == len(added) == 1 and {e.ticker for e in added} == {"S5"}  # one horizon
 
 
 # --- evaluation ---------------------------------------------------------------
@@ -209,16 +210,20 @@ def test_evaluate_writes_each_outcome_once(tmp_path: Path) -> None:
 
 def test_scoreboard_stats_and_calibration(tmp_path: Path) -> None:
     led, out = tmp_path / "picks.jsonl", tmp_path / "outcomes.jsonl"
-    entries = [_entry(t) for t in ("XOM", "CVX")]
-    ledger.append(entries, led)
+    month = [_entry(t).model_copy(update={"horizon": 20}) for t in ("XOM", "CVX")]
+    week = _entry("EOG").model_copy(update={"pick_id": "x:EOG:5"})  # an old 1-week pick
+    ledger.append([*month, week], led)
+    n = 21
     prices = pd.concat([
-        _bars("XOM", [100] * 6, [105] * 6), _bars("CVX", [100] * 6, [95] * 6),
-        _bars("SPY", [100] * 6, [100] * 6),
+        _bars("XOM", [100] * n, [105] * n), _bars("CVX", [100] * n, [95] * n),
+        _bars("EOG", [100] * n, [101] * n), _bars("SPY", [100] * n, [100] * n),
     ])  # fmt: skip
-    evaluate(prices, {"US": "SPY"}, {}, datetime(2026, 11, 5, tzinfo=UTC), led, out)
+    evaluate(prices, {"US": "SPY"}, {}, datetime(2026, 11, 30, tzinfo=UTC), led, out)
     sb = scoreboard.compute(ledger.read(led), read_outcomes(out))
-    (row,) = sb["rows"]
+    row = next(r for r in sb["rows"] if r["horizon"] == 20)
     assert row["n"] == 2 and row["hit_rate"] == 0.5
+    assert any(r["horizon"] == 5 for r in sb["rows"])  # the old 1-week picks stay in the table
+    # ... but the calibration counts one-month picks only
     assert sb["brier"] == pytest.approx(((0.6 - 1) ** 2 + 0.6**2) / 2)
     assert sb["calibration"][0]["n"] == 2
     md = scoreboard.to_markdown(sb)

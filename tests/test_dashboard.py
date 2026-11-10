@@ -42,6 +42,23 @@ def test_dashboard_shows_the_latest_picks_on_days_without_any() -> None:
         dashboard.latest_picks_day("2000-01-01")
 
 
+def test_dashboard_counts_one_month_picks_for_the_verdict() -> None:
+    day = sorted(p.stem for p in (DATA_DIR / "picks").glob("*.json"))[-1]
+    (s,) = build(day)["summary"]
+    assert s["held_from"] and s["held_to"] and s["held_from"] < s["held_to"]
+    assert s["record_h"] in (5, 20) and s["record_span"] in ("week", "month")
+    assert s["record_old"] == int(s["record_h"] != 20)
+    assert s["geo_matured"] >= 0 and s["verdict_left"] == max(0, 100 - s["geo_matured"])
+
+
+def test_holding_is_twenty_sessions_from_the_next_open() -> None:
+    from datetime import UTC, datetime
+
+    # Made on Saturday 14 Nov: held from Monday 16 Nov, 20 NYSE sessions (Thanksgiving
+    # on 26 Nov is closed), to Monday 14 Dec.
+    assert dashboard.holding(datetime(2026, 11, 14, 7, tzinfo=UTC)) == ("2026-11-16", "2026-12-14")
+
+
 def test_pick_reasons_back_the_pick_first() -> None:
     day = sorted(p.stem for p in (DATA_DIR / "picks").glob("*.json"))[-1]
     f = load_picks(day)

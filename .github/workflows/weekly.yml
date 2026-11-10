@@ -1,34 +1,46 @@
-# The Saturday review, outside Claude sessions: refresh prices, score the week's
-# matured picks and analysis calls, and write data/reviews/<date>.md through the
-# Claude API (`stt review`). Unattended, it proposes changes to the theme map and the
-# analysis prompt but makes none; apply them yourself or in a Claude session.
+# The weekly run, outside Claude sessions: on Saturday morning, score the week, write
+# the review (`stt review`), join the weekday digests into the week's digest, run the
+# analysis (`stt analyze`), make the week's one-month picks, log them to the ledger,
+# write the report, commit data/ and publish the dashboard on GitHub Pages. These are
+# the only Claude API calls in the project since 2026-11-11 (the owner's choice on
+# 2026-11-10); weekdays only collect data (daily.yml).
 #
-# Like the daily run, scheduled runs start on START (the first is 2026-11-07), and
-# the repository variable STT_RUNNER overrides that (`github` now, `off` paused).
-# GitHub starts scheduled runs late or drops them, so Sunday is a fallback: a
-# scheduled run does nothing when a review from the last four days exists.
-# The monthly upkeep needs no step here: `stt daily finish` refreshes the theme
-# priors when they are a month old. Rebuild the universe (`stt universe build`) by
-# hand now and then and review its diff.
+# Unattended, the review only proposes changes to the theme map and the analysis prompt;
+# apply them yourself or in a Claude session (prompts/weekly_run.md).
 #
-# Run it by hand from the Actions tab: with "test" ticked (the default) the review
-# goes to a downloadable file and nothing is committed.
+# Like the weekday run, scheduled runs start on START (below), and the repository
+# variable STT_RUNNER overrides that (`github` now, `off` paused). GitHub starts
+# scheduled runs late or drops them, so there are three Saturday tries and a Sunday
+# fallback; the time doesn't matter, since the picks enter at Monday's open. A run on
+# Sunday still makes Saturday's picks, and a run for a week that is already recorded
+# does nothing (`stt weekly prepare` prints NOTHING TO DO). The theme priors are
+# refreshed when they are a month old (`stt weekly finish`). Rebuild the universe
+# (`stt universe build`) by hand now and then and review its diff.
+#
+# Run it by hand from the Actions tab: with "test" ticked (the default) it does the
+# week up to today with the real review and analysis (about $1.50 of API), keeps them
+# as downloadable files, and records, commits and publishes nothing. Unticked, it does
+# the latest Saturday's week now if it isn't recorded yet.
 
-name: Weekly review
+name: Weekly run
 
 on:
   schedule:
-    - cron: "41 8 * * 6" # Saturdays 08:41 UTC
+    - cron: "41 6 * * 6" # Saturdays
+    - cron: "41 8 * * 6"
+    - cron: "41 12 * * 6"
     - cron: "41 8 * * 0" # Sunday fallback
   workflow_dispatch:
     inputs:
       test:
-        description: "Test only: write the review to a downloadable file, commit nothing"
+        description: "Test only: review and analysis to downloadable files, record nothing"
         type: boolean
         default: true
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 env:
   START: "2026-11-04"
@@ -43,85 +55,135 @@ jobs:
     outputs:
       go: ${{ steps.check.outputs.go }}
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref }} # the branch now, so a review written meanwhile counts
       - id: check
         env:
           STT_RUNNER: ${{ vars.STT_RUNNER }}
         run: |
-          last=$(find data/reviews -name '*.md' -printf '%f\n' 2>/dev/null | sort | tail -1)
-          last=${last%.md}
           if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ]; then
             go=true
           elif [ "$STT_RUNNER" = off ] ||
             { [ "$STT_RUNNER" != github ] && [[ "$(date -u +%F)" < "$START" ]]; }; then
             go=false
             echo "Scheduled runs are off (start $START, STT_RUNNER=${STT_RUNNER:-unset})."
-          elif [[ -n "$last" && ! "$last" < "$(date -u -d '4 days ago' +%F)" ]]; then
-            go=false
-            echo "This week's review is already written ($last)."
           else
             go=true
           fi
           echo "go=$go" >> "$GITHUB_OUTPUT"
 
-  review:
+  run:
     needs: gate
     if: needs.gate.outputs.go == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
     concurrency:
       group: pipeline
       cancel-in-progress: false
     env:
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY_STOCKTRACKER }}
+      STT_SEC_CONTACT: ${{ secrets.STT_SEC_CONTACT }}
       TEST: ${{ github.event_name == 'workflow_dispatch' && inputs.test }}
+    outputs:
+      publish: ${{ steps.site.outputs.publish }}
     steps:
       - uses: actions/checkout@v4
         with:
           # The branch as it is now, not the commit the run was triggered on, so a run
-          # that waited for the pipeline lock starts from the latest data.
+          # that waited for the pipeline lock sees a week recorded meanwhile.
           ref: ${{ github.ref }}
       - uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
       - run: uv sync --locked
-      - name: Score the week
-        run: |
-          uv run stt ingest --skip rss --skip federal_register --skip gdelt_events \
-            --skip gdelt_doc --skip polymarket
-          uv run stt evaluate
-          uv run stt scoreboard
-          uv run stt feedback
-      - name: Write the review (Claude API)
+
+      - name: The week's date
         run: |
           if [ "$TEST" = true ]; then
-            mkdir -p "$RUNNER_TEMP/test"
-            uv run stt review --out "$RUNNER_TEMP/test/review.md"
+            week=$(date -u +%F) # a test does the week up to today
           else
-            uv run stt review || { echo "Retrying in a minute."; sleep 60; uv run stt review; }
+            week=$(date -u -d "-$((($(date -u +%u) + 1) % 7)) days" +%F) # the latest Saturday
           fi
-      - name: Keep the test review
+          echo "WEEK=$week" >> "$GITHUB_ENV"
+          echo "The week to $week"
+
+      - name: Prepare (prices, news, filings, scoring of matured picks, the week's digest)
+        id: prepare
+        run: |
+          log="$RUNNER_TEMP/prepare.log"
+          test_flag=$([ "$TEST" = true ] && echo --test || true)
+          if ! uv run stt weekly prepare --day "$WEEK" $test_flag | tee "$log"; then
+            echo "A data source failed; trying once more in a minute."
+            sleep 60
+            uv run stt weekly prepare --day "$WEEK" $test_flag | tee "$log"
+          fi
+          if grep -q "NOTHING TO DO" "$log"; then echo "skip=true" >> "$GITHUB_OUTPUT"; fi
+      - name: Review the week (Claude API)
+        if: steps.prepare.outputs.skip != 'true'
+        run: |
+          out=()
+          if [ "$TEST" = true ]; then mkdir -p "$RUNNER_TEST_DIR"; out=(--out "$RUNNER_TEST_DIR/review.md"); fi
+          uv run stt review --day "$WEEK" "${out[@]}" ||
+            { echo "Retrying in a minute."; sleep 60; uv run stt review --day "$WEEK" "${out[@]}"; } ||
+            echo "::warning::The review failed twice; going on with the analysis."
+        env:
+          RUNNER_TEST_DIR: ${{ runner.temp }}/test
+      - name: Analyse the week (Claude API)
+        if: steps.prepare.outputs.skip != 'true'
+        run: |
+          out=()
+          if [ "$TEST" = true ]; then mkdir -p "$RUNNER_TEST_DIR"; out=(--out "$RUNNER_TEST_DIR/events.json"); fi
+          uv run stt analyze --day "$WEEK" "${out[@]}" ||
+            { echo "Retrying in a minute."; sleep 60; uv run stt analyze --day "$WEEK" "${out[@]}"; }
+        env:
+          RUNNER_TEST_DIR: ${{ runner.temp }}/test
+      - name: Keep the test review and analysis
         if: env.TEST == 'true' && always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-review
+          name: test-week
           path: |
             ${{ runner.temp }}/test/
+            cache/raw/*/digest.md
+            cache/raw/*/feedback.md
             data/usage/api.jsonl
           if-no-files-found: ignore
+
+      - name: Finish (picks, ledger, report, dashboard data)
+        if: env.TEST != 'true' && steps.prepare.outputs.skip != 'true'
+        run: uv run stt weekly finish --day "$WEEK"
       - name: Commit and push data/
-        if: env.TEST != 'true'
+        if: env.TEST != 'true' && steps.prepare.outputs.skip != 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/
           if git diff --cached --quiet; then echo "Nothing to commit."; exit 0; fi
-          git commit -q -m "Weekly review $(date -u +%F) (GitHub Actions)"
+          events=$(jq '.events | length' "data/events/$WEEK.json")
+          picks=$(jq '.picks | length' "data/picks/$WEEK.json")
+          git commit -q -m "Weekly run $WEEK: $events events, $picks picks (GitHub Actions)"
           for wait in 2 4 8 16; do
             git push origin "HEAD:$GITHUB_REF_NAME" && exit 0
             sleep "$wait"
             git pull --rebase origin "$GITHUB_REF_NAME"
           done
           git push origin "HEAD:$GITHUB_REF_NAME"
+      - name: Build the dashboard site
+        id: site
+        if: env.TEST != 'true' && steps.prepare.outputs.skip != 'true'
+        run: |
+          uv run stt site
+          echo "publish=true" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.site.outputs.publish == 'true'
+        with:
+          path: site
+
+  deploy:
+    needs: run
+    if: needs.run.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

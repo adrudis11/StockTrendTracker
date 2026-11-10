@@ -1,7 +1,7 @@
-"""`stt analyze`: the morning analysis through the Claude API, outside a Claude session.
+"""`stt analyze`: the Saturday analysis through the Claude API, outside a Claude session.
 
-The model gets what a session reads: ``prompts/daily_analysis.md``, the themes, the
-covered tickers, the feedback note, the last three events files and today's digest,
+The model gets what a session reads: ``prompts/weekly_analysis.md``, the themes, the
+covered tickers, the feedback note, the last three events files and the week's digest,
 and replies with the events file as JSON (structured output, so it always parses).
 Python then runs the same checks as ``stt validate``; any errors go back to the model
 in the same conversation to fix, up to ``retries`` times, before the run fails.
@@ -25,7 +25,7 @@ from stocktrend.universe.build import load as load_universe
 from stocktrend.universe.exposures import load_exposures, themes_text
 from stocktrend.universe.instruments import load_instruments
 
-PROMPT = ROOT / "prompts" / "daily_analysis.md"
+PROMPT = ROOT / "prompts" / "weekly_analysis.md"
 RECENT_FILES = 3
 
 API_NOTE = """## This run
@@ -33,7 +33,7 @@ API_NOTE = """## This run
 You are running through the API, without tools or a shell. Everything the
 instructions above tell you to run or read is included: the themes (`stt themes`) and
 the covered tickers (`stt universe find`) below; the feedback note, the last three
-events files and today's digest in the user message. Reply with the events file only,
+events files and the week's digest in the user message. Reply with the events file only,
 as JSON matching the schema. Python checks it as `stt validate` does and sends back
 any errors for you to fix."""
 
@@ -89,7 +89,7 @@ def system_prompt() -> str:
 def user_message(day: str, events_dir: Path = DATA_DIR / "events") -> str:
     digest = raw_dir(day) / "digest.md"
     if not digest.exists():
-        raise FileNotFoundError(f"{digest} is missing: run `stt daily prepare` (or `stt digest`)")
+        raise FileNotFoundError(f"{digest} is missing: run `stt weekly prepare` (or `stt digest`)")
     note = raw_dir(day) / "feedback.md"
     feedback_md = (
         note.read_text(encoding="utf-8")
@@ -98,12 +98,12 @@ def user_message(day: str, events_dir: Path = DATA_DIR / "events") -> str:
     )
     recent = [p for p in sorted(events_dir.glob("*.json")) if p.stem < day][-RECENT_FILES:]
     parts = [
-        f"Today is {day}. Write data/events/{day}.json.",
+        f"This is the analysis for the week to {day}. Write data/events/{day}.json.",
         "# Feedback note\n\n" + feedback_md,
         "# The last events files\n\n" + "\n\n".join(
             f"## data/events/{p.name}\n\n{p.read_text(encoding='utf-8')}" for p in recent
         ),
-        "# Today's digest\n\n" + digest.read_text(encoding="utf-8"),
+        "# The week's digest\n\n" + digest.read_text(encoding="utf-8"),
     ]  # fmt: skip
     return "\n\n".join(parts)
 

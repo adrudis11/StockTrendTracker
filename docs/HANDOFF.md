@@ -7,12 +7,18 @@ breaks) and the end of `docs/PLAN.md` (progress log).
 
 ## Where things stand
 
-- **GitHub Actions runs everything** since 2026-11-04. No Claude session is needed
-  for the daily or weekly runs.
-  - The **daily run** (`daily.yml`) runs every weekday. It writes the picks, the ledger
-    entries and the report, and refreshes the dashboard at
-    <https://adrudis11.github.io/StockTrendTracker/>.
-  - The **weekly review** (`weekly.yml`) runs on Saturdays and writes to `data/reviews/`.
+- **Weekly picks since 2026-11-11** (the owner's choice on 2026-11-10): one list a
+  week of one-month picks (10 buys, 5 avoids, held 20 trading days from Monday's open),
+  made on Saturday mornings from the whole week's news, together with the weekly
+  review. The Claude API runs only then. The 1-week horizon is gone; the last 1-week
+  picks mature on 11-16. Plan and reasons: the 2026-11-10 entries at the end of
+  `docs/PLAN.md`.
+- **GitHub Actions runs everything** since 2026-11-04. No Claude session is needed.
+  - The **weekday collection** (`daily.yml`, `stt collect`) gathers prices, news and
+    filings, scores matured picks, saves the day's digest and refreshes the dashboard at
+    <https://adrudis11.github.io/StockTrendTracker/>. No API, no picks.
+  - The **weekly run** (`weekly.yml`) on Saturdays: review, analysis, picks, ledger,
+    report, dashboard. The first is due on 2026-11-14.
 - **Recorded days:** 10 so far (10-28 to 11-10). A Claude session analysed the days
   through 11-03; the Claude API has analysed them since 11-04 (`stt analyze`).
 - **API cost:** $2.96 over 6 calls up to 11-10. That is about $0.45 per daily analysis
@@ -28,9 +34,9 @@ breaks) and the end of `docs/PLAN.md` (progress log).
 
 | What | When | Notes |
 |---|---|---|
-| `daily.yml` | Weekdays, by an outside cron call at 06:00 Paris time | GitHub's own schedules (00:47, 02:47, 04:47 and 09:17 UTC) are a backup. A gate job makes an early one wait until 05:30 UTC. Only the `run` job holds the `pipeline` lock. |
-| `weekly.yml` | Saturdays 08:41 UTC, with a Sunday fallback | The fallback skips if a review from the last 4 days exists. Unattended, it only proposes changes. |
-| Manual runs | Actions → Run workflow | With "test" ticked, nothing is recorded. With "test" unticked, the day runs now, or on a recorded day the dashboard is refreshed. |
+| `daily.yml` | Weekdays, GitHub's schedules at 04:47 and 09:17 UTC | `stt collect`, free. The time doesn't matter: the news window runs from the last digest (24–96 h). A second run that day only refreshes prices and the dashboard. |
+| `weekly.yml` | Saturdays 06:41, 08:41, 12:41 UTC, Sunday 08:41 as a fallback | Review and analysis through the API, then the week's picks. A recorded week prints NOTHING TO DO. Unattended, the review only proposes changes. |
+| Manual runs | Actions → Run workflow | With "test" ticked, nothing is recorded (the weekly test costs about $1.50). With "test" unticked, the weekday collection or the latest Saturday's week runs now. |
 
 Settings that live on GitHub, not in the repo:
 - **Secrets:** `ANTHROPIC_API_KEY_STOCKTRACKER` (the API key; the workflows pass it on as
@@ -39,9 +45,9 @@ Settings that live on GitHub, not in the repo:
   runs, `github` forces them on.
 - **Pages** source is set to GitHub Actions.
 
-GitHub starts scheduled runs hours late or drops them. On the days so far, the backup
-schedules started the runs between 07:12 and 07:30 UTC, and on 11-05 and 11-10 the day
-had to be started by hand. The outside trigger fixes this, but see open item 3.
+GitHub starts scheduled runs hours late or drops them. Since the switch to weekly picks
+that no longer matters: the weekday run picks up the news since the last digest, and
+the Saturday picks enter at Monday's open.
 
 ## Working locally
 
@@ -51,9 +57,9 @@ had to be started by hand. The outside trigger fixes this, but see open item 3.
   workflows run from it. `main` is only the stale base of PR #2.
 - **Run the checks before pushing:**
   `uv run ruff check . && uv run ruff format --check . && uv run mypy src tests && uv run pytest`
-- **Leave the daily and weekly runs to GitHub.** Don't run `stt daily prepare`,
-  `stt daily finish`, `stt record` or `stt review` locally to produce real data: GitHub
-  does that, and the commits would collide.
+- **Leave the weekday and weekly runs to GitHub.** Don't run `stt collect`,
+  `stt weekly prepare`, `stt weekly finish`, `stt record` or `stt review` locally to
+  produce real data: GitHub does that, and the commits would collide.
 - **No secrets locally.** None are needed for development and tests. If the SEC part is
   ever needed locally, the contact goes in the gitignored `.sec_contact`, never in a
   committed file.
@@ -61,7 +67,7 @@ had to be started by hand. The outside trigger fixes this, but see open item 3.
   "test" ticked (daily and weekly both have it), then read the run's log.
 - **Rules from `CLAUDE.md` that matter most:**
   - Never edit lines in `data/ledger/` or `data/trackers/`.
-  - Don't re-score a recorded day.
+  - Don't re-score a recorded day or week.
   - Free data sources only; the Claude API is the one paid service.
   - Research tool: no trading.
 
@@ -78,15 +84,17 @@ had to be started by hand. The outside trigger fixes this, but see open item 3.
    yet:
    - `config/exposures.yaml`, `shipping_disruption`: lower BOAT's weight by 0.3. It
      tracked oil sentiment, not tanker war risk.
-   - `prompts/daily_analysis.md`, a no-stacking rule: no new call on a theme already
+   - The analysis prompt (now `prompts/weekly_analysis.md`), a no-stacking rule: no new call on a theme already
      called the same way in the last 3 sessions without a new physical or official
      fact.
-   - `prompts/daily_analysis.md`: a leader's remark on trade is not policy. Keep the
+   - The analysis prompt: a leader's remark on trade is not policy. Keep the
      size small until official text confirms it.
    - The 11-05 test review also suggested: cap confidence when the main proxy has
      already moved 10% or more in 20 days, and anchor rates calls to market pricing.
-3. **Outside trigger.** The owner sets this up on cron-job.org with a fine-grained token
-   (README, "Exact timing"). As of 11-10, no run had come from it yet.
+3. **Weekday extras (phase 3 of the weekly plan, not built yet), all free:** a watch on
+   open picks (case now, earnings before the exit, new filings, the week's news on
+   each), the week's news so far, prediction-market moves and a data-health line on the
+   dashboard. The outside trigger (cron-job.org) is no longer needed.
 4. **Action versions.** `actions/checkout@v4`, `actions/upload-artifact@v4` and
    `astral-sh/setup-uv@v6` target Node 20. GitHub currently runs them on Node 24 with a
    warning. Bump them to newer major versions when convenient.
@@ -96,7 +104,8 @@ had to be started by hand. The outside trigger fixes this, but see open item 3.
    - `@claude` in GitHub issues through the Claude Code GitHub Action, restricted to the
      owner because the repo is public.
 6. **Later work:**
-   - Calibrate p(beat) and refit the score weights after 100 or more matured geo picks.
+   - Calibrate p(beat) and refit the score weights after 100 or more matured one-month
+     geo picks (the 100th of those already made is due on 2026-12-03).
    - Rebuild the universe every few months (`uv run stt universe build`, then review
      `git diff data/universe/`).
 7. **Tidy-ups:**

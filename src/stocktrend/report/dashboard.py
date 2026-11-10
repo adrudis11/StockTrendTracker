@@ -1,7 +1,8 @@
-"""`stt dashboard`: the JSON datasets behind the claude.ai dashboard.
+"""`stt dashboard`: the JSON datasets behind the dashboard.
 
-Each run writes one file per dataset to ``cache/dashboard/``; the daily session
-uploads them to the dashboard (see ``prompts/daily_run.md``). Percentages are
+Each run writes one file per dataset to ``cache/dashboard/``; `stt site` turns them
+into the GitHub Pages site (the claude.ai dashboard is frozen since 2026-11-03). On
+weekdays it shows the latest (Saturday's) picks with that day's prices. Percentages are
 stored as percent numbers (11.0 = 11%) so the page shows exactly what the data
 holds. The dashboard can't load a file with no rows, so the summary row counts every
 other dataset and the page only reads one that has rows.
@@ -11,6 +12,7 @@ from __future__ import annotations
 
 import json
 import re
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -19,7 +21,7 @@ from stocktrend.config import CACHE_DIR, DATA_DIR
 from stocktrend.events.schema import EventsFile
 from stocktrend.events.validate import events_path
 from stocktrend.markets import exchange_for
-from stocktrend.scoring.model import Pick, PicksFile
+from stocktrend.scoring.model import HORIZONS, Pick, PicksFile
 from stocktrend.scoring.run import TRACKERS_PATH, picks_path
 from stocktrend.scoring.run import load as load_picks
 from stocktrend.tracking import scoreboard
@@ -33,6 +35,7 @@ DATASETS = (
     "summary", "picks", "open_picks", "results", "events", "scoreboard", "congress", "insiders",
     "trump", "call_kinds", "calibration", "adjustments", "proposals",
 )  # fmt: skip
+HOLD = HORIZONS[-1]  # trading days a pick is held: 20 since 2026-11-11
 PROPOSAL_CHARS = 220  # the page shows the start of each proposal and links the review
 RESULT_ROWS = 60
 CONGRESS_ROWS = INSIDER_ROWS = 15
@@ -81,9 +84,13 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
     outcomes = read_outcomes()
     sb = scoreboard.compute(entries, outcomes)
     done = {o.pick_id for o in outcomes}
-    geo_open = [e for e in entries if e.strategy == "geo" and e.pick_id not in done]
-    geo_matured = sum(e.strategy == "geo" and e.pick_id in done for e in entries)
-    first = first_matures(geo_open)
+    first = first_matures([e for e in entries if e.strategy == "geo" and e.pick_id not in done])
+    # The verdict and the records count one-month picks, the only kind since 2026-11-11;
+    # the records show the old 1-week ones until the first one-month picks mature.
+    geo = [e for e in entries if e.strategy == "geo" and e.horizon == HOLD]
+    geo_open = [e for e in geo if e.pick_id not in done]
+    geo_matured = len(geo) - len(geo_open)
+    record_h = max((r["horizon"] for r in sb["rows"] if r["strategy"] == "geo"), default=HOLD)
     r = picks.regime
     trump = trump_rows(day)
     scored = [t for t in trump if t["came_true"]]
@@ -94,14 +101,21 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
     loop = feedback_data(day)
     review_day, proposals = review_proposals(day)
     made = [e.logged_at for e in entries if e.strategy == "geo" and e.date == picks_day]
+    held_from, held_to = holding(min(made)) if made else (None, None)
     picked = {p.ticker: p for p in sorted(picks.picks, key=lambda p: (p.horizon, p.rank))}
     in_picks = [f"{row['ticker']} ({_label(picked[row['ticker']])})" for row in insider
                 if row["ticker"] in picked]  # fmt: skip
 
     summary = {
         "made_at": min(made).isoformat() if made else None,
-        **live_record(sb, "insiders"),
-        **live_record(sb, "geo"),
+        "held_from": held_from,
+        "held_to": held_to,
+        "record_h": record_h,
+        "record_span": "month" if record_h == HOLD else "week",
+        "record_old": int(record_h != HOLD),  # the page shows parts by counts
+        "first_month": _nth_exit(geo_open, 1),
+        **live_record(sb, "insiders", record_h),
+        **live_record(sb, "geo", record_h),
         **insider_backtest(),
         "insider_max": round(100 * MAX_WEIGHT),  # a tracker's weight at full evidence
         "insiders_in_picks": ", ".join(in_picks),
@@ -124,8 +138,8 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
         "us10y": r.get("us10y"),
         "market_view": events.market_view if events else "",
         "events": len(events.events) if events else 0,
-        "picks_5d": len(picks.select(5, "long")),
-        "picks_20d": len(picks.select(20, "long")),
+        "picks_20d": len(picks.select(HOLD, "long")),
+        "avoids_20d": len(picks.select(HOLD, "avoid")),
         "n_picks": len(picks.picks),
         "n_open": len(open_picks),
         "n_results": len(results),
@@ -266,7 +280,14 @@ def _label(p: Pick) -> str:
     return f"{when}, {'long' if p.side == 'long' else 'avoid'} #{p.rank}"
 
 
-def live_record(sb: dict[str, Any], strategy: str, horizon: int = 5) -> dict[str, Any]:
+def holding(logged_at: datetime) -> tuple[str, str]:
+    """When picks logged at ``logged_at`` are held: the first NYSE session after it and
+    the last of their 20."""
+    start = entry_session("XNYS", logged_at)
+    return start.date().isoformat(), exit_session("XNYS", start, HOLD).date().isoformat()
+
+
+def live_record(sb: dict[str, Any], strategy: str, horizon: int = 20) -> dict[str, Any]:
     """A strategy's matured long picks so far: ``<strategy>_n``, ``_hit`` and ``_mean``."""
     row = next(
         (r for r in sb["rows"] if (r["strategy"], r["horizon"], r["side"]) ==

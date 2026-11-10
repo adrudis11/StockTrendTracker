@@ -1,4 +1,5 @@
-"""`stt report`: the daily Markdown report in ``data/reports/<date>.md``."""
+"""`stt report`: the weekly Markdown report in ``data/reports/<date>.md`` (daily until
+2026-11-10)."""
 
 from __future__ import annotations
 
@@ -9,7 +10,7 @@ from stocktrend.config import DATA_DIR
 from stocktrend.events.digest import Digest
 from stocktrend.events.schema import EventsFile
 from stocktrend.markets import exchange_for
-from stocktrend.scoring.model import Pick, PicksFile
+from stocktrend.scoring.model import HORIZONS, Pick, PicksFile
 
 DISCLAIMER = (
     "> Research tool for personal use, not investment advice. Probabilities are "
@@ -119,7 +120,7 @@ def render(
         lines += [events.market_view, ""]
     lines += [_regime(picks.regime), ""]
 
-    for h in (5, 20):
+    for h in HORIZONS:
         longs, avoids = picks.select(h, "long"), picks.select(h, "avoid")
         lines += [f"## Picks: {HORIZON_LABEL[h]}", ""]
         lines += _pick_table(longs)
@@ -151,7 +152,7 @@ def render(
         lines += [insiders_md]
     if events:
         stories = {s.id: s for s in digest.stories} if digest else {}
-        lines += ["## Today's events", ""]
+        lines += ["## This week's events", ""]
         lines += ["| Event | Category | New? | Certainty | Targets | Sources |",
                   "|---|---|---|---|---|---|"]  # fmt: skip
         for ev in events.events:
@@ -224,7 +225,7 @@ def _price(x: float | None, currency: str) -> str:
 def _weight_note(weight: float) -> str:
     if weight:
         return (
-            f"Weight in the score: up to ±{100 * weight:.0f}% on stocks the day's events "
+            f"Weight in the score: up to ±{100 * weight:.0f}% on stocks the week's events "
             "already point at."
         )
     return (

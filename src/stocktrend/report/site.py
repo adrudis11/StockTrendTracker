@@ -3,7 +3,7 @@
 The same page as the claude.ai dashboard (``dashboard/index.html``) inside a shell
 with its design tokens and a stand-in for the dashboard runtime
 (``dashboard/standalone/``), plus the JSON files ``stt dashboard`` wrote. Output goes
-to ``site/`` (gitignored); the daily GitHub Actions run publishes it.
+to ``site/`` (gitignored); the weekday and Saturday GitHub Actions runs publish it.
 """
 
 from __future__ import annotations

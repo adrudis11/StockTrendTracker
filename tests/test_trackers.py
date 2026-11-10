@@ -235,8 +235,7 @@ def test_trump_calls_are_logged_as_their_own_strategy(tmp_path: Path) -> None:
     logged = datetime(2026, 10, 28, 6, 30, tzinfo=UTC)
     ledger.record(pf, feats, meta, logged, path, trump_calls=calls)
     got = {(e.ticker, e.horizon, e.side) for e in ledger.read(path) if e.strategy == "trump"}
-    assert got == {("XOM", 5, "long"), ("XOM", 20, "long"), ("LMT", 5, "avoid"),
-                   ("LMT", 20, "avoid")}  # fmt: skip
+    assert got == {("XOM", 20, "long"), ("LMT", 20, "avoid")}
 
 
 def test_trump_report_section() -> None:

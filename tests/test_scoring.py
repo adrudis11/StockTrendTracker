@@ -64,7 +64,7 @@ def events(day: str, impacts: list[dict[str, object]], novelty: float = 1.0) -> 
     )
 
 
-def impact(target: str, direction: int = 1, horizon: int = 5) -> dict[str, object]:
+def impact(target: str, direction: int = 1, horizon: int = 20) -> dict[str, object]:
     return {
         "target": target,
         "direction": direction,
@@ -86,18 +86,21 @@ def test_decay_and_novelty() -> None:
 def test_expand_applies_member_signs_and_horizon_spill() -> None:
     ef = events("2026-10-28", [impact("theme:oil")])
     c = model.expand([ef], AS_OF, EXPOSURES, META, SECTOR_ETFS)
-    assert c[("XOM", 5)][0].strength == pytest.approx(1.0)
-    assert c[("CVX", 5)][0].strength == pytest.approx(0.5)
-    assert c[("DAL", 5)][0].strength == pytest.approx(-1.0)
-    assert c[("XOM", 20)][0].strength == pytest.approx(0.3)  # 5-day call spills to 20d
-    assert ("EOG", 5) not in c  # not a theme member
+    assert c[("XOM", 20)][0].strength == pytest.approx(1.0)
+    assert c[("CVX", 20)][0].strength == pytest.approx(0.5)
+    assert c[("DAL", 20)][0].strength == pytest.approx(-1.0)
+    assert ("EOG", 20) not in c  # not a theme member
+    assert ("XOM", 5) not in c  # one-month picks only since 2026-11-11
+    old = events("2026-10-28", [impact("theme:oil", horizon=5)])  # an old 5-day call
+    c = model.expand([old], AS_OF, EXPOSURES, META, SECTOR_ETFS)
+    assert c[("XOM", 20)][0].strength == pytest.approx(0.3)  # spills into 20d
 
 
 def test_expand_easing_flips_signs_and_old_events_fade() -> None:
     eased = events("2026-10-28", [impact("theme:oil", direction=-1)])
     c = model.expand([eased], AS_OF, EXPOSURES, META, SECTOR_ETFS)
-    assert c[("DAL", 5)][0].strength > 0
-    old = events("2026-10-21", [impact("theme:oil")])  # 5 trading days ago
+    assert c[("DAL", 20)][0].strength > 0
+    old = events("2026-09-30", [impact("theme:oil")])  # 20 trading days ago
     assert model.expand([old], AS_OF, EXPOSURES, META, SECTOR_ETFS) == {}
 
 
@@ -134,27 +137,28 @@ def _score(features: pd.DataFrame, earnings: dict[str, str | None]) -> model.Pic
 def test_score_ranks_longs_and_avoids_with_risk_and_trend() -> None:
     feats = _features(
         ["XOM", "CVX", "DAL", "XLE"],
-        CVX={"excess_5d": 0.04},  # +0.9 sigma move agreeing with the thesis
+        CVX={"excess_20d": 0.08},  # +0.9 sigma move agreeing with the thesis
         XLE={"liquid": False},
     )
     pf = _score(feats, {"XOM": "2026-10-29", "CVX": "2026-12-01", "DAL": "2026-12-01"})
-    longs = {p.ticker: p for p in pf.select(5, "long")}
+    longs = {p.ticker: p for p in pf.select(20, "long")}
     assert set(longs) == {"XOM", "CVX"}  # XLE is illiquid
-    assert longs["XOM"].risk == pytest.approx(model.RISK["earnings_5d"])
+    assert not pf.select(5, "long")  # one-month picks only
+    assert longs["XOM"].risk == pytest.approx(model.RISK["earnings_20d"])
     assert "inside the horizon" in longs["XOM"].risks[0]
     assert longs["CVX"].trend > 0
     assert longs["CVX"].rank == 1  # smaller signal, but no earnings and a confirming trend
-    (dal,) = pf.select(5, "avoid")
+    (dal,) = pf.select(20, "avoid")
     assert dal.ticker == "DAL" and dal.score < 0 and dal.side == "avoid"
     assert 0.5 < dal.prob < 0.75
 
 
 def test_priced_in_penalty() -> None:
-    calm = _score(_features(["XOM"]), {"XOM": "2026-12-01"}).select(5, "long")[0]
+    calm = _score(_features(["XOM"]), {"XOM": "2026-12-01"}).select(20, "long")[0]
     moved = _score(
-        _features(["XOM"], XOM={"excess_5d": 0.15}),  # +3.4 sigma already
+        _features(["XOM"], XOM={"excess_20d": 0.30}),  # +3.4 sigma already
         {"XOM": "2026-12-01"},
-    ).select(5, "long")[0]
+    ).select(20, "long")[0]
     assert moved.priced_in > 0 and moved.conviction < calm.conviction * 1.2
     assert any("already moved" in r for r in moved.risks)
 
@@ -203,7 +207,8 @@ def test_regime_labels() -> None:
 def test_report_renders() -> None:
     pf = _score(_features(["XOM", "CVX", "DAL"]), {})
     md = render(pf, events("2026-10-28", [impact("theme:oil")]), None)
-    assert "Picks: next ~1 week" in md and "XOM" in md and "Avoid" in md
+    assert "Picks: next ~1 month" in md and "XOM" in md and "Avoid" in md
+    assert "next ~1 week" not in md
     assert "Uncalibrated" in md or "uncalibrated" in md
 
 

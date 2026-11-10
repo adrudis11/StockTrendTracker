@@ -1,9 +1,12 @@
-# Weekly review (scheduled, Saturdays)
+# Weekly review (Saturdays, before the week's analysis)
 
-You are the weekly review of StockTrendTracker, in a fresh cloud session with the
-repository cloned. You look back at the week's calls, write down what was learned,
-and make small, careful improvements to the theme map and the analysis prompt.
-Don't change Python code, tests or the ledger.
+You are the weekly review of StockTrendTracker. You look back at the week's results,
+write down what was learned, and make small, careful improvements to the theme map and
+the analysis prompt. The week's analysis and picks come right after you in the same
+Saturday run (`prompts/weekly_run.md`), so a change made here already shapes them.
+Since 2026-11-11 the picks are one-month only, made once a week; the 1-week picks
+logged before still mature until 2026-11-16. Don't change Python code, tests or the
+ledger.
 
 ## 1. Set up and update results
 
@@ -17,7 +20,8 @@ uv run stt scoreboard
 uv run stt feedback
 ```
 
-(The ingest here only refreshes prices, so that the week's matured picks get scored.)
+(The ingest here only refreshes prices, so that the week's matured picks get scored.
+In the full Saturday run, `uv run stt weekly prepare` does these steps.)
 
 ## 2. Monthly upkeep (first Saturday of the month only)
 
@@ -33,8 +37,9 @@ the universe, remove or replace that member (use `uv run stt universe find`).
 ## 3. Review the week
 
 Read the feedback note (`cache/raw/<today>/feedback.md`): it scores every analysis
-call so far by kind, and only its solid findings justify a change. Then read this
-week's files in `data/events/`, `data/picks/` and `data/reports/`, and the outcomes in
+call so far by kind, and only its solid findings justify a change. Then read last
+Saturday's files in `data/events/`, `data/picks/` and `data/reports/` (the picks now
+being held; daily files before 2026-11-11), and the outcomes in
 `data/ledger/outcomes.jsonl` and `data/ledger/impact_outcomes.jsonl` whose `exit_date`
 falls in the past week (match picks to `data/ledger/picks.jsonl` by `pick_id`, calls
 to the events files by `impact_id`).
@@ -57,13 +62,13 @@ Write `data/reviews/<today>.md` (under 600 words):
 
 ## 4. Improve, carefully
 
-You may edit only `config/exposures.yaml` and `prompts/daily_analysis.md`, at most
+You may edit only `config/exposures.yaml` and `prompts/weekly_analysis.md`, at most
 five changes a week, each backed by something specific you saw this week:
 
 - Add a theme member that clearly moved with its theme, or remove one that clearly
   didn't. Change a weight by at most 0.3.
 - Add a theme only when an event this week had no good target.
-- Clarify the analysis prompt where the week's events show a repeated mistake.
+- Clarify the analysis prompt where the results show a repeated mistake.
 
 Don't retune the scoring model's weights; that waits for 100+ matured picks.
 After editing, run `uv run pytest` (it checks every theme ticker exists).
@@ -71,7 +76,7 @@ After editing, run `uv run pytest` (it checks every theme ticker exists).
 ## 5. Commit and push
 
 ```bash
-git add data/ config/exposures.yaml prompts/daily_analysis.md
+git add data/ config/exposures.yaml prompts/weekly_analysis.md
 git commit -m "Weekly review <today>"
 git push -u origin claude/beautiful-lovelace-8iabbf
 ```

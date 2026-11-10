@@ -16,10 +16,13 @@ from pydantic import ValidationError
 from stocktrend.config import DATA_DIR
 from stocktrend.events.digest import load as load_digest
 from stocktrend.events.schema import REGIONS, EventsFile
+from stocktrend.scoring.model import HORIZONS
 from stocktrend.universe.build import load as load_universe
 from stocktrend.universe.exposures import load_exposures
 from stocktrend.universe.instruments import load_instruments
 from stocktrend.universe.sectors import GICS_SECTORS
+
+WEEKLY_FROM = "2026-11-11"  # one-month picks only from here: older files keep 5-day impacts
 
 
 def events_path(day: str) -> Path:
@@ -74,6 +77,8 @@ def check(
             if (imp.target, imp.horizon_days) in seen_targets:
                 v.errors.append(f"{iw}: duplicate target for the same horizon")
             seen_targets.add((imp.target, imp.horizon_days))
+            if day >= WEEKLY_FROM and imp.horizon_days not in HORIZONS:
+                v.errors.append(f"{iw}: horizon_days must be 20 (one-month picks only)")
             if imp.kind == "theme" and imp.ref not in themes:
                 v.errors.append(f"{iw}: unknown theme (see `stt themes`)")
             elif imp.kind == "ticker" and imp.ref not in tickers:

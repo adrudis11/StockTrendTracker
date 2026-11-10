@@ -1,8 +1,10 @@
 # StockTrendTracker: notes for Claude sessions
 
-Daily pipeline that reads political and geopolitical news, turns it into structured
-events, and ranks US and European stocks likely to outperform over 5 and 20 trading
-days, keeping an honest track record. Full plan and progress log: `docs/PLAN.md`.
+Pipeline that reads political and geopolitical news, turns it into structured events,
+and ranks US and European stocks likely to outperform over the next 20 trading days,
+keeping an honest track record. Since 2026-11-11 (the owner's choice on 2026-11-10) the
+picks are made once a week, on Saturdays, from the whole week's news; weekdays only
+collect data, for free. Until 2026-11-10 picks were daily, for 5 and 20 days. Full plan and progress log: `docs/PLAN.md`.
 Current state, open items and the owner's preferences: `docs/HANDOFF.md` (read it
 first in a new session).
 
@@ -14,8 +16,9 @@ first in a new session).
   `config/analysis.yaml`, the key in the `ANTHROPIC_API_KEY_STOCKTRACKER` repository
   secret (the runs pass it on as `ANTHROPIC_API_KEY`), every call's cost in
   `data/usage/api.jsonl`. Don't add other API calls without asking, and
-  never ask for the key in chat. In a Claude session, the session's Claude can still
-  do the analysis by hand (`prompts/daily_analysis.md`).
+  never ask for the key in chat. The API runs only in the Saturday run; the owner
+  wants weekdays free (anything added to them must not call it). In a Claude session,
+  the session's Claude can still do the analysis by hand (`prompts/weekly_analysis.md`).
 - It is a research tool. Never add trading or order placement.
 - Containers are wiped between sessions: anything worth keeping goes in `data/` and is
   committed. `cache/` is re-downloaded and gitignored.
@@ -30,9 +33,9 @@ first in a new session).
 - `data/trackers/` is append-only like the ledger: new filings are added, old lines
   are never rewritten.
 - **Never edit or delete lines in `data/ledger/`.** The ledger is the honest track
-  record; `stt record` only appends and a re-run never replaces a day's picks.
-- Don't re-run `stt score` for a day that is already recorded: the ledger keeps the
-  first version, so the picks file and the ledger would disagree.
+  record; `stt record` only appends and a re-run never replaces a week's picks.
+- Don't re-run `stt score` for a day or week that is already recorded: the ledger keeps
+  the first version, so the picks file and the ledger would disagree.
 
 ## Scheduled runs
 
@@ -47,16 +50,22 @@ first in a new session).
     2026-11-10; see `docs/PLAN.md`). The time doesn't matter; a second run that day only
     refreshes. The outside cron service (cron-job.org, `trigger: cron`), if set up, just
     starts the collection. Run by hand with "test" ticked to try it without committing.
-  - `weekly.yml`, Saturdays 08:41 UTC: score the week, `stt review` writes
-    `data/reviews/`. Unattended it only *proposes* edits to `config/exposures.yaml` and
-    the analysis prompt; apply them in a session if they hold up.
+  - `weekly.yml`, Saturdays (06:41, 08:41, 12:41 UTC, Sunday 08:41 as a fallback): `stt
+    weekly prepare` (the data, plus the week's digest joined from the weekday digests by
+    `digest.merge_week`), `stt review` (writes `data/reviews/`), `stt analyze`, `stt
+    weekly finish` (10 buys and 5 avoids at 20 days, ledger, report, dashboard), commit
+    and publish. The week's date is that Saturday, even on the Sunday fallback; a
+    recorded week prints NOTHING TO DO. Unattended the review only *proposes* edits to
+    `config/exposures.yaml` and the analysis prompt; apply them in a session if they
+    hold up. "test" ticked does the week up to today into downloadable files (about
+    $1.50 of API) and records nothing.
 - **Claude Code cloud sessions** ran the pipeline until 2026-11-03 (runner session
   `session_013RsqR6xHbq73HAZ5KzSrjh`; scheduled tasks `trig_016rhLYvBBRMi2Z8uNFtrene`
   daily and `trig_017pWbZ6vhDLnh1ro7bUqwv8` weekly, both paused on 2026-11-04 after
-  the first GitHub run was checked). `prompts/daily_run.md` and
-  `prompts/weekly_review.md` still work for doing a day or a review by hand in a
-  session. If two runs meet on one day, the second does nothing: `daily prepare`
-  stops when the day is recorded.
+  the first GitHub run was checked). `prompts/weekly_run.md` and
+  `prompts/weekly_review.md` work for doing a week or a review by hand in a session.
+  If two runs meet on one week, the second does nothing: `weekly prepare` stops when
+  the week is recorded.
 - Dashboards: the static one on GitHub Pages (`stt site`: `dashboard/index.html` in
   `dashboard/standalone/shell.html` with `dash.js` standing in for the dashboard
   runtime) and the claude.ai Dashboard artifact (`config/dashboard.yaml`), which only a
@@ -66,18 +75,28 @@ first in a new session).
 
 | Step | Command | Output |
 |---|---|---|
+| Weekday run (no API) | `stt collect` | ingest, trackers, evaluate, digest, dashboard |
 | Ingest prices and news | `stt ingest` | `cache/prices/daily.parquet`, `cache/raw/<date>/news.jsonl` |
 | Rank news into stories | `stt digest` | `data/digests/<date>.json`, `cache/raw/<date>/digest.md` |
-| Analyse (Claude) | follow `prompts/daily_analysis.md`, or `stt analyze` (API) | `data/events/<date>.json` |
+| Saturday, step 1 | `stt weekly prepare` | the data, feedback note, the week's digest in `data/digests/<saturday>.json` |
+| Review the week (Claude) | `stt review` (API), or `prompts/weekly_review.md` | `data/reviews/<date>.md` |
+| Analyse (Claude) | follow `prompts/weekly_analysis.md`, or `stt analyze` (API) | `data/events/<date>.json` |
 | Check the analysis | `stt validate --day <date>` | exit 1 on errors |
 | Rank picks | `stt score` | `data/picks/<date>.json` |
 | Log picks + baselines | `stt record` | `data/ledger/picks.jsonl` (append-only) |
 | Score matured picks and analysis calls | `stt evaluate` | `data/ledger/outcomes.jsonl`, `data/ledger/impact_outcomes.jsonl` |
 | Feedback note for the analysis | `stt feedback` | `cache/raw/<date>/feedback.md` |
 | Write the report | `stt report` | `data/reports/<date>.md` (includes track record) |
+| Saturday, step 2 | `stt weekly finish` | validate, score, record, scoreboard, report, dashboard |
+
+`scoring.model.HORIZONS` is `(20,)`: one-month picks and baselines only. Events files
+from `events.validate.WEEKLY_FROM` (2026-11-11) may only have 20-day impacts; older
+ones keep their 5-day impacts, which still spill into the 20-day signal until they
+fade. The verdict (100 matured picks) and the calibration count one-month picks only;
+the 1-week picks logged until 2026-11-10 stay in the track record as history.
 
 Trackers: `stt trackers update` (new House STOCK Act filings and SEC Form 4 insider
-trades → `data/trackers/`, run by `daily prepare`; `stt trackers insiders` for the SEC
+trades → `data/trackers/`, run by `collect` and `weekly prepare`; `stt trackers insiders` for the SEC
 part alone, which skips with a warning when no contact email is set), `stt trackers
 show` (strongest congressional and insider buying).
 Polymarket odds are fetched by `stt ingest` and shown in the digest. Trump tracker: the

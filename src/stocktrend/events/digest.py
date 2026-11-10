@@ -14,7 +14,7 @@ import math
 import re
 from collections import defaultdict
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -24,6 +24,8 @@ from stocktrend.config import DATA_DIR, raw_dir
 from stocktrend.ingest.models import NewsItem
 
 MAX_STORIES = 150
+WEEK_STORIES = 250  # the week's digest for the Saturday analysis (since 2026-11-14)
+DAYS_BONUS = 1.0  # a week's story gains this per doubling of the days it stayed in the news
 PER_TOPIC_MIN = 6  # every topic gets at least its top stories in
 # Trump's statements get a bigger floor and their own section (the Trump tracker).
 TRUMP_TOPICS = ("trump_posts", "trump_says", "trump_stocks")
@@ -139,8 +141,11 @@ _STOPWORDS = set(
 )
 
 
+DIGESTS_DIR = DATA_DIR / "digests"
+
+
 def digest_path(day: str) -> Path:
-    return DATA_DIR / "digests" / f"{day}.json"
+    return DIGESTS_DIR / f"{day}.json"
 
 
 class Story(BaseModel):
@@ -155,6 +160,7 @@ class Story(BaseModel):
     summary: str | None = None
     urls: list[str]
     gdelt: dict[str, Any] | None = None
+    days: list[str] | None = None  # in a week's digest: the days it was in the news
 
 
 class Digest(BaseModel):
@@ -165,6 +171,7 @@ class Digest(BaseModel):
     n_stories_total: int
     stories: list[Story]
     market: dict[str, Any] = {}
+    days: list[str] | None = None  # a week's digest: the daily digests it joins
 
 
 @dataclass
@@ -329,6 +336,102 @@ def build(day: str, now: datetime, market: dict[str, Any] | None = None) -> Dige
     )
 
 
+def merge_week(
+    day: str,
+    fresh: Digest | None,
+    now: datetime,
+    market: dict[str, Any] | None = None,
+    digests_dir: Path | None = None,
+) -> Digest:
+    """The week's digest for the Saturday analysis: the daily digests of the 6 days
+    before ``day`` plus ``fresh`` (the news since the last of them), with stories that
+    ran on several days joined into one.
+
+    A joined story keeps its strongest day's headline and score, plus a bonus for
+    staying in the news, and lists the days it ran. Official notices join only when
+    the title is the same.
+    """
+    folder = digests_dir or DIGESTS_DIR
+    start = (date.fromisoformat(day) - timedelta(days=7)).isoformat()
+    dailies = [
+        Digest.model_validate_json(p.read_text(encoding="utf-8"))
+        for p in sorted(folder.glob("*.json"))
+        if start < p.stem < day
+    ]
+    if fresh is not None:
+        dailies.append(fresh)
+    if not dailies:
+        raise FileNotFoundError(f"no daily digests for the week to {day}")
+    pairs = [(d.date, s) for d in dailies for s in d.stories]
+    pairs.sort(key=lambda ds: ds[1].score, reverse=True)  # the strongest leads its group
+    stories = [_joined(g) for g in _join(pairs)]
+    return Digest(
+        date=day,
+        generated_at=now,
+        window_start=min(d.window_start for d in dailies),
+        n_items=sum(d.n_items for d in dailies),
+        n_stories_total=len(stories),
+        stories=select(stories, WEEK_STORIES),
+        market=market if market is not None else dailies[-1].market,
+        days=[d.date for d in dailies],
+    )
+
+
+def _join(pairs: list[tuple[str, Story]]) -> list[list[tuple[str, Story]]]:
+    """Group the days' stories by headline, as `cluster` groups items."""
+    groups: list[list[tuple[str, Story]]] = []
+    lead_tokens: list[set[str]] = []
+    index: dict[str, set[int]] = defaultdict(set)
+    official: dict[str, int] = {}
+    for day, s in pairs:
+        toks = tokens(s.title)
+        best, best_sim = None, 0.0
+        if s.official:
+            best = official.get(s.title)
+            best_sim = 1.0 if best is not None else 0.0
+        elif len(toks) >= 3:
+            for gi in set().union(*(index[t] for t in toks)):
+                if groups[gi][0][1].official:
+                    continue
+                shared = len(toks & lead_tokens[gi])
+                sim = shared / len(toks | lead_tokens[gi])
+                if shared >= 3 and sim > best_sim:
+                    best, best_sim = gi, sim
+        if best is not None and best_sim >= SIMILARITY:
+            groups[best].append((day, s))
+            for t in toks:
+                index[t].add(best)
+            continue
+        groups.append([(day, s)])
+        lead_tokens.append(toks)
+        for t in toks:
+            index[t].add(len(groups) - 1)
+        if s.official:
+            official[s.title] = len(groups) - 1
+    return groups
+
+
+def _joined(group: list[tuple[str, Story]]) -> Story:
+    lead = group[0][1]
+    stories = [s for _, s in group]
+    days = sorted({d for d, _ in group})
+    publishers = sorted({p for s in stories for p in s.publishers})
+    return Story(
+        id="",
+        title=lead.title,
+        publishers=publishers[:6],
+        n_publishers=max(len(publishers), *(s.n_publishers for s in stories)),
+        topics=list(dict.fromkeys(t for s in stories for t in s.topics)),
+        official=lead.official,
+        first_seen=min(s.first_seen for s in stories),
+        score=round(lead.score + DAYS_BONUS * math.log2(len(days)), 2),
+        summary=next((s.summary for s in stories if s.summary), None),
+        urls=list(dict.fromkeys(u for s in stories for u in s.urls))[:3],
+        gdelt=next((s.gdelt for s in stories if s.gdelt), None),
+        days=days,
+    )
+
+
 def save(digest: Digest) -> Path:
     path = digest_path(digest.date)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -342,11 +445,13 @@ def load(day: str) -> Digest:
 
 def to_markdown(d: Digest) -> str:
     """Compact rendering for Claude: one line per story, market snapshot first."""
+    title = f"# News digest, the week to {d.date}" if d.days else f"# News digest {d.date}"
+    joined = f", joined from the digests of {', '.join(d.days)}" if d.days else ""
     lines = [
-        f"# News digest {d.date}",
+        title,
         "",
         f"{len(d.stories)} of {d.n_stories_total} stories ({d.n_items} items) since "
-        f"{d.window_start[:16]} UTC. Cite stories by id.",
+        f"{d.window_start[:16]} UTC{joined}. Cite stories by id.",
         "",
     ]
     if d.market:
@@ -361,7 +466,8 @@ def to_markdown(d: Digest) -> str:
             "",
         ]
         lines += [_story_line(s) for s in trump] + [""]
-    lines += ["## Stories", "", "id | pubs | topics | headline — summary", ""]
+    head = "id | first seen, days in the news | pubs | topics" if d.days else "id | pubs | topics"
+    lines += ["## Stories", "", f"{head} | headline — summary", ""]
     lines += [_story_line(s) for s in d.stories if s not in trump]
     return "\n".join(lines) + "\n"
 
@@ -375,7 +481,11 @@ def _story_line(s: Story) -> str:
         gd = f" [GDELT {s.gdelt.get('event_type')} {actors}]"
     summary = f" — {s.summary[:220]}" if s.summary else ""
     topics = ",".join(s.topics) or "-"
-    return f"{s.id} | {pubs} | {topics} | {tag}{s.title}{gd}{summary}"
+    when = ""
+    if s.days:  # a week's digest: when it broke and how long it stayed in the news
+        seen = f"{s.first_seen:%a} {s.first_seen.day} {s.first_seen:%b}"
+        when = f"{seen}, {len(s.days)} day{'s' if len(s.days) > 1 else ''} | "
+    return f"{s.id} | {when}{pubs} | {topics} | {tag}{s.title}{gd}{summary}"
 
 
 def _num(x: float) -> str:

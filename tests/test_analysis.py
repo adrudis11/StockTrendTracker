@@ -194,7 +194,11 @@ def test_user_message_has_feedback_last_three_files_and_digest(
         (events / f"{day}.json").write_text(f'{{"date": "{day}"}}')
 
     msg = analyze.user_message(DAY, events)
-    assert msg.startswith(f"Today is {DAY}.") and "FEEDBACK" in msg and msg.endswith("DIGEST")
+    assert (
+        msg.startswith(f"This is the analysis for the week to {DAY}.")
+        and "FEEDBACK" in msg
+        and msg.endswith("DIGEST")
+    )
     assert "## data/events/2026-10-22.json" not in msg and f"## data/events/{DAY}" not in msg
     assert msg.index("2026-10-23") < msg.index("2026-10-26") < msg.index("2026-10-27")
 
@@ -217,7 +221,7 @@ def test_review_writes_markdown_without_a_schema(
 def test_review_message_covers_the_week() -> None:
     msg = review.user_message("2026-10-31")
     assert msg.startswith("Today is 2026-10-31. Write data/reviews/2026-10-31.md")
-    for heading in ("matured this week", "# This week's daily reports"):
+    for heading in ("matured this week", "# The reports since the last review"):
         assert heading in msg
 
 

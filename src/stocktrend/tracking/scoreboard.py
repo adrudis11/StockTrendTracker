@@ -4,7 +4,9 @@ For every strategy (geo, the momentum and random baselines, the congress, inside
 and trump trackers), horizon and side: number of matured
 picks, hit rate (share of correct calls), mean and median excess return, and a
 t-statistic. For the geopolitical picks also the Brier score and a calibration
-table: when we said 60%, were we right about 60% of the time?
+table: when we said 60%, were we right about 60% of the time? The calibration and the
+verdict count only the horizon picks are made at now (one month since 2026-11-11); the
+1-week picks logged before stay in the table as history.
 """
 
 from __future__ import annotations
@@ -14,11 +16,12 @@ from typing import Any
 
 import pandas as pd
 
+from stocktrend.scoring.model import HORIZONS
 from stocktrend.tracking.evaluate import Outcome
 from stocktrend.tracking.ledger import LedgerEntry, to_frame
 
 CALIBRATION_BINS = [0.5, 0.55, 0.6, 0.65, 0.7, 0.75]
-MIN_FOR_VERDICT = 100  # matured geo picks before we trust any conclusion
+MIN_FOR_VERDICT = 100  # matured geo picks (one-month) before we trust any conclusion
 
 
 def frame(entries: list[LedgerEntry], outcomes: list[Outcome]) -> pd.DataFrame:
@@ -58,7 +61,7 @@ def compute(entries: list[LedgerEntry], outcomes: list[Outcome]) -> dict[str, An
         result["rows"].append(
             {"strategy": strategy, "horizon": int(str(h)), "side": side, **_stats(g)}
         )
-    geo = df[(df["strategy"] == "geo") & df["prob"].notna()]
+    geo = df[(df["strategy"] == "geo") & df["horizon"].isin(HORIZONS) & df["prob"].notna()]
     if not geo.empty:
         result["brier"] = round(
             float(((geo["prob"] - geo["correct"].astype(float)) ** 2).mean()), 4
@@ -80,7 +83,7 @@ def compute(entries: list[LedgerEntry], outcomes: list[Outcome]) -> dict[str, An
 def to_markdown(sb: dict[str, Any], first_matures: str | None = None) -> str:
     lines = ["## Track record", ""]
     if not sb["rows"]:
-        when = f" The first 1-week results are due around {first_matures}." if first_matures else ""
+        when = f" The first results are due around {first_matures}." if first_matures else ""
         return "\n".join([*lines, f"_No picks have matured yet ({sb['open']} open).{when}_", ""])
     lines += [
         "| Strategy | Horizon | Side | Matured | Hit rate | Mean excess | Median | t |",
@@ -102,6 +105,7 @@ def to_markdown(sb: dict[str, Any], first_matures: str | None = None) -> str:
         )
     if not sb["enough_data"]:
         lines.append(
-            f"_Fewer than {MIN_FOR_VERDICT} matured geo picks: too early to draw conclusions._"
+            f"_Fewer than {MIN_FOR_VERDICT} matured one-month geo picks: too early to draw "
+            "conclusions._"
         )
     return "\n".join([*lines, ""])

@@ -25,8 +25,8 @@ REVIEW_NOTE = """## This run
 
 You are running through the API, without tools or a shell, and can't edit files.
 Everything steps 1 and 3 need is in the user message: the scoreboard, the feedback
-note, this week's daily reports, and the picks and analysis calls that matured this
-week. Skip steps 2 and 5. Under **Changes made** write "None: this run can't edit
+note, the reports since the last review, and the picks and analysis calls that matured
+this week. Skip steps 2 and 5. Under **Changes made** write "None: this run can't edit
 files", and list every change you would make under **Changes proposed**: the file, the
 exact edit, and the evidence from this week or the feedback note. Reply with the
 review only, in Markdown."""
@@ -56,7 +56,8 @@ def user_message(day: str, reports_dir: Path = DATA_DIR / "reports") -> str:
         for o in calls
         if start < o.exit_date <= end
     ]
-    reports = [p for p in sorted(reports_dir.glob("*.md")) if start < p.stem <= end]
+    # Last Saturday's report (the daily ones before 2026-11-11); this week's comes after.
+    reports = [p for p in sorted(reports_dir.glob("*.md")) if start <= p.stem < end]
     parts = [
         f"Today is {day}. Write data/reviews/{day}.md for the week {start} to {end}.",
         board,
@@ -67,7 +68,7 @@ def user_message(day: str, reports_dir: Path = DATA_DIR / "reports") -> str:
         "# Analysis calls that matured this week\n\n"
         + ("| Made | Target | Direction | Category | Confidence | Excess | Right |\n"
            "|---|---|---|---|---|---|---|\n" + "\n".join(week_calls) if week_calls else "None."),
-        "# This week's daily reports\n\n"
+        "# The reports since the last review (the picks now being held)\n\n"
         + "\n\n".join(f"## {p.name}\n\n{p.read_text(encoding='utf-8')}" for p in reports),
     ]  # fmt: skip
     return "\n\n".join(parts)

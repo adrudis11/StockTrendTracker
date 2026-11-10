@@ -1,39 +1,45 @@
 # StockTrendTracker
 
-Daily analysis of political and geopolitical news to find liquid US and European stocks and
-ETFs likely to outperform over the following days to weeks. It explains the reasoning behind
+Weekly analysis of political and geopolitical news to find liquid US and European stocks
+and ETFs likely to outperform over the following month. It explains the reasoning behind
 every pick and keeps an honest, automatically scored track record.
 
-**Status:** Phase 5 (automation) set up; Phase 6 (paper-tracking period) running. See [docs/PLAN.md](docs/PLAN.md) for the plan,
-phases and progress log.
+**Status:** Phase 5 (automation) set up; Phase 6 (paper-tracking period) running. Since
+2026-11-11 the picks are made once a week, on Saturdays, and held for a month (20 trading
+days); until 2026-11-10 they were made every weekday for 1 week and 1 month. See
+[docs/PLAN.md](docs/PLAN.md) for the plan, phases and progress log.
 
 > Research and decision-support tool for personal use. Not investment advice; it never
 > places trades.
 
 ## How it runs
 
-Every weekday morning, ideally before the European open, GitHub Actions runs
-[.github/workflows/daily.yml](.github/workflows/daily.yml): `stt daily prepare` (prices,
-news, trackers, scoring of matured picks, digest), `stt analyze` (the analysis, by
-Claude through the API), `stt daily finish` (picks, ledger, report), a commit of
-`data/`, and the dashboard on GitHub Pages. On Saturdays
-[weekly.yml](.github/workflows/weekly.yml) scores the week and writes a review to
-`data/reviews/`.
+Two GitHub Actions workflows run everything:
 
-The day starts at an exact time, 06:00 Paris time on weekdays, from an outside cron
-service (below), because GitHub starts its own schedules hours late or drops them.
-GitHub's schedules are kept as a backup: a run that starts before 05:30 UTC waits
-until then (after the outside call, summer and winter) and does the day only if it
-isn't recorded yet; otherwise it just refreshes the dashboard. A late day is still
-scored honestly: picks enter at the first market open after they are logged. To run
-the day at once, start the workflow by hand (Actions → Daily run → Run workflow,
-"test" unticked).
+- **Weekdays**, [.github/workflows/daily.yml](.github/workflows/daily.yml): `stt collect`
+  gathers prices, the news since the last collection, prediction-market odds and new
+  House and SEC insider filings, scores the picks whose month has ended, saves the day's
+  news digest (`data/digests/`), commits `data/` and refreshes the dashboard on GitHub
+  Pages. It is free: no Claude API call and no new picks.
+- **Saturdays**, [.github/workflows/weekly.yml](.github/workflows/weekly.yml): `stt weekly
+  prepare` (the same data, plus the week's digest joined from the weekday ones), `stt
+  review` (Claude looks back at the week and proposes changes), `stt analyze` (Claude
+  reads the week's news and writes the events), `stt weekly finish` (10 picks to buy and
+  5 to avoid, the ledger, the report, the dashboard), a commit of `data/` and the
+  dashboard. These are the only Claude API calls.
+
+The exact time no longer matters. The weekday run reads the news since the last digest
+(24 to 96 hours), so a late or dropped run leaves no gap. The Saturday picks are logged
+before Monday's open and scored from it, so GitHub starting a schedule hours late
+changes nothing; there are three Saturday tries and a Sunday fallback, and a week that
+is already recorded is never redone. To run the week at once, start the workflow by
+hand (Actions → Weekly run → Run workflow, "test" unticked).
 
 GitHub has run everything since 2026-11-04. Until 2026-11-03 the runs happened in a
 Claude Code cloud session, which also kept a private claude.ai dashboard (no longer
-updated). Its runbooks, [prompts/daily_run.md](prompts/daily_run.md) and
-[prompts/weekly_review.md](prompts/weekly_review.md), still work for doing a day or a
-review by hand in a Claude session; if two runs meet on one day, the first records it
+updated). [prompts/weekly_run.md](prompts/weekly_run.md) and
+[prompts/weekly_review.md](prompts/weekly_review.md) still work for doing a week or a
+review by hand in a Claude session; if two runs meet on one week, the first records it
 and the second does nothing.
 
 ### Setting up the GitHub runs
@@ -48,64 +54,31 @@ and the second does nothing.
 3. **Pages.** Settings → Pages → Build and deployment → Source: **GitHub Actions**.
    After the first real run the dashboard is at
    <https://adrudis11.github.io/StockTrendTracker/> (public, like the repository).
-4. **Test.** Actions → Daily run → Run workflow, with "test" ticked. It runs the
-   analysis into a downloadable `test-analysis` file and records nothing. Its log ends
-   with the number of events and the API cost.
-5. **Nothing to switch on.** The schedules start by themselves on 2026-11-04. The
+4. **Test.** Actions → Weekly run → Run workflow, with "test" ticked. It does the week
+   up to today with the real review and analysis, keeps them as a downloadable
+   `test-week` file and records nothing. Its log ends with the number of events and
+   the API cost. Actions → Daily collection → Run workflow with "test" ticked tries the
+   free weekday run.
+5. **Nothing to switch on.** The schedules started by themselves on 2026-11-04. The
    repository variable `STT_RUNNER` (Settings → Secrets and variables → Actions →
    Variables) overrides that: `github` starts them now, `off` pauses them.
 
-Cost: the analysis is one request a day (about 52,000 tokens in, half of them the
-cached instructions and ticker list, and about 9,000 out including Claude's reasoning)
-plus a fix round when the validator finds a problem. The first test (2026-10-30) cost
-$0.41 for the request and $0.23 for one fix round, at the prices in
-[config/analysis.yaml](config/analysis.yaml): about $9–14 a month with the weekly
-review. Every call's actual cost is logged in
+Cost: one review and one analysis a week. The analysis reads the week's digest (about
+250 stories, roughly 1.6 times a single day's) plus the cached instructions and ticker
+list; the review reads the scoreboard and the week's results. At the prices in
+[config/analysis.yaml](config/analysis.yaml) that is about $1.50 a week, $6–8 a month
+(the daily analysis cost about $0.45 a day). Every call's actual cost is logged in
 `data/usage/api.jsonl`. GitHub Actions and Pages are free for a public repository.
 
-### Exact timing: the outside trigger (cron-job.org)
+### The outside trigger (cron-job.org): no longer needed
 
-Set up once, about 10 minutes. The token goes only into GitHub and cron-job.org.
-
-**1. A GitHub token that can only start this repository's workflows**
-
-1. On github.com, click your profile picture (top right) → **Settings** → at the
-   bottom of the left sidebar **Developer settings** → **Personal access tokens** →
-   **Fine-grained tokens** → **Generate new token**.
-2. **Token name:** `StockTrendTracker cron`. **Expiration:** the longest offered
-   (GitHub emails you before it expires; then generate a new one and paste it into
-   the cron job).
-3. **Repository access:** *Only select repositories* → `adrudis11/StockTrendTracker`.
-4. **Permissions** → *Repository permissions* → **Actions** → *Read and write*. Leave
-   the rest at *No access* (*Metadata: Read-only* is added automatically).
-5. **Generate token** and copy it (it starts with `github_pat_` and is shown once).
-
-**2. The job at cron-job.org**
-
-1. Sign up at [cron-job.org](https://cron-job.org) (free) and confirm your email.
-2. **Cronjobs** → **Create cronjob**.
-3. **Title:** `StockTrendTracker daily`. **URL:**
-   `https://api.github.com/repos/adrudis11/StockTrendTracker/actions/workflows/daily.yml/dispatches`
-4. **Schedule:** custom, Monday to Friday at 06:00, time zone **Europe/Paris** (in
-   crontab form `0 6 * * 1-5`). It follows summer and winter time by itself.
-5. **Advanced:**
-   - **Request method:** `POST`
-   - **Headers** (add four):
-     - `Authorization` = `Bearer ` followed by your token
-     - `Accept` = `application/vnd.github+json`
-     - `X-GitHub-Api-Version` = `2022-11-28`
-     - `Content-Type` = `application/json`
-   - **Request body:**
-     `{"ref":"claude/beautiful-lovelace-8iabbf","inputs":{"test":"false","trigger":"cron"}}`
-   - Turn on the email notification for failed executions.
-6. **Save**, then press **Test run**. The response should be `204 No Content` and a
-   new "Daily run" appears in the Actions tab within a minute. On a day that is already
-   recorded it only refreshes the dashboard and costs nothing.
-
-The token can only start, cancel and read Actions runs of this repository. Keep a
-monthly spend limit on the Anthropic account anyway, since every run that reaches the
-analysis costs about $0.45. `STT_RUNNER` = `off` also pauses the outside trigger's
-runs; your own manual runs always go.
+Until 2026-11-10 an outside cron service was meant to start the weekday run at exactly
+06:00 Paris time, because the daily picks had to be made before the open. Since the
+picks are weekly, the time doesn't matter and GitHub's own schedules are enough. If you
+set one up, it keeps working: its call (`trigger: cron`) just starts the weekday
+collection. You can also delete it on cron-job.org and revoke its token in GitHub
+(profile picture → Settings → Developer settings → Personal access tokens →
+Fine-grained tokens).
 
 ### If something goes wrong
 
@@ -114,13 +87,14 @@ session is needed.
 
 | What you see | What to do |
 |---|---|
-| An email from GitHub that "Daily run" failed | Open the run, look at the red step. A data source down: Actions → Daily run → Run workflow ("test" unticked) runs the day again. A day that is already recorded only refreshes the dashboard. |
-| No "Daily run … (GitHub Actions)" commit by about 06:00 UTC on a weekday | Check cron-job.org's execution history (a 401 means the token expired or was revoked: make a new one). Run the day by hand as above. |
+| An email from GitHub that "Weekly run" failed | Open the run, look at the red step. A data source down or an API error: Actions → Weekly run → Run workflow ("test" unticked) runs the week again. A week that is already recorded is left alone. |
+| An email that "Daily collection" failed | Usually a data source down; the next run picks up the news since the last digest, so nothing is lost. Run it by hand ("test" unticked) to refresh the dashboard now. |
+| No "Weekly run … (GitHub Actions)" commit by Sunday | Run it by hand as above; Monday's open is what counts. |
 | "ANTHROPIC_API_KEY is not set" or an authentication error | The `ANTHROPIC_API_KEY_STOCKTRACKER` secret is missing, wrong or the key was revoked: create a new key in the Anthropic Console and update the secret. |
 | A billing or credit error from the API | Add credit or raise the spend limit in the Anthropic Console. |
 | "model not found" or a deprecation error | Claude models are retired after some time: put a current model in `config/analysis.yaml` (`model:`). |
 | Want to pause everything | Settings → Secrets and variables → Actions → Variables: `STT_RUNNER` = `off` (delete it to resume). |
-| The weekly review proposes changes | It can't make them itself: apply them to `config/exposures.yaml` or `prompts/daily_analysis.md`, or ask a Claude session to. |
+| The weekly review proposes changes | It can't make them itself: apply them to `config/exposures.yaml` or `prompts/weekly_analysis.md`, or ask a Claude session to. |
 
 Now and then (every few months) the stock universe should be rebuilt to follow index
 changes: `uv run stt universe build`, then review `git diff data/universe/` (in a
@@ -137,19 +111,19 @@ uv sync
 ## Usage
 
 ```bash
-uv run stt ingest              # prices + last 24h of news (72h on Mondays) into cache/raw/<today>/
+uv run stt ingest              # prices + news since the last digest (24-96h) into cache/raw/<today>/
 uv run stt ingest --skip prices --skip gdelt_doc
 uv run stt calendar            # which exchanges trade today
 uv run stt universe show       # stocks covered, by country and sector
 uv run stt universe build      # refresh data/universe/stocks.csv from Wikipedia (monthly)
 uv run stt digest --print      # group and rank today's news into ~150 stories
 uv run stt validate            # check Claude's data/events/<today>.json
-uv run stt score               # rank picks for 5 and 20 trading days -> data/picks/
+uv run stt score               # rank one-month picks (20 trading days) -> data/picks/
 uv run stt record              # append picks + baselines to the ledger (append-only)
 uv run stt evaluate            # score picks, and every analysis call, whose horizon has ended
-uv run stt feedback            # how past calls did, by kind: read by the daily analysis
+uv run stt feedback            # how past calls did, by kind: read by the weekly analysis
 uv run stt scoreboard          # track record vs momentum and random baselines
-uv run stt report              # daily Markdown report -> data/reports/
+uv run stt report              # the week's Markdown report -> data/reports/
 uv run stt backtest            # 5-year momentum baseline, theme priors, tracker backtest
 uv run stt trackers update     # new House trade filings (STOCK Act) and SEC Form 4s -> data/trackers/
 uv run stt trackers insiders   # SEC Form 4 insider trades alone (needs a contact email, see below)
@@ -159,10 +133,13 @@ uv run stt universe find airbus
 uv run stt analyze             # the analysis through the Claude API (needs ANTHROPIC_API_KEY)
 uv run stt review              # the weekly review through the API (proposes edits, makes none)
 uv run stt site                # the dashboard as a static site in site/ (after `stt dashboard`)
+uv run stt collect             # the weekday run: data, digest, scoring, dashboard (no API)
+uv run stt weekly prepare      # the Saturday run, step 1: data and the week's digest
+uv run stt weekly finish       # step 2, after the review and analysis: picks, ledger, report
 ```
 
-The analysis step between `digest` and `validate` follows
-[prompts/daily_analysis.md](prompts/daily_analysis.md): either `stt analyze`, or Claude
+The analysis step between `weekly prepare` and `weekly finish` follows
+[prompts/weekly_analysis.md](prompts/weekly_analysis.md): either `stt analyze`, or Claude
 by hand in a Claude Code session. It also logs any stock
 Trump talks up or attacks (`trump_calls`): the **Trump tracker** marks those picks with
 a ★, logs each call as its own strategy in the ledger, and shows his recent calls and
@@ -189,16 +166,16 @@ Output of one run, in `cache/` (not committed, re-downloaded each session):
 ```
 config/            instruments.yaml, exposures.yaml (themes), news_sources.yaml, universe_overrides.yaml
 data/universe/     stocks.csv: the 798 covered stocks (committed)
-data/digests/      daily ranked stories (committed, so events can be traced to sources)
-data/events/       Claude's daily structured analysis (committed)
+data/digests/      ranked stories: daily, and the week's on Saturdays (committed, so events can be traced to sources)
+data/events/       Claude's structured analysis, weekly since 2026-11-14 (committed)
 data/picks/        ranked picks with every score component (committed)
-data/reports/      daily Markdown reports (committed)
+data/reports/      Markdown reports, weekly since 2026-11-14 (committed)
 data/ledger/       every pick ever made and its outcome (append-only, committed)
 data/backtests/    momentum baseline results; data/priors/ theme priors and tracker weight
 data/trackers/     House members' and company insiders' disclosed trades (append-only, committed)
 data/usage/        tokens and cost of every Claude API call
 dashboard/         the dashboard page; standalone/ turns it into the GitHub Pages site
-.github/workflows/ the scheduled daily run and weekly review
+.github/workflows/ the weekday collection and the Saturday run
 prompts/           instructions for the Claude steps
 src/stocktrend/    universe/ (stock list, sectors), ingest/ (prices, RSS, Federal Register, GDELT)
 tests/             offline unit tests; `uv run pytest -m live` hits the real sources
