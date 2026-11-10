@@ -10,23 +10,30 @@ other dataset and the page only reads one that has rows.
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Any
 
-from stocktrend.config import CACHE_DIR
+from stocktrend.backtest.trackers import MAX_WEIGHT
+from stocktrend.config import CACHE_DIR, DATA_DIR
 from stocktrend.events.schema import EventsFile
 from stocktrend.events.validate import events_path
 from stocktrend.markets import exchange_for
+from stocktrend.scoring.model import Pick, PicksFile
+from stocktrend.scoring.run import TRACKERS_PATH
 from stocktrend.scoring.run import load as load_picks
 from stocktrend.tracking import scoreboard
-from stocktrend.tracking.evaluate import first_matures, read_outcomes
+from stocktrend.tracking.evaluate import entry_session, exit_session, first_matures, read_outcomes
+from stocktrend.tracking.ledger import LedgerEntry
 from stocktrend.tracking.ledger import read as read_ledger
 
 OUT_DIR = CACHE_DIR / "dashboard"
+REVIEWS_DIR = DATA_DIR / "reviews"
 DATASETS = (
     "summary", "picks", "open_picks", "results", "events", "scoreboard", "congress", "insiders",
-    "trump", "call_kinds", "calibration", "adjustments",
+    "trump", "call_kinds", "calibration", "adjustments", "proposals",
 )  # fmt: skip
+PROPOSAL_CHARS = 220  # the page shows the start of each proposal and links the review
 RESULT_ROWS = 60
 CONGRESS_ROWS = INSIDER_ROWS = 15
 TRUMP_DAYS, TRUMP_ROWS = 90, 25
@@ -64,7 +71,9 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
     outcomes = read_outcomes()
     sb = scoreboard.compute(entries, outcomes)
     done = {o.pick_id for o in outcomes}
-    first = first_matures([e for e in entries if e.strategy == "geo" and e.pick_id not in done])
+    geo_open = [e for e in entries if e.strategy == "geo" and e.pick_id not in done]
+    geo_matured = sum(e.strategy == "geo" and e.pick_id in done for e in entries)
+    first = first_matures(geo_open)
     r = picks.regime
     trump = trump_rows(day)
     scored = [t for t in trump if t["came_true"]]
@@ -73,8 +82,27 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
     open_picks = open_pick_rows(day)
     results = result_rows(day)
     loop = feedback_data(day)
+    review_day, proposals = review_proposals(day)
+    made = [e.logged_at for e in entries if e.strategy == "geo" and e.date == day]
+    picked = {p.ticker: p for p in sorted(picks.picks, key=lambda p: (p.horizon, p.rank))}
+    in_picks = [f"{row['ticker']} ({_label(picked[row['ticker']])})" for row in insider
+                if row["ticker"] in picked]  # fmt: skip
 
     summary = {
+        "made_at": min(made).isoformat() if made else None,
+        **live_record(sb, "insiders"),
+        **live_record(sb, "geo"),
+        **insider_backtest(),
+        "insider_max": round(100 * MAX_WEIGHT),  # a tracker's weight at full evidence
+        "insiders_in_picks": ", ".join(in_picks),
+        "n_insiders_in_picks": len(in_picks),
+        "geo_matured": geo_matured,
+        "verdict_n": scoreboard.MIN_FOR_VERDICT,
+        "verdict_left": max(0, scoreboard.MIN_FOR_VERDICT - geo_matured),
+        "verdict_date": _nth_exit(geo_open, scoreboard.MIN_FOR_VERDICT - geo_matured),
+        "review_date": review_day,
+        "has_review": int(review_day is not None),  # the page shows parts by counts
+        "n_proposals": len(proposals),
         "date": picks.date,
         "regime": REGIME_NAMES.get(r.get("label", ""), r.get("label", "")),
         "vix": r.get("vix"),
@@ -124,7 +152,9 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
             "r20d": _pct(p.r20d),
             "last_close": round(p.last_close, 2),
             "currency": exchange_for(p.ticker).currency,
-            "driver": p.drivers[0].title if p.drivers else "",
+            "driver": _main_reason(p),
+            "reasons": reasons(p),
+            "how": how_scored(p, picks),
             "theme": _theme(p.primary_theme),
             "risks": "; ".join(
                 p.risks + [n for n in (p.tracker_note, p.insider_note, p.trump_note) if n]
@@ -167,12 +197,133 @@ def build(day: str) -> dict[str, list[dict[str, Any]]]:
         "call_kinds": loop["call_kinds"],
         "calibration": loop["calibration"],
         "adjustments": loop["adjustments"],
+        "proposals": proposals,
         "events": event_rows,
         "scoreboard": board_rows,
         "congress": congress,
         "insiders": insider,
         "trump": trump,
     }
+
+
+def reasons(p: Pick) -> list[dict[str, Any]]:
+    """The strongest events behind a pick and what the analysis said about each.
+
+    A pick's signal is the sum of every live call on the stock, so the strongest ones
+    can disagree: those that back the pick come first, the strongest first, then any
+    that pull the other way (``supports`` False).
+    """
+    side = 1 if p.side == "long" else -1
+    return [
+        {
+            "title": d.title,
+            "theme": _theme(d.via),
+            "why": d.rationale,
+            "supports": d.strength * side > 0,
+        }
+        for d in sorted(p.drivers, key=lambda d: -d.strength * side)
+    ]
+
+
+def _main_reason(p: Pick | None) -> str:
+    """The event that backs the pick most (``reasons``' first)."""
+    rs = reasons(p) if p else []
+    return str(rs[0]["title"]) if rs else ""
+
+
+def how_scored(p: Pick, f: PicksFile) -> str:
+    """How the conviction was built: the news signal, then each factor that changed it."""
+    w = f.weights
+    side = 1 if p.side == "long" else -1
+    factors = (
+        ("price trend", 1 + w.get("trend", 0) * p.trend),
+        ("theme's past record", 1 + w.get("prior", 0) * p.prior),
+        ("already priced in", 1 - w.get("priced_in", 0) * p.priced_in),
+        ("risks", p.risk),
+        ("Congress trades", 1 + f.tracker_weight * side * p.tracker),
+        ("insider buying", 1 + f.insider_weight * side * p.insider),
+    )
+    parts = [f"news signal {abs(p.geo):.2f}"]
+    parts += [
+        f"{name} {x - 1:+.0%}".replace("-", "−") for name, x in factors if abs(x - 1) >= 0.005
+    ]
+    return " × ".join(parts) + f" = conviction {p.conviction:.2f}"
+
+
+def _label(p: Pick) -> str:
+    when = "1 week" if p.horizon == 5 else "1 month"
+    return f"{when}, {'long' if p.side == 'long' else 'avoid'} #{p.rank}"
+
+
+def live_record(sb: dict[str, Any], strategy: str, horizon: int = 5) -> dict[str, Any]:
+    """A strategy's matured long picks so far: ``<strategy>_n``, ``_hit`` and ``_mean``."""
+    row = next(
+        (r for r in sb["rows"] if (r["strategy"], r["horizon"], r["side"]) ==
+         (strategy, horizon, "long")),
+        None,
+    )  # fmt: skip
+    return {
+        f"{strategy}_n": row["n"] if row else 0,
+        f"{strategy}_hit": _pct(row["hit_rate"], 0) if row else None,
+        f"{strategy}_mean": _pct(row["mean_excess"], 2) if row else None,
+    }
+
+
+def insider_backtest() -> dict[str, Any]:
+    """The insider tracker's 5-year backtest at 20 days, which sets its weight."""
+    if not TRACKERS_PATH.exists():
+        return {"insider_bt_mean": None, "insider_bt_t": None, "insider_bt_hit": None,
+                "insider_bt_from": None}  # fmt: skip
+    bt = json.loads(TRACKERS_PATH.read_text(encoding="utf-8")).get("insiders", {}).get("20", {})
+    buys = bt.get("buys", {})
+    return {
+        "insider_bt_mean": _pct(buys.get("mean_excess"), 2),
+        "insider_bt_t": buys.get("t_stat"),
+        "insider_bt_hit": _pct(buys.get("hit_rate"), 0),
+        "insider_bt_from": str(bt.get("start", ""))[:4] or None,
+    }
+
+
+def _nth_exit(entries: list[LedgerEntry], n: int) -> str | None:
+    """The day the n-th of these open picks matures, or None (n <= 0, or too few)."""
+    if n <= 0:
+        return None
+    exits = sorted(
+        exit_session(m, entry_session(m, e.logged_at), e.horizon).date()
+        for e in entries
+        for m in [exchange_for(e.ticker).mic]
+    )
+    return exits[n - 1].isoformat() if len(exits) >= n else None
+
+
+def review_proposals(day: str) -> tuple[str | None, list[dict[str, Any]]]:
+    """The latest weekly review up to ``day`` and the changes it proposed.
+
+    Reviews list them under a bold "Changes proposed:" (or "Proposed, ...:") line, as
+    numbered or bulleted items; each row is the start of one item, without markdown.
+    """
+    paths = sorted(p for p in REVIEWS_DIR.glob("*.md") if p.stem <= day)
+    if not paths:
+        return None, []
+    text = paths[-1].read_text(encoding="utf-8")
+    section = re.search(
+        r"^\*\*(?:Changes proposed|Proposed)[^\n]*?:\*\*[^\n]*\n(.*?)(?=^\*\*|^#|\Z)",
+        text,
+        re.M | re.S,
+    )
+    items: list[str] = []
+    for line in (section.group(1) if section else "").splitlines():
+        if re.match(r"(\d+\.|-) ", line):  # a top-level item
+            items.append(line.split(" ", 1)[1])
+        elif items and line.startswith("  ") and not re.match(r"\s*(\d+\.|-) ", line):
+            items[-1] += " " + line.strip()  # a wrapped line of the same item
+    rows = []
+    for i, item in enumerate(items):
+        plain = re.sub(r"\*\*|`", "", item).strip()
+        if len(plain) > PROPOSAL_CHARS:
+            plain = plain[:PROPOSAL_CHARS].rsplit(" ", 1)[0] + " …"
+        rows.append({"key": str(i + 1), "text": plain})
+    return paths[-1].stem, rows
 
 
 def open_pick_rows(day: str) -> list[dict[str, Any]]:
@@ -199,6 +350,12 @@ def open_pick_rows(day: str) -> list[dict[str, Any]]:
     cfg = load_instruments()
     names = build_meta(load_universe(), cfg)["name"].to_dict()
     book = PriceBook(price_store.load())
+    made: dict[str, dict[tuple[int, str, str], Pick]] = {}  # day -> that day's picks
+    for d in {e.date for e in entries}:
+        try:
+            made[d] = {(p.horizon, p.side, p.ticker): p for p in load_picks(d).picks}
+        except FileNotFoundError:
+            made[d] = {}
     rows = []
     # Newest picks first; within a day 1-week before 1-month, longs before avoids, by rank.
     entries.sort(key=lambda e: (e.horizon, e.side != "long", e.rank))
@@ -206,10 +363,14 @@ def open_pick_rows(day: str) -> list[dict[str, Any]]:
     for e in entries:
         m = mark(e, book, cfg.benchmarks)
         entry, now = m.entry_open, m.last_close
+        p = made[e.date].get((e.horizon, e.side, e.ticker))
         rows.append(
             {
                 "key": e.pick_id,
                 "date": e.date,
+                "made_at": e.logged_at.isoformat(),
+                "driver": _main_reason(p),
+                "reasons": reasons(p) if p else [],
                 "horizon": e.horizon,
                 "side": e.side,
                 "rank": e.rank,

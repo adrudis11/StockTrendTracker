@@ -16,3 +16,4 @@ datasets:
   call_kinds: call_kinds.json
   calibration: calibration.json
   adjustments: adjustments.json
+  proposals: proposals.json

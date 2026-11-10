@@ -806,3 +806,13 @@ ledger conflicts. Nothing reached the ledger, which kept the first run's picks. 
 both workflows now check out `github.ref` (the branch tip), so a run that waited
 finds the day recorded and only refreshes the dashboard.
 
+
+2026-11-10, dashboard: on the owner's request, Insider buying moved up under today's
+picks, with its live record next to the news-based picks', its 5-year backtest, and
+how it feeds the picks (it can only scale a news-based pick, by up to 20%; 0% now).
+Open picks scroll after about 20 rows and show when each was logged (Paris time) and
+why. A pick's Why opens to its strongest events, those backing it first and then any
+pulling the other way, with the analysis's reasoning and how the score was built. A
+new Learning progress card shows the count towards 100 scored picks (and when the
+100th is due), each strategy's record so far, the daily analysis's scored calls, and
+the latest weekly review's proposals.

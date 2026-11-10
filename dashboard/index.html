@@ -36,6 +36,20 @@
   .stt-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); white-space: nowrap; }
   .stt-tip .k { color: var(--cds-text-secondary); }
   .stt-foot { display: grid; gap: var(--cds-gap-sm); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); max-width: 80ch; }
+  .stt-nav { display: flex; flex-wrap: wrap; gap: var(--cds-gap-xs) var(--cds-gap-md); font-size: var(--cds-font-size-caption); }
+  .stt-nav a { color: var(--color-fg-muted); }
+  .stt-scroll { max-height: 42rem; overflow: auto; border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); }
+  .stt-scroll .stt-t thead th { position: sticky; top: 0; z-index: 1; background: var(--color-panel); }
+  .stt-why summary { cursor: pointer; }
+  .stt-why[open] summary { margin-bottom: var(--cds-gap-sm); }
+  .stt-why .r, .stt-why .how { margin: 0 0 var(--cds-gap-sm); max-width: 60ch; line-height: 1.45; }
+  .stt-why .r b { font-weight: var(--cds-font-weight-medium); }
+  .stt-why .against, .stt-why .how { color: var(--color-fg-muted); }
+  .stt-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); gap: var(--cds-gap-md); }
+  .stt-step { border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md); display: grid; gap: var(--cds-gap-sm); align-content: start; }
+  .stt-bar { height: 0.5rem; border-radius: var(--cds-radius); background: var(--color-border-line); overflow: hidden; }
+  .stt-bar span { display: block; height: 100%; background: var(--series-1, var(--color-ok)); }
+  .stt-list { margin: 0; padding-left: 1.25rem; display: grid; gap: var(--cds-gap-xs); font-size: var(--cds-font-size-caption); line-height: 1.45; }
   [data-dash-source-state=empty] { color: transparent; }
   [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
   @media (max-width: 40rem) { .stt-t .opt { display: none; } }
@@ -45,12 +59,16 @@
   <header class="stt-head" id="top">
     <h1>StockTrendTracker</h1>
     <p class="stt-take">
-      Picks for <b data-draw="s-date" data-source="summary" data-field="date" data-row="0">—</b>, made before the markets opened.
+      Picks for <b data-draw="s-date" data-source="summary" data-field="date" data-row="0">—</b>, made at
+      <b data-draw="s-made" data-source="summary" data-field="made_at" data-row="0">—</b> Paris time, before the European open.
       Market regime: <b data-draw="s-regime" data-source="summary" data-field="regime" data-row="0">—</b>.
       <b data-draw="s-p5" data-source="summary" data-field="picks_5d" data-row="0">—</b> picks for the next week and
       <b data-draw="s-p20" data-source="summary" data-field="picks_20d" data-row="0">—</b> for the next month, from
       <b data-draw="s-events" data-source="summary" data-field="events" data-row="0">—</b> political and geopolitical events.
     </p>
+    <nav class="stt-nav" aria-label="Sections">
+      <a href="#picks">Today's picks</a><a href="#insiders">Insider buying</a><a href="#open-picks">Open picks</a><a href="#progress">Learning progress</a><a href="#trump">Trump tracker</a><a href="#track-record">Track record</a><a href="#learning">How the analysis is doing</a><a href="#congress">Congress trades</a><a href="#events">Today's events</a>
+    </nav>
   </header>
 
   <section class="stt-tiles" id="markets" aria-label="Markets over the last 20 trading days">
@@ -69,7 +87,8 @@
 
   <section class="stt-section" id="picks">
     <h2>Picks</h2>
-    <p class="stt-note">Ranked by conviction: how strongly the day's events point at a stock, adjusted for its price trend, moves already made and risks such as earnings. p(beat) is the estimated chance of beating the benchmark (S&amp;P 500 for US listings, STOXX Europe 600 for European ones). It stays uncalibrated until enough picks have matured to measure it.</p>
+    <p class="stt-note">Made every weekday at about 06:00 Paris time, before the European open (09:00) and the US open (15:30). Each pick is scored from the next open. Ranked by conviction: how strongly the recent events point at a stock, adjusted for its price trend, moves already made and risks such as earnings. p(beat) is the estimated chance of beating the benchmark (S&amp;P 500 for US listings, STOXX Europe 600 for European ones). It stays uncalibrated until enough picks have matured to measure it.</p>
+    <p class="stt-note">Why shows the event that backs a pick most. Tap it for the strongest events behind the pick, what the analysis said about each (including any that pull the other way) and how the score was built.</p>
     <p data-unless="n_picks" hidden>No stock cleared the bar today: the day's events didn't point strongly enough at any covered stock.</p>
     <div class="stt-grid" data-if="n_picks" hidden>
       <div class="stt-card" id="picks-week">
@@ -111,17 +130,68 @@
     </div>
   </section>
 
+  <section class="stt-card" id="insiders">
+    <h2>Insider buying</h2>
+    <p class="stt-note">Open-market purchases of their own company's shares by officers, directors and 10% owners of S&amp;P 500 companies, from the SEC Form 4 filings of the last 30 days (due within two business days of a trade). Score: purchases count by size. Sales are counted but don't lower it, since insiders sell for many reasons.</p>
+    <p data-if="insiders_n" hidden>Following insiders has done best so far. The stocks with the strongest insider buying beat their benchmark over the next week <b data-draw="s-ins-hit" data-source="summary" data-field="insiders_hit" data-row="0">—</b> of the time, by <b data-draw="s-ins-mean" data-source="summary" data-field="insiders_mean" data-row="0">—</b> on average (<b data-draw="s-ins-n" data-source="summary" data-field="insiders_n" data-row="0">—</b> matured picks). The news-based picks: <b data-draw="s-geo-hit" data-source="summary" data-field="geo_hit" data-row="0">—</b> and <b data-draw="s-geo-mean" data-source="summary" data-field="geo_mean" data-row="0">—</b> (<b data-draw="s-geo-n" data-source="summary" data-field="geo_n" data-row="0">—</b>).</p>
+    <p class="stt-note" data-if="insiders_n" hidden>That's a few weeks of mostly the same names, so it's too early to rely on. Over <b data-draw="s-ibt-from" data-source="summary" data-field="insider_bt_from" data-row="0">—</b>–2026 the same rule beat the benchmark by <b data-draw="s-ibt-mean" data-source="summary" data-field="insider_bt_mean" data-row="0">—</b> a month on average and was right <b data-draw="s-ibt-hit" data-source="summary" data-field="insider_bt_hit" data-row="0">—</b> of the time (t <b data-draw="s-ibt-t" data-source="summary" data-field="insider_bt_t" data-row="0">—</b>): no reliable edge yet.</p>
+    <p class="stt-note"><b>How it feeds the picks:</b> insider buying doesn't make picks on its own. It can only strengthen a pick the news already points at, or weaken an avoid, by up to <b data-draw="s-imax" data-source="summary" data-field="insider_max" data-row="0">—</b>%, depending on how much edge the 5-year backtest finds; the backtest is redone every month. Weight now: <b data-draw="s-iw" data-source="summary" data-field="insider_weight" data-row="0">—</b>%. Its own record is kept as a separate strategy in the track record.</p>
+    <p class="stt-note" data-if="n_insiders_in_picks" hidden>In today's picks: <b data-draw="s-ins-in" data-source="summary" data-field="insiders_in_picks" data-row="0">—</b>.</p>
+    <p class="stt-note" data-if="n_insiders" data-unless="n_insiders_in_picks" hidden>None of these stocks is in today's picks.</p>
+    <p class="stt-note" data-if="n_insiders" hidden>Paid is the insiders' average price per share, Now the close on <b data-draw="s-ipx" data-source="summary" data-field="prices_as_of" data-row="0">—</b>, and Since the move from their price. Over 2021–2026, a stock's distance from the insiders' price didn't reliably predict how it did next: ones already well above it didn't do worse.</p>
+    <div class="stt-wrap" data-if="n_insiders" hidden>
+      <table class="stt-t" data-source="insiders" data-row-key="ticker">
+        <thead><tr><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="score" class="num">Score</th><th data-field="buyers" class="num">Buyers</th><th data-field="bought" class="num">Bought</th><th data-field="paid" class="num">Paid (avg)</th><th data-field="now" class="num">Now</th><th data-field="since" class="num">Since</th><th data-field="sellers" class="num opt">Sellers</th><th data-field="insiders" class="opt">Who bought</th><th data-field="last_buy" class="opt">Last buy</th></tr></thead>
+        <tbody data-draw="insiders"></tbody>
+      </table>
+    </div>
+    <p class="stt-note" data-unless="n_insiders" hidden>No open-market purchases by insiders filed in the last 30 days.</p>
+  </section>
+
   <section class="stt-card" id="open-picks">
     <h2>Open picks</h2>
-    <p class="stt-note">Picks from earlier days still inside their horizon. Entry is the open of the first session after the pick was made, which is what the track record scores from; Now is the latest close and Since the move between them, in the listing's currency. vs benchmark is the excess return so far, as the track record will score it: positive means the call is working, for avoids too.</p>
-    <p class="stt-note" data-if="open_entered" hidden><b data-draw="s-ontrack" data-source="summary" data-field="open_on_track" data-row="0">—</b> of the <b data-draw="s-entered" data-source="summary" data-field="open_entered" data-row="0">—</b> open picks that have traded are on track.</p>
-    <div class="stt-wrap" data-if="n_open" hidden>
+    <p class="stt-note">Picks from earlier days still inside their horizon. Picked is when the pick was logged, in Paris time. Entry is the open of the first session after it, which is what the track record scores from; Now is the latest close and Since the move between them, in the listing's currency. vs benchmark is the excess return so far, as the track record will score it: positive means the call is working, for avoids too.</p>
+    <p class="stt-note" data-if="open_entered" hidden><b data-draw="s-ontrack" data-source="summary" data-field="open_on_track" data-row="0">—</b> of the <b data-draw="s-entered" data-source="summary" data-field="open_entered" data-row="0">—</b> open picks that have traded are on track. <b data-draw="s-nopen" data-source="summary" data-field="n_open" data-row="0">—</b> in all, newest first: the list scrolls.</p>
+    <div class="stt-scroll" data-if="n_open" hidden>
       <table class="stt-t" data-source="open_picks" data-row-key="key">
-        <thead><tr><th data-field="date">Picked</th><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="horizon">Horizon</th><th data-field="side">Side</th><th data-field="entry" class="num">Entry</th><th data-field="now" class="num">Now</th><th data-field="since" class="num">Since</th><th data-field="vs_benchmark" class="num">vs benchmark</th><th data-field="ends" class="opt">Ends</th></tr></thead>
+        <thead><tr><th data-field="made_at">Picked</th><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="horizon">Horizon</th><th data-field="side">Side</th><th data-field="entry" class="num">Entry</th><th data-field="now" class="num">Now</th><th data-field="since" class="num">Since</th><th data-field="vs_benchmark" class="num">vs benchmark</th><th data-field="ends" class="opt">Ends</th><th data-field="driver">Why</th></tr></thead>
         <tbody data-draw="open-picks"></tbody>
       </table>
     </div>
     <p class="stt-note" data-unless="n_open" hidden>No picks from earlier days are open yet. Today's picks show here from the next run, once their entry price is known.</p>
+  </section>
+
+  <section class="stt-card" id="progress">
+    <h2>Learning progress</h2>
+    <p class="stt-note">Where the system stands on learning from its own results: what is measured automatically, and what is still waiting for enough data.</p>
+    <div class="stt-steps">
+      <div class="stt-step">
+        <h3>Scoring the picks</h3>
+        <p><b data-draw="s-geo-matured" data-source="summary" data-field="geo_matured" data-row="0">—</b> of <b data-draw="s-verdict-n" data-source="summary" data-field="verdict_n" data-row="0">—</b> news-based picks scored so far.</p>
+        <div class="stt-bar" role="img" data-draw="verdict-bar" aria-label="Progress towards 100 scored picks"><span></span></div>
+        <p class="stt-note" data-if="verdict_left" hidden>At 100 there's enough to check p(beat) against what actually happened and refit the score's weights; a Claude session does that. The 100th is due on <b data-draw="s-verdict-date" data-source="summary" data-field="verdict_date" data-row="0">—</b>.</p>
+        <p class="stt-note" data-unless="verdict_left" hidden>Enough picks are scored to check p(beat) and refit the score's weights. A Claude session does that.</p>
+      </div>
+      <div class="stt-step">
+        <h3>Which signals work</h3>
+        <p class="stt-note">How each strategy's picks did over the next week, best first: beat the benchmark by, right how often, and how many have matured.</p>
+        <ol class="stt-list" data-draw="strategy-rank" data-source="scoreboard"></ol>
+        <p class="stt-note">Too few so far, and mostly the same names day after day, to be sure. A tracker only gets weight in the picks once its 5-year backtest shows an edge (insiders: <b data-draw="s-iw2" data-source="summary" data-field="insider_weight" data-row="0">—</b>% now).</p>
+      </div>
+      <div class="stt-step">
+        <h3>The daily analysis</h3>
+        <p data-if="calls_scored" hidden><b data-draw="s-calls2" data-source="summary" data-field="calls_scored" data-row="0">—</b> of its calls scored, right <b data-draw="s-calls-right2" data-source="summary" data-field="calls_right" data-row="0">—</b> of the time. Adjustments in use: <b data-draw="s-adjust" data-source="summary" data-field="n_adjustments" data-row="0">—</b>.</p>
+        <p data-unless="calls_scored" hidden>None of its calls has been scored yet.</p>
+        <p class="stt-note">Every morning the analysis reads how its past calls did, and changes course only on solid evidence. <a href="#learning">Details below</a>.</p>
+      </div>
+      <div class="stt-step">
+        <h3>Weekly review</h3>
+        <p data-if="has_review" hidden>The <b data-draw="s-review-date" data-source="summary" data-field="review_date" data-row="0">—</b> review proposed <b data-draw="s-proposals" data-source="summary" data-field="n_proposals" data-row="0">—</b> changes:</p>
+        <ol class="stt-list" data-if="n_proposals" data-draw="proposals" data-source="proposals" hidden></ol>
+        <p class="stt-note" data-if="has_review" hidden>The Saturday review only proposes. A Claude session makes a change after checking that it holds up. <a data-draw="review-link" href="#">Read the review</a>.</p>
+        <p data-unless="has_review" hidden>No weekly review yet.</p>
+      </div>
+    </div>
   </section>
 
   <section class="stt-card" id="trump">
@@ -222,20 +292,6 @@
     <p class="stt-note" data-unless="n_congress" hidden>No stock trades disclosed by House members in the last 30 days.</p>
   </section>
 
-  <section class="stt-card" id="insiders">
-    <h2>Insider buying</h2>
-    <p class="stt-note">Open-market purchases of their own company's shares by officers, directors and 10% owners of S&amp;P 500 companies, from the SEC Form 4 filings of the last 30 days (due within two business days of a trade). Score: purchases count by size. Sales are counted but don't lower it, since insiders sell for many reasons.</p>
-    <p class="stt-note" data-if="n_insiders" hidden>Paid is the insiders' average price per share, Now the close on <b data-draw="s-ipx" data-source="summary" data-field="prices_as_of" data-row="0">—</b>, and Since the move from their price. Over 2021–2026, a stock's distance from the insiders' price didn't reliably predict how it did next: ones already well above it didn't do worse.</p>
-    <p class="stt-note">Weight in today's picks: <b data-draw="s-iw" data-source="summary" data-field="insider_weight" data-row="0">—</b>% at most, set by the tracker's own backtest. It's also logged as a separate strategy in the track record, so its real results show up there.</p>
-    <div class="stt-wrap" data-if="n_insiders" hidden>
-      <table class="stt-t" data-source="insiders" data-row-key="ticker">
-        <thead><tr><th data-field="ticker">Ticker</th><th data-field="name" class="opt">Name</th><th data-field="score" class="num">Score</th><th data-field="buyers" class="num">Buyers</th><th data-field="bought" class="num">Bought</th><th data-field="paid" class="num">Paid (avg)</th><th data-field="now" class="num">Now</th><th data-field="since" class="num">Since</th><th data-field="sellers" class="num opt">Sellers</th><th data-field="insiders" class="opt">Who bought</th><th data-field="last_buy" class="opt">Last buy</th></tr></thead>
-        <tbody data-draw="insiders"></tbody>
-      </table>
-    </div>
-    <p class="stt-note" data-unless="n_insiders" hidden>No open-market purchases by insiders filed in the last 30 days.</p>
-  </section>
-
   <section class="stt-card" id="events">
     <h2>Today's events</h2>
     <p class="stt-note">Claude's reading of the day's news. "New" runs from 0 (a rehash) to 1 (first reported today). Arrows show which way each theme, stock or sector should move.</p>
@@ -249,7 +305,7 @@
   </section>
 
   <footer class="stt-foot">
-    <p>Each weekday before the European open, a scheduled Claude session reads the day's top-ranked stories from Google News, the BBC, the ECB, the European Commission, the US Federal Register and GDELT. It writes down the market-relevant events with their likely winners and losers, and a scoring model turns them into picks across large US and European stocks and sector, theme and country ETFs.</p>
+    <p>Each weekday at about 06:00 Paris time, before the European open, a scheduled run gathers prices, the latest House and SEC insider filings and the day's top-ranked stories from Google News, the BBC, the ECB, the European Commission, the US Federal Register and GDELT. Claude reads them and writes down the market-relevant events with their likely winners and losers, and a scoring model turns them into picks across large US and European stocks and sector, theme and country ETFs. Every pick is logged before the open and scored when its horizon ends; on Saturdays a review looks back at the week.</p>
     <p>A research tool for personal use, not investment advice. It never places trades.</p>
   </footer>
 </div>
@@ -298,6 +354,102 @@
   value('s-calls-mean', 'calls_mean', (v) => d3.format('+.2f')(v) + '%');
   value('s-entered', 'open_entered', String);
   value('s-trump-scored', 'trump_scored', String);
+
+  // Times are shown in Paris time, when the run happens and Europe opens.
+  const paris = (opts) => new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Paris', ...opts });
+  const parisTime = (v) => paris({ hour: '2-digit', minute: '2-digit' }).format(new Date(v));
+  const parisDay = (v) => paris({ day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }).format(new Date(v));
+  const share = (v) => d3.format('.0f')(v) + '%';
+  const excess = (v) => d3.format('+.2f')(v) + '%';
+  value('s-made', 'made_at', parisTime);
+  value('s-nopen', 'n_open', String);
+  value('s-ins-hit', 'insiders_hit', share);
+  value('s-ins-mean', 'insiders_mean', excess);
+  value('s-ins-n', 'insiders_n', String);
+  value('s-geo-hit', 'geo_hit', share);
+  value('s-geo-mean', 'geo_mean', excess);
+  value('s-geo-n', 'geo_n', String);
+  value('s-ibt-from', 'insider_bt_from', String);
+  value('s-ibt-mean', 'insider_bt_mean', excess);
+  value('s-ibt-hit', 'insider_bt_hit', share);
+  value('s-ibt-t', 'insider_bt_t', (v) => d3.format('.1f')(v));
+  value('s-imax', 'insider_max', String);
+  value('s-iw2', 'insider_weight', String);
+  value('s-ins-in', 'insiders_in_picks', String);
+  value('s-geo-matured', 'geo_matured', String);
+  value('s-verdict-n', 'verdict_n', String);
+  value('s-verdict-date', 'verdict_date', date);
+  value('s-calls2', 'calls_scored', String);
+  value('s-calls-right2', 'calls_right', share);
+  value('s-adjust', 'n_adjustments', String);
+  value('s-review-date', 'review_date', date);
+  value('s-proposals', 'n_proposals', String);
+
+  dash.draw('verdict-bar', (el) => {
+    const s = first('summary');
+    const done = s ? Math.min(1, Number(s.geo_matured) / Number(s.verdict_n || 100)) : 0;
+    el.firstElementChild.style.width = Math.round(100 * done) + '%';
+  });
+
+  // Strategies' 1-week long picks so far, best average first.
+  const STRATEGY_LABELS = { Geopolitical: 'News-based picks', Random: 'Random picks' };
+  dash.draw('strategy-rank', (ol) => {
+    ol.replaceChildren();
+    rows('scoreboard')
+      .filter((r) => Number(r.horizon) === 5 && r.side === 'long' && !blank(r.mean_excess))
+      .sort((a, b) => b.mean_excess - a.mean_excess)
+      .forEach((r) => {
+        const li = document.createElement('li');
+        const name = document.createElement('b');
+        name.textContent = STRATEGY_LABELS[r.strategy] || r.strategy;
+        li.append(name, `: ${excess(r.mean_excess)}, right ${blank(r.hit_rate) ? '—' : share(r.hit_rate)} (${r.n})`);
+        ol.append(li);
+      });
+  });
+
+  dash.draw('proposals', (ol) => {
+    ol.replaceChildren();
+    rows('proposals').forEach((r) => {
+      const li = document.createElement('li');
+      li.textContent = r.text;
+      ol.append(li);
+    });
+  });
+
+  dash.draw('review-link', (a) => {
+    const s = first('summary');
+    if (s && s.review_date) a.href = `https://github.com/adrudis11/StockTrendTracker/blob/claude/beautiful-lovelace-8iabbf/data/reviews/${s.review_date}.md`;
+  });
+
+  // The Why cell: the event that backs the pick most; open it for the strongest events
+  // behind the pick, what the analysis said about each, and how the score was built.
+  const whyCell = (tr, r) => {
+    const td = tr.insertCell();
+    td.className = 'why';
+    const reasons = Array.isArray(r.reasons) ? r.reasons : [];
+    if (!reasons.length) { td.textContent = r.driver || ''; return td; }
+    const details = document.createElement('details');
+    details.className = 'stt-why';
+    const summary = document.createElement('summary');
+    summary.textContent = r.driver || reasons[0].title;
+    details.append(summary);
+    reasons.forEach((x) => {
+      const p = document.createElement('p');
+      p.className = 'r' + (x.supports ? '' : ' against');
+      const tag = document.createElement('b');
+      tag.textContent = x.supports ? 'For: ' : 'Against: ';
+      p.append(tag, `${x.title}${x.theme ? ` (${x.theme})` : ''}. ${String(x.why || '').replaceAll(' -> ', ' → ')}`);
+      details.append(p);
+    });
+    if (r.how) {
+      const p = document.createElement('p');
+      p.className = 'how';
+      p.textContent = 'Score: ' + r.how + '.';
+      details.append(p);
+    }
+    td.append(details);
+    return td;
+  };
 
   // Show the tables that have rows, or the sentences that stand in for them. The
   // summary row counts each dataset: one with no rows can't load, so it is never read.
@@ -355,7 +507,7 @@
           cell(tr, blank(p.prob) ? '—' : d3.format('.0f')(p.prob) + '%', 'num');
           cell(tr, blank(p.r20d) ? '—' : pct(p.r20d) + '%', 'num opt');
         }
-        cell(tr, p.driver, 'why');
+        whyCell(tr, p);
         if (side === 'long') cell(tr, p.risks || '', p.risks ? 'opt risk' : 'opt');
       });
   });
@@ -535,7 +687,7 @@
     rows('open_picks').forEach((r) => {
       const tr = tbody.insertRow();
       tr.dataset.key = r.key;
-      cell(tr, r.date);
+      cell(tr, r.made_at ? parisDay(r.made_at) : r.date).style.whiteSpace = 'nowrap';
       cell(tr, r.ticker, 'tick');
       cell(tr, r.name, 'opt');
       cell(tr, r.horizon + ' days');
@@ -545,6 +697,7 @@
       cell(tr, signed(r.since), 'num');
       cell(tr, signed(r.vs_benchmark), 'num');
       cell(tr, r.ends, 'opt');
+      whyCell(tr, r);
     });
   });
 
