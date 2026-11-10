@@ -44,6 +44,8 @@ jobs:
       go: ${{ steps.check.outputs.go }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }} # the branch now, so a review written meanwhile counts
       - id: check
         env:
           STT_RUNNER: ${{ vars.STT_RUNNER }}
@@ -77,6 +79,10 @@ jobs:
       TEST: ${{ github.event_name == 'workflow_dispatch' && inputs.test }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          # The branch as it is now, not the commit the run was triggered on, so a run
+          # that waited for the pipeline lock starts from the latest data.
+          ref: ${{ github.ref }}
       - uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true

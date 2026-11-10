@@ -111,6 +111,11 @@ jobs:
       publish: ${{ steps.site.outputs.publish }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          # The branch as it is now, not the commit the run was triggered on: a run
+          # that waited for the pipeline lock must see a day recorded meanwhile, or it
+          # redoes the day and fails to push (2026-11-10).
+          ref: ${{ github.ref }}
       - uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true

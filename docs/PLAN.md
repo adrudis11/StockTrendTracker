@@ -796,3 +796,13 @@ schedules became a backup that waits until 05:30 UTC, after the outside call in 
 summer (04:00 UTC) and winter (05:00 UTC), and well before the European open. Setup
 steps are in the README ("Exact timing").
 
+2026-11-10: a backup schedule did the day twice. The day was started by hand at 07:40
+UTC; the 04:47 schedule, which GitHub started at 07:44, waited for the pipeline lock
+and began at 07:46, just after the hand run had pushed the day. But `actions/checkout`
+takes the commit the run was triggered on, not the branch as it is when the job
+starts, so it didn't see the day in the ledger: it redid the analysis ($0.28, not in
+`data/usage/api.jsonl`, since its commit never landed) and failed at the push on
+ledger conflicts. Nothing reached the ledger, which kept the first run's picks. Fix:
+both workflows now check out `github.ref` (the branch tip), so a run that waited
+finds the day recorded and only refreshes the dashboard.
+
