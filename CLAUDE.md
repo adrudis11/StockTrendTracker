@@ -3,6 +3,8 @@
 Daily pipeline that reads political and geopolitical news, turns it into structured
 events, and ranks US and European stocks likely to outperform over 5 and 20 trading
 days, keeping an honest track record. Full plan and progress log: `docs/PLAN.md`.
+Current state, open items and the owner's preferences: `docs/HANDOFF.md` (read it
+first in a new session).
 
 ## Ground rules
 
