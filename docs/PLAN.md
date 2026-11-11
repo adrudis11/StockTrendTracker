@@ -841,3 +841,12 @@ month by design. On 2026-11-11's data: 143 open picks, 73 holding, 31 weaker, 22
 stronger, 17 reversed (mostly energy and defence after "the Iran war is over"). The
 dashboard gained a Today card, a Case column, News this week, prediction-market moves
 (tweet-count markets left out) and "new" marks on filings.
+
+2026-11-11, weekday timing: the owner starts work at 07:30 Paris time and wants the
+weekday dashboard refreshed by then, without starting it by hand. GitHub's schedules
+can't promise that: runs set for 00:47 UTC started at 07:12 to 07:44 UTC this month,
+and on 11-11 no run had started by 09:03 UTC. So the outside trigger is back: a
+cron-job.org job (the owner's account, a fine-grained token limited to Actions on this
+repository) starts `daily.yml` at 06:00 Paris time on weekdays with `trigger: cron`;
+the run takes about three minutes and makes no API call. Setup steps are in the
+README ("On time every morning"); GitHub's schedules stay as a backup.

@@ -34,7 +34,7 @@ breaks) and the end of `docs/PLAN.md` (progress log).
 
 | What | When | Notes |
 |---|---|---|
-| `daily.yml` | Weekdays, GitHub's schedules at 04:47 and 09:17 UTC | `stt collect`, free. The time doesn't matter: the news window runs from the last digest (24–96 h). A second run that day only refreshes prices and the dashboard. |
+| `daily.yml` | Weekdays, by cron-job.org at 06:00 Paris time; GitHub's schedules at 04:47 and 09:17 UTC as a backup | `stt collect`, free. The owner wants it done before 07:30 Paris time. The news window runs from the last digest (24–96 h), so a late run leaves no gap. A second run that day only refreshes prices and the dashboard. |
 | `weekly.yml` | Saturdays 06:41, 08:41, 12:41 UTC, Sunday 08:41 as a fallback | Review and analysis through the API, then the week's picks. A recorded week prints NOTHING TO DO. Unattended, the review only proposes changes. |
 | Manual runs | Actions → Run workflow | With "test" ticked, nothing is recorded (the weekly test costs about $1.50). With "test" unticked, the weekday collection or the latest Saturday's week runs now. |
 
@@ -45,9 +45,11 @@ Settings that live on GitHub, not in the repo:
   runs, `github` forces them on.
 - **Pages** source is set to GitHub Actions.
 
-GitHub starts scheduled runs hours late or drops them. Since the switch to weekly picks
-that no longer matters: the weekday run picks up the news since the last digest, and
-the Saturday picks enter at Monday's open.
+GitHub starts scheduled runs hours late or drops them: runs set for 00:47 UTC started
+at 07:12–07:44 UTC. The owner starts work at 07:30 and wants the weekday dashboard ready
+by then without starting it by hand (2026-11-11), so the weekday run needs the outside
+trigger (open item 4). The Saturday picks enter at Monday's open, so the weekly run's
+time doesn't matter.
 
 ## Working locally
 
@@ -97,21 +99,25 @@ the Saturday picks enter at Monday's open.
    prediction-market moves and "new" marks on filings. Check after a few days that the
    cases look sensible (the thresholds are `STRONGER`/`WEAKER` in `watch.py`) and that
    the news matching (`short_name`) finds the companies. The outside trigger
-   (cron-job.org) is no longer needed.
-4. **Action versions.** `actions/checkout@v4`, `actions/upload-artifact@v4` and
+   (cron-job.org) is needed again: see open item 4.
+4. **Outside trigger for the weekday run.** The owner sets up cron-job.org with a
+   fine-grained token (README, "On time every morning"), Monday to Friday 06:00 Paris.
+   Check that "Daily collection" runs start at about 05:00 UTC (winter) with event
+   `workflow_dispatch`; until then GitHub's late schedules run it.
+5. **Action versions.** `actions/checkout@v4`, `actions/upload-artifact@v4` and
    `astral-sh/setup-uv@v6` target Node 20. GitHub currently runs them on Node 24 with a
    warning. Bump them to newer major versions when convenient.
-5. **Ideas offered, not built:**
+6. **Ideas offered, not built:**
    - An "Apply review" workflow: Claude applies the chosen proposals and opens a pull
      request.
    - `@claude` in GitHub issues through the Claude Code GitHub Action, restricted to the
      owner because the repo is public.
-6. **Later work:**
+7. **Later work:**
    - Calibrate p(beat) and refit the score weights after 100 or more matured one-month
      geo picks (the 100th of those already made is due on 2026-12-03).
    - Rebuild the universe every few months (`uv run stt universe build`, then review
      `git diff data/universe/`).
-7. **Tidy-ups:**
+8. **Tidy-ups:**
    - The claude.ai dashboard artifact (`config/dashboard.yaml`) is frozen at 11-03; the
      Pages dashboard replaced it.
    - PR #2 (`claude/beautiful-lovelace-8iabbf` → `main`) is open, and `main` is stale.

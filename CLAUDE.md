@@ -47,9 +47,11 @@ first in a new session).
     digest, dashboard data), commit `data/` as github-actions[bot], publish the
     dashboard to GitHub Pages (`stt site`). **No Claude API and no picks**: since
     2026-11-11 picks are made once a week on Saturdays (the owner's choice on
-    2026-11-10; see `docs/PLAN.md`). The time doesn't matter; a second run that day only
-    refreshes. The outside cron service (cron-job.org, `trigger: cron`), if set up, just
-    starts the collection. Run by hand with "test" ticked to try it without committing.
+    2026-11-10; see `docs/PLAN.md`). The owner wants it done before 07:30 Paris time
+    (2026-11-11), so an outside cron service (cron-job.org, the owner's account and
+    token, README "On time every morning") starts it at 06:00 Paris with `trigger: cron`;
+    GitHub's schedules, hours late, are the backup. A second run that day only
+    refreshes. Run by hand with "test" ticked to try it without committing.
   - `weekly.yml`, Saturdays (06:41, 08:41, 12:41 UTC, Sunday 08:41 as a fallback): `stt
     weekly prepare` (the data, plus the week's digest joined from the weekday digests by
     `digest.merge_week`), `stt review` (writes `data/reviews/`), `stt analyze`, `stt

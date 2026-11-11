@@ -7,10 +7,11 @@
 # Secrets and variables > Actions > Variables) overrides the date: `github` runs them
 # now, `off` pauses them (and the weekly run).
 #
-# The exact time no longer matters: each run reads the news since the last digest (24
-# to 96 hours), so a late or dropped run leaves no gap. GitHub often starts the
-# schedules below hours late. The outside cron service (cron-job.org, README "Exact
-# timing"), if it is set up, starts it at 06:00 Paris time with trigger=cron. A second
+# The owner wants the dashboard fresh before 07:30 Paris time, so an outside cron
+# service (cron-job.org, README "On time every morning") starts it at 06:00 Paris time
+# with trigger=cron. GitHub's schedules below are only a backup: GitHub starts them
+# hours late (07:12-07:44 UTC for 00:47) or drops them. Each run reads the news since
+# the last digest (24 to 96 hours), so a late or dropped run leaves no gap. A second
 # run on the same day only refreshes prices, scores and the dashboard.
 #
 # Run it by hand from the Actions tab: with "test" ticked (the default) it collects on

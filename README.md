@@ -30,8 +30,10 @@ Two GitHub Actions workflows run everything:
   5 to avoid, the ledger, the report, the dashboard), a commit of `data/` and the
   dashboard. These are the only Claude API calls.
 
-The exact time no longer matters. The weekday run reads the news since the last digest
-(24 to 96 hours), so a late or dropped run leaves no gap. The Saturday picks are logged
+The weekday run should be done before 07:30 Paris time, so the dashboard is fresh in
+the morning: an outside cron service starts it at 06:00 (below), because GitHub starts
+its own schedules hours late; those stay as a backup. A late or dropped run still leaves
+no gap in the news: each run reads the news since the last digest (24 to 96 hours). The Saturday picks are logged
 before Monday's open and scored from it, so GitHub starting a schedule hours late
 changes nothing; there are three Saturday tries and a Sunday fallback, and a week that
 is already recorded is never redone. To run the week at once, start the workflow by
@@ -72,15 +74,52 @@ list; the review reads the scoreboard and the week's results. At the prices in
 (the daily analysis cost about $0.45 a day). Every call's actual cost is logged in
 `data/usage/api.jsonl`. GitHub Actions and Pages are free for a public repository.
 
-### The outside trigger (cron-job.org): no longer needed
+### On time every morning: the outside trigger (cron-job.org)
 
-Until 2026-11-10 an outside cron service was meant to start the weekday run at exactly
-06:00 Paris time, because the daily picks had to be made before the open. Since the
-picks are weekly, the time doesn't matter and GitHub's own schedules are enough. If you
-set one up, it keeps working: its call (`trigger: cron`) just starts the weekday
-collection. You can also delete it on cron-job.org and revoke its token in GitHub
-(profile picture → Settings → Developer settings → Personal access tokens →
-Fine-grained tokens).
+GitHub starts its own schedules hours late (runs set for 00:47 UTC started at 07:12 to
+07:44 UTC in November 2026) and sometimes drops them. So that the weekday dashboard is
+ready before 07:30 Paris time, a free outside cron service starts the weekday run at
+06:00 Paris time; it takes about three minutes. GitHub's schedules stay as a backup.
+Set up once, about 10 minutes. The token goes only into GitHub and cron-job.org.
+
+**1. A GitHub token that can only start this repository's workflows**
+
+1. On github.com, click your profile picture (top right) → **Settings** → at the
+   bottom of the left sidebar **Developer settings** → **Personal access tokens** →
+   **Fine-grained tokens** → **Generate new token**.
+2. **Token name:** `StockTrendTracker cron`. **Expiration:** the longest offered
+   (GitHub emails you before it expires; then generate a new one and paste it into
+   the cron job).
+3. **Repository access:** *Only select repositories* → `adrudis11/StockTrendTracker`.
+4. **Permissions** → *Repository permissions* → **Actions** → *Read and write*. Leave
+   the rest at *No access* (*Metadata: Read-only* is added automatically).
+5. **Generate token** and copy it (it starts with `github_pat_` and is shown once).
+
+**2. The job at cron-job.org**
+
+1. Sign up at [cron-job.org](https://cron-job.org) (free) and confirm your email.
+2. **Cronjobs** → **Create cronjob**.
+3. **Title:** `StockTrendTracker daily`. **URL:**
+   `https://api.github.com/repos/adrudis11/StockTrendTracker/actions/workflows/daily.yml/dispatches`
+4. **Schedule:** custom, Monday to Friday at 06:00, time zone **Europe/Paris** (in
+   crontab form `0 6 * * 1-5`). It follows summer and winter time by itself.
+5. **Advanced:**
+   - **Request method:** `POST`
+   - **Headers** (add four):
+     - `Authorization` = `Bearer ` followed by your token
+     - `Accept` = `application/vnd.github+json`
+     - `X-GitHub-Api-Version` = `2022-11-28`
+     - `Content-Type` = `application/json`
+   - **Request body:**
+     `{"ref":"claude/beautiful-lovelace-8iabbf","inputs":{"test":"false","trigger":"cron"}}`
+   - Turn on the email notification for failed executions.
+6. **Save**, then press **Test run**. The response should be `204 No Content` and a
+   new "Daily collection" run appears in the Actions tab within a minute. On a day that
+   is already collected it only refreshes prices and the dashboard.
+
+The token can only start, cancel and read Actions runs of this repository, and the
+weekday run makes no Claude API call, so it costs nothing. `STT_RUNNER` = `off` also
+pauses the outside trigger's runs; your own manual runs always go.
 
 ### If something goes wrong
 
@@ -91,6 +130,7 @@ session is needed.
 |---|---|
 | An email from GitHub that "Weekly run" failed | Open the run, look at the red step. A data source down or an API error: Actions → Weekly run → Run workflow ("test" unticked) runs the week again. A week that is already recorded is left alone. |
 | An email that "Daily collection" failed | Usually a data source down; the next run picks up the news since the last digest, so nothing is lost. Run it by hand ("test" unticked) to refresh the dashboard now. |
+| No "Collect … (GitHub Actions)" commit by about 06:10 Paris time on a weekday | Check cron-job.org's execution history (a 401 means the token expired or was revoked: make a new one). Actions → Daily collection → Run workflow ("test" unticked) runs it now. |
 | No "Weekly run … (GitHub Actions)" commit by Sunday | Run it by hand as above; Monday's open is what counts. |
 | "ANTHROPIC_API_KEY is not set" or an authentication error | The `ANTHROPIC_API_KEY_STOCKTRACKER` secret is missing, wrong or the key was revoked: create a new key in the Anthropic Console and update the secret. |
 | A billing or credit error from the API | Add credit or raise the spend limit in the Anthropic Console. |
