@@ -902,6 +902,13 @@
 "trades": 28,
 "year": "2024"
 },
+"20024921": {
+"filed": "2026-11-09",
+"member": "David Kustoff",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
 "20024923": {
 "filed": "2024-04-25",
 "member": "Nanette Barragan",
@@ -7879,6 +7886,13 @@
 "member": "Kevin Hern",
 "status": "parsed",
 "trades": 3,
+"year": "2026"
+},
+"20035014": {
+"filed": "2026-11-09",
+"member": "Thomas Suozzi",
+"status": "no_stock_trades",
+"trades": 0,
 "year": "2026"
 },
 "20035023": {
