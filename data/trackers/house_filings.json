@@ -8735,6 +8735,20 @@
 "trades": 1,
 "year": "2026"
 },
+"20035788": {
+"filed": "2026-11-10",
+"member": "Gilbert Cisneros",
+"status": "parsed",
+"trades": 57,
+"year": "2026"
+},
+"20035806": {
+"filed": "2026-11-10",
+"member": "Julie Johnson",
+"status": "parsed",
+"trades": 1,
+"year": "2026"
+},
 "8220118": {
 "filed": "2024-01-29",
 "member": "Anna Paulina Luna",
@@ -9991,6 +10005,13 @@
 "9116399": {
 "filed": "2026-11-05",
 "member": "Rohit Khanna",
+"status": "unreadable",
+"trades": 0,
+"year": "2026"
+},
+"9116403": {
+"filed": "2026-11-10",
+"member": "Charles J. \"Chuck\" Fleischmann",
 "status": "unreadable",
 "trades": 0,
 "year": "2026"
