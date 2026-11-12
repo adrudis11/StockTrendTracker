@@ -46,9 +46,9 @@
   "side": "avoid",
   "ends": "2026-11-25",
   "conviction_then": 0.202,
-  "conviction_now": 0.034,
+  "conviction_now": 0.035,
   "case": "holding",
-  "ratio": 1.094,
+  "ratio": 1.11,
   "flags": []
  },
  {
@@ -59,9 +59,9 @@
   "side": "avoid",
   "ends": "2026-11-25",
   "conviction_then": 0.164,
-  "conviction_now": 0.008,
+  "conviction_now": 0.009,
   "case": "holding",
-  "ratio": 1.076,
+  "ratio": 1.128,
   "flags": []
  },
  {
@@ -72,9 +72,9 @@
   "side": "avoid",
   "ends": "2026-11-25",
   "conviction_then": 0.16,
-  "conviction_now": 0.07,
+  "conviction_now": 0.069,
   "case": "holding",
-  "ratio": 0.931,
+  "ratio": 0.916,
   "flags": []
  },
  {
@@ -100,9 +100,9 @@
   "side": "avoid",
   "ends": "2026-11-25",
   "conviction_then": 0.122,
-  "conviction_now": 0.049,
+  "conviction_now": 0.052,
   "case": "holding",
-  "ratio": 0.888,
+  "ratio": 0.938,
   "flags": []
  },
  {
@@ -139,9 +139,9 @@
   "side": "long",
   "ends": "2026-11-25",
   "conviction_then": 0.166,
-  "conviction_now": 0.247,
-  "case": "holding",
-  "ratio": 0.889,
+  "conviction_now": 0.228,
+  "case": "weaker",
+  "ratio": 0.821,
   "flags": []
  },
  {
@@ -224,9 +224,9 @@
   "side": "long",
   "ends": "2026-11-25",
   "conviction_then": 0.133,
-  "conviction_now": 0.159,
+  "conviction_now": 0.161,
   "case": "stronger",
-  "ratio": 1.233,
+  "ratio": 1.246,
   "flags": []
  },
  {
@@ -252,9 +252,9 @@
   "side": "avoid",
   "ends": "2026-11-25",
   "conviction_then": 0.264,
-  "conviction_now": 0.034,
+  "conviction_now": 0.035,
   "case": "weaker",
-  "ratio": 0.795,
+  "ratio": 0.806,
   "flags": []
  },
  {
@@ -265,9 +265,9 @@
   "side": "avoid",
   "ends": "2026-11-25",
   "conviction_then": 0.199,
-  "conviction_now": 0.008,
+  "conviction_now": 0.009,
   "case": "weaker",
-  "ratio": 0.773,
+  "ratio": 0.81,
   "flags": []
  },
  {
@@ -291,9 +291,9 @@
   "side": "avoid",
   "ends": "2026-11-25",
   "conviction_then": 0.162,
-  "conviction_now": 0.07,
+  "conviction_now": 0.069,
   "case": "holding",
-  "ratio": 0.875,
+  "ratio": 0.861,
   "flags": []
  },
  {
@@ -304,9 +304,9 @@
   "side": "avoid",
   "ends": "2026-11-25",
   "conviction_then": 0.15,
-  "conviction_now": 0.028,
+  "conviction_now": 0.025,
   "case": "holding",
-  "ratio": 1.009,
+  "ratio": 0.901,
   "flags": []
  },
  {
@@ -330,9 +330,9 @@
   "side": "long",
   "ends": "2026-11-26",
   "conviction_then": 0.315,
-  "conviction_now": 0.247,
+  "conviction_now": 0.228,
   "case": "holding",
-  "ratio": 0.937,
+  "ratio": 0.865,
   "flags": []
  },
  {
@@ -426,9 +426,9 @@
   "side": "long",
   "ends": "2026-11-26",
   "conviction_then": 0.127,
-  "conviction_now": 0.156,
+  "conviction_now": 0.148,
   "case": "weaker",
-  "ratio": 0.715,
+  "ratio": 0.676,
   "flags": []
  },
  {
@@ -439,9 +439,9 @@
   "side": "long",
   "ends": "2026-11-26",
   "conviction_then": 0.11,
-  "conviction_now": 0.181,
+  "conviction_now": 0.174,
   "case": "holding",
-  "ratio": 0.955,
+  "ratio": 0.92,
   "flags": [
    "named in 1 story this week"
   ]
@@ -467,9 +467,9 @@
   "side": "avoid",
   "ends": "2026-11-26",
   "conviction_then": 0.161,
-  "conviction_now": 0.034,
+  "conviction_now": 0.035,
   "case": "stronger",
-  "ratio": 1.238,
+  "ratio": 1.256,
   "flags": []
  },
  {
@@ -480,9 +480,9 @@
   "side": "avoid",
   "ends": "2026-11-26",
   "conviction_then": 0.156,
-  "conviction_now": 0.008,
+  "conviction_now": 0.009,
   "case": "weaker",
-  "ratio": 0.742,
+  "ratio": 0.777,
   "flags": []
  },
  {
@@ -506,9 +506,9 @@
   "side": "avoid",
   "ends": "2026-11-26",
   "conviction_then": 0.145,
-  "conviction_now": 0.07,
+  "conviction_now": 0.069,
   "case": "holding",
-  "ratio": 0.925,
+  "ratio": 0.91,
   "flags": []
  },
  {
@@ -562,9 +562,9 @@
   "side": "long",
   "ends": "2026-11-27",
   "conviction_then": 0.332,
-  "conviction_now": 0.247,
+  "conviction_now": 0.228,
   "case": "weaker",
-  "ratio": 0.848,
+  "ratio": 0.783,
   "flags": []
  },
  {
@@ -644,9 +644,9 @@
   "side": "long",
   "ends": "2026-11-27",
   "conviction_then": 0.125,
-  "conviction_now": 0.229,
-  "case": "holding",
-  "ratio": 0.941,
+  "conviction_now": 0.202,
+  "case": "weaker",
+  "ratio": 0.832,
   "flags": []
  },
  {
@@ -657,9 +657,9 @@
   "side": "avoid",
   "ends": "2026-11-27",
   "conviction_then": 0.23,
-  "conviction_now": 0.058,
+  "conviction_now": 0.066,
   "case": "stronger",
-  "ratio": 1.352,
+  "ratio": 1.531,
   "flags": []
  },
  {
@@ -696,9 +696,9 @@
   "side": "avoid",
   "ends": "2026-11-27",
   "conviction_then": 0.151,
-  "conviction_now": 0.096,
+  "conviction_now": 0.097,
   "case": "holding",
-  "ratio": 0.944,
+  "ratio": 0.952,
   "flags": []
  },
  {
@@ -709,9 +709,9 @@
   "side": "avoid",
   "ends": "2026-11-27",
   "conviction_then": 0.146,
-  "conviction_now": 0.008,
+  "conviction_now": 0.009,
   "case": "weaker",
-  "ratio": 0.743,
+  "ratio": 0.778,
   "flags": []
  },
  {
@@ -854,9 +854,9 @@
   "side": "avoid",
   "ends": "2026-11-30",
   "conviction_then": 0.203,
-  "conviction_now": 0.165,
+  "conviction_now": 0.161,
   "case": "stronger",
-  "ratio": 1.278,
+  "ratio": 1.247,
   "flags": []
  },
  {
@@ -867,9 +867,9 @@
   "side": "avoid",
   "ends": "2026-11-30",
   "conviction_then": 0.167,
-  "conviction_now": 0.283,
+  "conviction_now": 0.267,
   "case": "stronger",
-  "ratio": 1.955,
+  "ratio": 1.845,
   "flags": []
  },
  {
@@ -908,9 +908,9 @@
   "side": "avoid",
   "ends": "2026-11-30",
   "conviction_then": 0.148,
-  "conviction_now": 0.096,
+  "conviction_now": 0.097,
   "case": "holding",
-  "ratio": 0.948,
+  "ratio": 0.956,
   "flags": []
  },
  {
@@ -921,9 +921,9 @@
   "side": "long",
   "ends": "2026-12-01",
   "conviction_then": 0.434,
-  "conviction_now": 0.247,
-  "case": "holding",
-  "ratio": 0.865,
+  "conviction_now": 0.228,
+  "case": "weaker",
+  "ratio": 0.799,
   "flags": []
  },
  {
@@ -986,9 +986,9 @@
   "side": "long",
   "ends": "2026-12-01",
   "conviction_then": 0.224,
-  "conviction_now": 0.147,
+  "conviction_now": 0.137,
   "case": "stronger",
-  "ratio": 1.36,
+  "ratio": 1.264,
   "flags": []
  },
  {
@@ -1012,9 +1012,9 @@
   "side": "long",
   "ends": "2026-12-01",
   "conviction_then": 0.214,
-  "conviction_now": 0.229,
+  "conviction_now": 0.202,
   "case": "holding",
-  "ratio": 1.078,
+  "ratio": 0.953,
   "flags": []
  },
  {
@@ -1064,9 +1064,9 @@
   "side": "avoid",
   "ends": "2026-12-01",
   "conviction_then": 0.215,
-  "conviction_now": 0.283,
+  "conviction_now": 0.267,
   "case": "stronger",
-  "ratio": 1.532,
+  "ratio": 1.446,
   "flags": []
  },
  {
@@ -1077,9 +1077,9 @@
   "side": "avoid",
   "ends": "2026-12-01",
   "conviction_then": 0.18,
-  "conviction_now": 0.237,
+  "conviction_now": 0.229,
   "case": "stronger",
-  "ratio": 1.529,
+  "ratio": 1.481,
   "flags": []
  },
  {
@@ -1090,9 +1090,9 @@
   "side": "avoid",
   "ends": "2026-12-01",
   "conviction_then": 0.178,
-  "conviction_now": 0.058,
+  "conviction_now": 0.066,
   "case": "stronger",
-  "ratio": 1.263,
+  "ratio": 1.431,
   "flags": []
  },
  {
@@ -1116,9 +1116,9 @@
   "side": "long",
   "ends": "2026-12-02",
   "conviction_then": 0.454,
-  "conviction_now": 0.247,
+  "conviction_now": 0.228,
   "case": "weaker",
-  "ratio": 0.711,
+  "ratio": 0.657,
   "flags": []
  },
  {
@@ -1211,9 +1211,9 @@
   "side": "long",
   "ends": "2026-12-02",
   "conviction_then": 0.206,
-  "conviction_now": 0.229,
-  "case": "holding",
-  "ratio": 0.942,
+  "conviction_now": 0.202,
+  "case": "weaker",
+  "ratio": 0.833,
   "flags": []
  },
  {
@@ -1239,9 +1239,9 @@
   "side": "long",
   "ends": "2026-12-02",
   "conviction_then": 0.169,
-  "conviction_now": 0.147,
+  "conviction_now": 0.137,
   "case": "stronger",
-  "ratio": 1.259,
+  "ratio": 1.171,
   "flags": []
  },
  {
@@ -1265,9 +1265,9 @@
   "side": "avoid",
   "ends": "2026-12-02",
   "conviction_then": 0.263,
-  "conviction_now": 0.283,
+  "conviction_now": 0.267,
   "case": "stronger",
-  "ratio": 1.528,
+  "ratio": 1.443,
   "flags": []
  },
  {
@@ -1304,9 +1304,9 @@
   "side": "avoid",
   "ends": "2026-12-02",
   "conviction_then": 0.179,
-  "conviction_now": 0.101,
+  "conviction_now": 0.105,
   "case": "weaker",
-  "ratio": 0.795,
+  "ratio": 0.833,
   "flags": []
  },
  {
@@ -1317,9 +1317,9 @@
   "side": "long",
   "ends": "2026-12-03",
   "conviction_then": 0.391,
-  "conviction_now": 0.247,
-  "case": "holding",
-  "ratio": 0.866,
+  "conviction_now": 0.228,
+  "case": "weaker",
+  "ratio": 0.8,
   "flags": []
  },
  {
@@ -1386,9 +1386,9 @@
   "side": "long",
   "ends": "2026-12-03",
   "conviction_then": 0.225,
-  "conviction_now": 0.159,
+  "conviction_now": 0.161,
   "case": "holding",
-  "ratio": 0.936,
+  "ratio": 0.946,
   "flags": []
  },
  {
@@ -1412,9 +1412,9 @@
   "side": "long",
   "ends": "2026-12-03",
   "conviction_then": 0.224,
-  "conviction_now": 0.147,
+  "conviction_now": 0.137,
   "case": "holding",
-  "ratio": 0.947,
+  "ratio": 0.88,
   "flags": []
  },
  {
@@ -1425,9 +1425,9 @@
   "side": "long",
   "ends": "2026-12-03",
   "conviction_then": 0.22,
-  "conviction_now": 0.229,
+  "conviction_now": 0.202,
   "case": "holding",
-  "ratio": 1.034,
+  "ratio": 0.914,
   "flags": []
  },
  {
@@ -1451,9 +1451,9 @@
   "side": "avoid",
   "ends": "2026-12-03",
   "conviction_then": 0.277,
-  "conviction_now": 0.283,
+  "conviction_now": 0.267,
   "case": "stronger",
-  "ratio": 1.247,
+  "ratio": 1.177,
   "flags": []
  },
  {
@@ -1464,9 +1464,9 @@
   "side": "avoid",
   "ends": "2026-12-03",
   "conviction_then": 0.27,
-  "conviction_now": 0.416,
+  "conviction_now": 0.401,
   "case": "stronger",
-  "ratio": 1.308,
+  "ratio": 1.259,
   "flags": []
  },
  {
@@ -1477,9 +1477,9 @@
   "side": "avoid",
   "ends": "2026-12-03",
   "conviction_then": 0.255,
-  "conviction_now": 0.412,
+  "conviction_now": 0.416,
   "case": "stronger",
-  "ratio": 1.369,
+  "ratio": 1.382,
   "flags": []
  },
  {
@@ -1503,9 +1503,9 @@
   "side": "avoid",
   "ends": "2026-12-03",
   "conviction_then": 0.156,
-  "conviction_now": 0.058,
+  "conviction_now": 0.066,
   "case": "holding",
-  "ratio": 1.015,
+  "ratio": 1.149,
   "flags": []
  },
  {
@@ -1557,9 +1557,9 @@
   "side": "long",
   "ends": "2026-12-04",
   "conviction_then": 0.311,
-  "conviction_now": 0.247,
+  "conviction_now": 0.228,
   "case": "holding",
-  "ratio": 1.094,
+  "ratio": 1.01,
   "flags": []
  },
  {
@@ -1570,9 +1570,9 @@
   "side": "long",
   "ends": "2026-12-04",
   "conviction_then": 0.247,
-  "conviction_now": 0.229,
+  "conviction_now": 0.202,
   "case": "holding",
-  "ratio": 1.113,
+  "ratio": 0.984,
   "flags": []
  },
  {
@@ -1609,9 +1609,9 @@
   "side": "long",
   "ends": "2026-12-04",
   "conviction_then": 0.211,
-  "conviction_now": 0.159,
+  "conviction_now": 0.161,
   "case": "holding",
-  "ratio": 0.936,
+  "ratio": 0.946,
   "flags": []
  },
  {
@@ -1622,9 +1622,9 @@
   "side": "long",
   "ends": "2026-12-04",
   "conviction_then": 0.195,
-  "conviction_now": 0.147,
-  "case": "stronger",
-  "ratio": 1.157,
+  "conviction_now": 0.137,
+  "case": "holding",
+  "ratio": 1.075,
   "flags": []
  },
  {
@@ -1648,9 +1648,9 @@
   "side": "avoid",
   "ends": "2026-12-04",
   "conviction_then": 0.35,
-  "conviction_now": 0.416,
-  "case": "stronger",
-  "ratio": 1.164,
+  "conviction_now": 0.401,
+  "case": "holding",
+  "ratio": 1.12,
   "flags": []
  },
  {
@@ -1661,9 +1661,9 @@
   "side": "avoid",
   "ends": "2026-12-04",
   "conviction_then": 0.343,
-  "conviction_now": 0.412,
+  "conviction_now": 0.416,
   "case": "stronger",
-  "ratio": 1.177,
+  "ratio": 1.188,
   "flags": []
  },
  {
@@ -1674,9 +1674,9 @@
   "side": "avoid",
   "ends": "2026-12-04",
   "conviction_then": 0.298,
-  "conviction_now": 0.283,
+  "conviction_now": 0.267,
   "case": "holding",
-  "ratio": 1.108,
+  "ratio": 1.046,
   "flags": []
  },
  {
@@ -1700,9 +1700,9 @@
   "side": "avoid",
   "ends": "2026-12-04",
   "conviction_then": 0.247,
-  "conviction_now": 0.237,
+  "conviction_now": 0.229,
   "case": "holding",
-  "ratio": 1.116,
+  "ratio": 1.081,
   "flags": []
  },
  {
@@ -1752,9 +1752,9 @@
   "side": "long",
   "ends": "2026-12-07",
   "conviction_then": 0.263,
-  "conviction_now": 0.247,
+  "conviction_now": 0.228,
   "case": "holding",
-  "ratio": 1.094,
+  "ratio": 1.01,
   "flags": []
  },
  {
@@ -1765,9 +1765,9 @@
   "side": "long",
   "ends": "2026-12-07",
   "conviction_then": 0.233,
-  "conviction_now": 0.229,
+  "conviction_now": 0.202,
   "case": "holding",
-  "ratio": 1.112,
+  "ratio": 0.983,
   "flags": []
  },
  {
@@ -1791,9 +1791,9 @@
   "side": "long",
   "ends": "2026-12-07",
   "conviction_then": 0.198,
-  "conviction_now": 0.159,
+  "conviction_now": 0.161,
   "case": "holding",
-  "ratio": 0.936,
+  "ratio": 0.946,
   "flags": []
  },
  {
@@ -1830,9 +1830,9 @@
   "side": "long",
   "ends": "2026-12-07",
   "conviction_then": 0.16,
-  "conviction_now": 0.181,
+  "conviction_now": 0.174,
   "case": "stronger",
-  "ratio": 1.293,
+  "ratio": 1.245,
   "flags": [
    "named in 1 story this week"
   ]
@@ -1845,9 +1845,9 @@
   "side": "avoid",
   "ends": "2026-12-07",
   "conviction_then": 0.393,
-  "conviction_now": 0.416,
-  "case": "stronger",
-  "ratio": 1.165,
+  "conviction_now": 0.401,
+  "case": "holding",
+  "ratio": 1.121,
   "flags": []
  },
  {
@@ -1858,9 +1858,9 @@
   "side": "avoid",
   "ends": "2026-12-07",
   "conviction_then": 0.385,
-  "conviction_now": 0.412,
+  "conviction_now": 0.416,
   "case": "stronger",
-  "ratio": 1.177,
+  "ratio": 1.188,
   "flags": []
  },
  {
@@ -1884,9 +1884,9 @@
   "side": "avoid",
   "ends": "2026-12-07",
   "conviction_then": 0.284,
-  "conviction_now": 0.283,
+  "conviction_now": 0.267,
   "case": "holding",
-  "ratio": 1.108,
+  "ratio": 1.046,
   "flags": []
  },
  {

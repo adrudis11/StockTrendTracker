@@ -1,6 +1,6 @@
 {
- "matured": 430,
- "open": 833,
+ "matured": 436,
+ "open": 827,
  "rows": [
   {
    "strategy": "congress",
@@ -16,21 +16,21 @@
    "strategy": "geo",
    "horizon": 5,
    "side": "avoid",
-   "n": 32,
-   "hit_rate": 0.5,
-   "mean_excess": 0.00351,
-   "median_excess": -0.0001,
-   "t_stat": 0.37
+   "n": 33,
+   "hit_rate": 0.515,
+   "mean_excess": 0.0035,
+   "median_excess": 0.00142,
+   "t_stat": 0.38
   },
   {
    "strategy": "geo",
    "horizon": 5,
    "side": "long",
-   "n": 49,
-   "hit_rate": 0.245,
-   "mean_excess": -0.03587,
-   "median_excess": -0.03639,
-   "t_stat": -6.24
+   "n": 50,
+   "hit_rate": 0.24,
+   "mean_excess": -0.03578,
+   "median_excess": -0.03462,
+   "t_stat": -6.35
   },
   {
    "strategy": "insiders",
@@ -66,21 +66,21 @@
    "strategy": "random",
    "horizon": 5,
    "side": "avoid",
-   "n": 33,
-   "hit_rate": 0.485,
-   "mean_excess": -0.00553,
+   "n": 35,
+   "hit_rate": 0.457,
+   "mean_excess": -0.00572,
    "median_excess": -0.0097,
-   "t_stat": -0.41
+   "t_stat": -0.45
   },
   {
    "strategy": "random",
    "horizon": 5,
    "side": "long",
-   "n": 68,
-   "hit_rate": 0.397,
-   "mean_excess": -0.01302,
+   "n": 70,
+   "hit_rate": 0.386,
+   "mean_excess": -0.01361,
    "median_excess": -0.00945,
-   "t_stat": -1.61
+   "t_stat": -1.72
   },
   {
    "strategy": "trump",
