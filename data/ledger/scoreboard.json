@@ -1,16 +1,16 @@
 {
- "matured": 436,
- "open": 827,
+ "matured": 483,
+ "open": 780,
  "rows": [
   {
    "strategy": "congress",
    "horizon": 5,
    "side": "long",
-   "n": 70,
-   "hit_rate": 0.571,
-   "mean_excess": 0.0084,
-   "median_excess": 0.01158,
-   "t_stat": 0.52
+   "n": 80,
+   "hit_rate": 0.6,
+   "mean_excess": 0.01185,
+   "median_excess": 0.01535,
+   "t_stat": 0.83
   },
   {
    "strategy": "geo",
@@ -26,61 +26,61 @@
    "strategy": "geo",
    "horizon": 5,
    "side": "long",
-   "n": 50,
-   "hit_rate": 0.24,
-   "mean_excess": -0.03578,
-   "median_excess": -0.03462,
-   "t_stat": -6.35
+   "n": 54,
+   "hit_rate": 0.241,
+   "mean_excess": -0.03413,
+   "median_excess": -0.03271,
+   "t_stat": -6.31
   },
   {
    "strategy": "insiders",
    "horizon": 5,
    "side": "long",
-   "n": 70,
-   "hit_rate": 0.714,
-   "mean_excess": 0.0135,
-   "median_excess": 0.03795,
-   "t_stat": 1.41
+   "n": 80,
+   "hit_rate": 0.662,
+   "mean_excess": 0.01068,
+   "median_excess": 0.0196,
+   "t_stat": 1.24
   },
   {
    "strategy": "momentum",
    "horizon": 5,
    "side": "avoid",
-   "n": 35,
-   "hit_rate": 0.514,
-   "mean_excess": -0.0088,
-   "median_excess": 0.00392,
-   "t_stat": -0.56
+   "n": 40,
+   "hit_rate": 0.475,
+   "mean_excess": -0.01492,
+   "median_excess": -0.00614,
+   "t_stat": -1.05
   },
   {
    "strategy": "momentum",
    "horizon": 5,
    "side": "long",
-   "n": 70,
-   "hit_rate": 0.586,
-   "mean_excess": -0.00558,
-   "median_excess": 0.01071,
-   "t_stat": -0.54
+   "n": 80,
+   "hit_rate": 0.55,
+   "mean_excess": -0.00546,
+   "median_excess": 0.0072,
+   "t_stat": -0.58
   },
   {
    "strategy": "random",
    "horizon": 5,
    "side": "avoid",
-   "n": 35,
-   "hit_rate": 0.457,
-   "mean_excess": -0.00572,
+   "n": 37,
+   "hit_rate": 0.459,
+   "mean_excess": -0.00536,
    "median_excess": -0.0097,
-   "t_stat": -0.45
+   "t_stat": -0.44
   },
   {
    "strategy": "random",
    "horizon": 5,
    "side": "long",
-   "n": 70,
-   "hit_rate": 0.386,
-   "mean_excess": -0.01361,
-   "median_excess": -0.00945,
-   "t_stat": -1.72
+   "n": 76,
+   "hit_rate": 0.421,
+   "mean_excess": -0.01159,
+   "median_excess": -0.00586,
+   "t_stat": -1.58
   },
   {
    "strategy": "trump",
