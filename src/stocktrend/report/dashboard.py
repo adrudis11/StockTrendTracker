@@ -354,15 +354,18 @@ def _nth_exit(entries: list[LedgerEntry], n: int) -> str | None:
 def review_proposals(day: str) -> tuple[str | None, list[dict[str, Any]]]:
     """The latest weekly review up to ``day`` and the changes it proposed.
 
-    Reviews list them under a bold "Changes proposed:" (or "Proposed, ...:") line, as
-    numbered or bulleted items; each row is the start of one item, without markdown.
+    Reviews list them under a bold "Changes proposed:" (or "Proposed, ...:", or
+    "Proposed (would make now)", with or without the colon) line, as numbered or
+    bulleted items; each row is the start of one item, without markdown. A section of
+    deferred proposals doesn't count.
     """
     paths = sorted(p for p in REVIEWS_DIR.glob("*.md") if p.stem <= day)
     if not paths:
         return None, []
     text = paths[-1].read_text(encoding="utf-8")
     section = re.search(
-        r"^\*\*(?:Changes proposed|Proposed)[^\n]*?:\*\*[^\n]*\n(.*?)(?=^\*\*|^#|\Z)",
+        r"^\*\*(?:Changes proposed|Proposed)(?![^\n]*deferred)[^\n]*?\*\*[^\n]*\n"
+        r"(.*?)(?=^\*\*|^#|\Z)",
         text,
         re.M | re.S,
     )

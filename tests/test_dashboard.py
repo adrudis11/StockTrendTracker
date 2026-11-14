@@ -97,6 +97,17 @@ OLD_REVIEW = """## 4. Changes
 - Watch airline avoids.
 """
 
+WEEK_REVIEW = """## 4. Changes
+
+**Made:** None: this run can't edit files.
+
+**Proposed (would make now)**
+1. **`config/exposures.yaml`, theme `eu_gas_shock`: lower EQT's weight by 0.3.** EQT fell with XLE.
+
+**Proposed but deferred** (the evidence is weak):
+- **`prompts/weekly_analysis.md`: add one sentence.**
+"""  # the 2026-11-14 review: no colon in the header, and a deferred section after it
+
 
 @pytest.mark.parametrize(
     ("text", "expected"),
@@ -116,6 +127,14 @@ OLD_REVIEW = """## 4. Changes
                 "Watch airline avoids.",
             ],
         ),
+        (
+            WEEK_REVIEW,
+            [
+                "config/exposures.yaml, theme eu_gas_shock: lower EQT's weight by 0.3. "
+                "EQT fell with XLE."
+            ],
+        ),
+        (WEEK_REVIEW.split("**Proposed (would")[0] + "**Proposed but deferred:**\n- Later.\n", []),
         ("# Weekly review\n\nNothing to propose.\n", []),
     ],
 )
