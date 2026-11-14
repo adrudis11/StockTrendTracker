@@ -1,0 +1,493 @@
+{
+  "date": "2026-11-14",
+  "market_view": "Equities recovered most of the early-November AI rout. The S&P 500 rose 2.6% and the Nasdaq-100 3.6% on the week, and the VIX fell 25% to 19.3. Nvidia did not join the rally (-15% in 5 days): Jensen Huang resigned and Congress is pushing harder on China chip curbs. A hot October CPI pushed the 10-year yield to 5.15% (+6% on the week). Odds of a 25bp December Fed hike are 88%, and odds of a January hike are 57%; gold fell 4.6% and the dollar firmed. On Iran, Trump dropped the deal track and says the US has 'got their strait'. Mines keep hitting tankers and an LNG carrier, but Brent eased to $95.8 on OPEC+ output near pre-war levels and an IEA Q4 surplus forecast; Hormuz normal-traffic odds are 6% and blockade-end odds by year-end fell to 22%. Russia-Ukraine talks continue without a breakthrough ahead of an unprecedented Trump-Putin-Xi meeting in China next week.",
+  "events": [
+    {
+      "id": "2026-11-14-01",
+      "title": "Nvidia CEO Jensen Huang resigns; Congress pushes China chip curbs as Bessent blames Lutnick for export-control lapses",
+      "category": "technology",
+      "regions": [
+        "US",
+        "CN"
+      ],
+      "summary": "Jensen Huang resigned as Nvidia CEO after reports of a second extramarital affair, following reports the board was preparing to oust him; CFO Colette Kress is interim CEO. A Chinese university reportedly bought H200 chips despite a US blacklist, and US lawmakers are pushing China chip rules. Bessent blamed Lutnick's Commerce Department for failing to blacklist Nvidia partner Megaspeed, and Polymarket odds of Lutnick leaving by year-end rose 9 points to 52%.",
+      "certainty": "confirmed",
+      "novelty": 0.6,
+      "severity": 0.5,
+      "duration": "months",
+      "sources": [
+        "S010",
+        "S066",
+        "S138",
+        "S020",
+        "S074",
+        "S006",
+        "S004",
+        "S023",
+        "S026",
+        "S053",
+        "S059",
+        "S091",
+        "S094",
+        "S098",
+        "S134",
+        "S174",
+        "S207",
+        "S237",
+        "S230",
+        "S003",
+        "S075",
+        "S120",
+        "S043",
+        "S057",
+        "S071",
+        "S243"
+      ],
+      "impacts": [
+        {
+          "target": "theme:chip_export_controls",
+          "direction": 1,
+          "magnitude": 0.3,
+          "confidence": 0.5,
+          "horizon_days": 20,
+          "rationale": "The spy scandal, an H200 diversion to a blacklisted university and a cabinet row over lax enforcement give a Democratic Congress cover for China chip bills -> tighter enforcement and entity listings -> pressure on Nvidia and chip-tool makers with China exposure. The Xi summit next week could produce a softer White House line, so confidence is moderate.",
+          "against_coverage": false
+        },
+        {
+          "target": "ticker:NVDA",
+          "direction": -1,
+          "magnitude": 0.2,
+          "confidence": 0.42,
+          "horizon_days": 20,
+          "rationale": "Founder-CEO exit with only an interim successor, plus rising China-sales scrutiny -> a lasting governance and political discount. The stock is already -15% in 5 days and rivals like AMD (+16%) have absorbed the rotation, so the size is small and a rebound is a real risk.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-14-02",
+      "title": "Hot October CPI lifts Fed hike bets; Waller backs December hike, Goldman adds another hike",
+      "category": "central_bank",
+      "regions": [
+        "US"
+      ],
+      "summary": "US consumer prices rose 0.4% in October, driven by shelter, food and energy. Fed Governor Waller said he will support at least a quarter-point hike in December, and Goldman Sachs added another hike to its Fed outlook. Polymarket gives an 88% chance of a 25bp December hike and 57% for another in January; the 10-year yield rose to 5.15%.",
+      "certainty": "confirmed",
+      "novelty": 0.6,
+      "severity": 0.5,
+      "duration": "weeks",
+      "sources": [
+        "S028",
+        "S109",
+        "S119",
+        "S082",
+        "S229",
+        "S106",
+        "S147",
+        "S149",
+        "S062",
+        "S117"
+      ],
+      "impacts": [
+        {
+          "target": "theme:us_rates_up",
+          "direction": 1,
+          "magnitude": 0.3,
+          "confidence": 0.5,
+          "horizon_days": 20,
+          "rationale": "Hot core inflation plus a Fed governor committing to a hike -> markets price a sequence rather than one move (January 57%) -> yields held above 5% -> banks outperform REITs and homebuilders. December is priced at 88%, so the edge is in the follow-on hikes. Homebuilders already fell this week (NVR -9.7%).",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-14-03",
+      "title": "Trump drops Iran deal track and keeps blockade; Iran hits US radar in Bahrain as mines strike more tankers and an LNG carrier",
+      "category": "conflict",
+      "regions": [
+        "US",
+        "IR",
+        "BH",
+        "SA",
+        "IQ"
+      ],
+      "summary": "Trump said 'we don't need a deal with Iran', claimed the US has 'got their strait' and pulled Vance off the Iran talks. Iran says it struck a US military radar in Bahrain, and an 'enemy' strike hit Sirik county near Hormuz. Several more tankers and an LNG carrier hit mines; Iran's Ghalibaf says Hormuz will 'never return' to pre-war status, and Houthis attacked a Saudi East-West pipeline pumping station. Iraq says it secured US agreement to resume oil exports through Hormuz.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.5,
+      "duration": "weeks",
+      "sources": [
+        "S005",
+        "S080",
+        "S184",
+        "S129",
+        "S126",
+        "S166",
+        "S041",
+        "S211",
+        "S197",
+        "S014",
+        "S100",
+        "S146",
+        "S058",
+        "S185",
+        "S089",
+        "S097",
+        "S027",
+        "S104",
+        "S239",
+        "S069",
+        "S242",
+        "S130",
+        "S084",
+        "S142",
+        "S212",
+        "S123"
+      ],
+      "impacts": [
+        {
+          "target": "theme:shipping_disruption",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "No diplomatic track, the US blockade continues and mines keep hitting vessels -> Hormuz stays impaired (normal-traffic odds 6%, blockade-end by year-end down 4 points to 22%) -> elevated freight and insurance rates help shippers and hurt transport users. Brent fell this week and Israel-Iran ceasefire odds rose, so the money sees a contained stalemate rather than escalation; the size is small.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-14-04",
+      "title": "OPEC+ output nears pre-war levels and IEA sees Q4 surplus; oil heads for second weekly loss",
+      "category": "energy",
+      "regions": [
+        "SA",
+        "IQ",
+        "US"
+      ],
+      "summary": "OPEC+ output in October neared its pre-Iran-war rate, led by Saudi Arabia, and the IEA expects global oil supply to exceed demand in the fourth quarter. Iraq says it has US agreement to resume exports through Hormuz, and Trump will extend a shipping waiver for oil and fertilizer for 90 days. Brent fell 2.5% on the week to $95.8.",
+      "certainty": "confirmed",
+      "novelty": 0.6,
+      "severity": 0.4,
+      "duration": "weeks",
+      "sources": [
+        "S095",
+        "S199",
+        "S212",
+        "S152",
+        "S247"
+      ],
+      "impacts": [
+        {
+          "target": "theme:oil_supply_shock",
+          "direction": -1,
+          "magnitude": 0.25,
+          "confidence": 0.5,
+          "horizon_days": 20,
+          "rationale": "Gulf producers have restored output around Hormuz and the IEA projects a surplus -> the remaining war premium in Brent near $96 erodes -> producers lag and airlines gain. Brent is already -12.8% in 20 days and mine incidents persist, so the size is moderate.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-14-05",
+      "title": "Orlen cancels Qatar LNG contract after months of force majeure; LNG carrier hits mine near Hormuz",
+      "category": "energy",
+      "regions": [
+        "PL",
+        "QA",
+        "IR",
+        "EU"
+      ],
+      "summary": "Poland's Orlen ended its long-term LNG contract with QatarEnergy over delivery failures after months of force majeure. Iran's IRGC says a gas carrier struck a mine east of the Strait of Hormuz, and Iran warned of domestic gas shortages this winter. Hormuz LNG traffic in October had been the highest since the war began.",
+      "certainty": "confirmed",
+      "novelty": 0.7,
+      "severity": 0.35,
+      "duration": "months",
+      "sources": [
+        "S148",
+        "S231",
+        "S058",
+        "S185",
+        "S241",
+        "S122"
+      ],
+      "impacts": [
+        {
+          "target": "theme:eu_gas_shock",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Qatari supply to Europe is still unreliable going into winter, and mines now hit LNG carriers -> European buyers must replace cargoes on the spot market -> TTF is supported -> gas producers gain and European chemicals lag. Henry Hub rose 7.7% on the week, but October LNG transits recovered, so confidence is low.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-14-06",
+      "title": "Russia-Ukraine talks in Abu Dhabi end without breakthrough; US floats Donbas-for-NATO swap and biggest prisoner exchange agreed",
+      "category": "diplomacy",
+      "regions": [
+        "RU",
+        "UA",
+        "US",
+        "AE",
+        "EU"
+      ],
+      "summary": "Nearly four hours of US-mediated Russia-Ukraine talks in Abu Dhabi focused on post-war security but ended without a breakthrough. US envoys then met Putin in Moscow and Zelensky in Dublin. Zelensky says US envoys floated Ukraine ceding Donbas in exchange for NATO membership, and Russia agreed to the war's largest prisoner exchange. Russia reportedly demanded that Finland leave NATO, and Putin said foreign troops in Ukraine would be legitimate targets.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.45,
+      "duration": "weeks",
+      "sources": [
+        "S029",
+        "S030",
+        "S103",
+        "S055",
+        "S236",
+        "S056",
+        "S092",
+        "S141",
+        "S070",
+        "S198",
+        "S137",
+        "S187",
+        "S210",
+        "S144",
+        "S188"
+      ],
+      "impacts": [
+        {
+          "target": "theme:ukraine_peace_reconstruction",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Shuttle diplomacy is continuing, a large prisoner swap shows goodwill and a Trump-Putin-Xi meeting is next week -> somewhat higher odds of a framework deal -> Polish and reconstruction assets gain. Russia's maximalist demands (Finland out of NATO) and no breakthrough keep confidence low; EPOL is +3.1% on the week.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-14-07",
+      "title": "Denmark sends €640m Ukraine aid package; drone incursions over Lithuania; NATO to prioritise countering Russia",
+      "category": "defense",
+      "regions": [
+        "DK",
+        "LT",
+        "UA",
+        "EU"
+      ],
+      "summary": "Denmark announced a military aid package for Ukraine of over €640m. Drone incursions triggered air alerts across Lithuania and NATO jets were scrambled. Reports say NATO seeks to prioritise countering Russia and scale back overseas missions.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.35,
+      "duration": "months",
+      "sources": [
+        "S153",
+        "S048",
+        "S145",
+        "S187",
+        "S227"
+      ],
+      "impacts": [
+        {
+          "target": "theme:defense_europe",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Steady aid packages, repeated drone incursions on the eastern flank and NATO refocusing on Russia -> European air-defence and counter-drone demand persists even if Ukraine talks progress -> European defence names gain. WDEF is -5.5% in 20 days after the peace-hope de-rating, so expectations are already reset lower.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-14-08",
+      "title": "EU readies sanctions on Russian refineries and shadow fleet; UK sanctions Slavneft",
+      "category": "sanctions",
+      "regions": [
+        "EU",
+        "GB",
+        "RU",
+        "CA"
+      ],
+      "summary": "The EU plans to add sanctions on Russian oil refineries and the shadow fleet, the UK sanctioned Russian oil producer Slavneft, and Canada announced fresh Russia-related sanctions.",
+      "certainty": "reported",
+      "novelty": 0.6,
+      "severity": 0.3,
+      "duration": "months",
+      "sources": [
+        "S115",
+        "S116",
+        "S136",
+        "S114",
+        "S073"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:VLO",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Sanctions on Russian refineries plus continued Ukrainian refinery strikes -> fewer Russian product exports, especially diesel -> wider export cracks -> Valero, a large US Gulf Coast exporting refiner, benefits even as crude eases.",
+          "against_coverage": false
+        },
+        {
+          "target": "ticker:MPC",
+          "direction": 1,
+          "magnitude": 0.1,
+          "confidence": 0.42,
+          "horizon_days": 20,
+          "rationale": "The same tighter product balance and softer crude input costs -> better refining margins for Marathon Petroleum.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-14-09",
+      "title": "US and China discuss tariffs and farm trade ahead of Xi-Trump meeting; Trump, Putin and Xi to meet in China next week",
+      "category": "trade",
+      "regions": [
+        "US",
+        "CN",
+        "RU"
+      ],
+      "summary": "Chinese and US officials discussed tariffs and farm trade ahead of a Xi-Trump meeting. The White House says Trump, Putin and Xi plan a historic joint meeting in China next week that will include nuclear arms reduction. Microsoft is reportedly pressing Trump to scuttle a ban on Chinese data-centre technology.",
+      "certainty": "scheduled",
+      "novelty": 0.7,
+      "severity": 0.45,
+      "duration": "weeks",
+      "sources": [
+        "S034",
+        "S037",
+        "S038",
+        "S118",
+        "S173",
+        "S201",
+        "S040"
+      ],
+      "impacts": [
+        {
+          "target": "theme:us_china_trade_escalation",
+          "direction": -1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "A leaders' summit with tariffs and farm purchases on the agenda, after China extended its tariff truce -> lower odds of new escalation and scope for a deliverable -> China ETFs, Apple and Nike gain relative to steelmakers. FXI fell 4.2% this week, so a deal is not priced. The chip-curb push in Congress is the main risk.",
+          "against_coverage": false
+        },
+        {
+          "target": "ticker:ADM",
+          "direction": 1,
+          "magnitude": 0.1,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Farm trade is a named agenda item -> possible Chinese soybean and grain purchase commitments -> higher US crush and export volumes for Archer Daniels Midland.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-14-10",
+      "title": "Trump threatens to double tariffs on Mexico over illegal immigration; Canada reports trade-deal progress",
+      "category": "trade",
+      "regions": [
+        "US",
+        "MX",
+        "CA"
+      ],
+      "summary": "Trump threatened to double tariffs on Mexico over illegal immigration. Separately, Canada's Carney said Canada and the US made progress on a trade deal, and Canada extended tariff relief on some US imports.",
+      "certainty": "confirmed",
+      "novelty": 0.8,
+      "severity": 0.35,
+      "duration": "weeks",
+      "sources": [
+        "S008",
+        "S063",
+        "S083",
+        "S181"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:EWW",
+          "direction": -1,
+          "magnitude": 0.25,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "An explicit threat to double tariffs -> higher risk premium on Mexican exporters, the peso and nearshoring names -> Mexican equities lag. Past threats were often used as leverage and later softened, so confidence is moderate.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-14-11",
+      "title": "India holds Pernod and Diageo Scotch shipments as investigators seek higher tariff",
+      "category": "trade",
+      "regions": [
+        "IN",
+        "GB",
+        "FR"
+      ],
+      "summary": "Indian customs are holding Scotch whisky shipments of Pernod Ricard and Diageo while investigators seek a higher tariff, Reuters reports.",
+      "certainty": "reported",
+      "novelty": 0.9,
+      "severity": 0.25,
+      "duration": "weeks",
+      "sources": [
+        "S131"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:RI.PA",
+          "direction": -1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "India is Pernod's largest growth market and a big Scotch destination -> held shipments and possible back-duties -> lost sales and margin in a key market -> Pernod lags.",
+          "against_coverage": false
+        },
+        {
+          "target": "ticker:DGE.L",
+          "direction": -1,
+          "magnitude": 0.1,
+          "confidence": 0.42,
+          "horizon_days": 20,
+          "rationale": "Diageo also has large Indian exposure through United Spirits and Scotch imports -> customs disruption and tariff-valuation risk -> modest underperformance.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-14-12",
+      "title": "India raises P&K fertiliser subsidy 64% for the rabi season",
+      "category": "industrial_policy",
+      "regions": [
+        "IN"
+      ],
+      "summary": "India's cabinet approved a Rs 62,370 crore nutrient-based subsidy for phosphatic and potassic fertilisers for the 2026-27 rabi season, up 64% from last year.",
+      "certainty": "confirmed",
+      "novelty": 0.8,
+      "severity": 0.25,
+      "duration": "months",
+      "sources": [
+        "S036",
+        "S249"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:MOS",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "A much larger P&K subsidy -> stronger affordability and import demand from India, the largest buyer of phosphate and a major potash importer -> firmer phosphate and potash prices -> Mosaic benefits. This fits Nutrien's recent comment that potash demand is strong.",
+          "against_coverage": false
+        }
+      ]
+    }
+  ],
+  "trump_calls": []
+}
