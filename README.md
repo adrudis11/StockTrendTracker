@@ -82,7 +82,10 @@ ready before 07:30 Paris time, a free outside cron service starts the daily work
 06:00 Paris time every day; the weekday run takes about three minutes. On Saturdays and
 Sundays the same call starts the weekly run instead (review, analysis, the week's picks;
 about six minutes), so one job covers both; Sunday only acts if Saturday's week wasn't
-recorded. GitHub's schedules stay as a backup.
+recorded. Nothing else starts the runs: GitHub's own schedules were removed on
+2026-11-14, since GitHub started them hours late. If the job fails, cron-job.org emails
+you (turn that on below), and Actions → Daily collection → Run workflow ("test"
+unticked) does the day by hand.
 Set up once, about 10 minutes. The token goes only into GitHub and cron-job.org.
 
 **1. A GitHub token that can only start this repository's workflows**

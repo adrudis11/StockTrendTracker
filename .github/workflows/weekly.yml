@@ -8,12 +8,11 @@
 # Unattended, the review only proposes changes to the theme map and the analysis prompt;
 # apply them yourself or in a Claude session (prompts/weekly_run.md).
 #
-# Like the weekday run, scheduled runs start on START (below), and the repository
-# variable STT_RUNNER overrides that (`github` now, `off` paused). GitHub starts
-# scheduled runs late or drops them, so there are three Saturday tries and a Sunday
-# fallback; the time doesn't matter, since the picks enter at Monday's open. A run on
-# Sunday still makes Saturday's picks, and a run for a week that is already recorded
-# does nothing (`stt weekly prepare` prints NOTHING TO DO). The theme priors are
+# It is started by daily.yml on Saturdays and Sundays, from the same cron-job.org call
+# at 06:00 Paris time (STT_RUNNER = `off` pauses it there). GitHub's own schedules were
+# removed on 2026-11-14 at the owner's request, since GitHub started them hours late.
+# A run on Sunday still makes Saturday's picks, and a run for a week that is already
+# recorded does nothing (`stt weekly prepare` prints NOTHING TO DO). The theme priors are
 # refreshed when they are a month old (`stt weekly finish`). Rebuild the universe
 # (`stt universe build`) by hand now and then and review its diff.
 #
@@ -25,11 +24,6 @@
 name: Weekly run
 
 on:
-  schedule:
-    - cron: "41 6 * * 6" # Saturdays
-    - cron: "41 8 * * 6"
-    - cron: "41 12 * * 6"
-    - cron: "41 8 * * 0" # Sunday fallback
   workflow_dispatch:
     inputs:
       test:

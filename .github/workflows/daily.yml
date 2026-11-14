@@ -3,16 +3,16 @@
 # on GitHub Pages. It calls no API and makes no picks: since 2026-11-11 the picks are
 # made once a week, on Saturdays (weekly.yml), from the week's digests.
 #
-# Scheduled runs start on START (below). The repository variable STT_RUNNER (Settings >
-# Secrets and variables > Actions > Variables) overrides the date: `github` runs them
-# now, `off` pauses them (and the weekly run).
-#
-# The owner wants the dashboard fresh before 07:30 Paris time, so an outside cron
-# service (cron-job.org, README "On time every morning") starts it at 06:00 Paris time
-# with trigger=cron. GitHub's schedules below are only a backup: GitHub starts them
-# hours late (07:12-07:44 UTC for 00:47) or drops them. Each run reads the news since
-# the last digest (24 to 96 hours), so a late or dropped run leaves no gap. A second
-# run on the same day only refreshes prices, scores and the dashboard.
+# Only an outside cron service starts it: cron-job.org (the owner's account, README "On
+# time every morning") calls it at 06:00 Paris time every day with trigger=cron, so the
+# dashboard is fresh before 07:30. GitHub's own schedules were removed on 2026-11-14 at
+# the owner's request: GitHub started them hours late (07:12-07:44 UTC for 00:47) or
+# dropped them. If the cron call fails, cron-job.org emails the owner; each run reads
+# the news since the last digest (24 to 96 hours), so a missed day leaves no gap. A
+# second run on the same day only refreshes prices, scores and the dashboard. The
+# repository variable STT_RUNNER (Settings > Secrets and variables > Actions >
+# Variables) = `off` pauses the cron calls' runs (and so the weekly run); runs started
+# by hand always go.
 #
 # On Saturdays and Sundays (UTC) the same call starts the weekly run instead
 # (weekly.yml: review, analysis, the week's picks), so one cron job runs every day at
@@ -26,9 +26,6 @@
 name: Daily collection
 
 on:
-  schedule:
-    - cron: "47 4 * * 1-5"
-    - cron: "17 9 * * 1-5" # collects if the first was dropped, else refreshes the dashboard
   workflow_dispatch:
     inputs:
       test:
@@ -48,7 +45,7 @@ permissions:
   actions: write # to start the weekly run on weekends
 
 env:
-  START: "2026-11-04" # first scheduled run
+  START: "2026-11-04" # first run started by the cron service
 
 defaults:
   run:

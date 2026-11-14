@@ -857,4 +857,7 @@ owner's suggestion the cron-job.org call, which fires every day at 06:00 Paris, 
 starts the weekly run on Saturdays and Sundays: `daily.yml`'s `weekly` job runs `gh
 workflow run weekly.yml` with the workflow's own token (`actions: write`; a
 workflow_dispatch made with GITHUB_TOKEN does start a run) instead of collecting. Sunday
-is a fallback that does nothing once the week is recorded.
+is a fallback that does nothing once the week is recorded. The owner then had
+GitHub's own schedules removed from both workflows: the cron call is the only start.
+If it fails, cron-job.org emails the owner, and a missed weekday leaves no gap in the
+news (the next run reads since the last digest).
