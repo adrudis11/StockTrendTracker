@@ -49,10 +49,15 @@ first in a new session).
     2026-11-11 picks are made once a week on Saturdays (the owner's choice on
     2026-11-10; see `docs/PLAN.md`). The owner wants it done before 07:30 Paris time
     (2026-11-11), so an outside cron service (cron-job.org, the owner's account and
-    token, README "On time every morning") starts it at 06:00 Paris with `trigger: cron`;
-    GitHub's schedules, hours late, are the backup. A second run that day only
-    refreshes. Run by hand with "test" ticked to try it without committing.
-  - `weekly.yml`, Saturdays (06:41, 08:41, 12:41 UTC, Sunday 08:41 as a fallback): `stt
+    token, README "On time every morning") starts it at 06:00 Paris every day with
+    `trigger: cron`; GitHub's schedules, hours late, are the backup. A second run that
+    day only refreshes. On Saturdays and Sundays (UTC) its `weekly` job starts
+    `weekly.yml` instead of collecting (`gh workflow run` with the workflow's token,
+    `actions: write`), so the same cron call makes the week's picks on Saturday
+    morning; Sunday's does nothing once the week is recorded. Run by hand with "test"
+    ticked to try it without committing.
+  - `weekly.yml`, started on Saturday at 06:00 Paris by `daily.yml` (above); its own
+    schedules (06:41, 08:41, 12:41 UTC, Sunday 08:41) are a backup: `stt
     weekly prepare` (the data, plus the week's digest joined from the weekday digests by
     `digest.merge_week`), `stt review` (writes `data/reviews/`), `stt analyze`, `stt
     weekly finish` (10 buys and 5 avoids at 20 days, ledger, report, dashboard), commit

@@ -78,8 +78,11 @@ list; the review reads the scoreboard and the week's results. At the prices in
 
 GitHub starts its own schedules hours late (runs set for 00:47 UTC started at 07:12 to
 07:44 UTC in November 2026) and sometimes drops them. So that the weekday dashboard is
-ready before 07:30 Paris time, a free outside cron service starts the weekday run at
-06:00 Paris time; it takes about three minutes. GitHub's schedules stay as a backup.
+ready before 07:30 Paris time, a free outside cron service starts the daily workflow at
+06:00 Paris time every day; the weekday run takes about three minutes. On Saturdays and
+Sundays the same call starts the weekly run instead (review, analysis, the week's picks;
+about six minutes), so one job covers both; Sunday only acts if Saturday's week wasn't
+recorded. GitHub's schedules stay as a backup.
 Set up once, about 10 minutes. The token goes only into GitHub and cron-job.org.
 
 **1. A GitHub token that can only start this repository's workflows**
@@ -101,8 +104,9 @@ Set up once, about 10 minutes. The token goes only into GitHub and cron-job.org.
 2. **Cronjobs** → **Create cronjob**.
 3. **Title:** `StockTrendTracker daily`. **URL:**
    `https://api.github.com/repos/adrudis11/StockTrendTracker/actions/workflows/daily.yml/dispatches`
-4. **Schedule:** custom, Monday to Friday at 06:00, time zone **Europe/Paris** (in
-   crontab form `0 6 * * 1-5`). It follows summer and winter time by itself.
+4. **Schedule:** every day at 06:00, time zone **Europe/Paris** (in crontab form
+   `0 6 * * *`). Every day, not Monday to Friday: the Saturday call makes the week's
+   picks. It follows summer and winter time by itself.
 5. **Advanced:**
    - **Request method:** `POST`
    - **Headers** (add four):
@@ -115,10 +119,12 @@ Set up once, about 10 minutes. The token goes only into GitHub and cron-job.org.
    - Turn on the email notification for failed executions.
 6. **Save**, then press **Test run**. The response should be `204 No Content` and a
    new "Daily collection" run appears in the Actions tab within a minute. On a day that
-   is already collected it only refreshes prices and the dashboard.
+   is already collected it only refreshes prices and the dashboard. On a Saturday or
+   Sunday it starts the weekly run (a real one, about $1.50 of API, unless the week is
+   already recorded), so press Test run on a weekday.
 
-The token can only start, cancel and read Actions runs of this repository, and the
-weekday run makes no Claude API call, so it costs nothing. `STT_RUNNER` = `off` also
+The token can only start, cancel and read Actions runs of this repository. The weekday
+run makes no Claude API call; the Saturday run is the week's one review and analysis. `STT_RUNNER` = `off` also
 pauses the outside trigger's runs; your own manual runs always go.
 
 ### If something goes wrong

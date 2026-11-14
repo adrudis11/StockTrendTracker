@@ -35,7 +35,7 @@ breaks) and the end of `docs/PLAN.md` (progress log).
 | What | When | Notes |
 |---|---|---|
 | `daily.yml` | Weekdays, by cron-job.org at 06:00 Paris time; GitHub's schedules at 04:47 and 09:17 UTC as a backup | `stt collect`, free. The owner wants it done before 07:30 Paris time. The news window runs from the last digest (24–96 h), so a late run leaves no gap. A second run that day only refreshes prices and the dashboard. |
-| `weekly.yml` | Saturdays 06:41, 08:41, 12:41 UTC, Sunday 08:41 as a fallback | Review and analysis through the API, then the week's picks. A recorded week prints NOTHING TO DO. Unattended, the review only proposes changes. |
+| `weekly.yml` | Saturday 06:00 Paris, started by `daily.yml` from the same cron-job.org call (Sunday 06:00 as a fallback); its own schedules (Saturday 06:41, 08:41, 12:41 UTC, Sunday 08:41) are a backup | Review and analysis through the API, then the week's picks. A recorded week prints NOTHING TO DO. Unattended, the review only proposes changes. |
 | Manual runs | Actions → Run workflow | With "test" ticked, nothing is recorded (the weekly test costs about $1.50). With "test" unticked, the weekday collection or the latest Saturday's week runs now. |
 
 Settings that live on GitHub, not in the repo:
@@ -100,10 +100,10 @@ time doesn't matter.
    cases look sensible (the thresholds are `STRONGER`/`WEAKER` in `watch.py`) and that
    the news matching (`short_name`) finds the companies. The outside trigger
    (cron-job.org) is needed again: see open item 4.
-4. **Outside trigger for the weekday run.** The owner sets up cron-job.org with a
-   fine-grained token (README, "On time every morning"), Monday to Friday 06:00 Paris.
-   Check that "Daily collection" runs start at about 05:00 UTC (winter) with event
-   `workflow_dispatch`; until then GitHub's late schedules run it.
+4. **Outside trigger.** The owner set up cron-job.org on 2026-11-11 (README, "On time
+   every morning"); it fires every day at 06:00 Paris, and on weekends `daily.yml`
+   starts the weekly run (since 2026-11-14). Check on the first Saturdays that a
+   "Weekly run" starts at about 05:00 UTC (winter) from the daily run's `weekly` job.
 5. **Action versions.** `actions/checkout@v4`, `actions/upload-artifact@v4` and
    `astral-sh/setup-uv@v6` target Node 20. GitHub currently runs them on Node 24 with a
    warning. Bump them to newer major versions when convenient.

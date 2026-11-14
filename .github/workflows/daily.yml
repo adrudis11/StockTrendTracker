@@ -14,9 +14,14 @@
 # the last digest (24 to 96 hours), so a late or dropped run leaves no gap. A second
 # run on the same day only refreshes prices, scores and the dashboard.
 #
+# On Saturdays and Sundays (UTC) the same call starts the weekly run instead
+# (weekly.yml: review, analysis, the week's picks), so one cron job runs every day at
+# 06:00 Paris and covers both. Sunday is a fallback: a week already recorded does
+# nothing there (2026-11-14, the owner's choice).
+#
 # Run it by hand from the Actions tab: with "test" ticked (the default) it collects on
 # the runner, keeps the digest as a downloadable file and commits and publishes
-# nothing. Unticked, it does the day now.
+# nothing. Unticked, it does the day now (on a weekend: starts the weekly run).
 
 name: Daily collection
 
@@ -40,6 +45,7 @@ permissions:
   contents: write
   pages: write
   id-token: write
+  actions: write # to start the weekly run on weekends
 
 env:
   START: "2026-11-04" # first scheduled run
@@ -53,12 +59,15 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       go: ${{ steps.check.outputs.go }}
+      weekend: ${{ steps.check.outputs.weekend }}
     steps:
       - id: check
         env:
           STT_RUNNER: ${{ vars.STT_RUNNER }}
           TRIGGER: ${{ inputs.trigger }}
         run: |
+          if [ "$(date -u +%u)" -ge 6 ]; then weekend=true; else weekend=false; fi
+          echo "weekend=$weekend" >> "$GITHUB_OUTPUT"
           if [ "$GITHUB_EVENT_NAME" = workflow_dispatch ] && [ "$TRIGGER" != cron ]; then
             go=true # started by hand
           elif [ "$STT_RUNNER" = off ] ||
@@ -70,9 +79,25 @@ jobs:
           fi
           echo "go=$go" >> "$GITHUB_OUTPUT"
 
+  weekly:
+    # On weekends: start the weekly run (Saturday's picks; on Sunday a recorded week
+    # does nothing). A workflow_dispatch made with GITHUB_TOKEN does start a new run.
+    needs: gate
+    if: >-
+      needs.gate.outputs.go == 'true' && needs.gate.outputs.weekend == 'true' &&
+      !(github.event_name == 'workflow_dispatch' && inputs.test && inputs.trigger != 'cron')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start the weekly run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run weekly.yml --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME" -f test=false
+          echo "Started the weekly run (weekly.yml) for the week to the latest Saturday."
+
   run:
     needs: gate
-    if: needs.gate.outputs.go == 'true'
+    if: needs.gate.outputs.go == 'true' && needs.gate.outputs.weekend != 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 60
     concurrency:

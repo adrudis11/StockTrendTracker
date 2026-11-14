@@ -850,3 +850,11 @@ cron-job.org job (the owner's account, a fine-grained token limited to Actions o
 repository) starts `daily.yml` at 06:00 Paris time on weekdays with `trigger: cron`;
 the run takes about three minutes and makes no API call. Setup steps are in the
 README ("On time every morning"); GitHub's schedules stay as a backup.
+
+2026-11-14, Saturday timing: the first weekly run hadn't started by 10:37 UTC (GitHub
+had fired neither of its Saturday schedules; past Saturdays ran 6.5 hours late). At the
+owner's suggestion the cron-job.org call, which fires every day at 06:00 Paris, now
+starts the weekly run on Saturdays and Sundays: `daily.yml`'s `weekly` job runs `gh
+workflow run weekly.yml` with the workflow's own token (`actions: write`; a
+workflow_dispatch made with GITHUB_TOKEN does start a run) instead of collecting. Sunday
+is a fallback that does nothing once the week is recorded.
