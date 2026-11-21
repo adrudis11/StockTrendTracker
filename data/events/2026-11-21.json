@@ -1,0 +1,538 @@
+{
+  "date": "2026-11-21",
+  "market_view": "Equities sold off hard this week. The S&P 500 fell 8.6%, the Nasdaq-100 10.5%, semis 17.8% and Taiwan 23%, and the VIX jumped to 35.9, while staples and utilities outperformed. The AI chip complex led the losses on Nvidia leadership turmoil, new congressional and California export probes, and Trump's vague threat to penalise firms that build data centres abroad. Gold and copper each fell about 10% on a firm dollar and Fed hike bets (December 88%), but January hike odds dropped 12 points to 50% and the 10-year eased to 4.91% as money sought safety. The Iran war grinds on with mines and strikes, yet Brent fell for a third week to $92.6 and US-Iran ceasefire odds rose 10-12 points. Russian missiles landing in Poland and stalled Ukraine guarantee talks keep European rearmament in focus.",
+  "events": [
+    {
+      "id": "2026-11-21-01",
+      "title": "Iran war grinds on with tanker mines, Gulf strikes and a third US carrier, but ceasefire odds rise as Trump calls new strikes unlikely",
+      "category": "conflict",
+      "regions": [
+        "US",
+        "IR",
+        "BH",
+        "KW",
+        "AE",
+        "IL"
+      ],
+      "summary": "More tankers hit mines or were attacked in and near Hormuz, including an ADNOC vessel and a reportedly sunk supertanker. Iran fired at US targets in Kuwait and Bahrain, the US struck Qeshm Island and a third US carrier arrived. Trump said new strikes are unlikely but suggested the war could run into 2027. Tucker Carlson says Trump wants to de-escalate, and the Senate blocked a bid to rein in the war.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.5,
+      "duration": "weeks",
+      "sources": [
+        "S007",
+        "S010",
+        "S024",
+        "S026",
+        "S021",
+        "S080",
+        "S186",
+        "S051",
+        "S053",
+        "S065",
+        "S116",
+        "S008",
+        "S023",
+        "S064",
+        "S017",
+        "S018",
+        "S066",
+        "S191",
+        "S100",
+        "S210",
+        "S190",
+        "S233",
+        "S074",
+        "S037",
+        "S012",
+        "S095",
+        "S141",
+        "S091",
+        "S029",
+        "S205"
+      ],
+      "impacts": [
+        {
+          "target": "theme:middle_east_escalation",
+          "direction": -1,
+          "magnitude": 0.2,
+          "confidence": 0.42,
+          "horizon_days": 20,
+          "rationale": "Headlines stress attacks, but the money points the other way: US-Iran ceasefire odds rose 10-12 points (56% by 30 Nov, 84% by year-end) and Brent fell again -> the escalation premium keeps fading -> energy majors lag airlines. Mine incidents persist and a risk-off market hurts airlines, so confidence is low.",
+          "against_coverage": true
+        }
+      ]
+    },
+    {
+      "id": "2026-11-21-02",
+      "title": "Oil falls for a third straight week on strong Middle East exports and higher US stocks; IEA sees lasting cut in Hormuz reliance",
+      "category": "energy",
+      "regions": [
+        "SA",
+        "IQ",
+        "US",
+        "AE"
+      ],
+      "summary": "Brent fell for a third consecutive week to about $92.6, down 21% in 20 days, as Middle East exports stayed strong and US crude inventories rose. The IEA said the energy-security response to the Iran war could permanently cut reliance on Hormuz and lower oil demand by 4% by 2035. Houthi attacks on Riyadh briefly lifted prices on Friday.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.35,
+      "duration": "weeks",
+      "sources": [
+        "S034",
+        "S111",
+        "S121",
+        "S125",
+        "S052",
+        "S127",
+        "S122",
+        "S230",
+        "S148"
+      ],
+      "impacts": [
+        {
+          "target": "theme:oil_supply_shock",
+          "direction": -1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Exports via bypass routes are holding up, US stocks are building and a surplus is forecast -> the remaining war premium erodes -> producers lag. Brent is already -21% in 20 days, so most of the move is priced and the size is small.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-21-03",
+      "title": "Houthis gain ground at Bab al-Mandab and threaten Saudi Red Sea ports",
+      "category": "conflict",
+      "regions": [
+        "YE",
+        "SA"
+      ],
+      "summary": "Saudi-backed Yemeni forces pulled troops back from the Bab al-Mandab Strait to defend Aden. The Saudi coalition then launched a major attack on the Houthis, who threatened counter-strikes on Saudi Red Sea ports and attacked Riyadh.",
+      "certainty": "confirmed",
+      "novelty": 0.7,
+      "severity": 0.35,
+      "duration": "weeks",
+      "sources": [
+        "S048",
+        "S165",
+        "S134",
+        "S188",
+        "S122",
+        "S146"
+      ],
+      "impacts": [
+        {
+          "target": "theme:shipping_disruption",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Houthi control of the Bab al-Mandab shoreline and threats to Saudi Red Sea ports such as Yanbu, the main bypass for Hormuz -> a second chokepoint at risk alongside Hormuz -> higher freight and insurance rates help shippers and hurt transport users. BOAT fell 5% in the sell-off, so this is not priced, but the threats may not be carried out.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-21-04",
+      "title": "Russian missiles land in Poland during NATO drills as Russia launches its biggest attacks this year; Moscow rejects US security-guarantee idea",
+      "category": "defense",
+      "regions": [
+        "RU",
+        "UA",
+        "PL",
+        "EE",
+        "EU",
+        "US"
+      ],
+      "summary": "Russian missiles and a jet drone violated Polish airspace and landed in Poland; Tusk and NATO called it a provocation and a violation. Russia launched its biggest attacks of the year after Ukraine struck the Crimean Bridge three times, and Estonia will close its Russian border crossings. Kushner says Trump is open to NATO-like guarantees for Ukraine, which Russia rejected. Europeans set a united negotiating position in Berlin, and the Commission disbursed €1.71bn to Ukraine for drones, ammunition and air defence.",
+      "certainty": "confirmed",
+      "novelty": 0.6,
+      "severity": 0.5,
+      "duration": "months",
+      "sources": [
+        "S083",
+        "S124",
+        "S119",
+        "S063",
+        "S166",
+        "S209",
+        "S145",
+        "S071",
+        "S208",
+        "S038",
+        "S115",
+        "S173",
+        "S112",
+        "S022",
+        "S078",
+        "S128",
+        "S195",
+        "S143",
+        "S202",
+        "S079",
+        "S003",
+        "S168",
+        "S019",
+        "S047",
+        "S204",
+        "S094",
+        "S203",
+        "S217",
+        "S061"
+      ],
+      "impacts": [
+        {
+          "target": "theme:defense_europe",
+          "direction": 1,
+          "magnitude": 0.25,
+          "confidence": 0.5,
+          "horizon_days": 20,
+          "rationale": "Missiles hitting NATO territory, record Russian strikes and Moscow rejecting guarantees -> peace hopes fade and eastern-flank air-defence demand rises, with fresh EU funding for drones and air defence -> European defence gains. WDEF held flat on Friday while the Euro STOXX fell 2.8% and is -4.5% in 20 days, so expectations are not stretched.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-21-05",
+      "title": "California probes Nvidia exports as House panel says US approved ~900,000 AI chips to China; Nvidia board rebuffs Huang return",
+      "category": "technology",
+      "regions": [
+        "US",
+        "CN"
+      ],
+      "summary": "A House committee said the US signed off on sales of nearly 900,000 AI chips to China in six months, Reuters reported the US will curb China's access to AI chips, and California opened a probe into whether Nvidia exports reached China. Nvidia set up an export-compliance committee. Its board is not considering reinstating Jensen Huang, despite Trump's support for his return. Trump said Nvidia could sell Blackwell chips to China in three years.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.5,
+      "duration": "months",
+      "sources": [
+        "S043",
+        "S234",
+        "S085",
+        "S045",
+        "S118",
+        "S050",
+        "S004",
+        "S002",
+        "S082",
+        "S098",
+        "S044",
+        "S159",
+        "S192"
+      ],
+      "impacts": [
+        {
+          "target": "theme:chip_export_controls",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Congressional evidence of large approved volumes, a state probe and a reported federal curb, with a 56-44 Democratic Senate -> tighter licensing and enforcement on China AI chips -> pressure on Nvidia and chip-tool makers. SMH is already -18% in 5 days and a rebound is possible, so confidence is moderate.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-21-06",
+      "title": "Trump-Xi-Putin APEC summit ends with nuclear-war statement and talk of moderate AI rules, but no trade deliverable",
+      "category": "diplomacy",
+      "regions": [
+        "US",
+        "CN",
+        "RU"
+      ],
+      "summary": "The first trilateral Trump-Xi-Putin meeting ended with a joint declaration that nuclear war must never be fought. Trump said he and Xi want moderate AI rules. Xi and Putin criticised Western protectionism and sanctions, and no tariff or farm deal was announced.",
+      "certainty": "confirmed",
+      "novelty": 0.6,
+      "severity": 0.35,
+      "duration": "weeks",
+      "sources": [
+        "S015",
+        "S056",
+        "S057",
+        "S113",
+        "S206",
+        "S046",
+        "S059",
+        "S123",
+        "S108",
+        "S169",
+        "S196"
+      ],
+      "impacts": [
+        {
+          "target": "theme:us_china_trade_escalation",
+          "direction": -1,
+          "magnitude": 0.1,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "A cordial summit and shared AI language, with China's tariff truce still extended -> lower near-term odds of new tariffs -> China ETFs and Apple gain relative to steelmakers. There was no concrete deal and FXI fell 6.7%, so the size is small.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-21-07",
+      "title": "Trump says US will penalise firms building data centres abroad",
+      "category": "industrial_policy",
+      "regions": [
+        "US"
+      ],
+      "summary": "Trump said the US will penalise companies that build data centres abroad. He gave little detail, and his team was reportedly hearing about the idea for the first time.",
+      "certainty": "reported",
+      "novelty": 1.0,
+      "severity": 0.35,
+      "duration": "weeks",
+      "sources": [
+        "S006"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:MSFT",
+          "direction": -1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Microsoft has the largest overseas cloud data-centre build-out, notably in Europe -> penalties or forced reshoring would raise costs and complicate sovereign-cloud plans -> underperformance. The idea is vague and may never become policy, and the stock is already down in the AI sell-off, so confidence is low.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-21-08",
+      "title": "Waller floats half-point hike to 'shock people' while Bessent urges smaller hike; January hike odds fall",
+      "category": "central_bank",
+      "regions": [
+        "US"
+      ],
+      "summary": "Fed Governor Waller said the Fed may need a half-point December hike unless it signals a January increase. Treasury Secretary Bessent argued for a smaller hike, citing the energy shock, and Governor Lisa Cook refused to attend a hearing convened by Trump. Polymarket gives an 88% chance of a 25bp December hike (-4 points), and January hike odds fell 12 points to 50% as the 10-year yield eased to 4.91%.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.45,
+      "duration": "weeks",
+      "sources": [
+        "S040",
+        "S182",
+        "S086",
+        "S033",
+        "S180",
+        "S049",
+        "S136",
+        "S042"
+      ],
+      "impacts": [
+        {
+          "target": "theme:us_rates_up",
+          "direction": -1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Hawkish Waller headlines aside, the money moved the other way: January hike odds -12 points, the 10-year -4.7% on the week and the VIX at 36 -> an equity rout and administration pressure make follow-on hikes less likely -> banks lag rate-sensitive real estate and homebuilders. December is still priced at 88%.",
+          "against_coverage": true
+        }
+      ]
+    },
+    {
+      "id": "2026-11-21-09",
+      "title": "US signs critical minerals deals at Quad meeting; Kenya picks US consortium for Mrima Hill rare earths",
+      "category": "industrial_policy",
+      "regions": [
+        "US",
+        "PH",
+        "KE",
+        "JP",
+        "CL",
+        "AU",
+        "IN"
+      ],
+      "summary": "Trump announced critical minerals agreements at the Quad meeting in Manila and said the US will catch up with China on rare earths within 10 months. Kenya chose a US consortium to develop the Mrima Hill critical minerals project, and Chile and Japan deepened minerals cooperation.",
+      "certainty": "confirmed",
+      "novelty": 0.6,
+      "severity": 0.25,
+      "duration": "months",
+      "sources": [
+        "S167",
+        "S089",
+        "S088",
+        "S187"
+      ],
+      "impacts": [
+        {
+          "target": "theme:critical_minerals",
+          "direction": 1,
+          "magnitude": 0.1,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "More government-backed offtake and financing for non-Chinese supply -> policy support for rare-earth and battery-metal producers. Copper -10% and the macro sell-off weigh on miners, so confidence is low.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-21-10",
+      "title": "Sheinbaum says Mexico-US trade talks 'very far along' after meeting Trump at APEC",
+      "category": "trade",
+      "regions": [
+        "MX",
+        "US",
+        "CA"
+      ],
+      "summary": "Mexican President Sheinbaum said trade talks with the US are 'very far along' after meeting Trump at APEC, a week after he threatened to double tariffs on Mexico. Canada sees little US movement on tariff relief, and Trump says more work is needed on a Canada deal.",
+      "certainty": "confirmed",
+      "novelty": 0.6,
+      "severity": 0.3,
+      "duration": "weeks",
+      "sources": [
+        "S067",
+        "S041",
+        "S160",
+        "S140",
+        "S009",
+        "S069"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:EWW",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Talks are progressing after a face-to-face meeting -> the threat to double tariffs looks like leverage, not policy -> the risk premium on Mexican assets eases. This reverses last week's negative call on new information.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-21-11",
+      "title": "EU imposes anti-dumping duties on steel imports from India and four other countries",
+      "category": "trade",
+      "regions": [
+        "EU",
+        "IN"
+      ],
+      "summary": "The EU imposed anti-dumping duties on steel imports from India and four other countries.",
+      "certainty": "reported",
+      "novelty": 0.7,
+      "severity": 0.25,
+      "duration": "years",
+      "sources": [
+        "S114"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:MT.AS",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "New duties on low-cost Asian steel -> less import competition in the EU -> firmer European steel prices and volumes -> ArcelorMittal, the largest EU producer, benefits.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-21-12",
+      "title": "DOJ closes antitrust probe of NextEra's acquisition of Dominion Energy",
+      "category": "regulation",
+      "regions": [
+        "US"
+      ],
+      "summary": "The Justice Department's antitrust division closed its review of NextEra Energy's acquisition of Dominion Energy.",
+      "certainty": "confirmed",
+      "novelty": 0.8,
+      "severity": 0.25,
+      "duration": "months",
+      "sources": [
+        "S039"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:D",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.5,
+          "horizon_days": 20,
+          "rationale": "Federal antitrust clearance removes a major deal risk -> the spread to the offer narrows -> Dominion, the target, outperforms. State utility approvals are still pending.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-21-13",
+      "title": "European Commission approves UniCredit's acquisition of Commerzbank",
+      "category": "regulation",
+      "regions": [
+        "EU",
+        "IT",
+        "DE"
+      ],
+      "summary": "The European Commission approved UniCredit's acquisition of Commerzbank, Executive Vice-President Ribera announced.",
+      "certainty": "confirmed",
+      "novelty": 0.7,
+      "severity": 0.3,
+      "duration": "months",
+      "sources": [
+        "S216"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:CBK.DE",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "EU competition clearance removes a key hurdle -> higher odds the takeover completes -> the takeover premium is better supported for Commerzbank, the target. German political opposition remains a risk.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-21-14",
+      "title": "FERC approves 19 Mt/y Sabine Pass LNG expansion; China Gas doubles its 20-year Venture Global contract",
+      "category": "energy",
+      "regions": [
+        "US",
+        "CN"
+      ],
+      "summary": "FERC approved a 19 Mt/y expansion of Sabine Pass LNG and two pipeline projects. China Gas doubled the volume in its 20-year LNG deal with Venture Global, and Woodside signed a 10-year LNG supply deal with Trafigura.",
+      "certainty": "confirmed",
+      "novelty": 0.6,
+      "severity": 0.25,
+      "duration": "years",
+      "sources": [
+        "S184",
+        "S055",
+        "S076"
+      ],
+      "impacts": [
+        {
+          "target": "theme:us_fossil_energy_policy",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "New LNG export approvals and long-term contracts, including Chinese buyers -> more US feed-gas demand and pipeline throughput -> gas producers and midstream gain. Henry Hub is already +29% in 20 days, so the size is small.",
+          "against_coverage": false
+        }
+      ]
+    }
+  ],
+  "trump_calls": [
+    {
+      "ticker": "NVDA",
+      "company": "Nvidia",
+      "stance": "positive",
+      "explicit": false,
+      "said_on": "2026-11-20",
+      "quote": "Calls Jensen Huang a 'good man' and urges Nvidia to give him a 'second chance'; earlier said he 'would not mind' Huang's reinstatement",
+      "sources": [
+        "S044",
+        "S002",
+        "S082",
+        "S098"
+      ]
+    }
+  ]
+}
