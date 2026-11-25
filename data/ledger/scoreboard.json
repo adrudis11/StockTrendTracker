@@ -1,6 +1,6 @@
 {
- "matured": 615,
- "open": 779,
+ "matured": 663,
+ "open": 731,
  "rows": [
   {
    "strategy": "congress",
@@ -11,6 +11,16 @@
    "mean_excess": 0.01307,
    "median_excess": 0.0139,
    "t_stat": 1.13
+  },
+  {
+   "strategy": "congress",
+   "horizon": 20,
+   "side": "long",
+   "n": 10,
+   "hit_rate": 0.8,
+   "mean_excess": 0.06756,
+   "median_excess": 0.07415,
+   "t_stat": 0.94
   },
   {
    "strategy": "geo",
@@ -33,6 +43,26 @@
    "t_stat": -6.02
   },
   {
+   "strategy": "geo",
+   "horizon": 20,
+   "side": "avoid",
+   "n": 1,
+   "hit_rate": 0.0,
+   "mean_excess": -0.08656,
+   "median_excess": -0.08656,
+   "t_stat": null
+  },
+  {
+   "strategy": "geo",
+   "horizon": 20,
+   "side": "long",
+   "n": 3,
+   "hit_rate": 0.0,
+   "mean_excess": -0.05801,
+   "median_excess": -0.05875,
+   "t_stat": -1.96
+  },
+  {
    "strategy": "insiders",
    "horizon": 5,
    "side": "long",
@@ -41,6 +71,16 @@
    "mean_excess": 0.00985,
    "median_excess": 0.01738,
    "t_stat": 1.41
+  },
+  {
+   "strategy": "insiders",
+   "horizon": 20,
+   "side": "long",
+   "n": 10,
+   "hit_rate": 0.8,
+   "mean_excess": 0.08033,
+   "median_excess": 0.12556,
+   "t_stat": 2.14
   },
   {
    "strategy": "momentum",
@@ -63,6 +103,26 @@
    "t_stat": -1.25
   },
   {
+   "strategy": "momentum",
+   "horizon": 20,
+   "side": "avoid",
+   "n": 4,
+   "hit_rate": 1.0,
+   "mean_excess": 0.18649,
+   "median_excess": 0.18763,
+   "t_stat": 8.42
+  },
+  {
+   "strategy": "momentum",
+   "horizon": 20,
+   "side": "long",
+   "n": 7,
+   "hit_rate": 1.0,
+   "mean_excess": 0.07889,
+   "median_excess": 0.07747,
+   "t_stat": 3.71
+  },
+  {
    "strategy": "random",
    "horizon": 5,
    "side": "avoid",
@@ -81,6 +141,26 @@
    "mean_excess": -0.00955,
    "median_excess": -0.0051,
    "t_stat": -1.68
+  },
+  {
+   "strategy": "random",
+   "horizon": 20,
+   "side": "avoid",
+   "n": 4,
+   "hit_rate": 0.0,
+   "mean_excess": -0.10614,
+   "median_excess": -0.10944,
+   "t_stat": -2.61
+  },
+  {
+   "strategy": "random",
+   "horizon": 20,
+   "side": "long",
+   "n": 9,
+   "hit_rate": 0.0,
+   "mean_excess": -0.06321,
+   "median_excess": -0.05875,
+   "t_stat": -6.12
   },
   {
    "strategy": "trump",
@@ -103,7 +183,14 @@
    "t_stat": -2.03
   }
  ],
- "calibration": [],
- "brier": null,
+ "calibration": [
+  {
+   "bucket": "(0.55, 0.6]",
+   "n": 4,
+   "predicted": 0.575,
+   "observed": 0.0
+  }
+ ],
+ "brier": 0.3302,
  "enough_data": false
 }

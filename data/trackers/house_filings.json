@@ -8728,6 +8728,13 @@
 "trades": 1,
 "year": "2026"
 },
+"20035776": {
+"filed": "2026-11-23",
+"member": "Harriet Hageman",
+"status": "parsed",
+"trades": 169,
+"year": "2026"
+},
 "20035778": {
 "filed": "2026-11-05",
 "member": "Maria Elvira Salazar",
@@ -8810,6 +8817,13 @@
 "member": "Thomas H. Kean",
 "status": "parsed",
 "trades": 5,
+"year": "2026"
+},
+"20036848": {
+"filed": "2026-11-24",
+"member": "Daniel Meuser",
+"status": "missing",
+"trades": 0,
 "year": "2026"
 },
 "20036849": {
