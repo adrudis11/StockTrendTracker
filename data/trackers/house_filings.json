@@ -8822,8 +8822,8 @@
 "20036848": {
 "filed": "2026-11-24",
 "member": "Daniel Meuser",
-"status": "missing",
-"trades": 0,
+"status": "parsed",
+"trades": 1,
 "year": "2026"
 },
 "20036849": {
@@ -8847,6 +8847,13 @@
 "trades": 1,
 "year": "2026"
 },
+"20036875": {
+"filed": "2026-11-24",
+"member": "Kevin Hern",
+"status": "parsed",
+"trades": 10,
+"year": "2026"
+},
 "20036883": {
 "filed": "2026-11-20",
 "member": "Jennifer McClellan",
@@ -8859,6 +8866,13 @@
 "member": "Ed Case",
 "status": "parsed",
 "trades": 1,
+"year": "2026"
+},
+"20036908": {
+"filed": "2026-11-24",
+"member": "Robert For Onder",
+"status": "parsed",
+"trades": 11,
 "year": "2026"
 },
 "8220118": {

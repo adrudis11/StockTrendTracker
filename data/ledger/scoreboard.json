@@ -1,6 +1,6 @@
 {
- "matured": 663,
- "open": 731,
+ "matured": 712,
+ "open": 682,
  "rows": [
   {
    "strategy": "congress",
@@ -16,11 +16,11 @@
    "strategy": "congress",
    "horizon": 20,
    "side": "long",
-   "n": 10,
-   "hit_rate": 0.8,
-   "mean_excess": 0.06756,
-   "median_excess": 0.07415,
-   "t_stat": 0.94
+   "n": 20,
+   "hit_rate": 0.7,
+   "mean_excess": 0.05536,
+   "median_excess": 0.0639,
+   "t_stat": 1.12
   },
   {
    "strategy": "geo",
@@ -46,21 +46,21 @@
    "strategy": "geo",
    "horizon": 20,
    "side": "avoid",
-   "n": 1,
-   "hit_rate": 0.0,
-   "mean_excess": -0.08656,
-   "median_excess": -0.08656,
-   "t_stat": null
+   "n": 2,
+   "hit_rate": 0.5,
+   "mean_excess": -0.00867,
+   "median_excess": -0.00867,
+   "t_stat": -0.11
   },
   {
    "strategy": "geo",
    "horizon": 20,
    "side": "long",
-   "n": 3,
-   "hit_rate": 0.0,
-   "mean_excess": -0.05801,
-   "median_excess": -0.05875,
-   "t_stat": -1.96
+   "n": 11,
+   "hit_rate": 0.545,
+   "mean_excess": -0.00877,
+   "median_excess": 0.00268,
+   "t_stat": -0.61
   },
   {
    "strategy": "insiders",
@@ -76,11 +76,11 @@
    "strategy": "insiders",
    "horizon": 20,
    "side": "long",
-   "n": 10,
-   "hit_rate": 0.8,
-   "mean_excess": 0.08033,
+   "n": 20,
+   "hit_rate": 0.75,
+   "mean_excess": 0.06421,
    "median_excess": 0.12556,
-   "t_stat": 2.14
+   "t_stat": 2.22
   },
   {
    "strategy": "momentum",
@@ -106,21 +106,21 @@
    "strategy": "momentum",
    "horizon": 20,
    "side": "avoid",
-   "n": 4,
+   "n": 8,
    "hit_rate": 1.0,
-   "mean_excess": 0.18649,
-   "median_excess": 0.18763,
-   "t_stat": 8.42
+   "mean_excess": 0.18991,
+   "median_excess": 0.19525,
+   "t_stat": 10.08
   },
   {
    "strategy": "momentum",
    "horizon": 20,
    "side": "long",
-   "n": 7,
-   "hit_rate": 1.0,
-   "mean_excess": 0.07889,
-   "median_excess": 0.07747,
-   "t_stat": 3.71
+   "n": 15,
+   "hit_rate": 0.867,
+   "mean_excess": 0.07149,
+   "median_excess": 0.07583,
+   "t_stat": 4.35
   },
   {
    "strategy": "random",
@@ -146,21 +146,21 @@
    "strategy": "random",
    "horizon": 20,
    "side": "avoid",
-   "n": 4,
+   "n": 6,
    "hit_rate": 0.0,
-   "mean_excess": -0.10614,
+   "mean_excess": -0.09681,
    "median_excess": -0.10944,
-   "t_stat": -2.61
+   "t_stat": -2.98
   },
   {
    "strategy": "random",
    "horizon": 20,
    "side": "long",
-   "n": 9,
-   "hit_rate": 0.0,
-   "mean_excess": -0.06321,
-   "median_excess": -0.05875,
-   "t_stat": -6.12
+   "n": 15,
+   "hit_rate": 0.267,
+   "mean_excess": -0.02329,
+   "median_excess": -0.05004,
+   "t_stat": -1.23
   },
   {
    "strategy": "trump",
@@ -186,11 +186,17 @@
  "calibration": [
   {
    "bucket": "(0.55, 0.6]",
-   "n": 4,
-   "predicted": 0.575,
-   "observed": 0.0
+   "n": 12,
+   "predicted": 0.574,
+   "observed": 0.5
+  },
+  {
+   "bucket": "(0.6, 0.65]",
+   "n": 1,
+   "predicted": 0.64,
+   "observed": 1.0
   }
  ],
- "brier": 0.3302,
+ "brier": 0.2442,
  "enough_data": false
 }
