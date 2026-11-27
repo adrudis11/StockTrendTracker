@@ -1,6 +1,6 @@
 {
- "matured": 712,
- "open": 682,
+ "matured": 740,
+ "open": 654,
  "rows": [
   {
    "strategy": "congress",
@@ -46,21 +46,21 @@
    "strategy": "geo",
    "horizon": 20,
    "side": "avoid",
-   "n": 2,
-   "hit_rate": 0.5,
-   "mean_excess": -0.00867,
-   "median_excess": -0.00867,
-   "t_stat": -0.11
+   "n": 10,
+   "hit_rate": 0.6,
+   "mean_excess": 0.03617,
+   "median_excess": 0.00825,
+   "t_stat": 1.2
   },
   {
    "strategy": "geo",
    "horizon": 20,
    "side": "long",
-   "n": 11,
-   "hit_rate": 0.545,
-   "mean_excess": -0.00877,
-   "median_excess": 0.00268,
-   "t_stat": -0.61
+   "n": 14,
+   "hit_rate": 0.571,
+   "mean_excess": 0.01714,
+   "median_excess": 0.00362,
+   "t_stat": 0.68
   },
   {
    "strategy": "insiders",
@@ -106,21 +106,21 @@
    "strategy": "momentum",
    "horizon": 20,
    "side": "avoid",
-   "n": 8,
+   "n": 10,
    "hit_rate": 1.0,
-   "mean_excess": 0.18991,
-   "median_excess": 0.19525,
-   "t_stat": 10.08
+   "mean_excess": 0.15514,
+   "median_excess": 0.18763,
+   "t_stat": 5.63
   },
   {
    "strategy": "momentum",
    "horizon": 20,
    "side": "long",
-   "n": 15,
-   "hit_rate": 0.867,
-   "mean_excess": 0.07149,
-   "median_excess": 0.07583,
-   "t_stat": 4.35
+   "n": 20,
+   "hit_rate": 0.9,
+   "mean_excess": 0.06094,
+   "median_excess": 0.06252,
+   "t_stat": 4.6
   },
   {
    "strategy": "random",
@@ -146,21 +146,21 @@
    "strategy": "random",
    "horizon": 20,
    "side": "avoid",
-   "n": 6,
-   "hit_rate": 0.0,
-   "mean_excess": -0.09681,
-   "median_excess": -0.10944,
-   "t_stat": -2.98
+   "n": 11,
+   "hit_rate": 0.364,
+   "mean_excess": -0.04483,
+   "median_excess": -0.00748,
+   "t_stat": -1.72
   },
   {
    "strategy": "random",
    "horizon": 20,
    "side": "long",
-   "n": 15,
-   "hit_rate": 0.267,
-   "mean_excess": -0.02329,
-   "median_excess": -0.05004,
-   "t_stat": -1.23
+   "n": 20,
+   "hit_rate": 0.3,
+   "mean_excess": -0.01661,
+   "median_excess": -0.03686,
+   "t_stat": -1.04
   },
   {
    "strategy": "trump",
@@ -186,17 +186,17 @@
  "calibration": [
   {
    "bucket": "(0.55, 0.6]",
-   "n": 12,
-   "predicted": 0.574,
-   "observed": 0.5
+   "n": 22,
+   "predicted": 0.575,
+   "observed": 0.545
   },
   {
    "bucket": "(0.6, 0.65]",
-   "n": 1,
-   "predicted": 0.64,
+   "n": 2,
+   "predicted": 0.631,
    "observed": 1.0
   }
  ],
- "brier": 0.2442,
+ "brier": 0.2376,
  "enough_data": false
 }
