@@ -1,75 +1,75 @@
 {
- "generated_at": "2026-10-28T11:25:38.298835+00:00",
+ "generated_at": "2026-11-28T05:09:44.749304+00:00",
  "method": "every horizon sessions, the 10 stocks with the strongest buying disclosed in the 30 days before (filings public before that day, trades under 60 days old) vs SPY. Congress: House filings, no dividend reinvestments. Insiders: open-market purchases on Form 4. Current index members only.",
- "weight": 0.0,
+ "weight": 0.2,
  "congress": {
   "5": {
    "horizon": 5,
    "start": "2024-03-04",
-   "end": "2026-10-27",
+   "end": "2026-11-27",
    "buys": {
-    "periods": 137,
-    "picks": 1349,
-    "mean_excess": 0.00037,
-    "t_stat": 0.24,
-    "hit_rate": 0.49
+    "periods": 142,
+    "picks": 1400,
+    "mean_excess": 0.00215,
+    "t_stat": 1.52,
+    "hit_rate": 0.509
    },
    "sells": {
-    "periods": 137,
-    "picks": 1363,
-    "mean_excess": 0.00166,
-    "t_stat": 1.13,
-    "hit_rate": 0.522
+    "periods": 142,
+    "picks": 1410,
+    "mean_excess": 0.00094,
+    "t_stat": 0.6,
+    "hit_rate": 0.511
    }
   },
   "20": {
    "horizon": 20,
    "start": "2024-03-04",
-   "end": "2026-10-27",
+   "end": "2026-11-27",
    "buys": {
-    "periods": 34,
-    "picks": 335,
-    "mean_excess": 0.00225,
-    "t_stat": 0.31,
-    "hit_rate": 0.481
+    "periods": 35,
+    "picks": 344,
+    "mean_excess": 0.01445,
+    "t_stat": 2.02,
+    "hit_rate": 0.529
    },
    "sells": {
-    "periods": 34,
-    "picks": 340,
-    "mean_excess": -0.00295,
-    "t_stat": -0.44,
-    "hit_rate": 0.494
+    "periods": 35,
+    "picks": 350,
+    "mean_excess": -0.00318,
+    "t_stat": -0.41,
+    "hit_rate": 0.509
    }
   }
  },
  "momentum_same_window": {
   "5": {
-   "periods": 144,
-   "mean_excess": 0.0051,
-   "t_stat": 1.7,
-   "hit_rate": 0.494,
-   "share_of_periods_beating_benchmark": 0.576
+   "periods": 149,
+   "mean_excess": 0.00482,
+   "t_stat": 1.65,
+   "hit_rate": 0.495,
+   "share_of_periods_beating_benchmark": 0.57
   },
   "20": {
-   "periods": 35,
-   "mean_excess": 0.04527,
-   "t_stat": 3.57,
-   "hit_rate": 0.609,
-   "share_of_periods_beating_benchmark": 0.686
+   "periods": 36,
+   "mean_excess": 0.04155,
+   "t_stat": 3.24,
+   "hit_rate": 0.603,
+   "share_of_periods_beating_benchmark": 0.667
   }
  },
- "insider_weight": 0.0,
+ "insider_weight": 0.086,
  "insiders": {
   "5": {
    "horizon": 5,
    "start": "2021-11-30",
-   "end": "2026-10-27",
+   "end": "2026-11-27",
    "buys": {
-    "periods": 255,
-    "picks": 2530,
-    "mean_excess": 0.00088,
-    "t_stat": 0.7,
-    "hit_rate": 0.483
+    "periods": 259,
+    "picks": 2561,
+    "mean_excess": 0.0008,
+    "t_stat": 0.67,
+    "hit_rate": 0.5
    },
    "sells": {
     "periods": 0,
@@ -82,13 +82,13 @@
   "20": {
    "horizon": 20,
    "start": "2021-11-30",
-   "end": "2026-10-27",
+   "end": "2026-11-27",
    "buys": {
-    "periods": 63,
-    "picks": 620,
-    "mean_excess": 0.00331,
-    "t_stat": 0.71,
-    "hit_rate": 0.49
+    "periods": 64,
+    "picks": 634,
+    "mean_excess": 0.00799,
+    "t_stat": 1.43,
+    "hit_rate": 0.519
    },
    "sells": {
     "periods": 0,
@@ -101,18 +101,18 @@
  },
  "momentum_insiders_window": {
   "5": {
-   "periods": 262,
-   "mean_excess": 0.00132,
-   "t_stat": 0.66,
-   "hit_rate": 0.481,
-   "share_of_periods_beating_benchmark": 0.523
+   "periods": 263,
+   "mean_excess": 0.00332,
+   "t_stat": 1.6,
+   "hit_rate": 0.497,
+   "share_of_periods_beating_benchmark": 0.49
   },
   "20": {
-   "periods": 64,
-   "mean_excess": 0.02656,
-   "t_stat": 2.53,
-   "hit_rate": 0.512,
-   "share_of_periods_beating_benchmark": 0.625
+   "periods": 65,
+   "mean_excess": 0.02519,
+   "t_stat": 2.12,
+   "hit_rate": 0.525,
+   "share_of_periods_beating_benchmark": 0.631
   }
  }
 }

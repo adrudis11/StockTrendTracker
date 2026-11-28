@@ -8,3 +8,6 @@
 {"date": "2026-11-14", "at": "2026-11-14T10:50:48+00:00", "purpose": "analysis", "model": "claude-opus-5-5", "input": 43745, "cache_write": 26888, "cache_read": 0, "output": 12603, "cost_usd": 0.5615}
 {"date": "2026-11-21", "at": "2026-11-21T05:05:24+00:00", "purpose": "review", "model": "claude-opus-5-5", "input": 38958, "cache_write": 1707, "cache_read": 0, "output": 8660, "cost_usd": 0.3376}
 {"date": "2026-11-21", "at": "2026-11-21T05:07:49+00:00", "purpose": "analysis", "model": "claude-opus-5-5", "input": 44663, "cache_write": 26888, "cache_read": 0, "output": 15850, "cost_usd": 0.6301}
+{"date": "2026-11-28", "at": "2026-11-28T05:05:46+00:00", "purpose": "review", "model": "claude-opus-5-5", "input": 42553, "cache_write": 1707, "cache_read": 0, "output": 11375, "cost_usd": 0.4062}
+{"date": "2026-11-28", "at": "2026-11-28T05:07:38+00:00", "purpose": "analysis", "model": "claude-opus-5-5", "input": 48178, "cache_write": 26888, "cache_read": 0, "output": 12254, "cost_usd": 0.5722}
+{"date": "2026-11-28", "at": "2026-11-28T05:08:20+00:00", "purpose": "analysis", "model": "claude-opus-5-5", "input": 60482, "cache_write": 0, "cache_read": 26888, "output": 6433, "cost_usd": 0.376}

@@ -1,0 +1,524 @@
+{
+  "date": "2026-11-28",
+  "market_view": "Equities steadied after last week's rout. The S&P 500 rose 1.7% and the VIX fell 34% to 23.8, but semis were still down (SMH -1.7%, AMD -15%) as money rotated back into Nvidia once Jensen Huang was reinstated under heavy pressure from Trump. On Wednesday the US proposed new 'overcapacity' tariffs on 14 partners, including China, the EU and India. Stocks dipped and then recovered, and China and others vowed to retaliate. Brent rose 3.8% to $95.4, its first weekly gain in four, as attacks on Hormuz shipping hit wartime highs and the Houthis threatened Saudi Red Sea ports; blockade-end odds by year-end are only 14%. October PCE at 3.8% keeps a December Fed hike at 94% and January at 54%. Russian pressure on NATO's eastern flank (Poland, Estonia, Latvia) keeps European rearmament bid.",
+  "events": [
+    {
+      "id": "2026-11-28-01",
+      "title": "Huang reinstated as Nvidia CEO after Trump intervention; US blacklists Megaspeed as Nvidia halts server shipments to Southeast Asia",
+      "category": "technology",
+      "regions": [
+        "US",
+        "CN",
+        "TW"
+      ],
+      "summary": "Nvidia's board reversed course and reinstated Jensen Huang after Trump lobbied it directly. The reversal added about $1tn in market value. Trump said a pardon is 'an option' and that a US stake in Nvidia 'may not be too late'. Commerce blacklisted Megaspeed and an Alibaba subsidiary linked to the chip-diversion scandal, and Nvidia halted AI server shipments to four Southeast Asian countries under new US export controls. Senate Democrats and some Republicans criticised the reinstatement; Bessent said no further China chip restrictions are needed.",
+      "certainty": "confirmed",
+      "novelty": 0.6,
+      "severity": 0.5,
+      "duration": "months",
+      "sources": [
+        "S001",
+        "S002",
+        "S005",
+        "S007",
+        "S012",
+        "S030",
+        "S037",
+        "S047",
+        "S056",
+        "S060",
+        "S061",
+        "S070",
+        "S107",
+        "S117",
+        "S118",
+        "S147",
+        "S148",
+        "S149",
+        "S150",
+        "S164",
+        "S177",
+        "S180",
+        "S189",
+        "S190",
+        "S192",
+        "S214",
+        "S216",
+        "S059",
+        "S199",
+        "S122"
+      ],
+      "impacts": [
+        {
+          "target": "theme:chip_export_controls",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "There are new entity listings (Megaspeed, an Alibaba unit), and Nvidia is halting server shipments to Southeast Asian transit hubs. A Democratic Congress is scrutinising the reinstatement -> enforcement is tightening in practice even as Bessent rules out new rules -> pressure on China-exposed chip and tool makers. White House support for Nvidia is the main offset.",
+          "against_coverage": false
+        },
+        {
+          "target": "ticker:SMCI",
+          "direction": -1,
+          "magnitude": 0.15,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Nvidia's halt of AI server shipments to four Southeast Asian countries -> server assemblers selling into the region lose volume and face compliance scrutiny -> Supermicro, which has heavy Asian channel exposure and past diversion questions, lags. This is a second-order effect the Huang-return rally ignored.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-28-02",
+      "title": "US proposes new 'overcapacity' tariffs on 14 trading partners including China, the EU, India and Brazil; partners vow to hit back",
+      "category": "trade",
+      "regions": [
+        "US",
+        "CN",
+        "EU",
+        "IN",
+        "BR"
+      ],
+      "summary": "After a probe into excess industrial capacity and subsidies, the Trump administration unveiled plans to raise tariffs on 14 trading partners, including China, the EU, India and Brazil. US stocks fell on the day, then recovered by Friday. China and other partners said they would retaliate. Separately, India said a US trade deal is nearing completion, the US and Canada are 'fairly close', and a US jury convicted Huawei of sanctions violations.",
+      "certainty": "confirmed",
+      "novelty": 0.9,
+      "severity": 0.55,
+      "duration": "months",
+      "sources": [
+        "S004",
+        "S039",
+        "S055",
+        "S097",
+        "S119",
+        "S154",
+        "S165",
+        "S022",
+        "S029",
+        "S092",
+        "S094",
+        "S141",
+        "S151",
+        "S158",
+        "S188",
+        "S160",
+        "S110",
+        "S113",
+        "S226",
+        "S019",
+        "S101",
+        "S219"
+      ],
+      "impacts": [
+        {
+          "target": "theme:us_china_trade_escalation",
+          "direction": 1,
+          "magnitude": 0.3,
+          "confidence": 0.5,
+          "horizon_days": 20,
+          "rationale": "New subsidy-based tariffs explicitly aimed at China's overcapacity, plus Chinese retaliation threats and the Huawei conviction -> escalation risk after the summit truce -> Apple, Nike and China ETFs lag US steelmakers. FXI is only +0.6% on the week, so this is not priced.",
+          "against_coverage": false
+        },
+        {
+          "target": "theme:us_eu_trade_tensions",
+          "direction": 1,
+          "magnitude": 0.25,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "The EU is named among the targets and industrial goods are in scope -> retaliation risk and a hit to export margins -> German autos lag. The DAX rose 2.6% on the week, so markets are treating it as a proposal; confidence is moderate.",
+          "against_coverage": false
+        },
+        {
+          "target": "theme:steel_protection",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.5,
+          "horizon_days": 20,
+          "rationale": "The overcapacity rationale centres on subsidised heavy industry such as steel and metals -> higher barriers to imports -> pricing power for Nucor and Steel Dynamics.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-28-03",
+      "title": "Attacks on Hormuz shipping hit wartime highs; Houthis threaten Jeddah and hit a Saudi refinery; Iranian drone kills two in Kuwait",
+      "category": "conflict",
+      "regions": [
+        "IR",
+        "US",
+        "SA",
+        "YE",
+        "KW",
+        "AE"
+      ],
+      "summary": "More tankers hit mines or were attacked in Hormuz, and the IRGC attacked a container ship. Iran says the strait will remain closed, and both the US and Iran fired at ships; the US disabled a vessel trying to breach the blockade. The Houthis threatened Jeddah and other Saudi Red Sea ports and said they attacked a Saudi refinery. An Iranian drone strike in Kuwait killed two Italian Rheinmetall technicians. Trump said the war is 'funded' through January, and the US added sanctions on Iranian shadow-banking networks.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.5,
+      "duration": "weeks",
+      "sources": [
+        "S020",
+        "S023",
+        "S024",
+        "S026",
+        "S028",
+        "S048",
+        "S080",
+        "S087",
+        "S112",
+        "S116",
+        "S152",
+        "S073",
+        "S140",
+        "S208",
+        "S206",
+        "S074",
+        "S013",
+        "S025",
+        "S049",
+        "S103",
+        "S069",
+        "S016",
+        "S032",
+        "S091",
+        "S205",
+        "S095",
+        "S129",
+        "S137",
+        "S215",
+        "S009",
+        "S227",
+        "S139",
+        "S193",
+        "S145"
+      ],
+      "impacts": [
+        {
+          "target": "theme:shipping_disruption",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Hormuz attacks are at wartime highs, the blockade looks set to persist (end-by-year odds 14%) and the Houthis now threaten Saudi Red Sea ports, the main Hormuz bypass -> two chokepoints at risk -> freight and insurance rates stay high -> shippers beat transport users. BOAT is still -9.5% in 20 days, so this is not priced.",
+          "against_coverage": false
+        },
+        {
+          "target": "theme:middle_east_escalation",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.42,
+          "horizon_days": 20,
+          "rationale": "Brent turned up (+3.8% on the week) as attacks spread to Kuwait and Saudi refining -> the energy risk premium is rebuilding after three weeks of decline -> energy majors beat airlines. Israel-Iran ceasefire odds (96%) and talk of a supply glut cap the move, so confidence is low.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-28-04",
+      "title": "US reportedly pushed Iraq and Venezuela to consider leaving OPEC ahead of OPEC+ meeting",
+      "category": "energy",
+      "regions": [
+        "US",
+        "IQ",
+        "VE",
+        "SA"
+      ],
+      "summary": "Sources say the US encouraged Iraq and Venezuela to consider leaving OPEC, ahead of an OPEC+ meeting at which traders weigh a supply glut against Middle East disruption.",
+      "certainty": "rumor",
+      "novelty": 0.9,
+      "severity": 0.3,
+      "duration": "months",
+      "sources": [
+        "S050",
+        "S093",
+        "S031",
+        "S052"
+      ],
+      "impacts": [
+        {
+          "target": "theme:oil_supply_shock",
+          "direction": -1,
+          "magnitude": 0.1,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Departures would free Iraqi and Venezuelan output from quotas and weaken OPEC+ cohesion -> more supply and less ability to defend prices -> producers lag. It is only sourced reporting and Gulf attacks are lifting crude, so the size is small.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-28-05",
+      "title": "NATO steps up eastern-flank defence after Russian missiles in Poland; Russia threatens Estonia; BAE Hägglunds wins record $6bn CV90 order",
+      "category": "defense",
+      "regions": [
+        "RU",
+        "PL",
+        "EE",
+        "LV",
+        "UA",
+        "US",
+        "SE",
+        "EU"
+      ],
+      "summary": "NATO sent early-warning aircraft to Poland after Russian missiles landed there, Poland asked NATO to shoot down Russian missiles over Ukraine, and NATO jets scrambled over a drone in Latvian airspace. Russia threatened Estonia with 'open war', and reports say it plans to launch a nuclear-armed satellite. After a Mar-a-Lago meeting, Trump and Rutte jointly warned Putin not to expand the war. Ukraine hit Russian ships off Libya and in the Baltic, the EU proposed its 22nd Russia sanctions package, and BAE Hägglunds won a record $6bn order for over 400 CV90s from five NATO nations.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.5,
+      "duration": "months",
+      "sources": [
+        "S003",
+        "S006",
+        "S089",
+        "S102",
+        "S011",
+        "S014",
+        "S015",
+        "S017",
+        "S126",
+        "S035",
+        "S034",
+        "S194",
+        "S230",
+        "S223",
+        "S182",
+        "S096",
+        "S178",
+        "S083",
+        "S155",
+        "S142",
+        "S036",
+        "S082",
+        "S072",
+        "S213",
+        "S086",
+        "S203",
+        "S235",
+        "S090",
+        "S249",
+        "S130",
+        "S132"
+      ],
+      "impacts": [
+        {
+          "target": "theme:defense_europe",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.5,
+          "horizon_days": 20,
+          "rationale": "Russian threats to Estonia, airspace violations and a joint US-NATO warning -> eastern-flank procurement keeps accelerating, as the multinational CV90 order shows -> European defence gains. WDEF is still -7.3% in 20 days after the peace-hope de-rating, so expectations are not stretched.",
+          "against_coverage": false
+        },
+        {
+          "target": "ticker:BA.L",
+          "direction": 1,
+          "magnitude": 0.2,
+          "confidence": 0.5,
+          "horizon_days": 20,
+          "rationale": "A record $6bn CV90 order for BAE's Swedish Hägglunds unit -> multi-year land-systems backlog and evidence of joint NATO buying -> BAE Systems outperforms.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-28-06",
+      "title": "October PCE inflation accelerates to 3.8%; December Fed hike odds reach 94%",
+      "category": "central_bank",
+      "regions": [
+        "US"
+      ],
+      "summary": "The Fed's preferred inflation gauge accelerated to 3.8% in October. Polymarket gives a 94% chance of a 25bp December hike and 54% for another in January. Trump called pre-midterm GDP data 'fake', and the new tariff plans reinforced hike bets.",
+      "certainty": "confirmed",
+      "novelty": 0.5,
+      "severity": 0.4,
+      "duration": "weeks",
+      "sources": [
+        "S044",
+        "S064",
+        "S160",
+        "S183",
+        "S038"
+      ],
+      "impacts": [
+        {
+          "target": "theme:us_rates_up",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.42,
+          "horizon_days": 20,
+          "rationale": "Inflation is accelerating and new tariffs add price pressure -> a follow-on January hike stays live (54%) -> banks beat REITs and homebuilders. The 10-year eased 2.3% on the week, so the money only partly agrees and confidence is low.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-28-07",
+      "title": "Spain's Hernández de Cos set to lead the ECB as Simkus says a December hike may not be enough",
+      "category": "central_bank",
+      "regions": [
+        "EU",
+        "ES"
+      ],
+      "summary": "Former Bank of Spain governor Pablo Hernández de Cos is set to become the next ECB president. Governing Council member Simkus said the ECB's December rate hike may not be enough.",
+      "certainty": "confirmed",
+      "novelty": 0.7,
+      "severity": 0.35,
+      "duration": "months",
+      "sources": [
+        "S063",
+        "S104",
+        "S162"
+      ],
+      "impacts": [
+        {
+          "target": "theme:eu_rates_up",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "A December hike looks expected and hawks are arguing for more, with energy-driven inflation -> higher euro-area yields -> European banks beat real estate and utilities. A mainstream incoming president limits the hawkish tail.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-28-08",
+      "title": "Bank of England to cut bank capital requirements; Bailey sees lower inflation peak",
+      "category": "regulation",
+      "regions": [
+        "GB"
+      ],
+      "summary": "The Bank of England will cut capital requirements for banks while warning of AI risks. Governor Bailey said inflation may peak lower if energy prices stay where they are, and warned banks may pass a £1.5bn tax rise on to customers. Ofgem's energy price cap will rise 26% in January.",
+      "certainty": "confirmed",
+      "novelty": 0.7,
+      "severity": 0.3,
+      "duration": "months",
+      "sources": [
+        "S077",
+        "S161",
+        "S197",
+        "S046",
+        "S081"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:NWG.L",
+          "direction": 1,
+          "magnitude": 0.15,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Lower capital requirements -> surplus capital freed for buybacks and lending -> higher returns for domestic UK banks such as NatWest. The £1.5bn bank tax rise partly offsets this.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-28-09",
+      "title": "Spanish general election: PP favoured to win most seats, Feijóo 88% to be next PM",
+      "category": "election",
+      "regions": [
+        "ES"
+      ],
+      "summary": "Spain heads into a general election targeted by a Russian disinformation campaign. Polymarket gives PP a 74% chance of winning the most seats and Feijóo an 88% chance of becoming prime minister.",
+      "certainty": "scheduled",
+      "novelty": 0.5,
+      "severity": 0.3,
+      "duration": "months",
+      "sources": [
+        "S041",
+        "S231"
+      ],
+      "impacts": [
+        {
+          "target": "ticker:CABK.MC",
+          "direction": 1,
+          "magnitude": 0.1,
+          "confidence": 0.42,
+          "horizon_days": 20,
+          "rationale": "A PP-led government has opposed the Sánchez-era bank levy -> better odds of easing it -> domestic Spanish banks like CaixaBank benefit. At 88% the outcome is mostly priced, so the size is small.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-28-10",
+      "title": "Trump to visit TSMC Arizona expansion and groundbreaking of an Nvidia chip supplier",
+      "category": "industrial_policy",
+      "regions": [
+        "US",
+        "TW"
+      ],
+      "summary": "Trump will travel to Arizona next week for a large expansion of TSMC's chip factories and will attend a groundbreaking for a manufacturer that supplies Nvidia chips.",
+      "certainty": "scheduled",
+      "novelty": 0.7,
+      "severity": 0.25,
+      "duration": "months",
+      "sources": [
+        "S144",
+        "S217"
+      ],
+      "impacts": [
+        {
+          "target": "theme:semis_industrial_policy",
+          "direction": 1,
+          "magnitude": 0.1,
+          "confidence": 0.45,
+          "horizon_days": 20,
+          "rationale": "Presidential promotion of US fab expansion -> renewed reshoring focus, and likely incentive announcements -> chip-plant beneficiaries and equipment suppliers gain.",
+          "against_coverage": false
+        }
+      ]
+    },
+    {
+      "id": "2026-11-28-11",
+      "title": "Australia to reserve more LNG for domestic use; Korea asks Qatar for priority supply; Equinor signs 18-year German gas deal",
+      "category": "energy",
+      "regions": [
+        "AU",
+        "KR",
+        "QA",
+        "NO",
+        "DE"
+      ],
+      "summary": "Australia is set to pass a law requiring LNG exporters to reserve more gas for domestic use. South Korea asked Qatar to prioritise its LNG once production and shipping normalise. Equinor signed an 18-year gas supply deal with Germany's VNG, its longest in 40 years.",
+      "certainty": "confirmed",
+      "novelty": 0.6,
+      "severity": 0.25,
+      "duration": "months",
+      "sources": [
+        "S159",
+        "S153",
+        "S027",
+        "S138"
+      ],
+      "impacts": [
+        {
+          "target": "theme:eu_gas_shock",
+          "direction": 1,
+          "magnitude": 0.1,
+          "confidence": 0.4,
+          "horizon_days": 20,
+          "rationale": "Less Australian LNG for export and Asian buyers competing for scarce Qatari cargoes in winter -> tighter global LNG -> TTF is supported -> gas producers beat European chemicals. TTF is -15.6% in 20 days, so the risk is two-sided.",
+          "against_coverage": false
+        }
+      ]
+    }
+  ],
+  "trump_calls": [
+    {
+      "ticker": "NVDA",
+      "company": "Nvidia",
+      "stance": "positive",
+      "explicit": false,
+      "said_on": "2026-11-24",
+      "quote": "Calls Huang the 'best thing' for the US, says he would pardon him if needed and that a US government stake in Nvidia 'may not be too late'",
+      "sources": [
+        "S070",
+        "S117",
+        "S149",
+        "S216",
+        "S148",
+        "S192"
+      ]
+    }
+  ]
+}
